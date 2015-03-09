@@ -1,0 +1,247 @@
+<html ng-app="discDb">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <title>Domino Discussion Database - Mobile</title>
+
+    <link href="$darwino-libs/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    
+    <script src="$darwino-libs/ionic/js/ionic.bundle.js"></script>
+	<script src="$darwino-libs/darwino/build/darwino.js"></script>
+	<script src="$darwino-libs/moment/moment.js"></script>
+    <script src="js/app.js"></script>
+    
+  </head>
+
+  <body ng-controller="MainCtrl">
+
+    <ion-nav-view></ion-nav-view>
+
+    <script id="templates/discdb.html" type="text/ng-template">
+      <ion-side-menus expose-aside-when="large" enable-menu-with-back-views="false">
+
+        <ion-side-menu-content>
+          <ion-nav-bar class="bar-assertive">
+            <ion-nav-back-button>
+            </ion-nav-back-button>
+
+            <ion-nav-buttons side="left">
+              <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+              </button>
+            </ion-nav-buttons>
+          </ion-nav-bar>
+
+          <ion-nav-view name="menuContent"></ion-nav-view>
+        </ion-side-menu-content> 
+
+        <ion-side-menu side="left" class="pe-left-menu">
+          <ion-content>
+  			<div class="item item-title">
+				<img src="img/discussion.png"></img>
+				<span>Discussion Database</span>
+  			</div>
+  			<div class="item item-divider item-icon-right" ng-click="toggleMenu('menuDisc')">
+    			Discussion
+				<i class="icon {{menuDisc?'ion-chevron-down':'ion-chevron-right'}}"></i>
+  			</div>
+            <ul class="list" ng-show="menuDisc">
+              	<a href="#/discdb/bydate" class="item item-icon-left" menu-close>
+					<i class="icon ion-compose"></i>
+					By Date
+					<span class='count'>&nbsp;&nbsp;{{getEntriesCount()}}</span>
+				</a>
+            </ul>
+	
+            <div ng-show="darwino.hybrid.isHybrid()">
+	  			<div class="item item-divider item-icon-right" ng-click="toggleMenu('menuSync')">
+    				Data Synchronization
+					<i class="icon {{menuSync?'ion-chevron-down':'ion-chevron-right'}}"></i>
+  				</div>
+            	<ul class="list" ng-show="menuSync">
+        	      	<a class="item item-icon-left item-icon-right" ng-click="darwino.hybrid.switchToRemote()">
+						<i class="icon ion-cloud"></i>
+						Work With Remote Data
+						<i class="icon ion-checkmark-round" style="font-size: 100%" ng-show="darwino.hybrid.getMode()==0"></i>
+					</a>	
+    	          	<a class="item item-icon-left item-icon-right" ng-click="darwino.hybrid.switchToLocal()">
+						<i class="icon ion-iphone"></i>
+						Work With Local Data
+						<i class="icon ion-checkmark-round" style="font-size: 100%" ng-show="darwino.hybrid.getMode()==1"></i>
+					</a>
+	              	<a class="item item-icon-left" ng-click="darwino.hybrid.synchronizeData()">
+						<i class="icon ion-loop"></i>
+						Synchronize Data Now
+					</a>
+	              	<a class="item item-icon-left" ng-click="darwino.hybrid.eraseLocalData()">
+						<i class="icon ion-trash-a"></i>
+						Erase Local Data
+					</a>
+   	          		<a class="item item-icon-left" href="../explorer/mainbjq.html">
+						<i class="icon ion-settings"></i>
+						Local DB Explorer
+					</a>
+            	</ul>
+  			</div>
+
+	
+  			<div class="item item-divider item-icon-right" ng-click="toggleMenu('menuSettings')">
+   				Settings
+				<i class="icon {{menuSettings?'ion-chevron-down':'ion-chevron-right'}}"></i>
+			</div>
+           	<ul class="list" ng-show="menuSettings" ng-show='false'>
+           		<a class="item item-icon-left item-icon-right" ng-click="darwino.hybrid.refreshData()">
+					<i class="icon ion-refresh"></i>
+					Refresh Page
+					<i class="icon ion-loop" style="font-size: 100%" ng-show="darwino.hybrid.isDirty()"></i>
+				</a>
+              	<a ng-show="darwino.hybrid.isHybrid()" class="item item-icon-left" ng-click="darwino.hybrid.openSettings()">
+					<i class="icon ion-gear-a"></i>
+					General Settings...
+				</a>
+       		</ul>
+
+          </ion-content>
+
+		  <ion-footer-bar class="bar-assertive">
+				<div class="item-avatar item-miniavatar" ng-click="go('/pe/profile')">
+					<img ng-src="{{profilesService.getProfilePhotoUrl('@me')}}" alt="Photo">
+					<div>{{profilesService.getProfile('@me').cn}}</div>
+					<div>Discussion Database</div>
+				</div>
+		  </ion-footer-bar>
+        </ion-side-menu>
+
+      </ion-side-menus>
+    </script>
+
+    <script id="templates/home.html" type="text/ng-template">
+      <ion-view view-title="Welcome">
+        <ion-content class="padding">
+          <p>Welcome to the Domino discussion database</p>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <script id="templates/bydate.html" type="text/ng-template">
+      <ion-view view-title="Wall">
+        <ion-nav-buttons side="right">
+			<a ng-hide="isReadOnly()" class="button button-icon icon ion-compose" ng-click="entries.newPost()"></a>
+			<a ng-show="isReadOnly()" class="button button-clear button-light" href="auth/login.html">Login</a>
+        </ion-nav-buttons>
+        <ion-content>
+ 			<ion-refresher
+    			pulling-text="Pull to refresh..."
+    			on-refresh="refresh()">
+  			</ion-refresher>			
+			<div ng-repeat="item in entries.all">
+				<div class="list card">
+  					<div class="item item-avatar">
+						<img ng-src="{{entries.getPhoto(item)}}" alt="Photo">
+    					<h2 ng-bind="item.value.subject"></h2>
+    					<h3 ng-bind-template="{{entries.getProfile(item).cn}}, {{item.cdate|formattedDate}}"></h3>
+  					</div>
+  					<div class="item">
+  					<div class="item-body">
+						<div class="pe-comment-message" ng-bind-html="item.value.body"></div>
+    					<p><a class="subdued" ng-click="entries.toggleComments(item)" ng-bind-template="{{item.children.length||0}} Response(s)"></a></p>
+					</div>
+
+						<div ng-repeat="comment in item.children" ng-show="item.showComments">
+  							<div class="item item-avatar">
+								<img ng-src="{{entries.getPhoto(comment)}}" alt="Photo">
+								<h2 ng-bind="comment.value.subject"></h2>
+    							<h3 ng-bind-template="{{entries.getProfile(comment).cn}}, {{comment.cdate|formattedDate}}"></h3>
+								<div class="pe-comment-message" ng-bind-html="comment.value.body"></div>
+		  						<div ng-hide="isReadOnly()" class="item tabs tabs-secondary tabs-icon-left">
+    								<a class="tab-item" ng-click="entries.editComment(item,comment)">
+      									<i class="icon ion-edit"></i>
+      										Edit
+		    						</a>	
+    								<a class="tab-item" ng-click="entries.deleteComment(item,comment)">
+      									<i class="icon ion-trash-a"></i>
+      										Remove
+    								</a>
+  								</div>
+  							</div>
+						</div>
+					</div>
+
+  					<div ng-hide="isReadOnly()" class="item tabs tabs-secondary tabs-icon-left">
+    					<a class="tab-item" ng-click="entries.newComment(item)">
+      						<i class="icon ion-chatbox"></i>
+      							Add Response
+    					</a>
+    					<a class="tab-item" ng-click="entries.editPost(item)">
+      						<i class="icon ion-edit"></i>
+      							Edit
+    					</a>
+    					<a class="tab-item" ng-click="entries.deletePost(item)">
+      						<i class="icon ion-trash-a"></i>
+      							Remove
+    					</a>
+  					</div>
+  				</div>
+		    </div>
+  			<ion-infinite-scroll ng-if="hasMore()" on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
+        </ion-content>
+
+      </ion-view>
+    </script>
+
+    <script id="templates/discdb-post.html" type="text/ng-template">
+  		<ion-modal-view>
+    		<ion-header-bar>
+				<button class="button button-clear button-primary" ng-click="entries.cancel()">Cancel</button>
+      				<h1 class="title">New Entry</h1>
+				<button class="button button-clear button-positive" ng-click="entries.submit()">Post</button>
+    		</ion-header-bar>
+    		<ion-content>
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Title</span>
+   					<input type="text" ng-model="entries.currentTitle"></input>
+				</label>
+				<label class="item item-input item-stacked-label" style="width:100%">
+					<span class="input-label">Content</span>
+   					<textarea ng-model="entries.currentText" style="width:100%" rows="12"></textarea>
+				</label>
+			</ion-content>
+  		</ion-modal-view>
+	</script>
+
+    <script id="templates/discdb-comment.html" type="text/ng-template">
+  		<ion-modal-view>
+    		<ion-header-bar>
+				<button class="button button-clear button-primary" ng-click="entries.cancel()">Cancel</button>
+      				<h1 class="title">New Response</h1>
+				<button class="button button-clear button-positive" ng-click="entries.submit()">Post</button>
+    		</ion-header-bar>
+    		<ion-content>
+				<label class="item item-input item-stacked-label">
+					<span class="input-label">Title</span>
+   					<input type="text" ng-model="entries.currentTitle"></input>
+				</label>
+				<label class="item item-input item-stacked-label" style="width:100%">
+					<span class="input-label">Content</span>
+   					<textarea ng-model="entries.currentText" style="width:100%" rows="12"></textarea>
+				</label>
+			</ion-content>
+    		<ion-footer-bar>
+    		</ion-footer-bar>
+  		</ion-modal-view>
+	</script>
+
+    <script id="templates/profile.html" type="text/ng-template">
+      <ion-view view-title="Profile">
+        <ion-content>
+			<div>
+				<img class="pe-profile-avatar" ng-src="{{profilesService.getProfilePhotoUrl('@me')}}" alt="Photo">
+			</div>
+			<div class="pe-profile-cn">{{profilesService.getProfile('@me').cn}}</div>
+        </ion-content>
+      </ion-view>
+    </script>
+
+  </body>
+</html>

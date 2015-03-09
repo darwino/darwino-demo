@@ -1,0 +1,17 @@
+{
+  "sqldb": {
+    "name": "SQL Database-14",
+    "label": "sqldb",
+    "plan": "sqldb_free",
+    "credentials": {
+      "port": 50000,
+      "db": "SQLDB",
+      "username": "user01878",
+      "host": "75.126.155.153",
+      "hostname": "75.126.155.153",
+      "jdbcurl": "jdbc:db2://75.126.155.153:50000/SQLDB",
+      "uri": "db2://user01878:lULZM1ThFn4j@75.126.155.153:50000/SQLDB",
+      "password": "lULZM1ThFn4j"
+    }
+  }
+}

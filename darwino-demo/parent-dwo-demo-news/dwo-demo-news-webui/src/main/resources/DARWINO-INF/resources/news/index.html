@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en" ng-app="wReader">
+<head>
+<meta charset="utf-8">
+
+<!-- Use the .htaccess and remove these lines to avoid edge case issues. More info: h5bp.com/i/378 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title>Darwino News Reader</title>
+<meta name="description" content="">
+
+<!-- Mobile viewport optimized: h5bp.com/viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
+<link rel="stylesheet" href="$darwino-libs/bootstrap3/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+
+<base target="_blank">
+<!-- This amazingness opens all links in a new tab. -->
+<!-- 
+<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
+ -->
+</head>
+<body ng-controller="AppController" class="ng-cloak" w-down="items.next()" w-up="items.prev()" w-read="toggleRead()" w-space="handleSpace()">
+
+	<header class="navbar navbar-inverse navbar-fixed-top no-select" ng-controller="NavBarController">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span class="glyphicon glyphicon-bar"></span> <span class="glyphicon glyphicon-bar"></span> <span class="glyphicon glyphicon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">News Reader</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="divider-vertical"></li>
+					<li class="itemCount"><a ng-click="showAll()">{{items.allCount()}} Items</a></li>
+					<li class="divider-vertical"></li>
+					<li class="itemCount"><a ng-click="showUnread()">{{items.unreadCount()}} Unread</a></li>
+					<li class="divider-vertical"></li>
+					<li class="itemCount"><a ng-click="showRead()">{{items.readCount()}} Read</a></li>
+					<li class="divider-vertical"></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right" ng-show="isHybrid()">
+					<li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"> <span class="icon-bars-button"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></span>
+					</a>
+						<ul class="dropdown-menu">
+							<li><a href="#" onclick="darwino.hybrid.refreshData(); return false;">Refresh</a></li>
+							<li class="divider"></li>
+							<li><a href="#" onclick="darwino.hybrid.synchronizeData(); return false;">Synchronize Data</a></li>
+							<li><a href="#" onclick="darwino.hybrid.eraseLocalData(); return false;">Erase Local Data</a></li>
+							<li class="divider"></li>
+							<li class="active"><a href="#" onclick="darwino.hybrid.switchToRemote(); return false;"><i class="glyphicon glyphicon-ok" ng-show="getMode()==0"></i>Switch to Remote</a></li>
+							<li><a href="#" onclick="darwino.hybrid.switchToLocal(); return false;"><i class="glyphicon glyphicon-ok" ng-show="getMode()==1"></i>Switch to Local</a></li>
+							<li><a href="#" onclick="darwino.hybrid.switchToWeb(); return false;"><i class="glyphicon glyphicon-ok" ng-show="getMode()==2"></i>Switch to Web</a></li>
+							<li class="divider"></li>
+							<li><a href="#" onclick="darwino.hybrid.openSettings(); return false;">Settings...</a></li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-form" id="navSearch">
+					<input type="search" ng-model="items.ftSearch" ng-keypress="keyPress($event)" class="form-control" placeholder="Search">
+				</form>
+			</div>
+		</div>
+	</header>
+
+	<section class="mainContent" style="margin-top: 10px">
+
+		<section class="controls no-select">
+			<div class="tControls">
+				<div class="top">
+					<button ng-click="items.markAllRead()" class="btn" title="Mark all as read" alt="Mark all as read">
+						<i class="glyphicon glyphicon-ok"></i>
+					</button>
+					<button ng-click="items.prev()" class="btn" ng-disabled="!items.hasPrev()">
+						<i class="glyphicon glyphicon-arrow-up"></i>
+					</button>
+					<button ng-click="items.toggleRead()" ng-disabled="!items.selected" class="btn">
+						<i ng-class="{'glyphicon glyphicon-ok-sign': items.selected.read, 'glyphicon glyphicon-ok-circle': !items.selected.read}"></i>
+					</button>
+					<button ng-click="items.next()" class="btn" ng-disabled="!items.hasNext()">
+						<i class="glyphicon glyphicon-arrow-down"></i>
+					</button>
+					<button ng-click="refresh()" class="btn" title="Refresh feeds" alt="Refresh feeds">
+						<i class="glyphicon glyphicon-refresh"></i>
+					</button>
+				</div>
+			</div>
+		</section>
+
+		<section class="mainContent">
+			<section class="summaries">
+				<article ng-repeat="item in items.all" id="{{item.unid}}" ng-class="{read: item.read, active: item.selected}" class="well summary" ng-click="items.selectItem($index)">
+					<div class="row-fluid">
+						<img ng-src="{{item.image}}" align='left' class="span2 pub-image" style="height: 30px; width: 30px" />
+						<div class="span4 pub-date">{{item.pub_date | formattedDate}}</div>
+						<div class="span6 pub-author">{{item.pub_author}}</div>
+						<div class="span6 pub-read">
+							<i ng-class="{'glyphicon glyphicon-ok-sign': item.read, 'glyphicon glyphicon-ok-circle': !item.read}"></i>
+						</div>
+					</div>
+					<h4 class="pub-title">{{item.title}}</h4>
+				</article>
+				<div>
+					<button type="button" ng-click="items.loadMore()" class="btn btn-default">Load More...</button>
+				</div>
+			</section>
+
+			<section class="entries">
+
+				<article class="well entry" ng-class="{read: items.selected.read, active: items.selected.selected}" ng-hide="!items.selected">
+					<div class="row-fluid">
+						<div class="span8">{{items.selected.pub_date | formattedDate}}</div>
+						<div class="span4 actions">
+							<input type="checkbox" class="read" ng-model="items.selected.read"> <a href="{{items.selected.item_link}}"><i class="glyphicon glyphicon-share"></i></a>
+						</div>
+					</div>
+					<img ng-src="{{items.selected.image}}" height='100' width='100' align='left' />
+					<h1>{{items.selected.title}}</h1>
+					<h3 class="author">{{items.selected.pub_author}}</h3>
+					<hr />
+					<p class="post-content" ng-bind-html="items.selected.content"></p>
+					</div>
+				</article>
+
+				<div class="nothingSelected" ng-show="!items.all.length || !items.selected" style="height: 3em">
+					<p>Please select an entry in the navigator</p>
+				</div>
+			</section>
+		</section>
+	</section>
+
+	<div class="modal fade" id="modalAbout">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">×</a>
+			<h3>About Darwino News Reader</h3>
+		</div>
+		<div class="modal-body">
+			<p>
+				Original WReader by <a href="http://petelepage.com">Pete LePage</a>. Angular port by <a href="http://ericbidelman.com">Eric Bidelman</a>. Darwino adaptation by <a href="http://blog.riand.com">Philippe Riand</a>.
+			</p>
+		</div>
+		<div class="modal-footer">
+			<a data-dismiss="modal" class="btn btn-primary">Close</a>
+		</div>
+	</div>
+
+	<footer> </footer>
+
+	<script src="$darwino-libs/jquery/jquery.min.js"></script>
+	<script src="$darwino-libs/bootstrap3/js/bootstrap.min.js"></script>
+	<script src="$darwino-libs/moment/moment.min.js"></script>
+	
+	<script src="$darwino-libs/angular/angular.min.js"></script>
+	<script src="$darwino-libs/angular/angular-touch.min.js"></script>
+	<script src="$darwino-libs/angular/angular-sanitize.min.js"></script>
+
+	<script src="$darwino-libs/darwino/build/darwino.js"></script>
+
+	<script src="js/app.js"></script>
+	<script src="js/filters.js"></script>
+	<script src="js/services.js"></script>
+	<script src="js/directives.js"></script>
+
+</body>
+</html>

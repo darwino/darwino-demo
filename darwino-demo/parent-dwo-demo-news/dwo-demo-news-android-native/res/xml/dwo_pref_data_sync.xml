@@ -1,0 +1,21 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+	<Preference 
+	    android:title="Synchronize Now" 
+	    android:key="sync_now"/>
+	    
+	<ListPreference
+        android:key="sync_frequency"
+        android:title="Synchronization Frequency"/>
+	
+    <CheckBoxPreference
+        android:key="sync_pushimm"
+        android:title="Push Changes Immediately"
+        android:summary="Pushes the local changes to the server as soon as possible"/>
+	
+    <CheckBoxPreference
+        android:key="sync_notify"
+        android:title="Notify Successful Synchronization"
+        android:summary="Notify the user after the synchronization was successful"/>
+    	
+</PreferenceScreen>

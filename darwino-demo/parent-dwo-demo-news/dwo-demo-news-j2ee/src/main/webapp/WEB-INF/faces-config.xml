@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee" 
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+      http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+   version="2.0">
+  <!--  Empty for now. Your entries will go here. But even
+        if you have no entries in faces-config.xml, you are required
+        to have a valid faces-config.xml file with legal 
+        start and end tags.
+        
+        From JSF 2.0 tutorial at http://www.coreservlets.com/JSF-Tutorial/jsf2/ -->
+        
+    <managed-bean>
+	  <managed-bean-name>adminBean</managed-bean-name>
+	  <managed-bean-class>com.darwino.demo.news.beans.AdminBean</managed-bean-class>
+	  <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+	  <managed-bean-name>jsonSession</managed-bean-name>
+	  <managed-bean-class>com.darwino.demo.news.beans.DatabaseSession</managed-bean-class>
+	  <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+	  <managed-bean-name>mainBean</managed-bean-name>
+	  <managed-bean-class>com.darwino.demo.news.beans.MainBean</managed-bean-class>
+	  <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    
+</faces-config>

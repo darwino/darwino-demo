@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<faces-config>
+	<!-- Default Environment -->
+	<managed-bean>
+		<managed-bean-name>defaultEnvironment</managed-bean-name>
+		<managed-bean-class>com.ibm.sbt.jslibrary.SBTEnvironment
+		</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+		<managed-property>
+			<property-name>endpoints</property-name>
+			<value>connections</value>
+		</managed-property>
+	</managed-bean>
+
+	<!-- Connections server -->
+	<managed-bean>
+		<managed-bean-name>connections</managed-bean-name>
+		<managed-bean-class>
+			com.ibm.sbt.services.endpoints.BasicEndpoint
+		</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>url</property-name>
+			<value>https://tglc45.triloggroup.com/</value>
+		</managed-property>
+		<managed-property>
+			<property-name>user</property-name>
+			<value>amass</value>
+		</managed-property>
+		<managed-property>
+			<property-name>password</property-name>
+			<value>floflo</value>
+		</managed-property>
+	</managed-bean>
+</faces-config>

@@ -1,0 +1,11 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+			
+   	<Preference 
+	    android:key="about_about"/>
+   	
+   	<Preference 
+	    android:title="Reset Settings to Default" 
+	    android:key="about_reset"
+	    android:summary="Reset all the settings to default value and delete the local database"/>
+   		
+</PreferenceScreen>

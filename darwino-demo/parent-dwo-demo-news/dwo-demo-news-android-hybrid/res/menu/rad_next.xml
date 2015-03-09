@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/refresh"
+        android:title="@string/refresh">
+    </item>
+
+    <group android:checkableBehavior="single" >
+        <item
+            android:id="@+id/switchlocal"
+            android:title="@string/switchlocal">
+        </item>
+        <item
+            android:id="@+id/switchremote"
+            android:title="@string/switchremote">
+        </item>
+        <item
+            android:id="@+id/switchweb"
+            android:title="@string/switchweb">
+        </item>
+    </group>
+
+    <item
+        android:id="@+id/synchronize"
+        android:title="@string/synchronize">
+    </item>
+    <item
+        android:id="@+id/erase"
+        android:title="@string/eraselocdata">
+    </item>
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings">
+    </item>
+
+</menu>

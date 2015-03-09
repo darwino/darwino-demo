@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0" metadata-complete="true">
+
+	<display-name>News Aggregator - Demo</display-name>
+	
+	<!-- Make sure that the database is properly deployed when the app is launched -->
+	<context-param>
+    	<param-name>dwo-auto-deploy-jsonstore</param-name>
+    	<param-value>true</param-value>
+  	</context-param>
+  		
+	<!-- Application initialization -->
+	<listener>
+	    <listener-class>
+			com.darwino.demo.news.NewsContextListener	        
+	    </listener-class>
+	</listener>
+
+	<!-- Map these files with JSF -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.faces</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+
+	<!-- Mapping for the JSON store services -->
+	<servlet-mapping>
+		<servlet-name>JsonStoreservlet</servlet-name>
+		<url-pattern>/jsonstore/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>JSON Store Servlet</display-name>
+		<servlet-name>JsonStoreservlet</servlet-name>
+		<servlet-class>com.darwino.json.store.services.http.JsonStoreServlet</servlet-class>
+	</servlet>
+
+	<!-- Mapping for the social services -->
+	<servlet-mapping>
+		<servlet-name>SocialServicesServlet</servlet-name>
+		<url-pattern>/social/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Social Services Servlet</display-name>
+		<servlet-name>SocialServicesServlet</servlet-name>
+		<servlet-class>com.darwino.social.SocialServicesServlet</servlet-class>
+	</servlet>
+    	
+	<!-- Mapping for the virtual libraries -->
+	<servlet-mapping>
+		<servlet-name>LibResourcesServlet</servlet-name>
+		<url-pattern>/.darwino-libs/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Virtual Libraries Resources Servlet</display-name>
+		<servlet-name>LibResourcesServlet</servlet-name>
+		<servlet-class>com.darwino.j2ee.servlet.resources.DarwinoLibResourcesServlet</servlet-class>
+	</servlet>
+	
+	<!--  Mapping for the virtual libraries -->
+	<servlet-mapping>
+		<servlet-name>NewsFilesServlet</servlet-name>
+		<url-pattern>/news/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Default Files Servlet</display-name>
+		<servlet-name>NewsFilesServlet</servlet-name>
+		<servlet-class>com.darwino.j2ee.servlet.resources.DarwinoAppResourcesServlet</servlet-class>
+		<init-param>
+			<param-name>resourcePath</param-name>
+			<param-value>/news</param-value>
+		</init-param>	
+	</servlet>
+	
+	<!-- Filter for creating the JSON store session -->
+	<filter>
+		<filter-name>NewsDatabase</filter-name>
+		<filter-class>com.darwino.j2ee.application.DarwinoJ2EEFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NewsDatabase</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Filter for $darwino-xxx URLs rewritting -->
+	<filter>
+		<filter-name>DarwinoResourceFilter</filter-name>
+		<filter-class>com.darwino.j2ee.servlet.resources.DarwinoResourceDispatcherFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>DarwinoResourceFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Filter for Gzip -->
+	<filter>
+		<filter-name>GZipFilter</filter-name>
+		<filter-class>com.darwino.j2ee.servlet.gzip.GZipServletFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>GZipFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- CORS filter for the JsonStore -->
+	<filter>
+		<filter-name>NewsDatabaseCors</filter-name>
+		<filter-class>com.darwino.j2ee.servlet.cors.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NewsDatabaseCors</filter-name>
+		<url-pattern>/jsonstore/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- Change to "Production" when you are ready to deploy -->
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+
+	<!-- Set the primefaces theme to be used -->
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>bootstrap</param-value>
+	</context-param>
+
+	<!-- Welcome pages -->
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<security-role>
+		<role-name>admin</role-name>
+	</security-role>
+	<security-role>
+		<role-name>user</role-name>
+	</security-role>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Whole Application</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+			<role-name>user</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>News database</realm-name>
+	</login-config>
+</web-app>

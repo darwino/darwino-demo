@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+
+<h:body>
+	<h:form>
+
+		<p:layout fullPage="true">
+
+			<p:layoutUnit position="north">
+				<h:outputText value="Json Store Admin" />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="west" size="300" resizable="true">
+				<p:commandButton value="Create 5 Documents" ajax="false"
+					actionListener="#{adminBean.createDocuments5}"/>
+				<p:commandButton value="Create 25 Documents" ajax="false"
+					actionListener="#{adminBean.createDocuments25}"/>
+				<p:commandButton value="Create 100 Documents" ajax="false"
+					actionListener="#{adminBean.createDocuments100}"/>
+				<p:commandButton value="Create 1000 Documents" ajax="false"
+					actionListener="#{adminBean.createDocuments1000}"/>
+				<p:commandButton value="Create 10000 Documents" ajax="false"
+					actionListener="#{adminBean.createDocuments10000}"/>
+				<p:commandButton value="Delete All Documents" ajax="false"
+					actionListener="#{adminBean.deleteAllDocuments}"/>
+				<p:commandButton value="Recreate Database" ajax="false"
+					actionListener="#{adminBean.recreateDatabase}"/>
+				<p:commandButton value="Recreate Pinball Database" ajax="false"
+					actionListener="#{adminBean.recreatePinballDatabase}"/>
+				<p:menu>
+					<p:menuitem value="Back to UI" outcome="../main.xhtml"/>
+				</p:menu>
+			</p:layoutUnit>
+
+			<p:layoutUnit id="content" position="center">
+			</p:layoutUnit>
+
+		</p:layout>
+
+	</h:form>
+</h:body>
+</html>

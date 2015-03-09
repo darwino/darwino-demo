@@ -1,0 +1,16 @@
+{
+  "sync": {
+    "entries": [
+      {
+        "_type": "android-native-activitysettings"
+      },
+      {
+        "x86": true,
+        "_type": "android-native-jsonstore",
+        "armeabi": true,
+        "mips": true,
+        "armeabiv7a": true
+      }
+    ]
+  }
+}

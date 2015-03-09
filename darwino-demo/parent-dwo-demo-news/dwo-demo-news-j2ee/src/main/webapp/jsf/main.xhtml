@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+
+<h:body>
+	<h:form>
+
+		<p:layout fullPage="true">
+
+			<p:layoutUnit position="north">
+				<h:outputText value="List of news" />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="west" size="300" resizable="true">
+				<p:menu>
+					<p:menuitem value="Documents By Date"
+						actionListener="#{mainBean.byDate}" update="@all"
+						icon="ui-icon-start" />
+					<p:menuitem value="Documents/Comments"
+						actionListener="#{mainBean.byDateWithComments}" update="@all"
+						icon="ui-icon-start" />
+					<p:menuitem value="By categories" actionListener="#{mainBean.byCategory}"
+						update="@all" icon="ui-icon-start" />
+					<p:menuitem value="By Source" actionListener="#{mainBean.bySource}"
+						update="@all" icon="ui-icon-start" />
+					<p:menuitem value="Admin Page" outcome="admin/jsonstore.xhtml"/>
+					<p:menuitem value="AngularJS Page" url="/news/index.html"/>
+				</p:menu>
+			</p:layoutUnit>
+
+			<p:layoutUnit id="content" position="center">
+				<p:dataGrid var="entry" value="#{mainBean.model}" columns="1" lazy="true"
+					rows="5" paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,25,50,100">
+
+					<p:outputPanel rendered="#{entry.category}">
+						<h:outputText value="#{entry.value}" style="font-weight: bold; font-size: 150%"/><br/>
+					</p:outputPanel>
+
+					<p:outputPanel rendered="#{!entry.category}">
+						<p:outputPanel>
+							<p:graphicImage value="#{entry.value.thumbnailUrl}" width='32'
+								height='32' style="float: left" />
+							<h:outputText value="#{entry.value.title}" style="font-weight: bold"/><br/>
+							Category: <h:outputText value="#{entry.value.category}" />, 
+							Source: <h:outputText value="#{entry.value.source}" /><br/>
+							<h:outputText value="#{entry.value.content}" />
+						</p:outputPanel>
+						<h:dataTable value="#{entry.comments}" var="comment">
+							<h:column>
+								<p:outputPanel style="margin-left: 30px; font-style:italic;">
+									<h:outputText value="* #{comment.value.content}" /><br/>
+								</p:outputPanel>
+							</h:column>
+						</h:dataTable>
+						<h:outputText rendered='false' value="#{entry.createJsonEntry()}" /><br/>
+					</p:outputPanel>
+
+				</p:dataGrid>
+			</p:layoutUnit>
+
+		</p:layout>
+
+	</h:form>
+</h:body>
+</html>

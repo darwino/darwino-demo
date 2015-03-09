@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+	
+	<Preference 
+	    android:title="Erase Local Data" 
+	    android:key="mgt_cleardata"
+        android:summary="Erase the local application data"/>	   
+	
+	<Preference 
+	    android:title="Erase Social Cache"
+        android:key="mgt_clearsocial"
+        android:summary="Erase the local social data cache"/>	   
+				    
+    <EditTextPreference
+        android:capitalize="words"
+        android:inputType="textPassword"
+        android:key="mgt_recreate"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Recreate Local DB" />
+		
+</PreferenceScreen>

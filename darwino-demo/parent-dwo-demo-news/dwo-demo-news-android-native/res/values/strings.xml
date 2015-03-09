@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2011 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <string name="hello">Hello World, NewsReaderActivity!</string>
+    <string name="app_name">NewsReader</string>
+    <string name="refresh">Refresh</string>
+    <string name="allread">Mark All Read</string>
+    <string name="allunread">Mark All Unread</string>
+    <string name="searchnews">Search</string>
+    <string name="switchlocal">Switch to Local</string>
+    <string name="switchremote">Switch to Remote</string>
+    <string name="eraselocdata">Erase Local Data</string>
+    <string name="synchronize">Synchronize Data</string>
+    <string name="createlocaldb">Create Local Database</string>
+    <string name="deletelocaldb">Delete Local Database</string>
+    <string name="swipedb">Swipe Local Database</string>
+    <string name="settings">Settings...</string>
+    <string name="recreatelocaldb">Recreate Local Database</string>
+</resources>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0" metadata-complete="true">
+	
+	<display-name>Domino Discussion Database</display-name>
+	
+	<!-- Make sure that the database is properly deployed when the app is launched -->
+	<context-param>
+    	<param-name>dwo-auto-deploy-jsonstore</param-name>
+    	<param-value>true</param-value>
+  	</context-param>
+  	
+	<context-param>
+    	<param-name>dwo-sync-enabled</param-name>
+    	<param-value>true</param-value>
+  	</context-param>
+	<context-param>
+    	<param-name>dwo-sync-emptyjsondbonstart</param-name>
+    	<param-value>false</param-value>
+  	</context-param>
+	<context-param>
+    	<param-name>dwo-sync-url</param-name>
+    	<param-value>http://devvm.priand.com/darwino.sync</param-value>
+    </context-param>
+<!--     
+	<context-param>
+    	<param-name>dwo-sync-user</param-name>
+    	<param-value>Philippe Riand</param-value>
+  	</context-param>
+	<context-param>
+    	<param-name>dwo-sync-password</param-name>
+    	<param-value>password</param-value>
+  	</context-param>
+ -->  	
+	<context-param>
+    	<param-name>dwo-sync-mode</param-name>
+    	<param-value>pull+push</param-value>
+  	</context-param>
+							  		
+	<!-- Application initialization -->
+	<listener>
+	    <listener-class>
+			com.darwino.demo.dominodisc.web.DiscDbContextListener	        
+	    </listener-class>
+	</listener>
+
+		
+	<!-- IBM Social Business Toolkit -->
+	<filter>
+        <description>This filter is responsible for creating the toolkit application and context objects for every servlet within this web application.</description>
+        <display-name>Social Business Toolkit Filter</display-name>
+        <filter-name>SBTFilter</filter-name>
+        <filter-class>com.ibm.sbt.util.SBTFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SBTFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	
+	<!--  Mapping for the JSON store services -->
+	<servlet-mapping>
+		<servlet-name>JsonStoreservlet</servlet-name>
+		<url-pattern>/jsonstore/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>JSON Store Servlet</display-name>
+		<servlet-name>JsonStoreservlet</servlet-name>
+		<servlet-class>com.darwino.json.store.services.http.JsonStoreServlet</servlet-class>
+		<init-param>
+			<param-name>databases</param-name>
+			<param-value>domdisc</param-value>
+		</init-param>	
+	</servlet>
+
+	<!-- Mapping for the social services -->
+	<servlet-mapping>
+		<servlet-name>SocialServicesServlet</servlet-name>
+		<url-pattern>/social/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Social Services Servlet</display-name>
+		<servlet-name>SocialServicesServlet</servlet-name>
+		<servlet-class>com.darwino.social.SocialServicesServlet</servlet-class>
+	</servlet>
+		
+	<!--  Mapping for the virtual libraries -->
+	<servlet-mapping>
+		<servlet-name>LibResourcesServlet</servlet-name>
+		<url-pattern>/.darwino-libs/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Virtual Libraries Resources Servlet</display-name>
+		<servlet-name>LibResourcesServlet</servlet-name>
+		<servlet-class>com.darwino.j2ee.servlet.resources.DarwinoLibResourcesServlet</servlet-class>
+	</servlet>
+
+	<!--  Mapping for disc db resources -->
+	<servlet-mapping>
+		<servlet-name>DiscDbFilesServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Default Files Servlet</display-name>
+		<servlet-name>DiscDbFilesServlet</servlet-name>
+		<servlet-class>com.darwino.j2ee.servlet.resources.DarwinoAppResourcesServlet</servlet-class>
+	</servlet>
+		
+	<!--  Filter for creating the JSON store session -->
+	<filter>
+    	<filter-name>DiscDbDatabase</filter-name>
+    	<filter-class>com.darwino.j2ee.application.DarwinoJ2EEFilter</filter-class>
+    	<!-- 
+    	<init-param>
+        	<param-name>varName</param-name>
+        	<param-value>__newsdatabase_session</param-value>
+    	</init-param>
+    	 -->
+	</filter>
+	<filter-mapping>
+    	<filter-name>DiscDbDatabase</filter-name>
+    	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!--  Filter for Gzip -->
+	<filter>
+    	<filter-name>GZipFilter</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.gzip.GZipServletFilter</filter-class>
+	</filter>
+	<filter-mapping>
+    	<filter-name>GZipFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!--  CORS filter for the JsonStore -->
+	<filter>
+    	<filter-name>DiscDbDatabaseCors</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.cors.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+    	<filter-name>DiscDbDatabaseCors</filter-name>
+    	<url-pattern>/jsonstore/*</url-pattern>
+	</filter-mapping>
+		
+	<!--  Filter for $darwino URL rewritting -->
+	<filter>
+    	<filter-name>DarwinoResourceFilter</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.resources.DarwinoResourceDispatcherFilter</filter-class>
+   	</filter>
+	<filter-mapping>
+    	<filter-name>DarwinoResourceFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+			
+	<!-- Welcome pages -->
+  	<welcome-file-list>
+    	<welcome-file>index.html</welcome-file>
+  	</welcome-file-list>
+
+	<security-role>
+		<role-name>user</role-name>
+	</security-role>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>DiscDb Mobile</web-resource-name>
+			<url-pattern>/mobile/auth/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>peuser</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>Discussion Database</realm-name>
+	</login-config>
+	  	
+</web-app>

@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.darwino</groupId>
+		<artifactId>darwino-demo</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>parent-dwo-demo-news</artifactId>
+	<packaging>pom</packaging>
+	
+	<modules>
+		<module>dwo-demo-news-j2ee</module>
+		<module>dwo-demo-news-shared</module>
+		<module>dwo-demo-news-android-hybrid</module>
+		<module>dwo-demo-news-android-native</module>
+		<module>dwo-demo-news-webui</module>
+	</modules>
+
+</project>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/searchnew"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@android:drawable/ic_menu_search"
+        android:showAsAction="collapseActionView|ifRoom"
+        android:title="@string/searchnews"/>
+    <item
+        android:id="@+id/refresh"
+        android:title="@string/refresh">
+    </item>
+    <item
+        android:id="@+id/allread"
+        android:title="@string/allread">
+    </item>
+    <item
+        android:id="@+id/allunread"
+        android:title="@string/allunread">
+    </item>
+
+    <group android:checkableBehavior="single" >
+        <item
+            android:id="@+id/switchlocal"
+            android:title="@string/switchlocal">
+        </item>
+        <item
+            android:id="@+id/switchremote"
+            android:title="@string/switchremote">
+        </item>
+    </group>
+
+    <item
+        android:id="@+id/synchronize"
+        android:title="@string/synchronize">
+    </item>
+    <item
+        android:id="@+id/erase"
+        android:title="@string/eraselocdata">
+    </item>
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings">
+    </item>
+
+</menu>

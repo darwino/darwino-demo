@@ -1,0 +1,18 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- These settings headers are only used on tablets. -->
+
+    <header
+        android:fragment="com.darwino.android.DarwinoSettingsActivity$AccountFragment"
+        android:title="Account" />
+    <header
+        android:fragment="com.darwino.android.DarwinoSettingsActivity$SynchronizationFragment"
+        android:title="Synchronization" />
+    <header
+        android:fragment="com.darwino.android.DarwinoSettingsActivity$ManageLocalDBFragment"
+        android:title="Manage Local DB" />
+    <header
+        android:fragment="com.darwino.android.DarwinoSettingsActivity$ToolsFragment"
+        android:title="Tools" />
+    
+</preference-headers>
