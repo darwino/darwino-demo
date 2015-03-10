@@ -10,10 +10,8 @@
 	<modules>
 		<module>parent-dwo-demo-commons</module>
 		<module>parent-dwo-demo-dominodisc</module>
-<!-- !EXCLUDED!		
 		<module>parent-dwo-demo-news</module>
 		<module>parent-dwo-demo-angular</module>
--->		
 	</modules>
 	
 

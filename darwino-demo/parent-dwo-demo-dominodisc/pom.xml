@@ -8,12 +8,9 @@
   <artifactId>parent-dwo-demo-dominodisc</artifactId>
   <packaging>pom</packaging>
   <modules>
-<!-- !EXCLUDED!		
     <module>dwo-demo-dominodisc-android</module>
   	<module>dwo-demo-dominodisc-j2ee</module>
     <module>dwo-demo-dominodisc-robovm</module>
-    <module>dwo-demo-dominodisc-shared</module>
--->
     <module>dwo-demo-dominodisc-shared</module>
 <!--  not maven yet
     <module>dwo-demo-dominodisc-migeran</module>

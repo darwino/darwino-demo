@@ -93,7 +93,8 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-		<!-- For now, the dependency are added in WEB-INF - the ones bellow do not work at runtim -->
+		<!-- For now, the dependency are added in WEB-INF - the ones bellow do not work at runtime -->
+		<!-- We add the jar in WEB-INF as system for compilation only -->
 <!-- 		
 		<dependency>
 			<groupId>com.sun.faces</groupId>
@@ -126,6 +127,20 @@
 			<version>1.2.1</version>
 		</dependency>
 -->
+		<dependency>
+	    	<groupId>com.darwino.demonews</groupId>
+	    	<artifactId>javax.faces</artifactId>
+	    	<version>2.1.24</version>
+	    	<scope>system</scope>
+	    	<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/javax.faces-2.1.24.jar</systemPath>
+		</dependency>
+		<dependency>
+	    	<groupId>com.darwino.demonews</groupId>
+	    	<artifactId>primefaces</artifactId>
+	    	<version>4.0</version>
+	    	<scope>system</scope>
+	    	<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/primefaces-4.0.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
