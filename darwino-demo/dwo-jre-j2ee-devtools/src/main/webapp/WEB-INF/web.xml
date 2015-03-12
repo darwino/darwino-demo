@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0" metadata-complete="true">
+	<display-name>com.darwino.application.j2ee</display-name>
+	
+	
+	<!-- Make sure that the database is properly deployed when the app is launched -->
+	<context-param>
+    	<param-name>dwo-auto-deploy-jsonstore</param-name>
+    	<param-value>true</param-value>
+  	</context-param>
+  		
+	<!-- Application initialization -->
+	<listener>
+	    <listener-class>
+			com.darwino.application.jsonstore.StudioContextListener        
+	    </listener-class>
+	</listener>
+		
+	
+	<!--  Mapping for the JSON store services -->
+	<servlet-mapping>
+		<servlet-name>DarwinoServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Darwino Servlet</display-name>
+		<servlet-name>DarwinoServlet</servlet-name>
+		<servlet-class>com.darwino.application.jsonstore.DarwinoServlet</servlet-class>
+	</servlet>
+		
+	<!--  Filter for Gzip -->
+	<filter>
+    	<filter-name>GZipFilter</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.gzip.GZipServletFilter</filter-class>
+	</filter>
+	<filter-mapping>
+    	<filter-name>GZipFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!--  Darwino Application Filter -->
+	<filter>
+    	<filter-name>DarwinoFilter</filter-name>
+    	<filter-class>com.darwino.j2ee.application.DarwinoJ2EEFilter</filter-class>
+	</filter>
+	<filter-mapping>
+    	<filter-name>DarwinoFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!--  Filter for $darwino-xxx URL rewritting -->
+	<!--  This filter does a forward that prevents the other filters to be executed -->
+	<!--  We put it last, so $root/ can be applied to the jsonstore URL  -->
+	<filter>
+    	<filter-name>DarwinoResourceFilter</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.resources.DarwinoResourceDispatcherFilter</filter-class>
+   	</filter>
+	<filter-mapping>
+    	<filter-name>DarwinoResourceFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+			
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>

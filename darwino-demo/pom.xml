@@ -8,6 +8,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>dwo-jre-j2ee-devtools</module>
 		<module>parent-dwo-demo-commons</module>
 		<module>parent-dwo-demo-dominodisc</module>
 		<module>parent-dwo-demo-news</module>
