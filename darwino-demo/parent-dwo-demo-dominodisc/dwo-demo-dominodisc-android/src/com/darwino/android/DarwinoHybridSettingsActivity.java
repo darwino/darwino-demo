@@ -60,7 +60,7 @@ public class DarwinoHybridSettingsActivity extends DarwinoSettingsActivity {
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			addPreferencesFromResource(R.xml.dwo_pref_tools);
+			addPreferencesFromResource(R.xml.dwo_pref_tools1);
 			
 			Preference explorer = (Preference) findPreference("tools_explorer");
 			explorer.setOnPreferenceClickListener(new OnPreferenceClickListener() {

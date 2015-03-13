@@ -198,7 +198,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			addPreferencesFromResource(R.xml.dwo_pref_account_usrpwd);
+			addPreferencesFromResource(R.xml.dwo_pref_account_usrpwd1);
 
 			// Mode
 			ListPreference modePref = (ListPreference)findPreference("acc_mode");
@@ -363,7 +363,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			addPreferencesFromResource(R.xml.dwo_pref_data_sync);
+			addPreferencesFromResource(R.xml.dwo_pref_data_sync1);
 
 			Preference syncNow = (Preference) findPreference("sync_now");
 			syncNow.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -431,7 +431,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			addPreferencesFromResource(R.xml.dwo_pref_data_manage);
+			addPreferencesFromResource(R.xml.dwo_pref_data_manage1);
 			
 			Preference erase = (Preference) findPreference("mgt_cleardata");
 			erase.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -484,7 +484,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			addPreferencesFromResource(R.xml.dwo_pref_about);
+			addPreferencesFromResource(R.xml.dwo_pref_about1);
 			
 			Preference about = (Preference) findPreference("about_about");
 			about.setTitle(getManifest().getLabel());
