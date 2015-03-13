@@ -35,5 +35,10 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.servlet.jsp.jstl-api-1.2.1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/primefaces-4.0.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/primefaces-mobile-0.9.4.jar"/>
+	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

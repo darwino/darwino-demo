@@ -17,8 +17,6 @@ import android.os.Bundle;
 import com.darwino.android.platform.hybrid.DarwinoAndroidHybridActions;
 import com.darwino.android.platform.hybrid.DarwinoCordovaHybridActivity;
 import com.darwino.android.platform.hybrid.HybridJavaScriptInterface;
-import com.darwino.commons.util.PathUtil;
-import com.darwino.mobile.platform.DarwinoMobileHybridContext;
 import com.darwino.mobile.platform.hybrid.MobileHybridRestFactory;
 
 public class DiscDbMainActivity extends DarwinoCordovaHybridActivity {
