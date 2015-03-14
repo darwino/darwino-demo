@@ -8,7 +8,7 @@
 	</parent>
 	<packaging>apk</packaging>
 
-	<artifactId>dwo-demo-news-android-hybrid</artifactId>
+	<artifactId>dwo-demo-dominodisc-android</artifactId>
 
 
 	<properties>
