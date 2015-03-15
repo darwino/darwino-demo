@@ -43,17 +43,26 @@
 			<version>${platform.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 			<groupId>android</groupId> -->
+<!-- 			<artifactId>support-v4</artifactId> -->
+<!-- 			<version>1.0</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/libs/android-support-v4.jar</systemPath> -->
+<!-- 		</dependency> -->
 <!-- 
 PHIL: 3/14/2015 This seems to not be needed. Left commented out, in case we want to revert it.
+-->	
 		<dependency>
 			<groupId>android.support</groupId>
 			<artifactId>compatibility-v4</artifactId>
 			<version>21.0.3</version>
 		</dependency>
--->	
 	</dependencies>
 
 	<build>
+		<sourceDirectory>src</sourceDirectory>
 		<finalName>${project.artifactId}</finalName>
 		<pluginManagement>
 			<plugins>
