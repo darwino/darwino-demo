@@ -272,7 +272,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 														: new HttpClient.AnonymousAuthenticator();
 								HttpClient http = Platform.getService(HttpClientService.class).createHttpClient(JsonJavaFactory.instance,c.getUrl(),auth);
 								JsonObject o = (JsonObject)http.getAsJson(new String[]{"social", "profiles", "user"});
-								if(o.has("cn")) {
+								if(o.containsKey("cn")) {
 									c.setDn(o.getString("dn"));
 									c.setCn(o.getString("cn"));
 									context.updateUi(new Runnable() {
