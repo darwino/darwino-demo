@@ -8,7 +8,6 @@ bin/
 Thumbs.db
 
 # Maven
-log/
 target/
 pom.xml.tag
 pom.xml.releaseBackup
