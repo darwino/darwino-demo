@@ -57,15 +57,16 @@
 			<artifactId>dwo-jre-ibm-connections</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.darwino</groupId>
-			<artifactId>dwo-demo-commons-triloggroup</artifactId>
+			<artifactId>dwo-demo-dominodisc-shared</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
-			<artifactId>dwo-demo-dominodisc-shared</artifactId>
+			<artifactId>dwo-demo-commons-triloggroup</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
