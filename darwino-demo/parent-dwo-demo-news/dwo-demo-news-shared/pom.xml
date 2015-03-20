@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-platform</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.8-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

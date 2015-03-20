@@ -20,23 +20,23 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-android-platform-hybrid</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.8-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-android-platform-cordova</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.8-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-web-darwino</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.8-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-web-darwino-explorer</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.8-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
