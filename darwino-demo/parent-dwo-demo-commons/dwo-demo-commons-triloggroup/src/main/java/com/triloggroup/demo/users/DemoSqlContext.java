@@ -22,6 +22,7 @@ import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.jdbc.connector.JdbcConnector;
 import com.darwino.jdbc.pool.bonecp.JdbcBoneCPConnector;
+import com.darwino.jdbc.pool.hikaricp.JdbcHikariCPConnector;
 import com.darwino.jsonstore.sql.impl.full.SqlContext;
 import com.darwino.jsonstore.sql.impl.full.context.SqlJdbcContext;
 import com.darwino.platforms.bluemix.JdbcBluemixConnector;
@@ -42,8 +43,16 @@ public class DemoSqlContext {
 		POSTGRES
 	}
 	
+	public enum CP {
+		BoneCP,
+		HikariCP
+	}
+	
 	//public static final DB db = DB.DB2;
 	public static final DB db = DB.POSTGRES;
+	
+	public static final CP cp = CP.BoneCP;
+	//public static final CP cp = CP.HikariCP;
 	
 	public DemoSqlContext() {
 	}
@@ -73,7 +82,7 @@ public class DemoSqlContext {
 				String url = "jdbc:postgresql://localhost:5434/dwodemo";
 				Properties props = new Properties();
 				DBDriver dbDriver = new PostgreSQLDriver(new Version(9,4));
-				JdbcConnector connector = new JdbcBoneCPConnector(JdbcConnector.TRANSACTION_READ_COMMITTED,dbDriver.getDriverClass(),url,user,pwd,props);
+				JdbcConnector connector = createConnector(JdbcConnector.TRANSACTION_READ_COMMITTED,dbDriver,url,user,pwd,props);
 				return SqlJdbcContext.create(dbDriver,connector,null);
 			}
 			case DB2: {
@@ -82,11 +91,23 @@ public class DemoSqlContext {
 				String url = "jdbc:db2://" + "localhost:50000/dwodemo";
 				Properties props = new Properties();
 				DBDriver dbDriver = new DB2Driver(new Version(10,5));
-				JdbcConnector connector = new JdbcBoneCPConnector(JdbcConnector.TRANSACTION_READ_COMMITTED,dbDriver.getDriverClass(),url,user,pwd,props);
+				JdbcConnector connector = createConnector(JdbcConnector.TRANSACTION_READ_COMMITTED,dbDriver,url,user,pwd,props);
 				return SqlJdbcContext.create(dbDriver,connector,null);
 			}
 		}
 		throw new RuntimeException("No default database setup");
+	}
+	
+	protected JdbcConnector createConnector(int transactionMode, DBDriver dbDriver, String url, String user, String pwd, Properties props) throws SQLException {
+		switch(cp) {
+			case BoneCP: {
+				return new JdbcBoneCPConnector(transactionMode,dbDriver.getDriverClass(),url,user,pwd,props);
+			}
+			case HikariCP: {
+				return new JdbcHikariCPConnector(transactionMode,dbDriver.getDriverClass(),url,user,pwd,props);
+			}
+		}
+		throw new RuntimeException("No default Connection Pool setup");
 	}
 
 	

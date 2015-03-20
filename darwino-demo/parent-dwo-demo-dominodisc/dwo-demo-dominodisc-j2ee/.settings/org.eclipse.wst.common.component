@@ -80,6 +80,9 @@
         <dependent-module archiveName="dwo-sql-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dwo-sql/dwo-sql">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="dwo-jre-jdbc-pool-hikaricp-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dwo-jre-jdbc-pool-hikaricp/dwo-jre-jdbc-pool-hikaricp">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="dominodisc"/>
         <property name="java-output-path" value="/dwo-demo-dominodisc-j2ee/target/classes"/>
     </wb-module>

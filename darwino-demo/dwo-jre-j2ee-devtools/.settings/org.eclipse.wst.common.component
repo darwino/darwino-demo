@@ -73,6 +73,9 @@
         <dependent-module archiveName="dwo-commons-runtime-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dwo-commons-runtime/dwo-commons-runtime">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="dwo-jre-jdbc-pool-hikaricp-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dwo-jre-jdbc-pool-hikaricp/dwo-jre-jdbc-pool-hikaricp">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/dwo-j2ee-devtools/target/classes"/>
         <property name="context-root" value="darwino.studio"/>
     </wb-module>

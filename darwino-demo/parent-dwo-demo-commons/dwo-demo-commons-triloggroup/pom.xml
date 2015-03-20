@@ -37,6 +37,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-jdbc-pool-hikaricp</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jsonstore-jdbc</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
