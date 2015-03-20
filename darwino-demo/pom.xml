@@ -17,7 +17,7 @@
 	
 
 	<properties>
-		<DARWINO_VERSION>0.0.1-SNAPSHOT</DARWINO_VERSION>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencyManagement>
