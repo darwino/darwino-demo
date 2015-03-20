@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.darwino</groupId>
-		<artifactId>parent-dwo-demo-news</artifactId>
+		<artifactId>parent-dwo-demo-dominodisc</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<packaging>apk</packaging>
