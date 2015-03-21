@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.darwino</groupId>
 		<artifactId>parent-dwo-demo-news</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.8.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>dwo-demo-news-j2ee</artifactId>
@@ -28,69 +28,69 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-project-j2ee</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 			<type>pom</type>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demodata</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-j2ee-platform</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-postgresql</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-db2</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-pool-bonecp</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-web-darwino</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-web-darwino-explorer</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-news-shared</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-news-webui</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-ibm-connections</artifactId>
-			<version>0.0.8-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-commons-triloggroup</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 
 		<!-- For now, the dependency are added in WEB-INF - the ones bellow do not work at runtime -->
