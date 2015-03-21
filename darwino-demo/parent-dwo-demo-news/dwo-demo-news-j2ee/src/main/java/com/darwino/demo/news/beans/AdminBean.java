@@ -47,6 +47,7 @@ import com.darwino.jsonstore.attachment.ByteBufferContent;
 //@ManagedBean(name="adminBean")
 //@RequestScoped
 public class AdminBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	public AdminBean() {
 	}

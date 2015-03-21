@@ -45,6 +45,7 @@ import com.darwino.runtime.util.UrlUtil;
 //@ManagedBean(name="mainBean")
 //@ViewScoped
 public class MainBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	public static final int INDEX_BYDATE				= 0;
 	public static final int INDEX_BYDATEWITHCOMMENTS	= 1;
@@ -56,6 +57,8 @@ public class MainBean implements Serializable {
 	
 	// This is serializable and cross requests in JSF...
 	public static class RowEntry implements Serializable {
+		private static final long serialVersionUID = 1L;
+		
 		boolean			category;
 		Object			value;
 		List<RowEntry>	comments;
@@ -81,6 +84,8 @@ public class MainBean implements Serializable {
 	
 	public MainBean() {
 		model = new LazyDataModel<Object>() {
+			private static final long serialVersionUID = 1L;
+
 			@SuppressWarnings("rawtypes")
 			@Override
 			public List<Object> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
