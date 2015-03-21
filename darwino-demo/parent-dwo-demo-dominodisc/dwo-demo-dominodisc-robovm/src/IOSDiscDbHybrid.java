@@ -61,8 +61,9 @@ public class IOSDiscDbHybrid extends UIApplicationDelegateAdapter {
         return true;
     }
 
-    public static void main(String[] args) {
-    	Class c = PluginIOS.class;
+    @SuppressWarnings("unused")
+	public static void main(String[] args) {
+    	Class<PluginIOS> c = PluginIOS.class;
     	
         NSAutoreleasePool pool = new NSAutoreleasePool();
         UIApplication.main(args, null, IOSDiscDbHybrid.class);

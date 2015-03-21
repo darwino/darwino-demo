@@ -11,7 +11,7 @@
 
 package com.darwino.demo.dominodisc;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import com.darwino.commons.json.JsonException;
 import com.darwino.jsonstore.Database;
@@ -99,7 +99,9 @@ public class DiscDbManifest extends DarwinoManifest {
 				public ReplicationProfile getProfile(int index) {
 					ReplicationProfile p = new ReplicationProfile();
 					// Oct 1st 2014
-					p.setStartTime((new Date(2014-1900,10-1,1)).getTime());
+					Calendar cal = Calendar.getInstance();
+					cal.set(2014, 10-1, 1, 0, 0, 0);
+					p.setStartTime(cal.getTime().getTime());
 					//System.out.println("Selective replication, start date="+(new Date(p.getStartTime())).toString());
 					return p;
 				}
