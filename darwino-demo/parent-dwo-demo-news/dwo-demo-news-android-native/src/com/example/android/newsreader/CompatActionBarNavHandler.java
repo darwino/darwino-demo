@@ -65,7 +65,6 @@ public class CompatActionBarNavHandler implements TabListener, OnNavigationListe
      */
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        // TODO Auto-generated method stub
         mNavListener.onCategorySelected(NewsManifest.getCategoryFilter(tab.getPosition()));
     }
 
