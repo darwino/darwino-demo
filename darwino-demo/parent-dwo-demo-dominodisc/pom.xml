@@ -12,6 +12,7 @@
   	<module>dwo-demo-dominodisc-j2ee</module>
     <module>dwo-demo-dominodisc-robovm</module>
     <module>dwo-demo-dominodisc-shared</module>
+    <!-- <module>dwo-jre-tests-domino</module> -->
 <!--  not maven yet
     <module>dwo-demo-dominodisc-migeran</module>
 -->    
