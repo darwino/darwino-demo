@@ -10,6 +10,9 @@ bin/
 # Windows
 Thumbs.db
 
+# Android
+gen/
+
 # Maven
 target/
 pom.xml.tag
