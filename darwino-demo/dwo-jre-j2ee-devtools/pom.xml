@@ -72,7 +72,7 @@
 			<dependency>
 				<groupId>com.darwino</groupId>
 				<artifactId>dwo-dependencies-jre</artifactId>
-				<version>0.8.0-SNAPSHOT</version>
+				<version>0.0.1-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
