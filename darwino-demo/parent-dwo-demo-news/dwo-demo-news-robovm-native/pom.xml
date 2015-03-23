@@ -7,7 +7,6 @@
 		<version>0.8.0-SNAPSHOT</version>
 	</parent>
 
-	<groupId>dwo-demo-news-robovm-native</groupId>
 	<artifactId>dwo-demo-news-robovm-native</artifactId>
 
 	<dependencies>
@@ -39,6 +38,35 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.robovm</groupId>
+				<artifactId>robovm-maven-plugin</artifactId>
+				<version>1.0.0-beta-03</version>
+			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>ipa</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.robovm</groupId>
+						<artifactId>robovm-maven-plugin</artifactId>
+						<version>1.0.0-beta-03</version>
+						<executions>
+							<execution>
+								<id>run</id>
+								<phase>package</phase>
+								<goals>
+									<goal>create-ipa</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
