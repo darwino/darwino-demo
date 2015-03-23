@@ -52,12 +52,6 @@ public class IOSNewsHybrid extends UIApplicationDelegateAdapter {
         window.setRootViewController(navigationController);
         window.makeKeyAndVisible();
 
-        // Ties UIWindow instance together with UIApplication object on the
-        // Objective C side of things
-        // Basically meaning that it wont be GC:ed on the java side until it is
-        // on the Objective C side
-        application.addStrongRef(window);
-
         return true;
     }
 

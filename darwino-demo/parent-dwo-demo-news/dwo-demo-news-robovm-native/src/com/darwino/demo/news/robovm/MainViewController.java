@@ -79,10 +79,6 @@ public class MainViewController extends UITableViewController {
     public void viewDidLoad() {
         super.viewDidLoad();
 
-        UIWindow window = new UIWindow(UIScreen.getMainScreen().getBounds());
-        window.setBackgroundColor(UIColor.lightGray());
-        window.makeKeyAndVisible();
-
         // <rect key="frame" x="0.0" y="64" width="320" height="416"/>
         CGRect tableViewBounds = new CGRect(0.0, 64.0, 320, 416);
         setTableView(new UITableView(tableViewBounds));
