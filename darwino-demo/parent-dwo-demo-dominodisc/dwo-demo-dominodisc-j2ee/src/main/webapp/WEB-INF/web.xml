@@ -22,7 +22,7 @@
   	</context-param>
 	<context-param>
     	<param-name>dwo-sync-url</param-name>
-    	<param-value>http://devvm.priand.com/darwino.sync</param-value>
+    	<param-value>http://testdom.darwino.com/darwino.sync</param-value>
     </context-param>
 <!--     
 	<context-param>
