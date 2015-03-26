@@ -9,13 +9,13 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.triloggroup.demo.users;
+package com.darwino.demo.users;
 
 import com.darwino.j2ee.application.DarwinoJ2EEManifest;
 
 
 /**
- * Default Darwino J2EE manifest for a Triloggroup environment.
+ * Default Darwino J2EE manifest for a Demo environment.
  * 
  * @author Philippe Riand
  */

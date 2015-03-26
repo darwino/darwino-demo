@@ -1,0 +1,83 @@
+version: 1
+
+# Internal test user
+dn: cn=phil,o=triloggroup
+cn: Phil
+uid: phil
+mail: phil@triloggrouo.com
+
+# Internal test user
+dn: cn=jesse,o=darwino
+cn: Jesse
+uid: jesse
+mail: jesse@darwino.com
+
+dn: cn=adam tinov,o=triloggroup
+cn: Adam Tinov
+uid: atinov
+mail: atinov@triloggroup.com
+
+dn: cn=al mass,o=triloggroup
+cn: Al Mass
+uid: amass
+mail: amass@triloggroup.com
+
+dn: cn=alain boucher,o=triloggroup
+cn: Alain Boucher
+uid: aboucher
+mail: aboucher@triloggroup.com
+
+dn: cn=amanda calder,o=triloggroup
+cn: Amanda Calder
+uid: acalder
+mail: acalder@triloggroup.com
+
+dn: cn=ava gardner,o=triloggroup
+cn: Ava Gardner
+uid: agardner
+mail: agardner@triloggroup.com
+
+dn: cn=bernard chapot,o=triloggroup
+cn: Bernard Chapot
+uid: bchapot
+mail: bchapot@triloggroup.com
+
+dn: cn=bernard lemercier,o=triloggroup
+cn: Bernard Lemercier
+uid: blemercier
+mail: blemercier@triloggroup.com
+
+dn: cn=betty chris,o=triloggroup
+cn: Betty Chris
+uid: bchris
+mail: bchris@triloggroup.com
+
+dn: cn=bill bright,o=triloggroup
+cn: Bill Bright
+uid: bbright
+mail: bbright@triloggroup.com
+
+dn: cn=lauren armatti,o=triloggroup
+cn: Lauren Armatti
+uid: larmatti
+mail: larmatti@triloggroup.com
+
+dn: cn=leon bros,o=triloggroup
+cn: Leon Bros
+uid: lbros
+mail: lbros@triloggroup.com
+
+dn: cn=mary davis,o=triloggroup
+cn: Mary Davis
+uid: mdavis
+mail: mdavis@triloggroup.com
+
+dn: cn=philip collins,o=triloggroup
+cn: Philip Collins
+uid: pcollins
+mail: pcollins@triloggroup.com
+
+dn: cn=ralf jordan,o=triloggroup
+cn: Ralf Jordan
+uid: rjordan
+mail: rjordan@triloggroup.com

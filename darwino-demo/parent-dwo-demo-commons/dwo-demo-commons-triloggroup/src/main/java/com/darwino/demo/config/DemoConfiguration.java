@@ -34,6 +34,7 @@ public class DemoConfiguration {
 				InputStream is = loadResource("/darwino.properties", "/darwino_default.properties");
 				config_ = new Properties();
 				config_.load(is);
+				is.close();
 			} catch(IOException ioe) {
 				throw new RuntimeException("Error loading configuration", ioe);
 			}
