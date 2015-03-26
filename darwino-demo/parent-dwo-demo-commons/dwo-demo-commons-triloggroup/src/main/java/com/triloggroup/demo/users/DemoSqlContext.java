@@ -15,10 +15,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.darwino.commons.util.StringUtil;
 import com.darwino.commons.util.Version;
 import com.darwino.commons.util.io.StreamUtil;
+import com.darwino.demo.config.DemoConfiguration;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.jdbc.connector.JdbcConnector;
 import com.darwino.jdbc.pool.bonecp.JdbcBoneCPConnector;
@@ -39,8 +42,32 @@ import com.darwino.sql.util.SQLExceptionEx;
 public class DemoSqlContext {
 	
 	public enum DB {
-		DB2,
-		POSTGRES
+		DB2("db2"),
+		POSTGRES("postgresql");
+		
+		private final String[] jdbcName_;
+		
+		private DB(String... jdbcName) {
+			jdbcName_ = jdbcName;
+		}
+		
+		public boolean matches(String jdbcName) {
+			for(String name : jdbcName_) {
+				if(name.equals(jdbcName)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		public static DB valueForJdbcName(String jdbcName) {
+			for(DB db : values()) {
+				if(db.matches(jdbcName)) {
+					return db;
+				}
+			}
+			return null;
+		}
 	}
 	
 	public enum CP {
@@ -49,7 +76,7 @@ public class DemoSqlContext {
 	}
 	
 	//public static final DB db = DB.DB2;
-	public static final DB db = DB.POSTGRES;
+	public static final DB defaultDb = DB.POSTGRES;
 	
 	public static final CP cp = CP.BoneCP;
 	//public static final CP cp = CP.HikariCP;
@@ -75,20 +102,35 @@ public class DemoSqlContext {
 			}
 		}
 		
+		// If not Bluemix, consult the config
+		DemoConfiguration config = DemoConfiguration.get();
+		String url = config.getProperty("darwino.jdbc.url");
+		if(StringUtil.isEmpty(url)) {
+			throw new IllegalStateException("Could not locate JDBC URL");
+		}
+		// TODO Is this a good idea?
+		Pattern dbTypePattern = Pattern.compile("^jdbc:([^:]+):.*$");
+		Matcher dbTypeMatcher = dbTypePattern.matcher(url);
+		if(!dbTypeMatcher.matches()) {
+			throw new IllegalStateException("Illegal JDBC URL: " + url);
+		}
+		String dbType = dbTypeMatcher.group(1);
+		DB db = DB.valueForJdbcName(dbType);
+		if(db == null) {
+			throw new IllegalStateException("Unsupported JDBC type: " + dbType);
+		}
+		
+		String user = config.getProperty("darwino.jdbc.user");
+		String pwd = config.getProperty("darwino.jdbc.password");
+		
 		switch(db) {
 			case POSTGRES: {
-				String user = "postgres"; 
-				String pwd = "postgres";
-				String url = "jdbc:postgresql://localhost:5434/dwodemo";
 				Properties props = new Properties();
 				DBDriver dbDriver = new PostgreSQLDriver(new Version(9,4));
 				JdbcConnector connector = createConnector(JdbcConnector.TRANSACTION_READ_COMMITTED,dbDriver,url,user,pwd,props);
 				return SqlJdbcContext.create(dbDriver,connector,null);
 			}
 			case DB2: {
-				String user = "db2admin"; 
-				String pwd = "passw0rd";
-				String url = "jdbc:db2://" + "localhost:50000/dwodemo";
 				Properties props = new Properties();
 				DBDriver dbDriver = new DB2Driver(new Version(10,5));
 				JdbcConnector connector = createConnector(JdbcConnector.TRANSACTION_READ_COMMITTED,dbDriver,url,user,pwd,props);
