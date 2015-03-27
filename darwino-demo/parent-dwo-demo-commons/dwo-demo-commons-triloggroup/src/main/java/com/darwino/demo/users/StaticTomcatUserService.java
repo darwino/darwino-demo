@@ -128,7 +128,6 @@ public class StaticTomcatUserService implements UserService {
 						String uid = entry.get("uid").getString();
 						String email = entry.get("mail").getString();
 						
-						System.out.println("adding user " + dn);
 						demoUsers_.add(new StaticUser(dn, cn, uid, email));
 					}
 				}
