@@ -12,6 +12,15 @@
 	
 	<packaging>pom</packaging>
 	
+	<dependencies>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-j2ee-darwino-libs</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>

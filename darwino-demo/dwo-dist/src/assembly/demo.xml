@@ -8,6 +8,8 @@
 	</formats>
 	<includeBaseDirectory>true</includeBaseDirectory>
 	<moduleSets>
+	    
+	    <!-- Domino discussion DB demo -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includes>
@@ -21,6 +23,8 @@
 				<outputFileNameMapping>${module.build.finalName}.${module.extension}</outputFileNameMapping>
 			</binaries>
 		</moduleSet>
+		
+		<!-- News reader demo -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includes>
@@ -35,6 +39,8 @@
 				<outputFileNameMapping>${module.build.finalName}.${module.extension}</outputFileNameMapping>
 			</binaries>
 		</moduleSet>
+		
+		<!-- "Angular" prject -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includes>
@@ -47,5 +53,32 @@
 				<outputFileNameMapping>${module.build.finalName}.${module.extension}</outputFileNameMapping>
 			</binaries>
 		</moduleSet>
+		
+		<!-- Misc. tools -->
+		<moduleSet>
+		    <useAllReactorProjects>true</useAllReactorProjects>
+		    <includes>
+		        <include>com.darwino:dwo-jre-j2ee-devtools</include>
+		    </includes>
+			<binaries>
+				<outputDirectory>/</outputDirectory>
+				<unpack>false</unpack>
+				<includeDependencies>false</includeDependencies>
+				<outputFileNameMapping>${module.build.finalName}.${module.extension}</outputFileNameMapping>
+			</binaries>
+		</moduleSet>
 	</moduleSets>
+	
+	<dependencySets>
+	    <dependencySet>
+	        <outputDirectory>/</outputDirectory>
+	        <includes>
+		        <include>com.darwino:dwo-jre-j2ee-darwino-libs</include>
+	        </includes>
+	        <unpack>false</unpack>
+			<scope>runtime</scope>
+			<useStrictFiltering>true</useStrictFiltering>
+			<outputFileNameMapping>${artifact.build.finalName}.${artifact.extension}</outputFileNameMapping>
+	    </dependencySet>
+	</dependencySets>
 </assembly>
