@@ -17,10 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.directory.api.ldap.model.exception.LdapException;
-import org.apache.directory.api.ldap.model.ldif.LdifEntry;
-import org.apache.directory.api.ldap.model.ldif.LdifReader;
-
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonJavaFactory;
 import com.darwino.commons.json.JsonParser;
