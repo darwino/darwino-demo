@@ -15,11 +15,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.apache.directory.api.ldap.model.ldif.LdifEntry;
 import org.apache.directory.api.ldap.model.ldif.LdifReader;
 
+import com.darwino.commons.json.JsonException;
+import com.darwino.commons.json.JsonJavaFactory;
+import com.darwino.commons.json.JsonParser;
 import com.darwino.commons.security.acl.User;
 import com.darwino.commons.security.acl.UserException;
 import com.darwino.commons.security.acl.UserService;
@@ -115,28 +119,26 @@ public class StaticTomcatUserService implements UserService {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private List<StaticUser> getUsers() {
 		if(demoUsers_ == null) {
 			demoUsers_ = new ArrayList<StaticUser>();
 			try {
-				InputStream is = DemoConfiguration.loadResource("/darwino_users.ldif", "/darwino_users_default.ldif");
-				LdifReader namesReader = new LdifReader(is);
-				for(LdifEntry entry : namesReader) {
-					if(entry != null && entry.isLdifContent()) {
-						String dn = entry.get("dn").toString();
-						String cn = entry.get("cn").getString();
-						String uid = entry.get("uid").getString();
-						String email = entry.get("mail").getString();
-						
-						demoUsers_.add(new StaticUser(dn, cn, uid, email));
-					}
-				}
-				namesReader.close();
+				InputStream is = DemoConfiguration.loadResource("/darwino_users.json", "/darwino_users_default.json");
+				Map<String, Object> namesObj = (Map<String, Object>)JsonParser.fromJson(JsonJavaFactory.instance, is);
 				is.close();
-			} catch(LdapException le) {
-				throw new RuntimeException("Error loading users LDIF file", le);
+				for(Map<String, String> entry : (List<Map<String, String>>)namesObj.get("users")) {
+					String dn = entry.get("dn");
+					String cn = entry.get("cn");
+					String uid = entry.get("uid");
+					String email = entry.get("mail");
+					
+					demoUsers_.add(new StaticUser(dn, cn, uid, email));
+				}
+			} catch(JsonException le) {
+				throw new RuntimeException("Error loading users JSON file", le);
 			} catch(IOException ioe) {
-				throw new RuntimeException("Error loading users LDIF file", ioe);
+				throw new RuntimeException("Error loading users JSON file", ioe);
 			}
 		}
 		return demoUsers_;
