@@ -41,15 +41,15 @@ public  class DiscDbBusinessLogic extends DefaultExtensionRegistry {
 				// we use the email as the ID here, as this is the one understood by Connections profiles
 				DarwinoContext ctx = DarwinoContext.get();
 				String userName = ctx.getUser().getAttribute(User.ATTR_EMAIL);
-				json.putString("from",userName);
-				json.putString("altfrom",userName);
-				json.putString("abbreviatefrom",ctx.getUser().getCommonName()); // Not sure about this
-				json.putString("abrfrom",ctx.getUser().getCommonName()); // Not sure about this
+				json.putStringDef("from",userName);
+				json.putStringDef("altfrom",userName);
+				json.putStringDef("abbreviatefrom",ctx.getUser().getCommonName()); // Not sure about this
+				json.putStringDef("abrfrom",ctx.getUser().getCommonName()); // Not sure about this
 				
 				// Calculate the abstract
 				String body = json.getString("body");
 				if(StringUtil.isNotEmpty(body)) {
-					json.putString("abstract",body.length()>30 ? body.substring(0,30)+"..." : body);
+					json.putStringDef("abstract",body.length()>30 ? body.substring(0,30)+"..." : body);
 				} else {
 					json.remove("abstract");
 				}
