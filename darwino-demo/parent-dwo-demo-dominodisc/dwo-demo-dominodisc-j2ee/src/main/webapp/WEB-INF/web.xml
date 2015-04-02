@@ -13,6 +13,10 @@
   	</context-param>
   	
 	<context-param>
+    	<param-name>dwo-sync-trace</param-name>
+    	<param-value>true</param-value>
+  	</context-param>
+	<context-param>
     	<param-name>dwo-sync-enabled</param-name>
     	<param-value>true</param-value>
   	</context-param>
