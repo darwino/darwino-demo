@@ -15,9 +15,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.robovm.apple.coregraphics.CGRect;
+import org.robovm.apple.foundation.Foundation;
 import org.robovm.apple.foundation.NSIndexPath;
 import org.robovm.apple.foundation.NSMutableArray;
+import org.robovm.apple.foundation.NSURL;
 import org.robovm.apple.uikit.NSIndexPathExtensions;
+import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonItemStyle;
 import org.robovm.apple.uikit.UIColor;
@@ -100,6 +103,20 @@ public class MainViewController extends UITableViewController {
         UIBarButtonItem backButton = new UIBarButtonItem();
         backButton.setTitle("Back");
         this.getNavigationItem().setBackBarButtonItem(backButton);
+        
+        // Only iOS 8 and above supports the UIApplicationOpenSettingsURLString
+        // used to launch the Settings app from your application.
+        // Remove the Settings button from the navigation bar
+        // since it won't be able to do anything.
+        if (Foundation.getMajorSystemVersion() >= 8) {
+            getNavigationItem().setLeftBarButtonItem(
+                new UIBarButtonItem("Settings", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
+                    @Override
+                    public void onClick (UIBarButtonItem barButtonItem) {
+                        UIApplication.getSharedApplication().openURL(new NSURL(UIApplication.getOpenSettingsURLString()));
+                    }
+                }));
+        }
     }
     
     private void createToolbar() {
