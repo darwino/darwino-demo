@@ -23,7 +23,7 @@
 	
 	
 	<libs>
-		<lib>libs/libJsonStore.a</lib>
+		<lib>libs/libJsonStoreUniversal.a</lib>
 	</libs>
 
 	<target>ios</target>
