@@ -39,88 +39,75 @@ import com.darwino.jsonstore.replication.ConsoleReplicationProgress;
 import com.darwino.jsonstore.replication.ReplicationGroup;
 import com.darwino.jsonstore.replication.ReplicationOptions;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
+import com.darwino.robovm.common.settings.SettingsViewController;
 
 /**
  * The application's main view controller (front page)
  */
 public class MainViewController extends UITableViewController {
 
-    private LinkedList<MenuListItem> menuList = new LinkedList<MenuListItem>();
+	private LinkedList<MenuListItem> menuList = new LinkedList<MenuListItem>();
 
-    private final static String MY_CELL_IDENTIFIER = "MyTableViewCell";
+	private final static String MY_CELL_IDENTIFIER = "MyTableViewCell";
 
-    private class MyTableViewCell extends UITableViewCell {
-        @Override
-        protected long init (UITableViewCellStyle style, String reuseIdentifier) {
-            return super.init(UITableViewCellStyle.Subtitle, reuseIdentifier);
-        }
-    }
-    
-    private class MenuListItem {
-        private String category;
+	private class MyTableViewCell extends UITableViewCell {
+		@Override
+		protected long init (UITableViewCellStyle style, String reuseIdentifier) {
+			return super.init(UITableViewCellStyle.Subtitle, reuseIdentifier);
+		}
+	}
 
-        public MenuListItem(String category) {
-            super();
-            this.category = category;
-        }
+	private class MenuListItem {
+		private String category;
 
-        public String getCategory() {
-            return this.category;
-        }
-    }
-    
-    private NewsViewController newsViewController;
-    
-    public MainViewController() {
-    }
-    
-    /**
-     * construct the array of page descriptions we will use (each description is
-     * a dictionary)
-     */
-    @Override
-    public void viewDidLoad() {
-        super.viewDidLoad();
+		public MenuListItem(String category) {
+			super();
+			this.category = category;
+		}
 
-        // <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-        CGRect tableViewBounds = new CGRect(0.0, 64.0, 320, 416);
-        setTableView(new UITableView(tableViewBounds));
-        
-        // Add items to list where they will be retrieved when to display
-        this.newsViewController = new NewsViewController();
-        String[] cat = NewsManifest.getCategoryLabels();
-        for(int i=0; i<cat.length; i++) {
-            menuList.add(new MenuListItem(cat[i]));
-        }
+		public String getCategory() {
+			return this.category;
+		}
+	}
 
-        createTopbar();
-        createToolbar();
-        
-        getTableView().registerReusableCellClass(MyTableViewCell.class, MY_CELL_IDENTIFIER);
-    }
+	private NewsViewController newsViewController;
 
-    private void createTopbar() {
-        UIBarButtonItem backButton = new UIBarButtonItem();
-        backButton.setTitle("Back");
-        this.getNavigationItem().setBackBarButtonItem(backButton);
-        
-        // Only iOS 8 and above supports the UIApplicationOpenSettingsURLString
-        // used to launch the Settings app from your application.
-        // Remove the Settings button from the navigation bar
-        // since it won't be able to do anything.
-        if (Foundation.getMajorSystemVersion() >= 8) {
-            getNavigationItem().setLeftBarButtonItem(
-                new UIBarButtonItem("Settings", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
-                    @Override
-                    public void onClick (UIBarButtonItem barButtonItem) {
-                        UIApplication.getSharedApplication().openURL(new NSURL(UIApplication.getOpenSettingsURLString()));
-                    }
-                }));
-        }
-    }
-    
-    private void createToolbar() {
-        UIBarButtonItem onlineButtonItem = new UIBarButtonItem("Go Offline", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
+	public MainViewController() {
+	}
+
+	/**
+	 * construct the array of page descriptions we will use (each description is
+	 * a dictionary)
+	 */
+	@Override
+	public void viewDidLoad() {
+		super.viewDidLoad();
+
+		// <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+		CGRect tableViewBounds = new CGRect(0.0, 64.0, 320, 416);
+		setTableView(new UITableView(tableViewBounds));
+
+		// Add items to list where they will be retrieved when to display
+		this.newsViewController = new NewsViewController();
+		String[] cat = NewsManifest.getCategoryLabels();
+		for(int i=0; i<cat.length; i++) {
+			menuList.add(new MenuListItem(cat[i]));
+		}
+
+		createTopbar();
+		createToolbar();
+
+		getTableView().registerReusableCellClass(MyTableViewCell.class, MY_CELL_IDENTIFIER);
+	}
+
+	private void createTopbar() {
+		UIBarButtonItem backButton = new UIBarButtonItem();
+		backButton.setTitle("Back");
+		this.getNavigationItem().setBackBarButtonItem(backButton);
+	}
+
+	private void createToolbar() {
+		UIBarButtonItem onlineButtonItem = new UIBarButtonItem("Go Offline", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
 			@Override
 			public void onClick(UIBarButtonItem barButtonItem) {
 				try {
@@ -139,7 +126,7 @@ public class MainViewController extends UITableViewController {
 				}
 			}
 		});
-        UIBarButtonItem syncButtonItem = new UIBarButtonItem("Sync Data", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
+		UIBarButtonItem syncButtonItem = new UIBarButtonItem("Sync Data", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
 			@Override
 			public void onClick(UIBarButtonItem barButtonItem) {
 				System.out.println("SYNC DATA");
@@ -159,7 +146,7 @@ public class MainViewController extends UITableViewController {
 				}
 			}
 		});
-        UIBarButtonItem initButtonItem = new UIBarButtonItem("Init", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
+		UIBarButtonItem initButtonItem = new UIBarButtonItem("Init", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
 			@Override
 			public void onClick(UIBarButtonItem barButtonItem) {
 				System.out.println("INIT");
@@ -172,53 +159,66 @@ public class MainViewController extends UITableViewController {
 				}
 			}
 		});
-        List<UIBarButtonItem> buttonSet = new LinkedList<UIBarButtonItem>();
-        buttonSet.add(onlineButtonItem);
-        buttonSet.add(syncButtonItem);
-        buttonSet.add(initButtonItem);
-        this.setToolbarItems(new NSMutableArray<UIBarButtonItem>(buttonSet));
-        this.getNavigationController().setToolbarHidden(false);
-    }
 
-    @Override
-    public void viewWillAppear(boolean animated) {
-        super.viewWillAppear(animated);
 
-        // this UIViewController is about to re-appear, make sure we remove the
-        // current selection in our table view
-        NSIndexPath tableSelection = this.getTableView().getIndexPathForSelectedRow();
-        this.getTableView().deselectRow(tableSelection, false);
+		final SettingsViewController settingsViewController = new SettingsViewController();
+		UIBarButtonItem settingsItem = new UIBarButtonItem("Settings", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
 
-        // some over view controller could have changed our nav bar tint color,
-        // so reset it here
-        this.getNavigationController().getNavigationBar().setTintColor(UIColor.darkGray());
-    }
+			@Override
+			public void onClick(UIBarButtonItem barButtonItem) {
+				getNavigationController().pushViewController(settingsViewController, true);
+			}
+		});
 
-    /**
-     * the table's selection has changed, switch to that item's UIViewController
-     */
-    @Override
-    public void didSelectRow(UITableView tableView, NSIndexPath indexPath) {
-        MenuListItem item = menuList.get((int) NSIndexPathExtensions.getRow(indexPath));
-        newsViewController.loadCategory(item.getCategory());
-        this.getNavigationController().pushViewController(newsViewController, true);
-    }
 
-    @Override
-    public @MachineSizedSInt long getNumberOfRowsInSection(UITableView tableView,
-            @MachineSizedSInt long section) {
-        return menuList.size();
-    }
+		List<UIBarButtonItem> buttonSet = new LinkedList<UIBarButtonItem>();
+		buttonSet.add(onlineButtonItem);
+		buttonSet.add(syncButtonItem);
+		buttonSet.add(initButtonItem);
+		buttonSet.add(settingsItem);
+		this.setToolbarItems(new NSMutableArray<UIBarButtonItem>(buttonSet));
+		this.getNavigationController().setToolbarHidden(false);
+	}
 
-    @Override
+	@Override
+	public void viewWillAppear(boolean animated) {
+		super.viewWillAppear(animated);
+
+		// this UIViewController is about to re-appear, make sure we remove the
+		// current selection in our table view
+		NSIndexPath tableSelection = this.getTableView().getIndexPathForSelectedRow();
+		this.getTableView().deselectRow(tableSelection, false);
+
+		// some over view controller could have changed our nav bar tint color,
+		// so reset it here
+		this.getNavigationController().getNavigationBar().setTintColor(UIColor.darkGray());
+	}
+
+	/**
+	 * the table's selection has changed, switch to that item's UIViewController
+	 */
+	@Override
+	public void didSelectRow(UITableView tableView, NSIndexPath indexPath) {
+		MenuListItem item = menuList.get((int) NSIndexPathExtensions.getRow(indexPath));
+		newsViewController.loadCategory(item.getCategory());
+		this.getNavigationController().pushViewController(newsViewController, true);
+	}
+
+	@Override
+	public @MachineSizedSInt long getNumberOfRowsInSection(UITableView tableView,
+			@MachineSizedSInt long section) {
+		return menuList.size();
+	}
+
+	@Override
 	public UITableViewCell getCellForRow(UITableView tableView,
 			NSIndexPath indexPath) {
-        UITableViewCell cell = getTableView().dequeueReusableCell(MY_CELL_IDENTIFIER, indexPath);
+		UITableViewCell cell = getTableView().dequeueReusableCell(MY_CELL_IDENTIFIER, indexPath);
 
-        cell.setAccessoryType(UITableViewCellAccessoryType.DisclosureIndicator);
-        cell.getTextLabel().setText(menuList.get((int) NSIndexPathExtensions.getRow(indexPath)).getCategory());
-        //cell.getDetailTextLabel().setText(menuList.get((int) NSIndexPathExtensions.getRow(indexPath)).getExplanation());
-        return cell;
-    }
+		cell.setAccessoryType(UITableViewCellAccessoryType.DisclosureIndicator);
+		cell.getTextLabel().setText(menuList.get((int) NSIndexPathExtensions.getRow(indexPath)).getCategory());
+		//cell.getDetailTextLabel().setText(menuList.get((int) NSIndexPathExtensions.getRow(indexPath)).getExplanation());
+		return cell;
+	}
 
 }
