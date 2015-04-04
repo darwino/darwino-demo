@@ -119,7 +119,8 @@ public class DemoSqlContext {
 		return StringUtil.isNotEmpty(p);
 	}
 	public boolean isDBBluemix() {
-		return isLocalLiberty();
+		return false;
+		//return isLocalLiberty();
 	}	
 	public String getBluemixVarCap() throws IOException {
 		String json = "Bluemix-news.json";
