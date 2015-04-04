@@ -122,6 +122,7 @@ public class SettingsViewController extends UITableViewController {
 			return;
 		}
 		
+		// TODO Have this look up from the Root.plist
 		String[] prefGroups = {
 			"Account",
 			"DataSync"

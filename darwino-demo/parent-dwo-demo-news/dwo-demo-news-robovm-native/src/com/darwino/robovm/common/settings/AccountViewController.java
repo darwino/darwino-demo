@@ -1,43 +1,45 @@
 package com.darwino.robovm.common.settings;
 
-import org.robovm.apple.foundation.NSBundle;
-import org.robovm.apple.foundation.NSObject;
-import org.robovm.apple.foundation.NSUserDefaults;
-import org.robovm.apple.uikit.NSTextAlignment;
-import org.robovm.apple.uikit.UITextField;
+import java.util.Arrays;
 
-import com.darwino.commons.util.StringUtil;
+import org.robovm.apple.uikit.UITableViewCell;
 
 
 public class AccountViewController extends AbstractSettingsViewController {
 
-	private UITextField serverTextField;
+	private static final String[] EXEC_MODE_LABELS = {
+		"Remote Data",
+		"Local Data",
+	};
+	private static final Object[] EXEC_MODE_VALUES = {
+		1,
+		2
+	};
+	
+	protected SettingsField[] fields = {
+			SettingsField.picker("Execution Mode", "execModeKey", Arrays.asList(EXEC_MODE_LABELS), Arrays.asList(EXEC_MODE_VALUES)),
+			SettingsField.text("Server", "", "serverKey"),
+			SettingsField.text("User Name", "", "userNameKey"),
+			SettingsField.password("Password", "", "passwordKey")
+	};
 	
 	@Override
 	public void viewDidLoad() {
 		super.viewDidLoad();
 		
-		NSUserDefaults defaults = NSUserDefaults.getStandardUserDefaults();
-		
-		serverTextField = new UITextField();
-		serverTextField.setPlaceholder("Enter server name");
-		serverTextField.setTextAlignment(NSTextAlignment.Right);
-		NSObject serverDefault = defaults.get("serverKey");
-		System.out.println("serverDefault is " + serverDefault);
-		if(serverDefault != null && StringUtil.isNotEmpty(serverDefault.toString())) {
-			serverTextField.setText(serverDefault.toString());
+		for(SettingsField field : fields) {
+			addSettingsField(field);
 		}
-		
-		
-		setCells(
-				cell("Server", serverTextField)
-		);
 	}
-	
+
 	@Override
 	protected void onSave() {
+		for(SettingsField field : fields) {
+			field.save();
+		}
+
 		getNavigationController().popViewController(true);
 	}
 
-	
+
 }
