@@ -1,10 +1,18 @@
 <html>
-
 <head>
-<meta http-equiv="refresh" content="0; url=explorer/mainbjq.html" /></head>
-
+	<script>
+		// The redirect can be from the explicit HTML page, or from a server default page reference
+		// In the later case, we push an empty page to the location, which will anyway be replaced
+		var page = "explorer/mainbjq.html";
+		var path = window.location.pathname.split('/');
+		var last = path[path.length-1]; 
+		if(last.indexOf('.html')>=0 || last.indexOf('.htm')>=0) path.pop()
+		path.push(page);
+		var redirect = window.location.origin + path.join('/');
+		window.location.replace(redirect);
+	</script>
+</head>	
 <body>
 	Darwino Web Studio
 </body>
-
 </html>
