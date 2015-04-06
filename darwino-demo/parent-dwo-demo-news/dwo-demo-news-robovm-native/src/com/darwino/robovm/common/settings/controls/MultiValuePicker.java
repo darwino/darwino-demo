@@ -30,12 +30,15 @@ public class MultiValuePicker extends UITableViewController {
 	private final List<String> labels;
 	private final List<Object> values;
 	private final MultiValuePickerCallback callback;
+	private int selectedIndex;
+	private final List<UITableViewCell> cells = new ArrayList<UITableViewCell>();
 	
-	public MultiValuePicker(Collection<String> labels, Collection<Object> values, MultiValuePickerCallback callback) {
+	public MultiValuePicker(Collection<String> labels, Collection<Object> values, Object defaultValue, MultiValuePickerCallback callback) {
 		super(UITableViewStyle.Grouped);
 		
 		this.labels = new ArrayList<>(labels);
 		this.values = new ArrayList<>(values);
+		selectedIndex = this.values.indexOf(defaultValue);
 		this.callback = callback;
 	}
 	
@@ -62,13 +65,24 @@ public class MultiValuePicker extends UITableViewController {
 
 		int index = (int) NSIndexPathExtensions.getRow(indexPath);
 		cell.getTextLabel().setText(labels.get(index));
+		if(index == selectedIndex) {
+			cell.setAccessoryType(UITableViewCellAccessoryType.Checkmark);
+		}
+		
+		cells.add(index, cell);
 	
 		return cell;
 	}
+	
 	@Override
 	public void didSelectRow(UITableView tableView, NSIndexPath indexPath) {
 		int index = (int) NSIndexPathExtensions.getRow(indexPath);
 		this.callback.handle(values.get(index));
+		
+		cells.get(selectedIndex).setAccessoryType(UITableViewCellAccessoryType.None);
+		this.selectedIndex = index;
+		cells.get(selectedIndex).setAccessoryType(UITableViewCellAccessoryType.Checkmark);
+		
 		getNavigationController().popViewController(true);
 	}
 }

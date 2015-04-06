@@ -12,6 +12,9 @@ import org.robovm.apple.foundation.NSObject;
 import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.foundation.NSUserDefaults;
 import org.robovm.apple.uikit.NSIndexPathExtensions;
+import org.robovm.apple.uikit.UIBarButtonItem;
+import org.robovm.apple.uikit.UIBarButtonItem.OnClickListener;
+import org.robovm.apple.uikit.UIBarButtonSystemItem;
 import org.robovm.apple.uikit.UILabel;
 import org.robovm.apple.uikit.UITableView;
 import org.robovm.apple.uikit.UITableViewCell;
@@ -24,6 +27,8 @@ import org.robovm.apple.uikit.UIViewController;
 import org.robovm.rt.bro.annotation.MachineSizedSInt;
 
 import com.darwino.commons.util.StringUtil;
+import com.darwino.mobile.platform.DarwinoMobileApplication;
+import com.darwino.mobile.platform.DarwinoMobileSettings;
 
 
 public class SettingsViewController extends UITableViewController {
@@ -36,6 +41,12 @@ public class SettingsViewController extends UITableViewController {
 	}
 
 	private final static String MY_CELL_IDENTIFIER = "MyTableViewCell2";
+	
+	private static SettingsViewController instance;
+	public static SettingsViewController getInstance() {
+		// TODO wise?
+		return instance;
+	}
 	
 	private class ConfigPane {
 		private final UIViewController controller;
@@ -59,17 +70,17 @@ public class SettingsViewController extends UITableViewController {
 	}
 	
 	private ConfigPane[] configPanes;
+	private DarwinoMobileSettings.Editor editor = DarwinoMobileApplication.get().getSettings().createEditor();
+	private boolean dirty = false;
 	
 	@Override
 	public void viewDidLoad() {
 		super.viewDidLoad();
 		
-		// Check to see if we need to initialize default settings
+		instance = this;
+		
 		NSUserDefaults defaults = NSUserDefaults.getStandardUserDefaults();
-		NSObject server = defaults.get("serverKey");
-		if(server == null) {
-			registerDefaultsFromSettingsBundle();
-		}
+		System.out.println("current settings: " + defaults.asDictionary());
 
 		this.configPanes = new ConfigPane[] {
 			new ConfigPane(new AccountViewController(), "Account", "Set the current account"),
@@ -78,8 +89,34 @@ public class SettingsViewController extends UITableViewController {
 			new ConfigPane(new AboutViewController(), "About", "About this application")
 		};
 		
+		getNavigationItem().setRightBarButtonItem(
+	        new UIBarButtonItem(UIBarButtonSystemItem.Done, new OnClickListener() {
+	            @Override
+	            public void onClick(UIBarButtonItem barButtonItem) {
+	                onSave();
+	            }
+	        }));
+		
 		getTableView().registerReusableCellClass(MyTableViewCell.class, MY_CELL_IDENTIFIER);
 		
+	}
+	
+	public void markResetApplication() {
+		this.dirty = true;
+	}
+	
+	public void onSave() {
+		if(dirty) {
+			editor.commit();
+			
+			DarwinoMobileApplication.get().resetApplication();
+		}
+		
+		getNavigationController().popViewController(true);
+	}
+	
+	public DarwinoMobileSettings.Editor getSettingsEditor() {
+		return editor;
 	}
 	
 	
@@ -114,42 +151,41 @@ public class SettingsViewController extends UITableViewController {
 	}
 	
 	// Via http://stackoverflow.com/questions/6291477/how-to-retrieve-values-from-settings-bundle-in-objective-c
-	@SuppressWarnings("unchecked")
-	private void registerDefaultsFromSettingsBundle() {
-		String settingsBundle = NSBundle.getMainBundle().findResourcePath("Settings", "bundle");
-		if(settingsBundle == null) {
-			System.out.println("could not find settings bundle");
-			return;
-		}
-		
-		// TODO Have this look up from the Root.plist
-		String[] prefGroups = {
-			"Account",
-			"DataSync"
-		};
-		
-		NSMutableDictionary<NSObject, NSObject> defaultsToRegister = new NSMutableDictionary<>();
-		NSUserDefaults userDefaults = NSUserDefaults.getStandardUserDefaults();
-		
-		for(String prefGroup : prefGroups) {
-			NSDictionary<NSObject, NSObject> settings = (NSDictionary<NSObject, NSObject>) NSDictionary.read(new File(settingsBundle + "/" + prefGroup + ".plist"));
-			NSArray<NSDictionary<NSObject, NSObject>> preferences = (NSArray<NSDictionary<NSObject, NSObject>>)settings.get(new NSString("PreferenceSpecifiers"));
-			
-			for(NSDictionary<NSObject, NSObject> prefSpecification : preferences) {
-				NSString key = (NSString)prefSpecification.get(new NSString("Key"));
-				if(key != null) {
-					NSObject defaultValue = prefSpecification.get(new NSString("DefaultValue"));
-					if(defaultValue != null) {
-						// See if it's already set
-						Object existingDefault = userDefaults.get(key.toString());
-						if(existingDefault == null) {
-							defaultsToRegister.put(key, defaultValue);
-						}
-					}
-				}
-			}
-		}
-		
-		userDefaults.registerDefaults(defaultsToRegister);
-	}
+//	@SuppressWarnings("unchecked")
+//	private void registerDefaultsFromSettingsBundle() {
+//		String settingsBundle = NSBundle.getMainBundle().findResourcePath("Settings", "bundle");
+//		if(settingsBundle == null) {
+//			System.out.println("could not find settings bundle");
+//			return;
+//		}
+//		
+//		// TODO Have this look up from the Root.plist
+//		String[] prefGroups = {
+//			"Account",
+//			"DataSync"
+//		};
+//		
+//		NSMutableDictionary<NSObject, NSObject> defaultsToRegister = new NSMutableDictionary<>();
+//		NSUserDefaults userDefaults = NSUserDefaults.getStandardUserDefaults();
+//		
+//		for(String prefGroup : prefGroups) {
+//			NSDictionary<NSObject, NSObject> settings = (NSDictionary<NSObject, NSObject>) NSDictionary.read(new File(settingsBundle + "/" + prefGroup + ".plist"));
+//			NSArray<NSDictionary<NSObject, NSObject>> preferences = (NSArray<NSDictionary<NSObject, NSObject>>)settings.get(new NSString("PreferenceSpecifiers"));
+//			
+//			for(NSDictionary<NSObject, NSObject> prefSpecification : preferences) {
+//				NSString key = (NSString)prefSpecification.get(new NSString("Key"));
+//				if(key != null) {
+//					NSObject defaultValue = prefSpecification.get(new NSString("DefaultValue"));
+//					if(defaultValue != null) {
+//						System.out.println("registering default for " + key + " as " + defaultValue);
+//						defaultsToRegister.put(key, defaultValue);
+//					}
+//				}
+//			}
+//		}
+//		
+//		userDefaults.registerDefaults(defaultsToRegister);
+//	}
+	
+	
 }

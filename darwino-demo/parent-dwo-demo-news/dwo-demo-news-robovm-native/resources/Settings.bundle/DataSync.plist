@@ -13,7 +13,7 @@
 			<key>Title</key>
 			<string>SyncFrequency</string>
 			<key>Key</key>
-			<string>syncFrequencyKey</string>
+			<string>sync_frequency</string>
 			
 			<key>DefaultValue</key>
 			<integer>1</integer>
@@ -33,16 +33,16 @@
 			</array>
 			<key>Values</key>
 			<array>
-				<integer>0</integer>
-				<integer>1</integer>
-				<integer>2</integer>
-				<integer>3</integer>
-				<integer>4</integer>
-				<integer>5</integer>
-				<integer>6</integer>
-				<integer>7</integer>
-				<integer>8</integer>
-				<integer>9</integer>
+				<string></string>
+				<string>0</string>
+				<string>1m</string>
+				<string>5m</string>
+				<string>10m</string>
+				<string>15m</string>
+				<string>30m</string>
+				<string>1h</string>
+				<string>2h</string>
+				<string>1d</string>
 			</array>
 		</dict>
 		
@@ -53,7 +53,7 @@
 			<key>Title</key>
 			<string>PushChangesImmediately</string>
 			<key>Key</key>
-			<string>pushImmediatelyKey</string>
+			<string>sync_pushimm</string>
 			
 			<key>DefaultValue</key>
 			<false/>
@@ -66,7 +66,7 @@
 			<key>Title</key>
 			<string>NotifyOnSuccess</string>
 			<key>Key</key>
-			<string>notifyOnSuccessKey</string>
+			<string>sync_notify</string>
 			
 			<key>DefaultValue</key>
 			<false/>
