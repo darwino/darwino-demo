@@ -9,7 +9,10 @@ import org.robovm.apple.uikit.NSLayoutAttribute;
 import org.robovm.apple.uikit.NSLayoutConstraint;
 import org.robovm.apple.uikit.NSLayoutRelation;
 import org.robovm.apple.uikit.NSTextAlignment;
+import org.robovm.apple.uikit.UIControl;
+import org.robovm.apple.uikit.UIControl.OnValueChangedListener;
 import org.robovm.apple.uikit.UILabel;
+import org.robovm.apple.uikit.UISwitch;
 import org.robovm.apple.uikit.UITableViewCell;
 import org.robovm.apple.uikit.UITextField;
 import org.robovm.apple.uikit.UITextFieldDelegateAdapter;
@@ -21,7 +24,7 @@ import com.darwino.robovm.common.settings.AbstractSettingsViewController;
 
 public class SettingsField extends UITextFieldDelegateAdapter {
 	public enum Type {
-		TEXT, PASSWORD, PICKER
+		TEXT, PASSWORD, PICKER, BOOLEAN
 	}
 	public static interface SettingsChangeCallback {
 		void handle(Object newValue);
@@ -52,7 +55,19 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 	public static SettingsField picker(String label, Object defaultValue, Collection<String> labels, Collection<Object> values, SettingsChangeCallback callback) {
 		return new SettingsField(Type.PICKER, label, defaultValue, labels, values, callback);
 	}
+	public static SettingsField bool(String label, Object defaultValue, SettingsChangeCallback callback) {
+		return new SettingsField(Type.BOOLEAN, label, defaultValue, callback);
+	}
 	
+	private SettingsField(SettingsField.Type type, String label, Object defaultValue, SettingsChangeCallback callback) {
+		this.type = type;
+		this.label = label;
+		this.placeholder = "";
+		this.defaultValue = defaultValue;
+		this.labels = null;
+		this.values = null;
+		this.callback = callback;
+	}
 	private SettingsField(SettingsField.Type type, String label, String placeholder, Object defaultValue, SettingsChangeCallback callback) {
 		this.type = type;
 		this.label = label;
@@ -106,6 +121,18 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 					
 					break;
 				}
+				case BOOLEAN: {
+					UISwitch switchField = new UISwitch();
+					switchField.setOn((Boolean)defaultValue);
+					switchField.addOnValueChangedListener(new OnValueChangedListener() {
+						@Override public void onValueChanged(UIControl control) {
+							callback.handle(Boolean.valueOf(((UISwitch)field).isOn()));
+						}
+					});
+					field = switchField;
+					
+					break;
+				}
 				default:
 					field = null;
 					break;
@@ -119,6 +146,7 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 			switch(type) {
 				case PASSWORD:
 				case TEXT:
+				case BOOLEAN:
 					this.cell = AbstractSettingsViewController.cell(getLabel(), getField());
 					break;
 				case PICKER: {
