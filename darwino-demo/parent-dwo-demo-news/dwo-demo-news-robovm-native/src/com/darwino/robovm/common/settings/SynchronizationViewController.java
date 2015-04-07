@@ -10,7 +10,7 @@ import com.darwino.mobile.platform.DarwinoMobileSettings;
 import com.darwino.mobile.platform.DarwinoMobileManifest.Connection;
 import com.darwino.robovm.common.settings.controls.SettingsField;
 
-public class DataSyncViewController extends AbstractSettingsViewController {
+public class SynchronizationViewController extends AbstractSettingsViewController {
 	private static final String[] FREQUENCY_LABELS = {
 		"Not Enabled",
 		"Immediate",
@@ -45,24 +45,29 @@ public class DataSyncViewController extends AbstractSettingsViewController {
 		final NSUserDefaults userDefaults = NSUserDefaults.getStandardUserDefaults();
 		
 		addSettingsFields(
-				SettingsField.picker("Synchronization Frequency", settings.getSyncPeriod(), Arrays.asList(FREQUENCY_LABELS), Arrays.asList(FREQUENCY_VALUES), new SettingsField.SettingsChangeCallback() {
-					@Override public void handle(Object newValue) {
+				SettingsField.action("Synchronize Now", "", new SettingsField.SettingsActionCallback() {
+					@Override public void handle(SettingsField field) {
+						SettingsViewController.getInstance().getDarwinoTasks().synchronizeData();
+					}
+				}),
+				SettingsField.picker("Synchronization Frequency", "", settings.getSyncPeriod(), Arrays.asList(FREQUENCY_LABELS), Arrays.asList(FREQUENCY_VALUES), new SettingsField.SettingsChangeCallback() {
+					@Override public void handle(SettingsField field, Object newValue) {
 						String stringValue = (String)newValue;
 						editor.setSyncPeriod(stringValue);
 						userDefaults.put("sync_frequency", new NSString(stringValue));
 						SettingsViewController.getInstance().markResetApplication();
 					}
 				}),
-				SettingsField.bool("Push Changes Immediately", settings.isSyncPushImmediately(), new SettingsField.SettingsChangeCallback() {
-					@Override public void handle(Object newValue) {
+				SettingsField.bool("Push Changes Immediately", "Pushes the local changes to the server as soon as possible", settings.isSyncPushImmediately(), new SettingsField.SettingsChangeCallback() {
+					@Override public void handle(SettingsField field, Object newValue) {
 						boolean boolValue = (Boolean)newValue;
 						editor.setSyncPushImmediately(boolValue);
 						userDefaults.put("sync_pushim", boolValue);
 						SettingsViewController.getInstance().markResetApplication();
 					}
 				}),
-				SettingsField.bool("Notify Successful Sync", settings.isSyncNotify(), new SettingsField.SettingsChangeCallback() {
-					@Override public void handle(Object newValue) {
+				SettingsField.bool("Notify Successful Sync", "Notify the user after the synchronization was successful", settings.isSyncNotify(), new SettingsField.SettingsChangeCallback() {
+					@Override public void handle(SettingsField field, Object newValue) {
 						boolean boolValue = (Boolean)newValue;
 						editor.setSyncPushImmediately(boolValue);
 						userDefaults.put("sync_notify", boolValue);

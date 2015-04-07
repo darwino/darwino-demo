@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.foundation.NSRange;
 import org.robovm.apple.uikit.NSLayoutAttribute;
 import org.robovm.apple.uikit.NSLayoutConstraint;
@@ -11,9 +12,11 @@ import org.robovm.apple.uikit.NSLayoutRelation;
 import org.robovm.apple.uikit.NSTextAlignment;
 import org.robovm.apple.uikit.UIControl;
 import org.robovm.apple.uikit.UIControl.OnValueChangedListener;
+import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UILabel;
 import org.robovm.apple.uikit.UISwitch;
 import org.robovm.apple.uikit.UITableViewCell;
+import org.robovm.apple.uikit.UITableViewCellAccessoryType;
 import org.robovm.apple.uikit.UITextField;
 import org.robovm.apple.uikit.UITextFieldDelegateAdapter;
 import org.robovm.apple.uikit.UIView;
@@ -22,23 +25,28 @@ import org.robovm.apple.uikit.UIViewController;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.robovm.common.settings.AbstractSettingsViewController;
 
+// TODO This should probably be split into subclasses - or there should be some standard way to do a lot of this
 public class SettingsField extends UITextFieldDelegateAdapter {
 	public enum Type {
-		TEXT, PASSWORD, PICKER, BOOLEAN
+		TEXT, PASSWORD, PICKER, BOOLEAN, ACTION
 	}
 	public static interface SettingsChangeCallback {
-		void handle(Object newValue);
+		void handle(SettingsField field, Object newValue);
+	}
+	public static interface SettingsActionCallback {
+		void handle(SettingsField field);
 	}
 	
 	private final SettingsField.Type type;
-	private final String label;
+	private String label;
 	private final Object defaultValue;
 	private UITableViewCell cell;
 	private final SettingsChangeCallback callback;
+	private final SettingsActionCallback actionCallback;
+	private String subtitle;
 	
 	// For field types
 	private UIView field;
-	private final String placeholder;
 
 	// For picker types
 	private final List<String> labels;
@@ -46,77 +54,92 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 	private MultiValuePicker picker;
 	private UILabel pickerLabel;
 	
-	public static SettingsField text(String label, String placeholder, Object defaultValue, SettingsChangeCallback callback) {
-		return new SettingsField(Type.TEXT, label, placeholder, defaultValue, callback);
+	public static SettingsField text(String label, String subtitle, Object defaultValue, SettingsChangeCallback callback) {
+		return new SettingsField(Type.TEXT, label, subtitle, defaultValue, callback);
 	}
-	public static SettingsField password(String label, String placeholder, Object defaultValue, SettingsChangeCallback callback) {
-		return new SettingsField(Type.PASSWORD, label, placeholder, defaultValue, callback);
+	public static SettingsField password(String label, String subtitle, Object defaultValue, SettingsChangeCallback callback) {
+		return new SettingsField(Type.PASSWORD, label, subtitle, defaultValue, callback);
 	}
-	public static SettingsField picker(String label, Object defaultValue, Collection<String> labels, Collection<Object> values, SettingsChangeCallback callback) {
-		return new SettingsField(Type.PICKER, label, defaultValue, labels, values, callback);
+	public static SettingsField picker(String label, String subtitle, Object defaultValue, Collection<String> labels, Collection<Object> values, SettingsChangeCallback callback) {
+		return new SettingsField(Type.PICKER, label, subtitle, defaultValue, labels, values, callback);
 	}
-	public static SettingsField bool(String label, Object defaultValue, SettingsChangeCallback callback) {
-		return new SettingsField(Type.BOOLEAN, label, defaultValue, callback);
+	public static SettingsField bool(String label, String subtitle, Object defaultValue, SettingsChangeCallback callback) {
+		return new SettingsField(Type.BOOLEAN, label, subtitle, defaultValue, callback);
+	}
+	public static SettingsField action(String label, String subtitle, SettingsActionCallback callback) {
+		return new SettingsField(Type.ACTION, label, subtitle, callback);
 	}
 	
-	private SettingsField(SettingsField.Type type, String label, Object defaultValue, SettingsChangeCallback callback) {
+	private SettingsField(SettingsField.Type type, String label, String subtitle, SettingsActionCallback callback) {
 		this.type = type;
 		this.label = label;
-		this.placeholder = "";
+		this.subtitle = subtitle;
+		this.defaultValue = null;
+		this.labels = null;
+		this.values = null;
+		this.callback = null;
+		this.actionCallback = callback;
+	}
+	private SettingsField(SettingsField.Type type, String label, String subtitle, Object defaultValue, SettingsChangeCallback callback) {
+		this.type = type;
+		this.label = label;
+		this.subtitle = subtitle;
 		this.defaultValue = defaultValue;
 		this.labels = null;
 		this.values = null;
 		this.callback = callback;
+		this.actionCallback = null;
 	}
-	private SettingsField(SettingsField.Type type, String label, String placeholder, Object defaultValue, SettingsChangeCallback callback) {
+	private SettingsField(SettingsField.Type type, String label, String subtitle, Object defaultValue, Collection<String> labels, Collection<Object> values, SettingsChangeCallback callback) {
 		this.type = type;
 		this.label = label;
-		this.placeholder = placeholder;
-		this.defaultValue = defaultValue;
-		this.labels = null;
-		this.values = null;
-		this.callback = callback;
-	}
-	private SettingsField(SettingsField.Type type, String label, Object defaultValue, Collection<String> labels, Collection<Object> values, SettingsChangeCallback callback) {
-		this.type = type;
-		this.label = label;
-		this.placeholder = null;
+		this.subtitle = subtitle;
 		this.defaultValue = defaultValue;
 		this.labels = new ArrayList<>(labels);
 		this.values = new ArrayList<>(values);
 		this.callback = callback;
+		this.actionCallback = null;
 	}
 	
 	public SettingsField.Type getType() {
 		return type;
 	}
 	
+	public void setLabel(String label) {
+		// TODO refactor down
+		UILabel labelView = getCell().getTextLabel();
+		this.label = label;
+        labelView.setText(label);
+	}
+	public void setSubtitle(String subtitle) {
+		getCell().getDetailTextLabel().setText(subtitle);
+	}
+	
+	private UITextField createTextField(String defaultValue) {
+		UITextField textField = new UITextField();
+		textField.setTextAlignment(NSTextAlignment.Right);
+		if(defaultValue != null && StringUtil.isNotEmpty(String.valueOf(defaultValue))) {
+			textField.setText(String.valueOf(defaultValue));
+		}
+		// TODO Look back into auto-resizing for these
+		textField.setBounds(new CGRect(0, 0, 200, 43));
+
+		textField.setDelegate(this);
+		return textField;
+	}
+	
 	public UIView getField() {
 		if(field == null) {
 			switch(type) {
 				case TEXT: {
-					UITextField textField = new UITextField();
-					textField.setPlaceholder(placeholder);
-					textField.setTextAlignment(NSTextAlignment.Right);
-					if(defaultValue != null && StringUtil.isNotEmpty(String.valueOf(defaultValue))) {
-						textField.setText(String.valueOf(defaultValue));
-					}
-					
-					textField.setDelegate(this);
-					
+					UITextField textField = createTextField((String)defaultValue);
 					field = textField;
+					
 					break;
 				}
 				case PASSWORD: {
-					UITextField textField = new UITextField();
-					textField.setPlaceholder(placeholder);
-					textField.setTextAlignment(NSTextAlignment.Right);
+					UITextField textField = createTextField((String)defaultValue);
 					textField.setSecureTextEntry(true);
-					if(defaultValue != null && StringUtil.isNotEmpty(String.valueOf(defaultValue))) {
-						textField.setText(String.valueOf(defaultValue));
-					}
-					
-					textField.setDelegate(this);
 					field = textField;
 					
 					break;
@@ -126,7 +149,7 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 					switchField.setOn((Boolean)defaultValue);
 					switchField.addOnValueChangedListener(new OnValueChangedListener() {
 						@Override public void onValueChanged(UIControl control) {
-							callback.handle(Boolean.valueOf(((UISwitch)field).isOn()));
+							callback.handle(SettingsField.this, Boolean.valueOf(((UISwitch)field).isOn()));
 						}
 					});
 					field = switchField;
@@ -147,14 +170,25 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 				case PASSWORD:
 				case TEXT:
 				case BOOLEAN:
-					this.cell = AbstractSettingsViewController.cell(getLabel(), getField());
+					this.cell = AbstractSettingsViewController.cell(getLabel(), subtitle, getField());
+					break;
+				case ACTION:
+					this.cell = AbstractSettingsViewController.cell(getLabel(), subtitle, null);
 					break;
 				case PICKER: {
 					UITableViewCell cell = new UITableViewCell();
+					cell.setAccessoryType(UITableViewCellAccessoryType.DisclosureIndicator);
 			        UILabel labelView = cell.getTextLabel();
 			        labelView.setText(getLabel());
+			        
+			        if(StringUtil.isNotEmpty(subtitle)) {
+			        	cell.getDetailTextLabel().setText(subtitle);
+			        }
+			        
+			        
 					UIView contentView = cell.getContentView();
 					this.pickerLabel = new UILabel();
+					this.pickerLabel.setTextColor(UIColor.gray());
 			        contentView.addSubview(pickerLabel);
 			        
 			        int labelIndex = values.indexOf(defaultValue);
@@ -163,27 +197,22 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 			        	pickerLabel.setText(labels.get(labelIndex));
 			        }
 
-			        labelView.setTranslatesAutoresizingMaskIntoConstraints(false);
+			        
 			        pickerLabel.setTranslatesAutoresizingMaskIntoConstraints(false);
 
-			        // labelView.left = contentView.left + 15
-			        contentView.addConstraint(NSLayoutConstraint.create(
-			                labelView, NSLayoutAttribute.Left,
-			                NSLayoutRelation.Equal,
-			                contentView, NSLayoutAttribute.Left,
-			                1, 15));
 			        // view.right = contentView.right - 15
 			        contentView.addConstraint(NSLayoutConstraint.create(
 			        		pickerLabel, NSLayoutAttribute.Right,
 			                NSLayoutRelation.Equal,
 			                contentView, NSLayoutAttribute.Right,
-			                1, -15));
+			                1, 0));
 			        // view.centerY = contentView.centerY
 			        contentView.addConstraint(NSLayoutConstraint.create(
 			        		pickerLabel, NSLayoutAttribute.CenterY,
 			                NSLayoutRelation.Equal,
 			                contentView, NSLayoutAttribute.CenterY,
 			                1, 0));
+			                
 					this.cell = cell;
 					break;
 				}
@@ -193,18 +222,30 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 	}
 	
 	public void trigger(UIViewController controller) {
-		if(this.picker == null) {
-			picker = new MultiValuePicker(labels, values, defaultValue, new MultiValuePicker.MultiValuePickerCallback() {
-				@Override
-				public void handle(Object pickedValue) {
-					int index = values.indexOf(pickedValue);
-					pickerLabel.setText(labels.get(index));
-					
-					callback.handle(pickedValue);
+		switch(type) {
+			case PICKER: {
+				if(this.picker == null) {
+					picker = new MultiValuePicker(labels, values, defaultValue, new MultiValuePicker.MultiValuePickerCallback() {
+						@Override
+						public void handle(Object pickedValue) {
+							int index = values.indexOf(pickedValue);
+							pickerLabel.setText(labels.get(index));
+							
+							callback.handle(SettingsField.this, pickedValue);
+						}
+					});
 				}
-			});
+				controller.getNavigationController().pushViewController(picker, true);
+				break;
+			}
+			case ACTION: {
+				this.actionCallback.handle(SettingsField.this);
+				getCell().setSelected(false);
+				break;
+			}
+			default:
+				break;
 		}
-		controller.getNavigationController().pushViewController(picker, true);
 	}
 	
 	public String getLabel() {
@@ -214,7 +255,7 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 	// Text-field delegate duties
 	@Override
 	public void didEndEditing(UITextField textField) {
-		callback.handle(textField.getText());
+		callback.handle(this, textField.getText());
 	}
 	@Override
 	public boolean shouldReturn(UITextField textField) {

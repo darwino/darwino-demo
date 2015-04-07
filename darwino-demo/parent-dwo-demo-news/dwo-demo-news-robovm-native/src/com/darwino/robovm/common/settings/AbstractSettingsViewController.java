@@ -20,12 +20,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.foundation.NSAttributedString;
 import org.robovm.apple.foundation.NSIndexPath;
 import org.robovm.apple.uikit.NSIndexPathExtensions;
 import org.robovm.apple.uikit.NSLayoutAttribute;
 import org.robovm.apple.uikit.NSLayoutConstraint;
 import org.robovm.apple.uikit.NSLayoutRelation;
+import org.robovm.apple.uikit.UIAlertView;
 import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonItem.OnClickListener;
 import org.robovm.apple.uikit.UIBarButtonSystemItem;
@@ -45,9 +47,11 @@ import org.robovm.apple.uikit.UITableViewStyle;
 import org.robovm.apple.uikit.UITextField;
 import org.robovm.apple.uikit.UIView;
 
+import com.darwino.commons.util.StringUtil;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
 import com.darwino.robovm.common.settings.controls.SettingsField;
+import com.darwino.robovm.common.settings.toast.Toast;
 
 /**
  * This class is based on the same-named class from the "ContractR-ios" project in the RoboVM samples package
@@ -65,57 +69,34 @@ public abstract class AbstractSettingsViewController extends UITableViewControll
 	public void viewDidLoad() {
 		super.viewDidLoad();
 	}
-	
+
 	protected void addCell(UITableViewCell cell) {
 		this.cells.add(cell);
 	}
+
 	protected void addSettingsField(SettingsField field) {
 		this.settingsFields.add(field);
 		addCell(field.getCell());
 	}
+
 	protected void addSettingsFields(SettingsField... fields) {
-		for(SettingsField field : fields) {
+		for (SettingsField field : fields) {
 			addSettingsField(field);
 		}
 	}
 
-	public static UITableViewCell cell(String label, UIView view) {
+	public static UITableViewCell cell(String label, String subtitle, UIView view) {
 		UITableViewCell cell = new UITableViewCell(UITableViewCellStyle.Subtitle, null);
 		UILabel labelView = cell.getTextLabel();
 		labelView.setText(label);
-		if(view != null) {
-			UIView contentView = cell.getContentView();
-			contentView.addSubview(view);
-	
-			labelView.setTranslatesAutoresizingMaskIntoConstraints(false);
-			view.setTranslatesAutoresizingMaskIntoConstraints(false);
-	
-			// labelView.left = contentView.left + 15
-				contentView.addConstraint(NSLayoutConstraint.create(
-						labelView, NSLayoutAttribute.Left,
-						NSLayoutRelation.Equal,
-						contentView, NSLayoutAttribute.Left,
-						1, 15));
-				// view.right = contentView.right - 15
-				contentView.addConstraint(NSLayoutConstraint.create(
-						view, NSLayoutAttribute.Right,
-						NSLayoutRelation.Equal,
-						contentView, NSLayoutAttribute.Right,
-						1, -15));
-				// view.centerY = contentView.centerY
-				contentView.addConstraint(NSLayoutConstraint.create(
-						view, NSLayoutAttribute.CenterY,
-						NSLayoutRelation.Equal,
-						contentView, NSLayoutAttribute.CenterY,
-						1, 0));
-				if (view instanceof UITextField) {
-					// view.left = labelView.right + 15
-					contentView.addConstraint(NSLayoutConstraint.create(
-							view, NSLayoutAttribute.Left,
-							NSLayoutRelation.Equal,
-							labelView, NSLayoutAttribute.Right,
-							1, 15));
-				}
+
+		if (StringUtil.isNotEmpty(subtitle)) {
+			cell.getDetailTextLabel().setText(subtitle);
+		}
+
+		if (view != null) {
+			cell.setUserInteractionEnabled(true);
+			cell.setAccessoryView(view);
 		}
 		return cell;
 	}
@@ -135,19 +116,33 @@ public abstract class AbstractSettingsViewController extends UITableViewControll
 	public long getNumberOfRowsInSection(UITableView tableView, long section) {
 		return settingsFields.size();
 	}
-	
+
 	@Override
 	public void didSelectRow(UITableView tableView, NSIndexPath indexPath) {
 		int row = (int) NSIndexPathExtensions.getRow(indexPath);
-		if(settingsFields.get(row).getType() == SettingsField.Type.PICKER) {
+		switch (settingsFields.get(row).getType()) {
+		case PICKER:
+		case ACTION:
 			settingsFields.get(row).trigger(this);
+			break;
+		default:
+			break;
 		}
 	}
-	
+
 	public DarwinoMobileManifest getMobileManifest() {
 		return DarwinoMobileApplication.get().getManifest().get(DarwinoMobileManifest.class);
 	}
+
 	public boolean isNative() {
 		return DarwinoMobileApplication.get().isNative();
+	}
+
+	protected void alert(String title, String message) {
+		UIAlertView alert = new UIAlertView(title, message, null, "OK");
+		alert.show();
+	}
+	protected void toast(String text) {
+		Toast.makeText(text).show();
 	}
 }

@@ -1,32 +1,21 @@
 package com.darwino.robovm.common.settings;
 
-import java.io.File;
-
-import org.robovm.apple.coregraphics.CGRect;
-import org.robovm.apple.foundation.NSArray;
-import org.robovm.apple.foundation.NSBundle;
-import org.robovm.apple.foundation.NSDictionary;
 import org.robovm.apple.foundation.NSIndexPath;
-import org.robovm.apple.foundation.NSMutableDictionary;
-import org.robovm.apple.foundation.NSObject;
-import org.robovm.apple.foundation.NSString;
-import org.robovm.apple.foundation.NSUserDefaults;
 import org.robovm.apple.uikit.NSIndexPathExtensions;
 import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonItem.OnClickListener;
 import org.robovm.apple.uikit.UIBarButtonSystemItem;
-import org.robovm.apple.uikit.UILabel;
 import org.robovm.apple.uikit.UITableView;
 import org.robovm.apple.uikit.UITableViewCell;
 import org.robovm.apple.uikit.UITableViewCellAccessoryType;
 import org.robovm.apple.uikit.UITableViewCellStyle;
 import org.robovm.apple.uikit.UITableViewController;
-import org.robovm.apple.uikit.UITableViewStyle;
-import org.robovm.apple.uikit.UIView;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.rt.bro.annotation.MachineSizedSInt;
 
 import com.darwino.commons.util.StringUtil;
+import com.darwino.ios.platform.anative.DarwinoIOSNativeActions;
+import com.darwino.mobile.platform.DarwinoActions;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
 
@@ -78,13 +67,10 @@ public class SettingsViewController extends UITableViewController {
 		super.viewDidLoad();
 		
 		instance = this;
-		
-		NSUserDefaults defaults = NSUserDefaults.getStandardUserDefaults();
-		System.out.println("current settings: " + defaults.asDictionary());
 
 		this.configPanes = new ConfigPane[] {
 			new ConfigPane(new AccountViewController(), "Account", "Set the current account"),
-			new ConfigPane(new DataSyncViewController(), "Data Synchronization", "Manage the synchronization options"),
+			new ConfigPane(new SynchronizationViewController(), "Data Synchronization", "Manage the synchronization options"),
 			new ConfigPane(new LocalDBViewController(), "Manage Local DB", "Create/Remove the local database"),
 			new ConfigPane(new AboutViewController(), "About", "About this application")
 		};
@@ -117,6 +103,10 @@ public class SettingsViewController extends UITableViewController {
 	
 	public DarwinoMobileSettings.Editor getSettingsEditor() {
 		return editor;
+	}
+	
+	public DarwinoActions getDarwinoTasks() {
+		return new DarwinoIOSNativeActions();
 	}
 	
 	
