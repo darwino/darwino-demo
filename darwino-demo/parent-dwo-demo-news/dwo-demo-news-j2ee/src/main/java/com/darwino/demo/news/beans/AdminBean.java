@@ -63,7 +63,7 @@ public class AdminBean implements Serializable {
     public void deleteAllDocuments() {
     	try {
         	Session jsonSession = DatabaseSession.get();
-			jsonSession.getDatabase(NewsDatabaseDef.DATABASE_NEWS).deleteAllDocuments(true);
+			jsonSession.getDatabase(NewsDatabaseDef.DATABASE_NEWS).deleteAllDocuments(Store.DELETE_ERASE);
 		} catch (JsonException e) {
 			e.printStackTrace();
 		}

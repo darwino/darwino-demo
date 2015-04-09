@@ -20,8 +20,8 @@ import org.robovm.apple.uikit.UIWindow;
 
 import com.darwino.commons.Platform;
 import com.darwino.commons.platform.PluginIOS;
-import com.darwino.demo.projexec.robovm.MainViewController;
-import com.darwino.demo.projexec.robovm.DiscDbRoboVMHybridApplication;
+import com.darwino.demo.dominodisc.robovm.DiscDbRoboVMHybridApplication;
+import com.darwino.demo.dominodisc.robovm.MainViewController;
 import com.darwino.sqlite.IOSInstall;
 import com.darwino.sqlite.SQLiteImpl;
 
