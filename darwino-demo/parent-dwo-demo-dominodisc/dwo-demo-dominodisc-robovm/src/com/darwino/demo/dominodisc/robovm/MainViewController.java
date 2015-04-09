@@ -9,7 +9,7 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.darwino.demo.projexec.robovm;
+package com.darwino.demo.dominodisc.robovm;
 
 import org.robovm.apple.coregraphics.CGRect;
 import org.robovm.apple.foundation.NSURL;

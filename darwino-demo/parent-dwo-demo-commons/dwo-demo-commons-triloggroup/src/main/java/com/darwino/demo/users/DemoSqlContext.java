@@ -18,6 +18,7 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.darwino.commons.Platform;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.commons.util.Version;
 import com.darwino.commons.util.io.StreamUtil;
@@ -161,8 +162,15 @@ public class DemoSqlContext {
 		return StringUtil.isNotEmpty(p);
 	}
 	public boolean isDBBluemix() {
+		try {
+			String demoDb = System.getProperty("com.darwino.demodb");
+			if(StringUtil.equals(demoDb, "bluemix")) {
+				return true;
+			}
+		} catch(Exception ex) {
+			Platform.log(ex);
+		}
 		return false;
-		//return isLocalLiberty();
 	}	
 	public String getBluemixVarCap() throws IOException {
 		String json = "Bluemix-news.json";
