@@ -8,7 +8,7 @@
   <artifactId>parent-dwo-demo-commons</artifactId>
   <packaging>pom</packaging>
   <modules>
-  	<module>dwo-demo-commons-triloggroup</module>
+  	<module>dwo-demo-commons</module>
   	<module>dwo-demo-commons-mobile</module>
   </modules>
 </project>

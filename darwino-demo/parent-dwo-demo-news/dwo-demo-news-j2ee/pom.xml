@@ -89,7 +89,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
-			<artifactId>dwo-demo-commons-triloggroup</artifactId>
+			<artifactId>dwo-demo-commons</artifactId>
 			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 
