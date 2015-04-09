@@ -12,23 +12,33 @@ public class LocalDBViewController extends AbstractSettingsViewController {
 				SettingsField.action("Erase Local Data", "Erase the local application data", new SettingsField.SettingsActionCallback() {
 					@Override public void handle(SettingsField field) {
 						try {
-						SettingsViewController.getInstance().getDarwinoTasks().eraseLocalData();
+							SettingsViewController.getInstance().getDarwinoTasks().eraseLocalData();
 						} catch(NotImplementedException nie) {
-							// Not yet
+							// TODO Remove when the exception is no longer thrown
 						}
 						toast("Erased local data");
 					}
 				}),
 				SettingsField.action("Erase Social Cache", "Erase the local social data cache", new SettingsField.SettingsActionCallback() {
 					@Override public void handle(SettingsField field) {
-						SettingsViewController.getInstance().getDarwinoTasks().resetSocialCache();
+						try {
+							SettingsViewController.getInstance().getDarwinoTasks().resetSocialCache();
+						} catch(NotImplementedException nie) {
+							// TODO Remove when the exception is no longer thrown
+						}
+						toast("Erased local social data");
 					}
 				}),
 				SettingsField.action("Recreate Local DB", "Database is not encrypted", new SettingsField.SettingsActionCallback() {
 					@Override public void handle(SettingsField field) {
 						// TODO Prompt for encryption key
+						try {
 						SettingsViewController.getInstance().getDarwinoTasks().deleteLocalSqliteFile();
+						} catch(NotImplementedException nie) {
+							// TODO Remove when the exception is no longer thrown
+						}
 						SettingsViewController.getInstance().markResetApplication();
+						toast("Recreated local DB");
 					}
 				})
 		);

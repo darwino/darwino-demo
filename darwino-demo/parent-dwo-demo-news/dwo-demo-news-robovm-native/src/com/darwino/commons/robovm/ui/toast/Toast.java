@@ -1,4 +1,4 @@
-package com.darwino.robovm.common.settings.toast;
+package com.darwino.commons.robovm.ui.toast;
 
 
 import java.util.Timer;
@@ -258,6 +258,8 @@ public class Toast extends NSObject {
 				view.setAlpha(0);
 				UIView.commitAnimations();
 				view.removeFromSuperview();
+				
+				view = null;
 			}
 		}, settings.getDuration());
 //		v.addTarget(this, selector, UIControlEvents.TouchDown);

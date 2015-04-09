@@ -47,11 +47,12 @@ import org.robovm.apple.uikit.UITableViewStyle;
 import org.robovm.apple.uikit.UITextField;
 import org.robovm.apple.uikit.UIView;
 
+import com.darwino.commons.robovm.ui.toast.Toast;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
+import com.darwino.platform.DarwinoManifest;
 import com.darwino.robovm.common.settings.controls.SettingsField;
-import com.darwino.robovm.common.settings.toast.Toast;
 
 /**
  * This class is based on the same-named class from the "ContractR-ios" project in the RoboVM samples package
@@ -125,6 +126,9 @@ public abstract class AbstractSettingsViewController extends UITableViewControll
 		case ACTION:
 			settingsFields.get(row).trigger(this);
 			break;
+		case READ_ONLY:
+			settingsFields.get(row).getCell().setSelected(false);
+			break;
 		default:
 			break;
 		}
@@ -144,5 +148,8 @@ public abstract class AbstractSettingsViewController extends UITableViewControll
 	}
 	protected void toast(String text) {
 		Toast.makeText(text).show();
+	}
+	public DarwinoManifest getManifest() {
+		return DarwinoMobileApplication.get().getManifest();
 	}
 }

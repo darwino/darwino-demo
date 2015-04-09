@@ -17,6 +17,7 @@ import org.robovm.apple.uikit.UILabel;
 import org.robovm.apple.uikit.UISwitch;
 import org.robovm.apple.uikit.UITableViewCell;
 import org.robovm.apple.uikit.UITableViewCellAccessoryType;
+import org.robovm.apple.uikit.UITableViewCellSelectionStyle;
 import org.robovm.apple.uikit.UITextField;
 import org.robovm.apple.uikit.UITextFieldDelegateAdapter;
 import org.robovm.apple.uikit.UIView;
@@ -28,7 +29,7 @@ import com.darwino.robovm.common.settings.AbstractSettingsViewController;
 // TODO This should probably be split into subclasses - or there should be some standard way to do a lot of this
 public class SettingsField extends UITextFieldDelegateAdapter {
 	public enum Type {
-		TEXT, PASSWORD, PICKER, BOOLEAN, ACTION
+		TEXT, PASSWORD, PICKER, BOOLEAN, ACTION, READ_ONLY
 	}
 	public static interface SettingsChangeCallback {
 		void handle(SettingsField field, Object newValue);
@@ -69,6 +70,9 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 	public static SettingsField action(String label, String subtitle, SettingsActionCallback callback) {
 		return new SettingsField(Type.ACTION, label, subtitle, callback);
 	}
+	public static SettingsField readOnly(String label, String subtitle, Object value) {
+		return new SettingsField(Type.READ_ONLY, label, subtitle, value);
+	}
 	
 	private SettingsField(SettingsField.Type type, String label, String subtitle, SettingsActionCallback callback) {
 		this.type = type;
@@ -98,6 +102,16 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 		this.labels = new ArrayList<>(labels);
 		this.values = new ArrayList<>(values);
 		this.callback = callback;
+		this.actionCallback = null;
+	}
+	private SettingsField(SettingsField.Type type, String label, String subtitle, Object value) {
+		this.type = type;
+		this.label = label;
+		this.subtitle = subtitle;
+		this.defaultValue = value;
+		this.labels = null;
+		this.values = null;
+		this.callback = null;
 		this.actionCallback = null;
 	}
 	
@@ -175,6 +189,19 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 				case ACTION:
 					this.cell = AbstractSettingsViewController.cell(getLabel(), subtitle, null);
 					break;
+				case READ_ONLY: {
+					String valueText = defaultValue == null ? "" : String.valueOf(defaultValue);
+					if(StringUtil.isNotEmpty(valueText)) {
+						UILabel label = new UILabel();
+						label.setText(valueText);
+						this.cell = AbstractSettingsViewController.cell(getLabel(), subtitle, label);
+					} else {
+						this.cell = AbstractSettingsViewController.cell(getLabel(), subtitle, null);
+					}
+					this.cell.setSelectionStyle(UITableViewCellSelectionStyle.None);
+					
+					break;
+				}
 				case PICKER: {
 					UITableViewCell cell = new UITableViewCell();
 					cell.setAccessoryType(UITableViewCellAccessoryType.DisclosureIndicator);

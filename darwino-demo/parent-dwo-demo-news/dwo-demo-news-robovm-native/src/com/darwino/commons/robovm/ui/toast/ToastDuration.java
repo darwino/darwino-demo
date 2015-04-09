@@ -1,4 +1,4 @@
-package com.darwino.robovm.common.settings.toast;
+package com.darwino.commons.robovm.ui.toast;
 
 public enum ToastDuration {
 	Long(10000), Short(1000), Normal(3000);

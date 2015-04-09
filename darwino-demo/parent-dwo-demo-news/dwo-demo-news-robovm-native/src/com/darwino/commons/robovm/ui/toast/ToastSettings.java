@@ -1,4 +1,4 @@
-package com.darwino.robovm.common.settings.toast;
+package com.darwino.commons.robovm.ui.toast;
 
 import java.util.Map;
 
