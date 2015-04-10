@@ -5,10 +5,8 @@ import java.util.Arrays;
 import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.foundation.NSUserDefaults;
 
-import com.darwino.commons.util.NotImplementedException;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
-import com.darwino.mobile.platform.DarwinoMobileManifest.Connection;
 import com.darwino.robovm.common.settings.controls.SettingsField;
 
 public class SynchronizationViewController extends AbstractSettingsViewController {
@@ -48,13 +46,7 @@ public class SynchronizationViewController extends AbstractSettingsViewControlle
 		addSettingsFields(
 				SettingsField.action("Synchronize Now", "", new SettingsField.SettingsActionCallback() {
 					@Override public void handle(SettingsField field) {
-						try {
-							SettingsViewController.getInstance().getDarwinoTasks().synchronizeData();
-						} catch(NotImplementedException nie) {
-							// TODO Remove when the exception is no longer thrown
-						}
-
-						toast("Synchronized data");
+						SettingsViewController.getInstance().getDarwinoTasks().synchronizeData();
 					}
 				}),
 				SettingsField.picker("Synchronization Frequency", "", settings.getSyncPeriod(), Arrays.asList(FREQUENCY_LABELS), Arrays.asList(FREQUENCY_VALUES), new SettingsField.SettingsChangeCallback() {

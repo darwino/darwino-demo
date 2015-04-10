@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.robovm.apple.coregraphics.CGRect;
+import org.robovm.apple.dispatch.DispatchQueue;
 import org.robovm.apple.foundation.NSAttributedString;
 import org.robovm.apple.foundation.NSIndexPath;
 import org.robovm.apple.uikit.NSIndexPathExtensions;
@@ -47,7 +48,7 @@ import org.robovm.apple.uikit.UITableViewStyle;
 import org.robovm.apple.uikit.UITextField;
 import org.robovm.apple.uikit.UIView;
 
-import com.darwino.commons.robovm.ui.toast.Toast;
+import com.darwino.commons.ios.ui.toast.Toast;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
@@ -142,13 +143,20 @@ public abstract class AbstractSettingsViewController extends UITableViewControll
 		return DarwinoMobileApplication.get().isNative();
 	}
 
-	protected void alert(String title, String message) {
-		UIAlertView alert = new UIAlertView(title, message, null, "OK");
-		alert.show();
+	protected void alert(final String title, final String message) {
+		DispatchQueue.getMainQueue().async(new Runnable() {
+			@Override
+			public void run() {
+				UIAlertView alert = new UIAlertView(title, message, null, "OK");
+				alert.show();
+			}
+		});
 	}
-	protected void toast(String text) {
+
+	protected void toast(final String text) {
 		Toast.makeText(text).show();
 	}
+
 	public DarwinoManifest getManifest() {
 		return DarwinoMobileApplication.get().getManifest();
 	}

@@ -1,8 +1,6 @@
 package com.darwino.robovm.common.settings;
 
-import org.robovm.apple.uikit.UITableViewController;
-
-import com.darwino.commons.robovm.ui.Dialogs;
+import com.darwino.commons.ios.ui.Dialogs;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
 import com.darwino.platform.DarwinoManifest;
 import com.darwino.robovm.common.settings.controls.SettingsField;
