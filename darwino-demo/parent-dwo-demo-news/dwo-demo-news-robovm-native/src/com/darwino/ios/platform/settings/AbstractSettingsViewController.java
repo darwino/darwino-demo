@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.darwino.robovm.common.settings;
+package com.darwino.ios.platform.settings;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -50,10 +50,10 @@ import org.robovm.apple.uikit.UIView;
 
 import com.darwino.commons.ios.ui.toast.Toast;
 import com.darwino.commons.util.StringUtil;
+import com.darwino.ios.platform.settings.controls.SettingsField;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
 import com.darwino.platform.DarwinoManifest;
-import com.darwino.robovm.common.settings.controls.SettingsField;
 
 /**
  * This class is based on the same-named class from the "ContractR-ios" project in the RoboVM samples package

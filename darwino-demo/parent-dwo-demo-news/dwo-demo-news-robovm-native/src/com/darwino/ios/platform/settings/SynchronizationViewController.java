@@ -1,13 +1,13 @@
-package com.darwino.robovm.common.settings;
+package com.darwino.ios.platform.settings;
 
 import java.util.Arrays;
 
 import org.robovm.apple.foundation.NSString;
 import org.robovm.apple.foundation.NSUserDefaults;
 
+import com.darwino.ios.platform.settings.controls.SettingsField;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
-import com.darwino.robovm.common.settings.controls.SettingsField;
 
 public class SynchronizationViewController extends AbstractSettingsViewController {
 	private static final String[] FREQUENCY_LABELS = {

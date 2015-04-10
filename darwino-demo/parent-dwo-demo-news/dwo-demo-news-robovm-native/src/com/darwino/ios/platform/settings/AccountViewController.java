@@ -1,4 +1,4 @@
-package com.darwino.robovm.common.settings;
+package com.darwino.ios.platform.settings;
 
 import java.util.Arrays;
 
@@ -17,10 +17,10 @@ import com.darwino.commons.tasks.TaskExecutor;
 import com.darwino.commons.tasks.TaskExecutorContext;
 import com.darwino.commons.tasks.TaskExecutorService;
 import com.darwino.commons.util.StringUtil;
+import com.darwino.ios.platform.settings.controls.SettingsField;
 import com.darwino.mobile.platform.DarwinoMobileManifest.Connection;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
-import com.darwino.robovm.common.settings.controls.SettingsField;
 
 
 public class AccountViewController extends AbstractSettingsViewController {

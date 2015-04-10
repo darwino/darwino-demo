@@ -1,6 +1,6 @@
-package com.darwino.robovm.common.settings;
+package com.darwino.ios.platform.settings;
 
-import com.darwino.robovm.common.settings.controls.SettingsField;
+import com.darwino.ios.platform.settings.controls.SettingsField;
 
 public class LocalDBViewController extends AbstractSettingsViewController {
 	@Override

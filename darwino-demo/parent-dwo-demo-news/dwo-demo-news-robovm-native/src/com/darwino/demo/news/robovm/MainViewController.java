@@ -35,11 +35,11 @@ import org.robovm.rt.bro.annotation.MachineSizedSInt;
 
 import com.darwino.application.jsonstore.NewsManifest;
 import com.darwino.commons.Platform;
+import com.darwino.ios.platform.settings.SettingsViewController;
 import com.darwino.jsonstore.replication.ConsoleReplicationProgress;
 import com.darwino.jsonstore.replication.ReplicationGroup;
 import com.darwino.jsonstore.replication.ReplicationOptions;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
-import com.darwino.robovm.common.settings.SettingsViewController;
 
 /**
  * The application's main view controller (front page)

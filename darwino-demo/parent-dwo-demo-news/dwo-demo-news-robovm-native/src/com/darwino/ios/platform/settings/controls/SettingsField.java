@@ -1,4 +1,4 @@
-package com.darwino.robovm.common.settings.controls;
+package com.darwino.ios.platform.settings.controls;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +24,7 @@ import org.robovm.apple.uikit.UIView;
 import org.robovm.apple.uikit.UIViewController;
 
 import com.darwino.commons.util.StringUtil;
-import com.darwino.robovm.common.settings.AbstractSettingsViewController;
+import com.darwino.ios.platform.settings.AbstractSettingsViewController;
 
 // TODO This should probably be split into subclasses - or there should be some standard way to do a lot of this
 public class SettingsField extends UITextFieldDelegateAdapter {

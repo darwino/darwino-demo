@@ -1,4 +1,4 @@
-package com.darwino.robovm.common.settings;
+package com.darwino.ios.platform.settings;
 
 import org.robovm.apple.foundation.NSIndexPath;
 import org.robovm.apple.uikit.NSIndexPathExtensions;

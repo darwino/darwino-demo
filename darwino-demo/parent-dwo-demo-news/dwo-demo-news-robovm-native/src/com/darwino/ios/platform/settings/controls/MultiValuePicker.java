@@ -1,4 +1,4 @@
-package com.darwino.robovm.common.settings.controls;
+package com.darwino.ios.platform.settings.controls;
 
 import java.util.ArrayList;
 import java.util.Collection;

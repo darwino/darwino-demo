@@ -1,9 +1,9 @@
-package com.darwino.robovm.common.settings;
+package com.darwino.ios.platform.settings;
 
 import com.darwino.commons.ios.ui.Dialogs;
+import com.darwino.ios.platform.settings.controls.SettingsField;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
 import com.darwino.platform.DarwinoManifest;
-import com.darwino.robovm.common.settings.controls.SettingsField;
 
 
 public class AboutViewController extends AbstractSettingsViewController {
