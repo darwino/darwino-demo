@@ -53,17 +53,18 @@ import com.darwino.commons.util.StringUtil;
 import com.darwino.ios.platform.settings.controls.SettingsField;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
+import com.darwino.mobile.platform.settings.SettingsPane;
 import com.darwino.platform.DarwinoManifest;
 
 /**
  * This class is based on the same-named class from the "ContractR-ios" project in the RoboVM samples package
  */
-public abstract class AbstractSettingsViewController extends UITableViewController {
+public abstract class AbstractIOSSettingsPane extends UITableViewController implements SettingsPane {
 
 	private List<UITableViewCell> cells = new ArrayList<>();
 	private List<SettingsField> settingsFields = new ArrayList<>();
 
-	public AbstractSettingsViewController() {
+	public AbstractIOSSettingsPane() {
 		super(UITableViewStyle.Grouped);
 	}
 

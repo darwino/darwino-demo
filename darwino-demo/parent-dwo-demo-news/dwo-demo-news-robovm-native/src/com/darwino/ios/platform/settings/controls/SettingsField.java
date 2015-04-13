@@ -24,7 +24,7 @@ import org.robovm.apple.uikit.UIView;
 import org.robovm.apple.uikit.UIViewController;
 
 import com.darwino.commons.util.StringUtil;
-import com.darwino.ios.platform.settings.AbstractSettingsViewController;
+import com.darwino.ios.platform.settings.AbstractIOSSettingsPane;
 
 // TODO This should probably be split into subclasses - or there should be some standard way to do a lot of this
 public class SettingsField extends UITextFieldDelegateAdapter {
@@ -184,19 +184,19 @@ public class SettingsField extends UITextFieldDelegateAdapter {
 				case PASSWORD:
 				case TEXT:
 				case BOOLEAN:
-					this.cell = AbstractSettingsViewController.cell(getLabel(), subtitle, getField());
+					this.cell = AbstractIOSSettingsPane.cell(getLabel(), subtitle, getField());
 					break;
 				case ACTION:
-					this.cell = AbstractSettingsViewController.cell(getLabel(), subtitle, null);
+					this.cell = AbstractIOSSettingsPane.cell(getLabel(), subtitle, null);
 					break;
 				case READ_ONLY: {
 					String valueText = defaultValue == null ? "" : String.valueOf(defaultValue);
 					if(StringUtil.isNotEmpty(valueText)) {
 						UILabel label = new UILabel();
 						label.setText(valueText);
-						this.cell = AbstractSettingsViewController.cell(getLabel(), subtitle, label);
+						this.cell = AbstractIOSSettingsPane.cell(getLabel(), subtitle, label);
 					} else {
-						this.cell = AbstractSettingsViewController.cell(getLabel(), subtitle, null);
+						this.cell = AbstractIOSSettingsPane.cell(getLabel(), subtitle, null);
 					}
 					this.cell.setSelectionStyle(UITableViewCellSelectionStyle.None);
 					

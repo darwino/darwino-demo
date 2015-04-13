@@ -23,7 +23,7 @@ import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
 
 
-public class AccountViewController extends AbstractSettingsViewController {
+public class IOSAccountSettingsPane extends AbstractIOSSettingsPane {
 
 	private static final String[] EXEC_MODE_LABELS_LOCAL = {
 		"Remote Data",
@@ -49,7 +49,7 @@ public class AccountViewController extends AbstractSettingsViewController {
 		super.viewDidLoad();
 		
 		DarwinoMobileSettings settings = DarwinoMobileApplication.get().getSettings();
-		final DarwinoMobileSettings.Editor editor = SettingsViewController.getInstance().getSettingsEditor();
+		final DarwinoMobileSettings.Editor editor = IOSSettingsRoot.getInstance().getSettingsEditor();
 		final NSUserDefaults userDefaults = NSUserDefaults.getStandardUserDefaults();
 		
 		final Connection c = editor.getConnection();
@@ -63,7 +63,7 @@ public class AccountViewController extends AbstractSettingsViewController {
 							int intValue = (Integer)newValue;
 							editor.setConnectionMode(intValue);
 							userDefaults.put("acc_mode", intValue);
-							SettingsViewController.getInstance().markResetApplication();
+							IOSSettingsRoot.getInstance().markResetApplication();
 						}
 					})
 			);
@@ -74,7 +74,7 @@ public class AccountViewController extends AbstractSettingsViewController {
 							int intValue = (Integer)newValue;
 							editor.setConnectionMode(intValue);
 							userDefaults.put("acc_mode", intValue);
-							SettingsViewController.getInstance().markResetApplication();
+							IOSSettingsRoot.getInstance().markResetApplication();
 						}
 					})
 			);
@@ -86,7 +86,7 @@ public class AccountViewController extends AbstractSettingsViewController {
 						String stringValue = (String)newValue;
 						c.setUrl(stringValue);
 						userDefaults.put("acc_srv", new NSString(stringValue));
-						SettingsViewController.getInstance().markResetApplication();
+						IOSSettingsRoot.getInstance().markResetApplication();
 					}
 				}),
 				SettingsField.text("User Name", "", settings.getConnection().getUserId(), new SettingsField.SettingsChangeCallback() {
@@ -94,7 +94,7 @@ public class AccountViewController extends AbstractSettingsViewController {
 						String stringValue = (String)newValue;
 						c.setUserId(stringValue);
 						userDefaults.put("acc_usr", new NSString(stringValue));
-						SettingsViewController.getInstance().markResetApplication();
+						IOSSettingsRoot.getInstance().markResetApplication();
 					}
 				}),
 				SettingsField.password("Password", "", settings.getConnection().getUserPassword(), new SettingsField.SettingsChangeCallback() {
@@ -102,7 +102,7 @@ public class AccountViewController extends AbstractSettingsViewController {
 						String stringValue = (String)newValue;
 						c.setUserPassword(stringValue);
 						userDefaults.put("acc_pwd", new NSString(stringValue));
-						SettingsViewController.getInstance().markResetApplication();
+						IOSSettingsRoot.getInstance().markResetApplication();
 					}
 				}),SettingsField.action("Validate Connection", "", new SettingsField.SettingsActionCallback() {
 					@Override public void handle(final SettingsField field) {
@@ -111,7 +111,7 @@ public class AccountViewController extends AbstractSettingsViewController {
 						// TODO implement these properly
 //						getDarwinoActivity().markResetSocialCache();
 //						getDarwinoActivity().markResetApplication();
-						SettingsViewController.getInstance().markResetApplication();
+						IOSSettingsRoot.getInstance().markResetApplication();
 						Task<Void> task = new Task<Void>() {
 							@Override
 							public Void execute(TaskExecutorContext<Void> context) throws TaskException {

@@ -9,7 +9,7 @@ import com.darwino.ios.platform.settings.controls.SettingsField;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
 
-public class SynchronizationViewController extends AbstractSettingsViewController {
+public class IOSSynchronizationSettingsPane extends AbstractIOSSettingsPane {
 	private static final String[] FREQUENCY_LABELS = {
 		"Not Enabled",
 		"Immediate",
@@ -40,13 +40,13 @@ public class SynchronizationViewController extends AbstractSettingsViewControlle
 		super.viewDidLoad();
 		
 		DarwinoMobileSettings settings = DarwinoMobileApplication.get().getSettings();
-		final DarwinoMobileSettings.Editor editor = SettingsViewController.getInstance().getSettingsEditor();
+		final DarwinoMobileSettings.Editor editor = IOSSettingsRoot.getInstance().getSettingsEditor();
 		final NSUserDefaults userDefaults = NSUserDefaults.getStandardUserDefaults();
 		
 		addSettingsFields(
 				SettingsField.action("Synchronize Now", "", new SettingsField.SettingsActionCallback() {
 					@Override public void handle(SettingsField field) {
-						SettingsViewController.getInstance().getDarwinoTasks().synchronizeData();
+						IOSSettingsRoot.getInstance().getDarwinoTasks().synchronizeData();
 					}
 				}),
 				SettingsField.picker("Synchronization Frequency", "", settings.getSyncPeriod(), Arrays.asList(FREQUENCY_LABELS), Arrays.asList(FREQUENCY_VALUES), new SettingsField.SettingsChangeCallback() {
@@ -54,7 +54,7 @@ public class SynchronizationViewController extends AbstractSettingsViewControlle
 						String stringValue = (String)newValue;
 						editor.setSyncPeriod(stringValue);
 						userDefaults.put("sync_frequency", new NSString(stringValue));
-						SettingsViewController.getInstance().markResetApplication();
+						IOSSettingsRoot.getInstance().markResetApplication();
 					}
 				}),
 				SettingsField.bool("Push Changes Immediately", "Pushes the local changes to the server as soon as possible", settings.isSyncPushImmediately(), new SettingsField.SettingsChangeCallback() {
@@ -62,7 +62,7 @@ public class SynchronizationViewController extends AbstractSettingsViewControlle
 						boolean boolValue = (Boolean)newValue;
 						editor.setSyncPushImmediately(boolValue);
 						userDefaults.put("sync_pushim", boolValue);
-						SettingsViewController.getInstance().markResetApplication();
+						IOSSettingsRoot.getInstance().markResetApplication();
 					}
 				}),
 				SettingsField.bool("Notify Successful Sync", "Notify the user after the synchronization was successful", settings.isSyncNotify(), new SettingsField.SettingsChangeCallback() {
@@ -70,7 +70,7 @@ public class SynchronizationViewController extends AbstractSettingsViewControlle
 						boolean boolValue = (Boolean)newValue;
 						editor.setSyncPushImmediately(boolValue);
 						userDefaults.put("sync_notify", boolValue);
-						SettingsViewController.getInstance().markResetApplication();
+						IOSSettingsRoot.getInstance().markResetApplication();
 					}
 				})
 		);

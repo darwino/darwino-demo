@@ -28,7 +28,7 @@ import com.darwino.mobile.platform.DarwinoMobileManifest;
 
 
 /**
- * Default Darwino settings for a Triloggroup environment.
+ * Default Darwino settings
  * 
  * @author Philippe Riand
  */

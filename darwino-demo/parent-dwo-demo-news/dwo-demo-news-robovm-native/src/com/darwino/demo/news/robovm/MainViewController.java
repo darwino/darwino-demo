@@ -35,7 +35,7 @@ import org.robovm.rt.bro.annotation.MachineSizedSInt;
 
 import com.darwino.application.jsonstore.NewsManifest;
 import com.darwino.commons.Platform;
-import com.darwino.ios.platform.settings.SettingsViewController;
+import com.darwino.ios.platform.settings.IOSSettingsRoot;
 import com.darwino.jsonstore.replication.ConsoleReplicationProgress;
 import com.darwino.jsonstore.replication.ReplicationGroup;
 import com.darwino.jsonstore.replication.ReplicationOptions;
@@ -161,7 +161,7 @@ public class MainViewController extends UITableViewController {
 		});
 
 
-		final SettingsViewController settingsViewController = new SettingsViewController();
+		final IOSSettingsRoot settingsViewController = new IOSSettingsRoot();
 		UIBarButtonItem settingsItem = new UIBarButtonItem("Settings", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
 
 			@Override

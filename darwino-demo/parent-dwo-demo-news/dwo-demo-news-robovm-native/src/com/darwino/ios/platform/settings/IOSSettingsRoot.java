@@ -18,9 +18,10 @@ import com.darwino.ios.platform.anative.DarwinoIOSNativeActions;
 import com.darwino.mobile.platform.DarwinoActions;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
+import com.darwino.mobile.platform.settings.SettingsRoot;
 
 
-public class SettingsViewController extends UITableViewController {
+public class IOSSettingsRoot extends UITableViewController implements SettingsRoot {
 	
 	private class MyTableViewCell extends UITableViewCell {
 		@Override
@@ -31,8 +32,8 @@ public class SettingsViewController extends UITableViewController {
 
 	private final static String MY_CELL_IDENTIFIER = "MyTableViewCell2";
 	
-	private static SettingsViewController instance;
-	public static SettingsViewController getInstance() {
+	private static IOSSettingsRoot instance;
+	public static IOSSettingsRoot getInstance() {
 		// TODO wise?
 		return instance;
 	}
@@ -69,17 +70,17 @@ public class SettingsViewController extends UITableViewController {
 		instance = this;
 
 		this.configPanes = new ConfigPane[] {
-			new ConfigPane(new AccountViewController(), "Account", "Set the current account"),
-			new ConfigPane(new SynchronizationViewController(), "Data Synchronization", "Manage the synchronization options"),
-			new ConfigPane(new LocalDBViewController(), "Manage Local DB", "Create/Remove the local database"),
-			new ConfigPane(new AboutViewController(), "About", "About this application")
+			new ConfigPane(new IOSAccountSettingsPane(), "Account", "Set the current account"),
+			new ConfigPane(new IOSSynchronizationSettingsPane(), "Data Synchronization", "Manage the synchronization options"),
+			new ConfigPane(new IOSLocalDBSettingsPane(), "Manage Local DB", "Create/Remove the local database"),
+			new ConfigPane(new IOSAboutSettingsPane(), "About", "About this application")
 		};
 		
 		getNavigationItem().setRightBarButtonItem(
 	        new UIBarButtonItem(UIBarButtonSystemItem.Done, new OnClickListener() {
 	            @Override
 	            public void onClick(UIBarButtonItem barButtonItem) {
-	                onSave();
+	                save();
 	            }
 	        }));
 		
@@ -91,7 +92,8 @@ public class SettingsViewController extends UITableViewController {
 		this.dirty = true;
 	}
 	
-	public void onSave() {
+	@Override
+	public void save() {
 		if(dirty) {
 			editor.commit();
 			

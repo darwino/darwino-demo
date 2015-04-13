@@ -6,7 +6,7 @@ import com.darwino.mobile.platform.DarwinoMobileSettings;
 import com.darwino.platform.DarwinoManifest;
 
 
-public class AboutViewController extends AbstractSettingsViewController {
+public class IOSAboutSettingsPane extends AbstractIOSSettingsPane {
 	@Override
 	public void viewDidLoad() {
 		super.viewDidLoad();
@@ -24,7 +24,7 @@ public class AboutViewController extends AbstractSettingsViewController {
 		 */
 		
 		final DarwinoManifest manifest = getManifest();
-		final DarwinoMobileSettings.Editor editor = SettingsViewController.getInstance().getSettingsEditor();
+		final DarwinoMobileSettings.Editor editor = IOSSettingsRoot.getInstance().getSettingsEditor();
 		
 		addSettingsFields(
 			SettingsField.readOnly(manifest.getLabel(), manifest.getDescription(), null),
@@ -35,7 +35,7 @@ public class AboutViewController extends AbstractSettingsViewController {
 						public void handleResponse(int responseValue) {
 							if(responseValue == Dialogs.DLG_YES) {
 								editor.initDefault(manifest);
-								SettingsViewController.getInstance().markResetApplication();
+								IOSSettingsRoot.getInstance().markResetApplication();
 							}
 						}
 					};
