@@ -15,27 +15,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.robovm.apple.coregraphics.CGRect;
-import org.robovm.apple.foundation.Foundation;
 import org.robovm.apple.foundation.NSIndexPath;
 import org.robovm.apple.foundation.NSMutableArray;
-import org.robovm.apple.foundation.NSURL;
 import org.robovm.apple.uikit.NSIndexPathExtensions;
-import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIBarButtonItem;
 import org.robovm.apple.uikit.UIBarButtonItemStyle;
 import org.robovm.apple.uikit.UIColor;
-import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UITableView;
 import org.robovm.apple.uikit.UITableViewCell;
 import org.robovm.apple.uikit.UITableViewCellAccessoryType;
 import org.robovm.apple.uikit.UITableViewCellStyle;
 import org.robovm.apple.uikit.UITableViewController;
-import org.robovm.apple.uikit.UIWindow;
 import org.robovm.rt.bro.annotation.MachineSizedSInt;
 
 import com.darwino.application.jsonstore.NewsManifest;
 import com.darwino.commons.Platform;
-import com.darwino.ios.platform.settings.IOSSettingsRoot;
 import com.darwino.jsonstore.replication.ConsoleReplicationProgress;
 import com.darwino.jsonstore.replication.ReplicationGroup;
 import com.darwino.jsonstore.replication.ReplicationOptions;
@@ -159,14 +153,13 @@ public class MainViewController extends UITableViewController {
 				}
 			}
 		});
-
-
-		final IOSSettingsRoot settingsViewController = new IOSSettingsRoot();
+		
 		UIBarButtonItem settingsItem = new UIBarButtonItem("Settings", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
 
 			@Override
 			public void onClick(UIBarButtonItem barButtonItem) {
-				getNavigationController().pushViewController(settingsViewController, true);
+				DarwinoMobileApplication app = DarwinoMobileApplication.get();
+				app.createDarwinoTasks().openSettings();
 			}
 		});
 
