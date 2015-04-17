@@ -26,6 +26,7 @@ import org.robovm.apple.uikit.UITableViewCell;
 import org.robovm.apple.uikit.UITableViewCellAccessoryType;
 import org.robovm.apple.uikit.UITableViewCellStyle;
 import org.robovm.apple.uikit.UITableViewController;
+import org.robovm.apple.uikit.UIViewContentMode;
 import org.robovm.rt.bro.annotation.MachineSizedSInt;
 
 import com.darwino.application.jsonstore.NewsManifest;
@@ -67,6 +68,7 @@ public class MainViewController extends UITableViewController {
 	private NewsViewController newsViewController;
 
 	public MainViewController() {
+		
 	}
 
 	/**
@@ -76,10 +78,15 @@ public class MainViewController extends UITableViewController {
 	@Override
 	public void viewDidLoad() {
 		super.viewDidLoad();
+		
+		
+		
 
 		// <rect key="frame" x="0.0" y="64" width="320" height="416"/>
 		CGRect tableViewBounds = new CGRect(0.0, 64.0, 320, 416);
-		setTableView(new UITableView(tableViewBounds));
+		UITableView tableView = new UITableView(tableViewBounds);
+		tableView.setContentMode(UIViewContentMode.ScaleToFill);
+		setTableView(tableView);
 
 		// Add items to list where they will be retrieved when to display
 		this.newsViewController = new NewsViewController();

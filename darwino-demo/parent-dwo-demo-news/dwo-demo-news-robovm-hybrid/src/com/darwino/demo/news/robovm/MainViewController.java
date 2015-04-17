@@ -21,6 +21,7 @@ import org.robovm.apple.uikit.UIViewAutoresizing;
 import org.robovm.apple.uikit.UIViewController;
 import org.robovm.apple.uikit.UIWebView;
 import org.robovm.apple.uikit.UIWebViewDelegateAdapter;
+import org.robovm.apple.uikit.UIWebViewNavigationType;
 import org.robovm.objc.annotation.Method;
 
 import com.darwino.commons.util.PathUtil;
