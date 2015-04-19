@@ -12,9 +12,13 @@
 package com.darwino.demo.news.robovm;
 
 import org.robovm.apple.coregraphics.CGRect;
+import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.foundation.NSURL;
+import org.robovm.apple.foundation.NSURLAuthenticationChallenge;
 import org.robovm.apple.foundation.NSURLCache;
+import org.robovm.apple.foundation.NSURLCredential;
 import org.robovm.apple.foundation.NSURLRequest;
+import org.robovm.apple.foundation.NSURLSessionAuthChallengeDisposition;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UIViewAutoresizing;
@@ -22,7 +26,18 @@ import org.robovm.apple.uikit.UIViewController;
 import org.robovm.apple.uikit.UIWebView;
 import org.robovm.apple.uikit.UIWebViewDelegateAdapter;
 import org.robovm.apple.uikit.UIWebViewNavigationType;
+import org.robovm.apple.webkit.WKNavigation;
+import org.robovm.apple.webkit.WKNavigationAction;
+import org.robovm.apple.webkit.WKNavigationActionPolicy;
+import org.robovm.apple.webkit.WKNavigationDelegate;
+import org.robovm.apple.webkit.WKNavigationDelegateAdapter;
+import org.robovm.apple.webkit.WKNavigationResponse;
+import org.robovm.apple.webkit.WKNavigationResponsePolicy;
+import org.robovm.apple.webkit.WKUIDelegateAdapter;
+import org.robovm.apple.webkit.WKWebView;
 import org.robovm.objc.annotation.Method;
+import org.robovm.objc.block.VoidBlock1;
+import org.robovm.objc.block.VoidBlock2;
 
 import com.darwino.commons.util.PathUtil;
 import com.darwino.ios.platform.hybrid.DarwinoIOSHybridActions;
@@ -40,24 +55,42 @@ public class MainViewController extends UIViewController {
     public static final float RIGHT_MARGIN = 20.0f;
 
     private UIWebView myWebView;
+    private WKWebView myWKWebView;
 
     @Override
 	@Method
     public void viewDidLoad() {
         super.viewDidLoad();
         this.setTitle("");
+        
+        getNavigationController().setNavigationBarHidden(true);
+        
+        String version = System.getProperty("os.version");
+        int majorVersion = Integer.parseInt(version.substring(0, version.indexOf('.')));
 
-        // create the UIWebView
         CGRect webFrame = this.getView().getFrame();
-        CGRect webViewBounds = new CGRect(0.0, 0.0,webFrame.getWidth(), webFrame.getHeight()-40);
+//        CGRect webViewBounds = new CGRect(0.0, 0.0,webFrame.getWidth(), webFrame.getHeight()-40);
 
-        myWebView = new UIWebView(webViewBounds);
-        myWebView.setBackgroundColor(UIColor.white());
-        myWebView.setScalesPageToFit(true);
-        myWebView.setAutoresizingMask(UIViewAutoresizing.FlexibleWidth);
-        myWebView.setDelegate(new WebViewDelegate());
         NSURLCache.getSharedURLCache().removeAllCachedResponses();
-        getView().addSubview(myWebView);
+        if(majorVersion >= 8) {
+        	myWKWebView = new WKWebView(webFrame);
+        	myWKWebView.setBackgroundColor(UIColor.white());
+//        	myWKWebView.set
+        	// TODO scales page to fit?
+        	myWKWebView.setAutoresizingMask(UIViewAutoresizing.FlexibleWidth);
+        	// TODO delegate?
+        	
+        	getView().addSubview(myWKWebView);
+        } else {
+	        // create the UIWebView
+	        myWebView = new UIWebView(webFrame);
+	        myWebView.setBackgroundColor(UIColor.white());
+	        myWebView.setScalesPageToFit(true);
+	        myWebView.setAutoresizingMask(UIViewAutoresizing.FlexibleWidth);
+	        myWebView.setDelegate(new WebViewDelegate());
+	        
+	        getView().addSubview(myWebView);
+        }
 
         onCreate();
     }
@@ -79,7 +112,12 @@ public class MainViewController extends UIViewController {
 		String url = PathUtil.concat(baseUrl, "news/index.html", '/');
 		//url = "http://127.0.0.1:7979/news/index.html";
 		System.out.println("Url:"+url);
-        myWebView.loadRequest(new NSURLRequest(new NSURL(url)));
+		if(myWebView != null) {
+			myWebView.loadRequest(new NSURLRequest(new NSURL(url)));
+		} else {
+			myWKWebView.loadRequest(new NSURLRequest(new NSURL(url)));
+		}
+        
 		DarwinoMobileApplication.get().setDirty(false);
 		
 //		if(mode==DarwinoExecutionContext.MODE_WEB) {
@@ -109,15 +147,24 @@ public class MainViewController extends UIViewController {
 	public void viewWillAppear(boolean animated) {
         super.viewWillAppear(animated);
 
-        myWebView.setDelegate(new WebViewDelegate()); // setup the delegate as the web view is shown
+        if(myWebView != null) {
+        	myWebView.setDelegate(new WebViewDelegate()); // setup the delegate as the web view is shown
+        } else {
+        	// TODO WKWebView?
+        }
     }
 
     @Override
 	public void viewWillDisappear(boolean animated) {
         super.viewWillDisappear(animated);
 
-        myWebView.stopLoading(); // in case the web view is still loading its content
-        myWebView.setDelegate(null); // disconnect the delegate as the webview is hidden
+        if(myWebView != null) {
+	        myWebView.stopLoading(); // in case the web view is still loading its content
+	        myWebView.setDelegate(null); // disconnect the delegate as the webview is hidden
+        } else {
+        	myWKWebView.stopLoading();
+        	// TODO delegate?
+        }
         UIApplication.getSharedApplication().setNetworkActivityIndicatorVisible(false);
     }
 }
