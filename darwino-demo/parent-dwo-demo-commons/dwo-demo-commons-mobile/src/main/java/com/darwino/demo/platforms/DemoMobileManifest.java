@@ -11,30 +11,30 @@
 
 package com.darwino.demo.platforms;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import com.darwino.commons.json.JsonException;
+import com.darwino.commons.json.JsonJavaFactory;
+import com.darwino.commons.json.JsonParser;
 import com.darwino.commons.util.PathUtil;
+import com.darwino.commons.util.StringUtil;
+import com.darwino.demo.config.DemoConfiguration;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
 
 
 /**
- * Default Darwino settings for a Triloggroup environment.
+ * Default Darwino settings
  * 
  * @author Philippe Riand
  */
 public class DemoMobileManifest extends DarwinoMobileManifest {
-	
-	public static final boolean HEROKU = false;			// To use the Heroku deployment
-	public static final boolean BLUEMIX = false;		// To use the IBM Bluemix deployment
-	
 	public static final String SERVER_URL	= "http://192.168.75.79:8080/";
 	public static final String BRIDGE_URL	= "http://192.168.1.20:8087/";
-	public static final String HEROKU_URL	= "http://priand-demo-news.herokuapp.com";
-	public static final String BLUEMIX_URL	= "http://darwino-demo-news.bluemix.ibm.com";
-
-	public static final String USER_ID	= "amass";
-	public static final String USER_PWD	= "floflo";
 
 	private String pathInfo;
 	
@@ -42,59 +42,54 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 		this.pathInfo = pathInfo;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Connection[] getPredefinedConnections() {
 		ArrayList<Connection> conn = new ArrayList<DarwinoMobileManifest.Connection>();
 		
-		// 1- Add the local connection
-		Connection local = createLocalConnection();
-		if(local!=null) {
-			conn.add(local);
-		}
-		
-		// 2- Add bluemix connection
-		Connection bluemix = createBluemixConnection();
-		if(bluemix!=null) {
-			conn.add(bluemix);
+		try {
+			InputStream is = DemoConfiguration.loadResource("/predefined_connections.json", "/predefined_connections_default.json");
+			Map<String, Object> connectionsObj = (Map<String, Object>)JsonParser.fromJson(JsonJavaFactory.instance, is);
+			is.close();
+			for(Map<String, Object> entry : (List<Map<String, Object>>)connectionsObj.get("connections")) {
+				boolean enabled = (Boolean)entry.get("enabled");
+				if(enabled) {
+					Connection connection = new Connection();
+					
+					boolean local = (Boolean)entry.get("local");
+					String baseName = (String)entry.get("name");
+					String baseUrl = (String)entry.get("url");
+					if(local) {
+						// When we are running in the emulator, then we assume that the server is actually running in the VM
+						// Else, we are on a local device and we access a global address
+						boolean ethernet = DarwinoMobileApplication.get().getDevice().isDevEthernet();
+						if(ethernet) {
+							// Development ethernet connection
+							connection.setName(StringUtil.format(baseName, SERVER_URL));
+							connection.setUrl(StringUtil.format(baseUrl, PathUtil.concat(SERVER_URL, pathInfo, '/')));
+						} else {
+							// Real tablet, using the WIFI network
+							connection.setName(StringUtil.format(baseName, BRIDGE_URL));
+							connection.setUrl(PathUtil.concat(StringUtil.format(baseUrl, BRIDGE_URL), pathInfo, '/'));
+						}
+					} else {
+						connection.setName(baseName);
+						connection.setUrl(PathUtil.concat(baseUrl, pathInfo, '/'));
+					}
+					
+					connection.setUserId((String)entry.get("userId"));
+					connection.setUserPassword((String)entry.get("password"));
+					connection.setDn((String)entry.get("dn"));
+					connection.setCn((String)entry.get("cn"));
+					conn.add(connection);
+				}
+			}
+		} catch(JsonException le) {
+			throw new RuntimeException("Error loading predefined-connections JSON file", le);
+		} catch(IOException ioe) {
+			throw new RuntimeException("Error loading predefined-connections JSON file", ioe);
 		}
 
 		return conn.toArray(new Connection[conn.size()]);
-	}
-	
-	protected Connection createLocalConnection() {
-		Connection localConnection = new Connection();
-		localConnection.setName("Local Server");
-		// Initialize the server configuration
-		// When we are running in the emulator, then we assume that the server is actually running in the VM
-		// Else, we are on a local device and we access a global address
-		boolean ethernet = DarwinoMobileApplication.get().getDevice().isDevEthernet();
-		if(ethernet) {
-			// Development ethernet connection
-			localConnection.setName("Local Server - "+SERVER_URL);
-			localConnection.setUrl(PathUtil.concat(SERVER_URL,pathInfo,'/'));
-		} else {
-			// Real tablet, using the WIFI network
-			localConnection.setName("Local Server - "+BRIDGE_URL);
-			localConnection.setUrl(PathUtil.concat(BRIDGE_URL,pathInfo,'/'));
-		}
-		localConnection.setUserId(USER_ID);
-		localConnection.setUserPassword(USER_PWD);
-		localConnection.setValid(true);
-		localConnection.setDn("cn=al mass,o=triloggroup");
-		localConnection.setCn("Al Mass");
-		return localConnection;
-	}
-	
-	protected Connection createBluemixConnection() {
-		Connection bluemix = new Connection();
-		bluemix.setName("Bluemix");
-		bluemix.setName("IBM Bluemix - "+BLUEMIX_URL);
-		bluemix.setUrl(PathUtil.concat(BLUEMIX_URL,pathInfo,'/'));
-		bluemix.setUserId(USER_ID);
-		bluemix.setUserPassword(USER_PWD);
-		//bluemix.setValid(true);
-		//bluemix.setDn("cn=al mass,o=triloggroup");
-		//bluemix.setCn("Al Mass");
-		return bluemix;
 	}
 }

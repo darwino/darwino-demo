@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>StringsTable</key>
+	<string>DataSync</string>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<!-- Sync Frequency -->
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>SyncFrequency</string>
+			<key>Key</key>
+			<string>sync_frequency</string>
+			
+			<key>DefaultValue</key>
+			<integer>1</integer>
+			
+			<key>Titles</key>
+			<array>
+				<string>NotEnabled</string>
+				<string>Immediate</string>
+				<string>Min_1</string>
+				<string>Min_5</string>
+				<string>Min_10</string>
+				<string>Min_15</string>
+				<string>Min_30</string>
+				<string>Hour_1</string>
+				<string>Hour_2</string>
+				<string>Daily</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string></string>
+				<string>0</string>
+				<string>1m</string>
+				<string>5m</string>
+				<string>10m</string>
+				<string>15m</string>
+				<string>30m</string>
+				<string>1h</string>
+				<string>2h</string>
+				<string>1d</string>
+			</array>
+		</dict>
+		
+		<!-- Push Changes Immediately -->
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>PushChangesImmediately</string>
+			<key>Key</key>
+			<string>sync_pushimm</string>
+			
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+		
+		<!-- Notify On Success -->
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>NotifyOnSuccess</string>
+			<key>Key</key>
+			<string>sync_notify</string>
+			
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
+	</array>
+</dict>
+</plist>

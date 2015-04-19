@@ -16,13 +16,13 @@ import java.sql.SQLException;
 import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.security.acl.UserService;
+import com.darwino.demo.users.DemoSqlContext;
+import com.darwino.demo.users.StaticTomcatUserService;
 import com.darwino.ibm.services.social.connections.ConnectionsSocialServiceFactory;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.jsonstore.sql.impl.full.SqlContext;
 import com.darwino.platform.DarwinoManifest;
 import com.darwino.services.social.SocialServiceFactory;
-import com.triloggroup.demo.users.DemoSqlContext;
-import com.triloggroup.demo.users.StaticTomcatUserService;
 
 /**
  * J2EE application.

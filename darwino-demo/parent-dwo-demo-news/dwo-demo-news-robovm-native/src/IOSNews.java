@@ -16,7 +16,6 @@ import org.robovm.apple.uikit.UIApplicationLaunchOptions;
 import org.robovm.apple.uikit.UIColor;
 import org.robovm.apple.uikit.UINavigationController;
 import org.robovm.apple.uikit.UIScreen;
-import org.robovm.apple.uikit.UIViewController;
 import org.robovm.apple.uikit.UIWindow;
 
 import com.darwino.commons.Platform;
@@ -54,6 +53,7 @@ public class IOSNews extends UIApplicationDelegateAdapter {
         window.setBackgroundColor(UIColor.lightGray());
         window.setRootViewController(navigationController);
         window.makeKeyAndVisible();
+        
 
         return true;
     }

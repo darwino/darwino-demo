@@ -9,19 +9,26 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.triloggroup.demo.users;
+package com.darwino.demo.users;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.darwino.commons.json.JsonException;
+import com.darwino.commons.json.JsonJavaFactory;
+import com.darwino.commons.json.JsonParser;
 import com.darwino.commons.security.acl.User;
 import com.darwino.commons.security.acl.UserException;
 import com.darwino.commons.security.acl.UserService;
 import com.darwino.commons.security.acl.impl.UserImpl;
+import com.darwino.demo.config.DemoConfiguration;
 
 
 /**
- * User directory service for the trilog demo organizaion when used from a TOMCAT
+ * User directory service for the Darwino demo organizaion when used from a TOMCAT
  * environment without a true LDAP connection.
  * 
  * The tomcat-users.xml file should be filled accordingly:
@@ -62,31 +69,7 @@ public class StaticTomcatUserService implements UserService {
 		}
 	}
 	
-	
-	public static final List<StaticUser> trilogUsers;
-	static {
-		trilogUsers = new ArrayList<StaticUser>();
-		trilogUsers.add(new StaticUser("cn=phil,o=triloggroup", "Phil", "phil", "phil@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=jesse,o=darwino", "Jesse", "jesse", "jesse@darwino.com"));
-
-		trilogUsers.add(new StaticUser("cn=adam tinov,o=triloggroup", "Adam Tinov", "atinov", "atinov@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=al mass,o=triloggroup", "Al Mass", "amass", "amass@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=alain boucher,o=triloggroup", "Alain Boucher", "aboucher", "aboucher@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=amanda calder,o=triloggroup", "Amanda Calder", "acalder", "acalder@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=ava gardner,o=triloggroup", "Ava Gardner", "agardner", "agardner@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=bernard chapot,o=triloggroup", "Bernard Chapot", "bchapot", "bchapot@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=bernard lemercier,o=triloggroup", "Bernard Lemercier", "blemercier", "blemercier@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=betty chris,o=triloggroup", "Betty Chris", "bchris", "bchris@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=bill bright,o=triloggroup", "Bill Bright", "bbright", "bbright@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=lauren armatti,o=triloggroup", "Lauren Armatti", "larmatti", "larmatti@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=leon bros,o=triloggroup", "Leon Bros", "lbros", "lbros@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=mary davis,o=triloggroup", "Mary Davis", "mdavis", "mdavis@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=philip collins,o=triloggroup", "Philip Collins", "pcollins", "pcollins@triloggroup.com"));
-		trilogUsers.add(new StaticUser("cn=ralf jordan,o=triloggroup", "Ralf Jordan", "rjordan", "rjordan@triloggroup.com"));
-		
-
-		//trilogUsers.add(new StaticUser("cn=xxxxx,o=triloggroup", "xxxxx", "xxxxx", "xxxxx@triloggroup.com"));
-	}
+	private List<StaticUser> demoUsers_;
 
 	@Override
 	public User findUser(String id) throws UserException {
@@ -100,9 +83,9 @@ public class StaticTomcatUserService implements UserService {
 	}
 	
 	protected User findUserById(String id) throws UserException {
-		int count = trilogUsers.size();
+		int count = getUsers().size();
 		for(int i=0; i<count; i++) {
-			StaticUser u = trilogUsers.get(i);
+			StaticUser u = getUsers().get(i);
 			if(id.equalsIgnoreCase(u.userId)) {
 				return u;
 			}
@@ -111,9 +94,9 @@ public class StaticTomcatUserService implements UserService {
 	}
 	
 	protected User findUserByDn(String dn) throws UserException {
-		int count = trilogUsers.size();
+		int count = getUsers().size();
 		for(int i=0; i<count; i++) {
-			StaticUser u = trilogUsers.get(i);
+			StaticUser u = getUsers().get(i);
 			if(dn.equalsIgnoreCase(u.getDistinguishedName())) {
 				return u;
 			}
@@ -122,13 +105,38 @@ public class StaticTomcatUserService implements UserService {
 	}
 	
 	protected User findUserByEmail(String email) throws UserException {
-		int count = trilogUsers.size();
+		int count = getUsers().size();
 		for(int i=0; i<count; i++) {
-			StaticUser u = trilogUsers.get(i);
+			StaticUser u = getUsers().get(i);
 			if(email.equalsIgnoreCase(u.email)) {
 				return u;
 			}
 		}
 		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private List<StaticUser> getUsers() {
+		if(demoUsers_ == null) {
+			demoUsers_ = new ArrayList<StaticUser>();
+			try {
+				InputStream is = DemoConfiguration.loadResource("/darwino_users.json", "/darwino_users_default.json");
+				Map<String, Object> namesObj = (Map<String, Object>)JsonParser.fromJson(JsonJavaFactory.instance, is);
+				is.close();
+				for(Map<String, String> entry : (List<Map<String, String>>)namesObj.get("users")) {
+					String dn = entry.get("dn");
+					String cn = entry.get("cn");
+					String uid = entry.get("uid");
+					String email = entry.get("mail");
+					
+					demoUsers_.add(new StaticUser(dn, cn, uid, email));
+				}
+			} catch(JsonException le) {
+				throw new RuntimeException("Error loading users JSON file", le);
+			} catch(IOException ioe) {
+				throw new RuntimeException("Error loading users JSON file", ioe);
+			}
+		}
+		return demoUsers_;
 	}
 }
