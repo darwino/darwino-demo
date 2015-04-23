@@ -18,8 +18,4 @@ import com.darwino.ios.platform.hybrid.DarwinoIOSHybridViewController;
  */
 public class MainViewController extends DarwinoIOSHybridViewController {
 	
-	@Override
-	protected String getBasePageUrl() {
-		return "news/index.html";
-	}
 }
