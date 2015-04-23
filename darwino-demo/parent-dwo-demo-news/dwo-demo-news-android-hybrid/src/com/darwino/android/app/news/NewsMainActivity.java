@@ -11,43 +11,18 @@
 
 package com.darwino.android.app.news;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.darwino.android.platform.hybrid.DarwinoAndroidHybridActions;
 import com.darwino.android.platform.hybrid.DarwinoCordovaHybridActivity;
-import com.darwino.android.platform.hybrid.HybridJavaScriptInterface;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileHybridApplication;
-import com.darwino.mobile.platform.hybrid.MobileHybridRestFactory;
 
 public class NewsMainActivity extends DarwinoCordovaHybridActivity {
 	
-	private class NewsTasks extends DarwinoAndroidHybridActions {
-		NewsTasks(Activity activity) {
-			super(activity);
-		}
-		@Override
-		public void refreshUi() {
-			loadMainPage();
-	    }
-	}
-
 	public NewsMainActivity() {
-		// TEMP here...
-		MobileHybridRestFactory.hybridTasks = getCommonTasks(); 
 	}
-	
-	@Override
-	public Object getDawinoJSInterface() {
-		return new HybridJavaScriptInterface(getCommonTasks());
-	}
-	private NewsTasks getCommonTasks() {
-		return new NewsTasks(getActivity());
-	}
-
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -97,27 +72,27 @@ public class NewsMainActivity extends DarwinoCordovaHybridActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	        case R.id.refresh: {
-	        	getCommonTasks().refreshData();
+	        	createDarwinoTasks().refreshData();
 	            return true;
 	        }
 	        case R.id.switchlocal: {
-	        	getCommonTasks().switchToLocal();
+	        	createDarwinoTasks().switchToLocal();
 	            return true;
 	        }
 	        case R.id.switchremote: {
-	        	getCommonTasks().switchToRemote();
+	        	createDarwinoTasks().switchToRemote();
 	            return true;
 	        }
 	        case R.id.switchweb: {
-	        	getCommonTasks().switchToWeb();
+	        	createDarwinoTasks().switchToWeb();
 	            return true;
 	        }
 	        case R.id.synchronize: {
-	        	getCommonTasks().synchronizeData();
+	        	createDarwinoTasks().synchronizeData();
 	            return true;
 	        }
 	        case R.id.erase: {
-	        	getCommonTasks().eraseLocalData();
+	        	createDarwinoTasks().eraseLocalData();
 	            return true;
 	        }
 	    }

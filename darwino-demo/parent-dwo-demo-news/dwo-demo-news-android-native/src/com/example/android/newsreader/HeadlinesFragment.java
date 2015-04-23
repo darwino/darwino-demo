@@ -54,6 +54,7 @@ import com.darwino.android.widget.json.store.JsonCursorAdapter;
 import com.darwino.application.jsonstore.NewsManifest;
 import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
+import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.tasks.TaskException;
 import com.darwino.commons.tasks.TaskExecutor;
 import com.darwino.commons.tasks.TaskExecutorContext;
@@ -78,7 +79,7 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
 		}
 
 		@Override
-		protected void doExecute(TaskExecutorContext<Void> context, int taskIndex, Object[] params) throws TaskException {
+		protected void doExecute(TaskExecutorContext<Void> context, int taskIndex, JsonObject params) throws TaskException {
 			try {
 				switch(taskIndex) {
 					case FIRST_CUSTOMTASK: {
@@ -111,10 +112,10 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
 		}
 
 		public void markAllRead() {
-			execTask("Mark All Documents Read", TaskExecutor.DIALOG_INDETERMINATE, createNotificationTaskCallback("All documents are marked read"), FIRST_CUSTOMTASK);
+			execTask("Mark All Documents Read", TaskExecutor.DIALOG_INDETERMINATE, createNotificationTaskCallback("All documents are marked read"), FIRST_CUSTOMTASK,null);
 		}
 		public void markAllUnread() {
-			execTask("Mark All Documents Unread", TaskExecutor.DIALOG_INDETERMINATE, createNotificationTaskCallback("All documents are marked unread"), FIRST_CUSTOMTASK+1);
+			execTask("Mark All Documents Unread", TaskExecutor.DIALOG_INDETERMINATE, createNotificationTaskCallback("All documents are marked unread"), FIRST_CUSTOMTASK+1,null);
 		}
 		@Override
 		public void refreshUi() {
