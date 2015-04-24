@@ -2,11 +2,15 @@ package com.darwino.android;
 
 import java.util.List;
 
+import com.darwino.android.platform.AndroidUIHelper;
+import com.darwino.android.ui.AndroidDialogs;
 import com.darwino.commons.util.NotImplementedException;
 import com.darwino.commons.util.StringUtil;
+import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.settings.SettingsRoot;
 import com.darwino.mobile.platform.settings.controls.AbstractSettingsPage;
 import com.darwino.mobile.platform.settings.controls.AbstractValueSettingsField;
+import com.darwino.mobile.platform.settings.controls.ActionSettingsField;
 import com.darwino.mobile.platform.settings.controls.PickerSettingsField;
 import com.darwino.mobile.platform.settings.controls.SettingsControl;
 import com.darwino.mobile.platform.settings.controls.SettingsField;
@@ -18,6 +22,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.text.InputType;
@@ -28,6 +33,8 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 	@Override
 	public void onDestroy() {
 		SettingsRoot.getInstance().save();
+		
+		super.onDestroy();
 	}
 	
 	@Override
@@ -155,9 +162,31 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 					break;
 				}
 				case READ_ONLY: {
+					Preference preference = new Preference(getActivity());
+					preference.setTitle(settingsField.getTitle());
+					preference.setSummary(settingsField.getSubtitle());
+					preference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+						@Override public boolean onPreferenceClick(Preference preference) {
+							return true;
+						}
+					});
+					getPreferenceScreen().addPreference(preference);
+					
 					break;
 				}
 				case ACTION: {
+					final ActionSettingsField actionField = (ActionSettingsField)settingsField;
+					Preference preference = new Preference(getActivity());
+					preference.setTitle(actionField.getTitle());
+					preference.setSummary(actionField.getSubtitle());
+					preference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+						@Override public boolean onPreferenceClick(Preference preference) {
+							actionField.getCallback().handle(actionField);
+							return true;
+						}
+					});
+					getPreferenceScreen().addPreference(preference);
+					
 					break;
 				}
 				case ACTION_PICKER: {

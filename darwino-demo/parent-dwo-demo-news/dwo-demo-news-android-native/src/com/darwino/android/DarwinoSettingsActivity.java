@@ -29,6 +29,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
 import com.darwino.android.platform.AbstractDarwinoSettingsActivity;
+import com.darwino.android.platform.AndroidUIHelper;
 import com.darwino.commons.Platform;
 import com.darwino.commons.android.ui.Dialogs;
 import com.darwino.commons.httpclnt.HttpClient;
@@ -87,6 +88,10 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			}
 			commonTasks = null;
 		}
+		
+		AndroidUIHelper uiHelper = (AndroidUIHelper)DarwinoMobileApplication.get().getUIHelper();
+		uiHelper.setContextActivity(null);
+		
 		super.onDestroy();
 	}
 	
@@ -128,10 +133,14 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		AndroidUIHelper uiHelper = (AndroidUIHelper)DarwinoMobileApplication.get().getUIHelper();
+		uiHelper.setContextActivity(this);
 		
 //		setPreferenceScreen(null);
 //		getFragmentManager().
 	}
+	
 
 	@Override
 	public void onBuildHeaders(List<Header> target) {
