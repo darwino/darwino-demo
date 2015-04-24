@@ -28,5 +28,5 @@
 
 	<target>ios</target>
 	<iosInfoPList>Info.plist.xml</iosInfoPList>
-	<iosSdkVersion>7.1</iosSdkVersion>
+<!-- 	<iosSdkVersion>7.1</iosSdkVersion> -->
 </config>
