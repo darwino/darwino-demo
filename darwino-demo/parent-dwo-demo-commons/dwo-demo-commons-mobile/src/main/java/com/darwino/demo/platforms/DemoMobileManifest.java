@@ -25,7 +25,6 @@ import com.darwino.commons.util.StringUtil;
 import com.darwino.demo.config.DemoConfiguration;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
-import com.darwino.mobile.platform.settings.SettingsRoot;
 
 
 /**

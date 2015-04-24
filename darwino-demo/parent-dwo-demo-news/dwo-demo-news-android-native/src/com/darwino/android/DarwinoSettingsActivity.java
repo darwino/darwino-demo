@@ -11,14 +11,11 @@
 
 package com.darwino.android;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -26,7 +23,6 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
 
 import com.darwino.android.platform.AbstractDarwinoSettingsActivity;
 import com.darwino.commons.Platform;
@@ -47,9 +43,6 @@ import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
 import com.darwino.mobile.platform.DarwinoMobileManifest.Connection;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
-import com.darwino.mobile.platform.settings.SettingsRoot;
-import com.darwino.mobile.platform.settings.controls.AbstractSettingsPage;
-import com.darwino.mobile.platform.settings.controls.SettingsControl;
 import com.darwino.platform.DarwinoManifest;
 import com.example.android.newsreader.R;
 
@@ -124,36 +117,11 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 	}
 	
 	public abstract DarwinoActions getDarwinoTasks();
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-//		setPreferenceScreen(null);
-//		getFragmentManager().
-	}
 
 	@Override
 	public void onBuildHeaders(List<Header> target) {
 		DarwinoManifest mf = commonTasks.getManifest();
 		DarwinoMobileManifest mobMf = mf.get(DarwinoMobileManifest.class);
-		
-		SettingsRoot settingsRoot = SettingsRoot.getInstance();
-		List<SettingsControl> children = settingsRoot.getChildren();
-		for(int i = 0; i < children.size(); i++) {
-			SettingsControl control = children.get(i);
-			if(control instanceof AbstractSettingsPage) {
-				AbstractSettingsPage page = (AbstractSettingsPage)control;
-				Header header = new Header();
-				header.title = page.getTitle();
-				header.summary = page.getSubtitle();
-				header.fragment = DarwinoSettingsFragment.class.getName();
-				Bundle settings = new Bundle();
-				settings.putInt("settingsPageIndex", i);
-				header.fragmentArguments = settings;
-				target.add(header);
-			}
-		}
 			
 		// Remote access
 		int remote = mobMf.getRemoteConnections(); 
@@ -198,20 +166,6 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 	protected void buildCustomHeaders(DarwinoManifest mf, List<Header> target) {
 	}
 	
-//	private Map<Integer, DarwinoSettingsFragment> fragments = new HashMap<Integer, DarwinoSettingsFragment>();
-//	
-//	@Override
-//	public void onHeaderClick(Header header, int position) {
-//		if(header.id > -1) {
-//			if(!fragments.containsKey((int)header.id)) {
-//				fragments.put((int)header.id, new DarwinoSettingsFragment((AbstractSettingsPage)SettingsRoot.getInstance().getChildren().get((int)header.id)));
-//			}
-//			PreferenceFragment fragment = fragments.get((int)header.id);
-//			startPreferenceFragment(fragment, true);
-//		} else {
-//			super.onHeaderClick(header, position);
-//		}
-//	}
 	
 	public static class BaseDarwinoPreferenceFragment extends PreferenceFragment {
 		public DarwinoSettingsActivity getDarwinoActivity() {
@@ -301,7 +255,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 					return true; // Click handled
 				}
 			});
-			Preference valPref = findPreference("acc_validate");
+			Preference valPref = (Preference)findPreference("acc_validate");
 			valPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
@@ -401,7 +355,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			pwdPref.setText(c.getUserPassword());
 			pwdPref.setSummary(StringUtil.isNotEmpty(c.getUserPassword())?"*********":"<empty>");
 			
-			Preference pref = findPreference("acc_validate");
+			Preference pref = (Preference)findPreference("acc_validate");
 			pref.setSummary(c.isValid()?StringUtil.format("Connection valid, user {0}, {1}",c.getCn(), c.getDn()):"<connection not valid>");
 		}
 	}
@@ -411,7 +365,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.dwo_pref_data_sync);
 
-			Preference syncNow = findPreference("sync_now");
+			Preference syncNow = (Preference) findPreference("sync_now");
 			syncNow.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
@@ -479,7 +433,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.dwo_pref_data_manage);
 			
-			Preference erase = findPreference("mgt_cleardata");
+			Preference erase = (Preference) findPreference("mgt_cleardata");
 			erase.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
@@ -489,7 +443,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			    }
 			});
 			
-			Preference ccache = findPreference("mgt_clearsocial");
+			Preference ccache = (Preference)findPreference("mgt_clearsocial");
 			ccache.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
@@ -532,7 +486,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.dwo_pref_about);
 			
-			Preference about = findPreference("about_about");
+			Preference about = (Preference) findPreference("about_about");
 			about.setTitle(getManifest().getLabel());
 			about.setSummary(getManifest().getDescription());
 			about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -542,7 +496,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			    }
 			});
 			
-			Preference reset = findPreference("about_reset");
+			Preference reset = (Preference) findPreference("about_reset");
 			reset.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
