@@ -25,7 +25,6 @@ public class NewsAndroidNativeApplication extends DarwinoAndroidNativeApplicatio
 	
 	public static NewsAndroidNativeApplication create(Application application) throws JsonException {
 		if(!DarwinoMobileApplication.isInitialized()) {
-			System.out.println("initializing news app with android app " + application);
 			NewsAndroidNativeApplication app = new NewsAndroidNativeApplication(
 					new NewsManifest(new DemoMobileManifest(NewsManifest.MOBILE_PATHINFO)), 
 					application);
