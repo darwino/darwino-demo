@@ -26,8 +26,8 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.3</version>
 				<configuration>
+					<runOnlyAtExecutionRoot>false</runOnlyAtExecutionRoot>
 					<descriptors>
 						<descriptor>src/assembly/demo.xml</descriptor>
 					</descriptors>
