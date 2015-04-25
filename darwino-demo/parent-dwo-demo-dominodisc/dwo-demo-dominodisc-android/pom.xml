@@ -13,7 +13,7 @@
 
 	<properties>
 		<platform.version>4.2.2_r3</platform.version>
-		<android.plugin.version>3.8.2</android.plugin.version>
+		<android.plugin.version>4.1.1</android.plugin.version>
 	</properties>
 
 	<dependencies>
@@ -66,7 +66,7 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+					<groupId>com.simpligility.maven.plugins</groupId>
 					<artifactId>android-maven-plugin</artifactId>
 					<version>${android.plugin.version}</version>
 					<extensions>true</extensions>
@@ -83,7 +83,7 @@
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>
-											com.jayway.maven.plugins.android.generation2
+											com.simpligility.maven.plugins
 										</groupId>
 										<artifactId>
 											android-maven-plugin
@@ -93,6 +93,7 @@
 										</versionRange>
 										<goals>
 											<goal>consume-aar</goal>
+											<goal>emma</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
@@ -107,12 +108,15 @@
 		</pluginManagement>
 		<plugins>
 			<plugin>
-				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<groupId>com.simpligility.maven.plugins</groupId>
 				<artifactId>android-maven-plugin</artifactId>
 				<configuration>
 					<sdk>
 						<platform>19</platform>
 					</sdk>
+					<androidManifestFile>${basedir}/AndroidManifest.xml</androidManifestFile>
+					<resourceDirectory>${basedir}/res</resourceDirectory>
+					<nativeLibrariesDirectory>${basedir}/libs</nativeLibrariesDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
