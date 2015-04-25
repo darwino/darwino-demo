@@ -8,7 +8,7 @@
 		<artifactId>darwino-demo</artifactId>
 		<version>0.8.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>dwo-dist</artifactId>
+	<artifactId>dwo-demo-dist</artifactId>
 	
 	<packaging>pom</packaging>
 	

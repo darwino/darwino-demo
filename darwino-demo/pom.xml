@@ -14,7 +14,7 @@
 		<module>parent-dwo-demo-dominodisc</module>
 		<module>parent-dwo-demo-news</module>
 		<module>parent-dwo-demo-angular</module>
-		<module>dwo-dist</module>
+		<module>dwo-demo-dist</module>
 	</modules>
 
 
