@@ -31,6 +31,8 @@
 					<descriptors>
 						<descriptor>src/assembly/demo.xml</descriptor>
 					</descriptors>
+					<finalName>Darwino-Demos-${project.version}</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
 				</configuration>
 				<executions>
 					<execution>

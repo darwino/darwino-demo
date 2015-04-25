@@ -59,7 +59,8 @@ public class IOSNews extends UIApplicationDelegateAdapter {
     }
 
     public static void main(String[] args) {
-    	Class<?> c = PluginIOS.class; // Make sure this is loaded
+    	@SuppressWarnings("unused")
+		Class<?> c = PluginIOS.class; // Make sure this is loaded
 	    	
         NSAutoreleasePool pool = new NSAutoreleasePool();
         UIApplication.main(args, null, IOSNews.class);
