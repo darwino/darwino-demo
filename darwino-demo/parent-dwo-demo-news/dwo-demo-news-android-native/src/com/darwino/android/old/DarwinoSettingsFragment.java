@@ -1,6 +1,8 @@
-package com.darwino.android;
+package com.darwino.android.old;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.darwino.android.platform.AndroidUIHelper;
 import com.darwino.android.ui.AndroidDialogs;
@@ -10,7 +12,9 @@ import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.settings.SettingsRoot;
 import com.darwino.mobile.platform.settings.controls.AbstractSettingsPage;
 import com.darwino.mobile.platform.settings.controls.AbstractValueSettingsField;
+import com.darwino.mobile.platform.settings.controls.ActionPickerSettingsField;
 import com.darwino.mobile.platform.settings.controls.ActionSettingsField;
+import com.darwino.mobile.platform.settings.controls.PasswordSettingsField;
 import com.darwino.mobile.platform.settings.controls.PickerSettingsField;
 import com.darwino.mobile.platform.settings.controls.SettingsControl;
 import com.darwino.mobile.platform.settings.controls.SettingsField;
@@ -28,7 +32,16 @@ import android.preference.PreferenceScreen;
 import android.text.InputType;
 import android.widget.EditText;
 
+/**
+ * <p>Shim class to create a native Android UI for the standard mobile settings panes.</p>
+ * 
+ * @author Jesse Gallagher
+ *
+ */
 public class DarwinoSettingsFragment extends PreferenceFragment {
+
+	AbstractSettingsPage page;
+	Map<Integer, Preference> preferences = new HashMap<Integer, Preference>();
 	
 	@Override
 	public void onDestroy() {
@@ -36,6 +49,7 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 		
 		super.onDestroy();
 	}
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +64,9 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 		List<SettingsControl> children = settingsRoot.getChildren();
 		int index = arguments.getInt("settingsPageIndex");
 		
-		AbstractSettingsPage page = (AbstractSettingsPage)children.get(index);
-		for(SettingsControl child : page.getChildren()) {
+		page = (AbstractSettingsPage)children.get(index);
+		for(int i = 0; i < page.getChildren().size(); i++) {
+			SettingsControl child = page.getChildren().get(i);
 			if(child instanceof SettingsField) {
 				SettingsField settingsField = (SettingsField)child;
 				switch(settingsField.getType()) {
@@ -82,6 +97,7 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 						}
 					});
 					getPreferenceScreen().addPreference(preference);
+					preferences.put(i, preference);
 					break;
 				}
 				case PASSWORD: {
@@ -109,6 +125,7 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 						}
 					});
 					getPreferenceScreen().addPreference(preference);
+					preferences.put(i, preference);
 					break;
 				}
 				case BOOLEAN: {
@@ -125,6 +142,7 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 						}
 					});
 					getPreferenceScreen().addPreference(preference);
+					preferences.put(i, preference);
 					break;
 				}
 				case PICKER: {
@@ -158,6 +176,7 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 						}
 					});
 					getPreferenceScreen().addPreference(preference);
+					preferences.put(i, preference);
 					
 					break;
 				}
@@ -171,6 +190,7 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 						}
 					});
 					getPreferenceScreen().addPreference(preference);
+					preferences.put(i, preference);
 					
 					break;
 				}
@@ -190,6 +210,25 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 					break;
 				}
 				case ACTION_PICKER: {
+					final ActionPickerSettingsField valueField = (ActionPickerSettingsField)settingsField;
+					ListPreference preference = new ListPreference(getActivity());
+					preference.setTitle(valueField.getTitle());
+					preference.setDialogTitle(valueField.getTitle());
+					String[] labels = valueField.getLabels().toArray(new String[valueField.getLabels().size()]);
+					preference.setEntries(labels);
+					preference.setEntryValues(labels);
+					
+					preference.setSummary(valueField.getSubtitle());
+					
+					preference.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+						@Override public boolean onPreferenceChange(Preference preference, Object newValue) {
+							int valueIndex = valueField.getLabels().indexOf(newValue);
+							valueField.getCallback().handle(valueField, valueField.getValues().get(valueIndex));
+							refresh();
+							return true;
+						}
+					});
+					getPreferenceScreen().addPreference(preference);
 					break;
 				}
 				case OTHER: {
@@ -198,6 +237,37 @@ public class DarwinoSettingsFragment extends PreferenceFragment {
 				}
 			} else if(child instanceof AbstractSettingsPage) {
 				throw new NotImplementedException("Nested settings panes not implemented");
+			}
+		}
+	}
+	
+	public AbstractSettingsPage getSettingsPage() {
+		return page;
+	}
+	
+	public void refresh() {
+		for(Map.Entry<Integer, Preference> preferenceEntry : preferences.entrySet()) {
+			SettingsControl control = getSettingsPage().getChildren().get(preferenceEntry.getKey());
+			if(control instanceof AbstractValueSettingsField) {
+				Preference preference = preferenceEntry.getValue();
+				SettingsField.SettingsValueCallback callback = ((AbstractValueSettingsField)control).getCallback();
+
+				// See if we should update the field
+				if(StringUtil.isEmpty(((AbstractValueSettingsField)control).getSubtitle())) {
+					Object value = null;
+					if(control instanceof PickerSettingsField) {
+						value = ((PickerSettingsField)control).getLabels().get((Integer)callback.getValue());
+					} else if(control instanceof PasswordSettingsField) {
+						String stringValue = StringUtil.toString(callback.getValue());
+						value = StringUtil.repeat('*', stringValue.length());
+					} else {
+						value = callback.getValue();
+					}
+					preference.setSummary(StringUtil.toString(value));
+				}
+				
+				// TODO implement child pages
+				
 			}
 		}
 	}

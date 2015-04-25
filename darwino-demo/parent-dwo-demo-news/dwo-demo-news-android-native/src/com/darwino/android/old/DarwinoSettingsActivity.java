@@ -9,7 +9,7 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.darwino.android;
+package com.darwino.android.old;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +30,7 @@ import android.preference.PreferenceScreen;
 
 import com.darwino.android.platform.AbstractDarwinoSettingsActivity;
 import com.darwino.android.platform.AndroidUIHelper;
+import com.darwino.android.platform.anative.DarwinoAndroidNativeApplication;
 import com.darwino.commons.Platform;
 import com.darwino.commons.android.ui.Dialogs;
 import com.darwino.commons.httpclnt.HttpClient;
@@ -91,6 +92,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 		
 		AndroidUIHelper uiHelper = (AndroidUIHelper)DarwinoMobileApplication.get().getUIHelper();
 		uiHelper.setContextActivity(null);
+		DarwinoAndroidNativeApplication.setMainActivity(null);
 		
 		super.onDestroy();
 	}
@@ -136,6 +138,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 
 		AndroidUIHelper uiHelper = (AndroidUIHelper)DarwinoMobileApplication.get().getUIHelper();
 		uiHelper.setContextActivity(this);
+		DarwinoAndroidNativeApplication.setMainActivity(this);
 		
 //		setPreferenceScreen(null);
 //		getFragmentManager().
@@ -162,6 +165,10 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 				header.fragmentArguments = settings;
 				target.add(header);
 			}
+		}
+		
+		if(true) {
+			return;
 		}
 			
 		// Remote access

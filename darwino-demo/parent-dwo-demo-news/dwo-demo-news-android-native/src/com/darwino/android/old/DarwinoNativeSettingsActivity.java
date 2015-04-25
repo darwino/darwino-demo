@@ -9,9 +9,9 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.darwino.android;
+package com.darwino.android.old;
 
-import com.darwino.android.DarwinoSettingsActivity;
+import com.darwino.android.old.DarwinoSettingsActivity;
 import com.darwino.android.platform.anative.DarwinoAndroidNativeActions;
 import com.darwino.mobile.platform.DarwinoActions;
 
