@@ -16,7 +16,7 @@ import android.app.Application;
 import com.darwino.android.platform.hybrid.DarwinoAndroidHybridApplication;
 import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
-import com.darwino.commons.log.LogMgr;
+import com.darwino.commons.log.Logger;
 import com.darwino.demo.dominodisc.DiscDbManifest;
 import com.darwino.demo.platforms.DemoMobileManifest;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
@@ -47,7 +47,7 @@ public class DiscDbAndroidHybridApplication extends DarwinoAndroidHybridApplicat
 		
 		// Enable some debug trace
 		//MobileLogger.HYBRID_HTTPD.setLogLevel(LogMgr.LOG_INFO_LEVEL);
-		MobileLogger.DBSYNC.setLogLevel(LogMgr.LOG_DEBUG_LEVEL);
+		MobileLogger.DBSYNC.setLogLevel(Logger.LOG_DEBUG_LEVEL);
 		//SocialLogger.DBCACHE.setLogLevel(LogMgr.LOG_DEBUG_LEVEL);
 	}
 	
