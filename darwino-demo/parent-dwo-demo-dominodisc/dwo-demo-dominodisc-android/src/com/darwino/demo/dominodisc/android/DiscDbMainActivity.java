@@ -14,6 +14,7 @@ package com.darwino.demo.dominodisc.android;
 import android.os.Bundle;
 
 import com.darwino.android.platform.hybrid.DarwinoCordovaHybridActivity;
+import com.darwino.commons.Platform;
 
 public class DiscDbMainActivity extends DarwinoCordovaHybridActivity {
 	
@@ -26,7 +27,8 @@ public class DiscDbMainActivity extends DarwinoCordovaHybridActivity {
 
 		try {
 			DiscDbAndroidHybridApplication.create(getApplication());
-		} catch(Throwable t) {
+		} catch(Exception t) {
+			Platform.log(t);
 			closeActivity(t);
 		}
         

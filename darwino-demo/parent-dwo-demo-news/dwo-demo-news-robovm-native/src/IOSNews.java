@@ -34,14 +34,14 @@ public class IOSNews extends UIApplicationDelegateAdapter {
     public boolean didFinishLaunching (UIApplication application, UIApplicationLaunchOptions launchOptions) {
         try {
         	IOSInstall.init();
-        	System.out.println("SQLITE: "+SQLiteImpl.get().libversion());
-        } catch(Throwable t) {
+        	Platform.log("SQLITE: "+SQLiteImpl.get().libversion());
+        } catch(Exception t) {
         	Platform.log(t);
         }
     	
 		try {
 			NewsRoboVMNativeApplication.create();
-		} catch(Throwable t) {
+		} catch(Exception t) {
 			Platform.log(t);
 			return false;
 		}

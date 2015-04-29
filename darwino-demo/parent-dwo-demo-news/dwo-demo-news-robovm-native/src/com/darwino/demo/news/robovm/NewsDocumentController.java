@@ -124,7 +124,7 @@ public class NewsDocumentController extends UITableViewController {
 
             NSMutableAttributedString attrString = new NSMutableAttributedString(doc.getString("content"));
             this.textView.setAttributedText(attrString);
-    	} catch(Throwable t) {
+    	} catch(Exception t) {
     		Platform.log(t);
     	}
     }

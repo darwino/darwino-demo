@@ -34,13 +34,13 @@ public class IOSNewsHybrid extends UIApplicationDelegateAdapter {
         try {
         	IOSInstall.init();
         	Platform.log("SQLITE: "+SQLiteImpl.get().libversion());
-        } catch(Throwable t) {
+        } catch(Exception t) {
         	Platform.log(t);
         }
     	
 		try {
 			NewsRoboVMHybridApplication.create();
-		} catch(Throwable t) {
+		} catch(Exception t) {
 			Platform.log(t);
 			return false;
 		}

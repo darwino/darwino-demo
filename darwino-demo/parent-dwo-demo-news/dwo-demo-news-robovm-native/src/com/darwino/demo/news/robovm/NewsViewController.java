@@ -121,7 +121,7 @@ public class NewsViewController extends UITableViewController {
 					return true;
 				}
 			});
-    	} catch(Throwable t) {
+    	} catch(Exception t) {
     		Platform.log(t);
     	}
 

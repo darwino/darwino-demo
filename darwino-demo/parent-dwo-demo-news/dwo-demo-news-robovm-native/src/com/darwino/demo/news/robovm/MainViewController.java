@@ -124,16 +124,13 @@ public class MainViewController extends UITableViewController {
 					}
 				} catch(Exception t) {
 					Platform.log(t);
-				} catch(Error t) {
-					Platform.log(t);
-					throw t;
 				}
 			}
 		});
 		UIBarButtonItem syncButtonItem = new UIBarButtonItem("Sync Data", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
 			@Override
 			public void onClick(UIBarButtonItem barButtonItem) {
-				System.out.println("SYNC DATA");
+				Platform.log("SYNC DATA");
 				try {
 					DarwinoMobileApplication app = DarwinoMobileApplication.get();
 					ReplicationGroup group = app.getManifest().getSynchronizationGroup();
@@ -145,7 +142,7 @@ public class MainViewController extends UITableViewController {
 							app.synchronize(group.getDatabase(i), options);
 						}
 					}
-				} catch(Throwable t) {
+				} catch(Exception t) {
 					Platform.log(t);
 				}
 			}
@@ -153,12 +150,12 @@ public class MainViewController extends UITableViewController {
 		UIBarButtonItem initButtonItem = new UIBarButtonItem("Init", UIBarButtonItemStyle.Plain, new UIBarButtonItem.OnClickListener() {
 			@Override
 			public void onClick(UIBarButtonItem barButtonItem) {
-				System.out.println("INIT");
+				Platform.log("INIT");
 				try {
 					DarwinoMobileApplication app = DarwinoMobileApplication.get();
 					app.deleteLocalSqlLiteFile();
 					app.createLocalDatabases(false);
-				} catch(Throwable t) {
+				} catch(Exception t) {
 					Platform.log(t);
 				}
 			}
