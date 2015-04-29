@@ -156,9 +156,7 @@ public class DemoDataLoader {
 
 	public String randomContent() {
         StringBuilder sb = new StringBuilder();
-        //sb.append("<html><body>");
         sb.append(nonsense.makeHtmlParagraphs(3, 6, 15, 25));
-        //sb.append("</body></html>");
         return sb.toString();
 	}
 
