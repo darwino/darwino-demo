@@ -45,7 +45,7 @@ public class NonsenseGenerator {
 	private boolean html;
 	private Random mRandom;
 
-    static final String[] THINGS = { "bottle", "bowl", "brick", "building",
+    private static final String[] THINGS = { "bottle", "bowl", "brick", "building",
             "bunny", "cake", "car", "cat", "cup", "desk", "dog", "duck",
             "elephant", "engineer", "fork", "glass", "griffon", "hat", "key", "knife", "lawyer",
             "llama", "manual", "meat", "monitor", "mouse", "tangerine", "paper", "pear", "pen",
@@ -53,13 +53,13 @@ public class NonsenseGenerator {
             "soup", "spoon", "star", "steak", "table", "terminal", "treehouse", "truck",
             "watermelon", "window" };
 
-    static final String[] ADJECTIVES = { "red", "green", "yellow", "gray", "solid", "fierce",
+    private static final String[] ADJECTIVES = { "red", "green", "yellow", "gray", "solid", "fierce",
             "friendly", "cowardly", "convenient", "foreign", "national", "tall",
             "short", "metallic", "golden", "silver", "sweet", "nationwide", "competitive",
             "stable", "municipal", "famous", 
     };
 
-    static final String[] VERBS_PAST = { "accused", "threatened", "warned", "spoke to",
+    private static final String[] VERBS_PAST = { "accused", "threatened", "warned", "spoke to",
             "has met with",
             "was seen in the company of", "advanced towards", "collapsed on",
             "signed a partnership with", "was converted into", "became", "was authorized to sell",
@@ -68,7 +68,7 @@ public class NonsenseGenerator {
             "will work together with", "plans to cease fire against", "started a war with",
             "signed a truce with", "is now managing", "is investigating" };
 
-    static final String[] VERBS_PRESENT = { "accuses", "threatens", "warns", "speaks to",
+    private static final String[] VERBS_PRESENT = { "accuses", "threatens", "warns", "speaks to",
             "meets with",
             "seen with", "advances towards", "collapses on", "agrees on",
             "signs partnership with", "converts into", "becomes", "is authorized to sell",

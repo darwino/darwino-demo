@@ -308,6 +308,7 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
 		            }
 				} catch(JsonException ex) {
 					txTitle.setText(ex.toString());
+					Platform.log(ex);
 				}
 			    return convertView;
 			}

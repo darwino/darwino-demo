@@ -18,6 +18,7 @@ import javax.annotation.PreDestroy;
 import javax.el.ELContext;
 import javax.faces.context.FacesContext;
 
+import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
 import com.darwino.j2ee.application.DarwinoJ2EEContext;
 import com.darwino.jsonstore.Session;
@@ -42,7 +43,7 @@ public class DatabaseSession extends SessionWrapper implements Serializable {
 	    	ELContext elc = context.getELContext();
 	    	return (T)elc.getELResolver().getValue(elc, null, beanName);
 	    } catch(RuntimeException ex) {
-	    	ex.printStackTrace();
+	    	Platform.log(ex);
 	    }
 	    return null;
 	}	
@@ -55,7 +56,7 @@ public class DatabaseSession extends SessionWrapper implements Serializable {
 			try {
 				s = new DatabaseSession();
 			} catch (JsonException e) {
-				e.printStackTrace();
+				Platform.log(e);
 			}
 		}
 		return s;
@@ -76,7 +77,7 @@ public class DatabaseSession extends SessionWrapper implements Serializable {
 		try {
 			super.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Platform.log(e);
 		}
 	}
 }

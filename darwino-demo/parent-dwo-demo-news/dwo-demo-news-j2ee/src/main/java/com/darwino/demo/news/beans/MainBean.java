@@ -24,6 +24,7 @@ import org.primefaces.model.SortOrder;
 
 import com.darwino.application.jsonstore.NewsDatabaseDef;
 import com.darwino.application.jsonstore.NewsManifest;
+import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.util.PathUtil;
@@ -141,7 +142,7 @@ public class MainBean implements Serializable {
 										}
 									});
 								} catch(JsonException ex) {
-									ex.printStackTrace();
+									Platform.log(ex);
 								}
 							}
 							l.add(re);
@@ -152,7 +153,7 @@ public class MainBean implements Serializable {
 		    		// Calculate the # of entries
 			    	setRowCount(cursor.count());
 		    	} catch(JsonException ex) {
-		    		ex.printStackTrace();
+		    		Platform.log(ex);
 		    	}
 		    	return l;
 			}

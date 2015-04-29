@@ -38,6 +38,7 @@ import android.widget.TextView;
 
 import com.darwino.android.platform.ui.NativeUtils;
 import com.darwino.application.jsonstore.NewsManifest;
+import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.Cursor;
@@ -157,6 +158,7 @@ public class ArticleFragment extends Fragment {
 		        	b.append("<h3>Comments (").append(count).append(")</h3>");
 		        	b.append(cb);
 	        	} catch(JsonException ex) {
+	        		Platform.log(ex);
 	        	}
 	        	String html = b.toString();
 	        	mWebView.loadData(html, "text/html", "utf-8");

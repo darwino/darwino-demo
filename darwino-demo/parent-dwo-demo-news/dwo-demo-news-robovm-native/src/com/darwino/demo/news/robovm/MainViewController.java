@@ -122,8 +122,11 @@ public class MainViewController extends UITableViewController {
 						app.switchToLocal();
 						barButtonItem.setTitle("Go Online");
 					}
-				} catch(Throwable t) {
+				} catch(Exception t) {
 					Platform.log(t);
+				} catch(Error t) {
+					Platform.log(t);
+					throw t;
 				}
 			}
 		});

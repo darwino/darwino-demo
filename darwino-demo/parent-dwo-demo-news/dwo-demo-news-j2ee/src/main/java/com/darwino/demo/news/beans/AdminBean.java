@@ -19,6 +19,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.darwino.application.jsonstore.NewsDatabaseDef;
+import com.darwino.commons.Platform;
 import com.darwino.commons.httpclnt.HttpBase;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonObject;
@@ -56,7 +57,7 @@ public class AdminBean implements Serializable {
     	try {
         	DarwinoJ2EEApplication.get().initDatabase(NewsDatabaseDef.DATABASE_NEWS, true);
 		} catch (JsonException e) {
-			e.printStackTrace();
+			Platform.log(e);
 		}
 	}
     
@@ -65,7 +66,7 @@ public class AdminBean implements Serializable {
         	Session jsonSession = DatabaseSession.get();
 			jsonSession.getDatabase(NewsDatabaseDef.DATABASE_NEWS).deleteAllDocuments(Store.DELETE_ERASE);
 		} catch (JsonException e) {
-			e.printStackTrace();
+			Platform.log(e);
 		}
 	}
 
@@ -143,7 +144,7 @@ public class AdminBean implements Serializable {
         	fillPinballOwners(jsonSession.getDatabase(PinballDatabaseDef.DATABASE_PINBALL).getStore(PinballDatabaseDef.STORE_PINBALLOWNERB), 10000, 16);
         	fillPinballOwners(jsonSession.getDatabase(PinballDatabaseDef.DATABASE_PINBALL).getStore(PinballDatabaseDef.STORE_PINBALLOWNERBG), 100000, 16);
 		} catch (JsonException e) {
-			e.printStackTrace();
+			Platform.log(e);
 		}
 	}
     private void fillPinballOwners(final Store store, int nOwners, int maxPinball) {
@@ -165,7 +166,7 @@ public class AdminBean implements Serializable {
 						System.out.println("Entries loaded: "+count+", "+(count/(sec>0?sec:1))+"doc/sec");
 					}
 				} catch(JsonException ex) {
-					ex.printStackTrace();
+					Platform.log(ex);
 				}
 			}
 		},nOwners,maxPinball);
