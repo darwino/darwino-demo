@@ -96,7 +96,7 @@ public class AdminBean implements Serializable {
         	ServletContext ctx = ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getServletContext();
 			DemoDataLoader.get().createDocuments(ctx,jsonSession.getDatabase(NewsDatabaseDef.DATABASE_NEWS).getStore(NewsDatabaseDef.STORE_NEWS),count);
 		} catch (JsonException e) {
-			e.printStackTrace();
+			Platform.log(e);
 		}
 	}
     
@@ -135,7 +135,7 @@ public class AdminBean implements Serializable {
 							doc.save(Document.SAVE_NOREAD);
 						}
 					} catch(Exception ex) {
-						ex.printStackTrace();
+						Platform.log(ex);
 					}
 				}
 			});
