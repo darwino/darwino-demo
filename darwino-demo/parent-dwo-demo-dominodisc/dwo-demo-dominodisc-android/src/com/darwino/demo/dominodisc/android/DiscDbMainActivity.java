@@ -27,7 +27,7 @@ public class DiscDbMainActivity extends DarwinoCordovaHybridActivity {
 
 		try {
 			DiscDbAndroidHybridApplication.create(getApplication());
-		} catch(Exception t) {
+		} catch(Throwable t) {
 			Platform.log(t);
 			closeActivity(t);
 		}

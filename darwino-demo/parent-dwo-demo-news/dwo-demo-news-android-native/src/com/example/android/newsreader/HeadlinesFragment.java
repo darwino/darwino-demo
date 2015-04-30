@@ -104,6 +104,8 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
 						}
 			        	return;
 					}
+					default:
+						break;
 				}
 				super.doExecute(context,taskIndex,params);
 			} catch(Throwable t) {

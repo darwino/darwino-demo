@@ -34,13 +34,13 @@ public class IOSDiscDbHybrid extends UIApplicationDelegateAdapter {
         try {
         	IOSInstall.init();
         	Platform.log("SQLITE: "+SQLiteImpl.get().libversion());
-        } catch(Exception t) {
+        } catch(Throwable t) {
         	Platform.log(t);
         }
     	
 		try {
 	        DiscDbRoboVMHybridApplication.create();
-		} catch(Exception t) {
+		} catch(Throwable t) {
 			Platform.log(t);
 			return false;
 		}
