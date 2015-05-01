@@ -23,6 +23,7 @@ import com.darwino.commons.util.StringUtil;
 import com.darwino.commons.util.Version;
 import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.demo.config.DemoConfiguration;
+import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.jdbc.connector.JdbcConnector;
 import com.darwino.jdbc.pool.bonecp.JdbcBoneCPConnector;
 import com.darwino.jdbc.pool.hikaricp.JdbcHikariCPConnector;
@@ -80,6 +81,10 @@ public class DemoSqlContext {
 	public static final CP cp = CP.BONECP;
 	
 	public DemoSqlContext() {
+	}
+	
+	public SqlContext createDefaultSqlContext(DarwinoJ2EEApplication application) throws SQLException {
+		return createDefaultSqlContext();
 	}
 	
 	@SuppressWarnings("resource")
