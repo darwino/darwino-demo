@@ -524,7 +524,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 						getSettingsEditor().setDbEncryptionKey(newKey);
 						getDarwinoActivity().markResetApplication();
 						refresh();
-					} catch(Throwable ex) {
+					} catch(Exception ex) {
 						Platform.log(ex);
 					}
 					return true; // Click handled

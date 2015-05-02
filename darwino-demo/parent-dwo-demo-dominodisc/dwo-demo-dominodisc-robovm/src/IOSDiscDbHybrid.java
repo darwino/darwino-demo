@@ -33,9 +33,9 @@ public class IOSDiscDbHybrid extends UIApplicationDelegateAdapter {
     public boolean didFinishLaunching (UIApplication application, UIApplicationLaunchOptions launchOptions) {
         try {
         	IOSInstall.init();
-        	System.out.println("SQLITE: "+SQLiteImpl.get().libversion());
+        	Platform.log("SQLITE: "+SQLiteImpl.get().libversion());
         } catch(Throwable t) {
-        	t.printStackTrace();
+        	Platform.log(t);
         }
     	
 		try {
@@ -56,6 +56,7 @@ public class IOSDiscDbHybrid extends UIApplicationDelegateAdapter {
     }
 
     @SuppressWarnings("unused")
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value="DLS_DEAD_STORE_OF_CLASS_LITERAL", justification="This is intentional and the potential bug is only in unsupported Java versions")
 	public static void main(String[] args) {
     	Class<PluginIOS> c = PluginIOS.class;
     	

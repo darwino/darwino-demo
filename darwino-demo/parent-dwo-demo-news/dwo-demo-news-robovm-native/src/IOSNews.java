@@ -34,14 +34,14 @@ public class IOSNews extends UIApplicationDelegateAdapter {
     public boolean didFinishLaunching (UIApplication application, UIApplicationLaunchOptions launchOptions) {
         try {
         	IOSInstall.init();
-        	System.out.println("SQLITE: "+SQLiteImpl.get().libversion());
-        } catch(Throwable t) {
-        	t.printStackTrace();
+        	Platform.log("SQLITE: "+SQLiteImpl.get().libversion());
+        } catch(Exception t) {
+        	Platform.log(t);
         }
     	
 		try {
 			NewsRoboVMNativeApplication.create();
-		} catch(Throwable t) {
+		} catch(Exception t) {
 			Platform.log(t);
 			return false;
 		}
@@ -58,8 +58,10 @@ public class IOSNews extends UIApplicationDelegateAdapter {
         return true;
     }
 
+    @SuppressWarnings("unused")
+    @edu.umd.cs.findbugs.annotations.SuppressFBWarnings(value="DLS_DEAD_STORE_OF_CLASS_LITERAL", justification="This is intentional and the potential bug is only in unsupported Java versions")
     public static void main(String[] args) {
-    	Class<?> c = PluginIOS.class; // Make sure this is loaded
+		Class<?> c = PluginIOS.class; // Make sure this is loaded
 	    	
         NSAutoreleasePool pool = new NSAutoreleasePool();
         UIApplication.main(args, null, IOSNews.class);

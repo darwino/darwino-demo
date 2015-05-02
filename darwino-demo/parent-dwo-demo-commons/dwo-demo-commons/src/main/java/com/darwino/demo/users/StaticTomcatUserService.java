@@ -54,6 +54,7 @@ public class StaticTomcatUserService extends StaticUserService {
 	public StaticTomcatUserService() {
 	}
 	
+	@Override
 	@SuppressWarnings("unchecked")
 	protected List<StaticUser> createUsers() {
 		List<StaticUser> users = new ArrayList<StaticUser>();

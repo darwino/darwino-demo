@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.darwino.android.platform.hybrid.DarwinoCordovaHybridActivity;
+import com.darwino.commons.Platform;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileHybridApplication;
 
@@ -30,7 +31,8 @@ public class NewsMainActivity extends DarwinoCordovaHybridActivity {
         
 		try {
 			NewsAndroidHybridApplication.create(getApplication());
-		} catch(Throwable t) {
+		} catch(Exception t) {
+			Platform.log(t);
 			closeActivity(t);
 		}
 		

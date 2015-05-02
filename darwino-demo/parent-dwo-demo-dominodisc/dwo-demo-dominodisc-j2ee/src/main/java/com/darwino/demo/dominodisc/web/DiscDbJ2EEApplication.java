@@ -43,6 +43,6 @@ public class DiscDbJ2EEApplication extends DarwinoJ2EEApplication {
 	@Override
 	protected SqlContext createDefaultSqlContext() throws JsonException, SQLException {
 		DemoSqlContext demoContext = new DemoSqlContext();
-		return demoContext.createDefaultSqlContext(this);
+		return demoContext.createDefaultSqlContext();
 	}
 }

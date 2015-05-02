@@ -46,14 +46,14 @@ public class DemoSqlContext {
 		DB2("db2"),
 		POSTGRES("postgresql");
 		
-		private final String[] jdbcName_;
+		private final String[] jdbcNames;
 		
 		private DB(String... jdbcName) {
-			jdbcName_ = jdbcName;
+			this.jdbcNames = jdbcName;
 		}
 		
 		public boolean matches(String jdbcName) {
-			for(String name : jdbcName_) {
+			for(String name : this.jdbcNames) {
 				if(name.equals(jdbcName)) {
 					return true;
 				}
@@ -72,21 +72,23 @@ public class DemoSqlContext {
 	}
 	
 	public enum CP {
-		BoneCP,
-		HikariCP
+		BONECP,
+		HIKARICP
 	}
 	
-	//public static final DB db = DB.DB2;
 	public static final DB defaultDb = DB.POSTGRES;
 	
-	public static final CP cp = CP.BoneCP;
-	//public static final CP cp = CP.HikariCP;
+	public static final CP cp = CP.BONECP;
 	
 	public DemoSqlContext() {
 	}
 	
-	@SuppressWarnings("resource")
 	public SqlContext createDefaultSqlContext(DarwinoJ2EEApplication application) throws SQLException {
+		return createDefaultSqlContext();
+	}
+	
+	@SuppressWarnings("resource")
+	public SqlContext createDefaultSqlContext() throws SQLException {
 		// Check if we are running a local liberty server
 		if(isDBBluemix()) {
 			try {
@@ -143,10 +145,10 @@ public class DemoSqlContext {
 	
 	protected JdbcConnector createConnector(int transactionMode, DBDriver dbDriver, String url, String user, String pwd, Properties props) throws SQLException {
 		switch(cp) {
-			case BoneCP: {
+			case BONECP: {
 				return new JdbcBoneCPConnector(transactionMode,dbDriver.getDriverClass(),url,user,pwd,props);
 			}
-			case HikariCP: {
+			case HIKARICP: {
 				return new JdbcHikariCPConnector(transactionMode,dbDriver.getDriverClass(),url,user,pwd,props);
 			}
 		}

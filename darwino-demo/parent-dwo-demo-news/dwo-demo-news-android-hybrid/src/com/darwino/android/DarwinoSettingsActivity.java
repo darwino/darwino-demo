@@ -255,7 +255,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 					return true; // Click handled
 				}
 			});
-			Preference valPref = (Preference)findPreference("acc_validate");
+			Preference valPref = findPreference("acc_validate");
 			valPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
@@ -355,7 +355,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			pwdPref.setText(c.getUserPassword());
 			pwdPref.setSummary(StringUtil.isNotEmpty(c.getUserPassword())?"*********":"<empty>");
 			
-			Preference pref = (Preference)findPreference("acc_validate");
+			Preference pref = findPreference("acc_validate");
 			pref.setSummary(c.isValid()?StringUtil.format("Connection valid, user {0}, {1}",c.getCn(), c.getDn()):"<connection not valid>");
 		}
 	}
@@ -365,7 +365,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.dwo_pref_data_sync);
 
-			Preference syncNow = (Preference) findPreference("sync_now");
+			Preference syncNow = findPreference("sync_now");
 			syncNow.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
@@ -433,7 +433,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.dwo_pref_data_manage);
 			
-			Preference erase = (Preference) findPreference("mgt_cleardata");
+			Preference erase = findPreference("mgt_cleardata");
 			erase.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
@@ -443,7 +443,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			    }
 			});
 			
-			Preference ccache = (Preference)findPreference("mgt_clearsocial");
+			Preference ccache = findPreference("mgt_clearsocial");
 			ccache.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {
@@ -462,7 +462,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 						getSettingsEditor().setDbEncryptionKey(newKey);
 						getDarwinoActivity().markResetApplication();
 						refresh();
-					} catch(Throwable ex) {
+					} catch(Exception ex) {
 						Platform.log(ex);
 					}
 					return true; // Click handled
@@ -486,7 +486,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.dwo_pref_about);
 			
-			Preference about = (Preference) findPreference("about_about");
+			Preference about = findPreference("about_about");
 			about.setTitle(getManifest().getLabel());
 			about.setSummary(getManifest().getDescription());
 			about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -496,7 +496,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 			    }
 			});
 			
-			Preference reset = (Preference) findPreference("about_reset");
+			Preference reset = findPreference("about_reset");
 			reset.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 				@Override
 				public boolean onPreferenceClick(Preference preference) {

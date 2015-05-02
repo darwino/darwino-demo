@@ -104,6 +104,8 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
 						}
 			        	return;
 					}
+					default:
+						break;
 				}
 				super.doExecute(context,taskIndex,params);
 			} catch(Throwable t) {
@@ -308,6 +310,7 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
 		            }
 				} catch(JsonException ex) {
 					txTitle.setText(ex.toString());
+					Platform.log(ex);
 				}
 			    return convertView;
 			}

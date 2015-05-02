@@ -7,9 +7,17 @@
 		<format>zip</format>
 	</formats>
 	<includeBaseDirectory>true</includeBaseDirectory>
+	
+	<!-- Include the full source tree built by the parent project -->
+	<files>
+	    <file>
+	        <destName>source.zip</destName>
+	        <source>../target/darwino-demo-${project.version}-project.zip</source>
+	    </file>
+	</files>
+	
 	<moduleSets>
-	    
-	    <!-- Domino discussion DB demo -->
+		<!-- Domino discussion DB demo -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includes>
@@ -17,13 +25,13 @@
 				<include>com.darwino:dwo-demo-dominodisc-android</include>
 			</includes>
 			<binaries>
-				<outputDirectory>/dominodisc</outputDirectory>
+				<outputDirectory>dominodisc</outputDirectory>
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
 				<outputFileNameMapping>${module.build.finalName}.${module.extension}</outputFileNameMapping>
 			</binaries>
 		</moduleSet>
-		
+
 		<!-- News reader demo -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -33,13 +41,13 @@
 				<include>com.darwino:dwo-demo-news-android-native</include>
 			</includes>
 			<binaries>
-				<outputDirectory>/news</outputDirectory>
+				<outputDirectory>news</outputDirectory>
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
 				<outputFileNameMapping>${module.build.finalName}.${module.extension}</outputFileNameMapping>
 			</binaries>
 		</moduleSet>
-		
+
 		<!-- "Angular" prject -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
@@ -47,19 +55,19 @@
 				<include>com.darwino:dwo-demo-angular-j2ee</include>
 			</includes>
 			<binaries>
-				<outputDirectory>/angular</outputDirectory>
+				<outputDirectory>angular</outputDirectory>
 				<unpack>false</unpack>
 				<includeDependencies>false</includeDependencies>
 				<outputFileNameMapping>${module.build.finalName}.${module.extension}</outputFileNameMapping>
 			</binaries>
 		</moduleSet>
-		
+
 		<!-- Misc. tools -->
 		<moduleSet>
-		    <useAllReactorProjects>true</useAllReactorProjects>
-		    <includes>
-		        <include>com.darwino:dwo-jre-j2ee-devtools</include>
-		    </includes>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>com.darwino:dwo-jre-j2ee-devtools</include>
+			</includes>
 			<binaries>
 				<outputDirectory>/</outputDirectory>
 				<unpack>false</unpack>
@@ -68,17 +76,17 @@
 			</binaries>
 		</moduleSet>
 	</moduleSets>
-	
+
 	<dependencySets>
-	    <dependencySet>
-	        <outputDirectory>/</outputDirectory>
-	        <includes>
-		        <include>com.darwino:dwo-jre-j2ee-darwino-libs</include>
-	        </includes>
-	        <unpack>false</unpack>
+		<dependencySet>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>com.darwino:dwo-jre-j2ee-darwino-libs</include>
+			</includes>
+			<unpack>false</unpack>
 			<scope>runtime</scope>
 			<useStrictFiltering>true</useStrictFiltering>
 			<outputFileNameMapping>${artifact.build.finalName}.${artifact.extension}</outputFileNameMapping>
-	    </dependencySet>
+		</dependencySet>
 	</dependencySets>
 </assembly>
