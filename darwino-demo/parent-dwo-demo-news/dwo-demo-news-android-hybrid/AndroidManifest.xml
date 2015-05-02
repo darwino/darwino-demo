@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.darwino.android.DarwinoHybridSettingsActivity"
+            android:name="com.darwino.android.platform.hybrid.DarwinoHybridSettingsActivity"
             android:label="@string/title_activity_darwino_settings" >
         </activity>
     </application>
