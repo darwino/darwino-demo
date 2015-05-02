@@ -20,7 +20,12 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
 		<robovm.version>1.0.0</robovm.version>
+		
+		<android.plugin.version>4.1.1</android.plugin.version>
+		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
+		<android.platform.sdk.version>19</android.platform.sdk.version>
 	</properties>
 
 	<dependencyManagement>
@@ -86,7 +91,7 @@
 			</dependency>
 
 
-
+			<!-- iOS Dependencies -->
 			<dependency>
 				<groupId>org.robovm</groupId>
 				<artifactId>robovm-rt</artifactId>
@@ -96,6 +101,13 @@
 				<groupId>org.robovm</groupId>
 				<artifactId>robovm-cocoatouch</artifactId>
 				<version>${robovm.version}</version>
+			</dependency>
+			
+			<!-- Android dependencies -->
+			<dependency>
+				<groupId>android</groupId>
+				<artifactId>android</artifactId>
+				<version>${android.platform.maven.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -132,6 +144,55 @@
 					<groupId>org.robovm</groupId>
 					<artifactId>robovm-maven-plugin</artifactId>
 					<version>${robovm.version}</version>
+				</plugin>
+				
+				<plugin>
+					<groupId>com.simpligility.maven.plugins</groupId>
+					<artifactId>android-maven-plugin</artifactId>
+					<version>${android.plugin.version}</version>
+					<extensions>true</extensions>
+					
+					<configuration>
+						<sdk>
+							<platform>${android.platform.sdk.version}</platform>
+						</sdk>
+						<androidManifestFile>${basedir}/AndroidManifest.xml</androidManifestFile>
+						<resourceDirectory>${basedir}/res</resourceDirectory>
+						<nativeLibrariesDirectory>${basedir}/libs</nativeLibrariesDirectory>
+					</configuration>
+				</plugin>
+				
+				<!-- Tell m2e to ignore parts of the Maven plugin it doesn't understand -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.simpligility.maven.plugins
+										</groupId>
+										<artifactId>
+											android-maven-plugin
+										</artifactId>
+										<versionRange>
+											[3.8.2,)
+										</versionRange>
+										<goals>
+											<goal>consume-aar</goal>
+											<goal>emma</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
