@@ -303,7 +303,7 @@ public abstract class DarwinoSettingsActivity extends AbstractDarwinoSettingsAct
 							return null;
 						}
 					};
-					TaskExecutor<Void> e=Platform.getService(TaskExecutorService.class).getExecutor(true);
+					TaskExecutor<Void> e=Platform.getService(TaskExecutorService.class).createExecutor(true);
 					e.exec(task,null);
 					return true;
 				}
