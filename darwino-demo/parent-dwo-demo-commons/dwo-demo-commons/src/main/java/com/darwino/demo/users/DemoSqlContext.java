@@ -32,6 +32,7 @@ import com.darwino.jsonstore.sql.impl.full.context.SqlJdbcContext;
 import com.darwino.platforms.bluemix.JdbcBluemixConnector;
 import com.darwino.sql.drivers.DBDriver;
 import com.darwino.sql.drivers.db2.DB2Driver;
+import com.darwino.sql.drivers.h2.H2Driver;
 import com.darwino.sql.drivers.postgresql.PostgreSQLDriver;
 import com.darwino.sql.util.SQLExceptionEx;
 
@@ -44,7 +45,8 @@ public class DemoSqlContext {
 	
 	public enum DB {
 		DB2("db2"),
-		POSTGRES("postgresql");
+		POSTGRES("postgresql"),
+		H2("h2");
 		
 		private final String[] jdbcNames;
 		
@@ -126,21 +128,27 @@ public class DemoSqlContext {
 		String user = config.getProperty("darwino.jdbc.user");
 		String pwd = config.getProperty("darwino.jdbc.password");
 		
+		Properties props = new Properties();
+		DBDriver dbDriver = null;
 		switch(db) {
 			case POSTGRES: {
-				Properties props = new Properties();
-				DBDriver dbDriver = new PostgreSQLDriver(new Version(9,4));
-				JdbcConnector connector = createConnector(JdbcConnector.TRANSACTION_READ_COMMITTED,dbDriver,url,user,pwd,props);
-				return SqlJdbcContext.create(dbDriver,connector,null);
+				dbDriver = new PostgreSQLDriver(new Version(9,4));
+				break;
 			}
 			case DB2: {
-				Properties props = new Properties();
-				DBDriver dbDriver = new DB2Driver(new Version(10,5));
-				JdbcConnector connector = createConnector(JdbcConnector.TRANSACTION_READ_COMMITTED,dbDriver,url,user,pwd,props);
-				return SqlJdbcContext.create(dbDriver,connector,null);
+				dbDriver = new DB2Driver(new Version(10,5));
+				break;
+			}
+			case H2: {
+				dbDriver = new H2Driver(new Version(1, 4, 185));
+				break;
 			}
 		}
-		throw new RuntimeException("No default database setup");
+		if(dbDriver == null) {
+			throw new RuntimeException("No default database configured");
+		}
+		JdbcConnector connector = createConnector(JdbcConnector.TRANSACTION_READ_COMMITTED,dbDriver,url,user,pwd,props);
+		return SqlJdbcContext.create(dbDriver,connector,null);
 	}
 	
 	protected JdbcConnector createConnector(int transactionMode, DBDriver dbDriver, String url, String user, String pwd, Properties props) throws SQLException {
