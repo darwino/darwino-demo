@@ -18,7 +18,7 @@ import com.darwino.commons.services.HttpServiceFactories;
 import com.darwino.commons.services.resources.ResourcesRestFactory;
 import com.darwino.commons.services.rest.RestServiceContributor;
 import com.darwino.j2ee.servlet.server.servlet.ServiceDispatcherServlet;
-import com.darwino.json.store.services.http.HttpServletJsonStoreServiceFactory;
+import com.darwino.json.store.services.http.J2EEServletJsonStoreServiceFactory;
 import com.darwino.jsonstore.Index;
 import com.darwino.jsonstore.Store;
 import com.darwino.jsonstore.services.cursor.CursorService;
@@ -57,7 +57,7 @@ public class DarwinoServlet extends ServiceDispatcherServlet {
 				new DarwinoRootFileRewriter());
 		
 		// json store
-		HttpServletJsonStoreServiceFactory jsonFactory = new HttpServletJsonStoreServiceFactory(DarwinoGlobalPathRewriter.DARWINO_DEFAULT_JSONSTORE_PATH) {
+		J2EEServletJsonStoreServiceFactory jsonFactory = new J2EEServletJsonStoreServiceFactory(DarwinoGlobalPathRewriter.DARWINO_DEFAULT_JSONSTORE_PATH) {
 			@Override
 			protected RestServiceContributor getDefaultServiceContributor() {
 				return new DefaultHttpServiceContributor(this) {
