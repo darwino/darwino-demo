@@ -52,11 +52,9 @@
 	</filter-mapping>
 
 	<!--  Filter for $darwino-xxx URL rewritting -->
-	<!--  This filter does a forward that prevents the other filters to be executed -->
-	<!--  We put it last, so $root/ can be applied to the jsonstore URL  -->
 	<filter>
     	<filter-name>DarwinoResourceFilter</filter-name>
-    	<filter-class>com.darwino.j2ee.servlet.resources.DarwinoResourceDispatcherFilter</filter-class>
+    	<filter-class>com.darwino.j2ee.servlet.resources.DarwinoGlobalPathRewriterFilter</filter-class>
    	</filter>
 	<filter-mapping>
     	<filter-name>DarwinoResourceFilter</filter-name>
