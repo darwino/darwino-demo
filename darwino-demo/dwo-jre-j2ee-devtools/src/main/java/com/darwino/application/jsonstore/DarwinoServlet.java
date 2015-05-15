@@ -22,9 +22,10 @@ import com.darwino.json.store.services.http.J2EEServletJsonStoreServiceFactory;
 import com.darwino.jsonstore.Index;
 import com.darwino.jsonstore.Store;
 import com.darwino.jsonstore.services.cursor.CursorService;
+import com.darwino.platform.DarwinoHttpConstants;
 import com.darwino.platform.resources.DarwinoGlobalPathRewriter;
+import com.darwino.platform.resources.DarwinoLibsResourcesRestFactory;
 import com.darwino.platform.resources.DarwinoRootFileRewriter;
-import com.darwino.platform.resources.DarwinoWebLibrariesRewriter;
 
 
 /**
@@ -44,11 +45,10 @@ public class DarwinoServlet extends ServiceDispatcherServlet {
 		super.init(config);
 		
 		// Access to the web libs
-		ResourcesRestFactory webLibFactory = new ResourcesRestFactory(
+		ResourcesRestFactory webLibFactory = new DarwinoLibsResourcesRestFactory(
 				getApplicationContext(),
-				DarwinoGlobalPathRewriter.DARWINO_DEFAULT_LIBS_PATH,
-				new DarwinoWebLibrariesRewriter());
-		//resFactory.setMinified(Minified.MINIFIED);
+				DarwinoHttpConstants.LIBS_PATH,
+				DarwinoLibsResourcesRestFactory.DEFAULT_LIBS_PATH);
 
 		// Access to the application content
 		ResourcesRestFactory appFactory = new ResourcesRestFactory(
@@ -57,7 +57,7 @@ public class DarwinoServlet extends ServiceDispatcherServlet {
 				new DarwinoRootFileRewriter());
 		
 		// json store
-		J2EEServletJsonStoreServiceFactory jsonFactory = new J2EEServletJsonStoreServiceFactory(DarwinoGlobalPathRewriter.DARWINO_DEFAULT_JSONSTORE_PATH) {
+		J2EEServletJsonStoreServiceFactory jsonFactory = new J2EEServletJsonStoreServiceFactory(DarwinoHttpConstants.JSONSTORE_PATH) {
 			@Override
 			protected RestServiceContributor getDefaultServiceContributor() {
 				return new DefaultHttpServiceContributor(this) {
