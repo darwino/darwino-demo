@@ -22,6 +22,7 @@ import com.darwino.commons.json.JsonJavaFactory;
 import com.darwino.commons.json.JsonParser;
 import com.darwino.commons.util.PathUtil;
 import com.darwino.commons.util.StringUtil;
+import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.demo.config.DemoConfiguration;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
@@ -49,45 +50,48 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 		
 		try {
 			InputStream is = DemoConfiguration.loadResource("/predefined_connections.json", "/predefined_connections_default.json");
-			Map<String, Object> connectionsObj = (Map<String, Object>)JsonParser.fromJson(JsonJavaFactory.instance, is);
-			is.close();
-			for(Map<String, Object> entry : (List<Map<String, Object>>)connectionsObj.get("connections")) {
-				boolean enabled = (Boolean)entry.get("enabled");
-				if(enabled) {
-					Connection connection = new Connection();
-					
-					boolean local = (Boolean)entry.get("local");
-					String baseName = (String)entry.get("name");
-					String baseUrl = (String)entry.get("url");
-					if(local) {
-						// When we are running in the emulator, then we assume that the server is actually running in the VM
-						// Else, we are on a local device and we access a global address
-						boolean ethernet = DarwinoMobileApplication.get().getDevice().isDevEthernet();
-						if(ethernet) {
-							// Development ethernet connection
-							connection.setName(StringUtil.format(baseName, SERVER_URL));
-							connection.setUrl(StringUtil.format(baseUrl, PathUtil.concat(SERVER_URL, pathInfo, '/')));
-						} else {
-							// Real tablet, using the WIFI network
-							connection.setName(StringUtil.format(baseName, BRIDGE_URL));
-							connection.setUrl(PathUtil.concat(StringUtil.format(baseUrl, BRIDGE_URL), pathInfo, '/'));
+			if(is!=null) {
+				try {
+					Map<String, Object> connectionsObj = (Map<String, Object>)JsonParser.fromJson(JsonJavaFactory.instance, is);
+					for(Map<String, Object> entry : (List<Map<String, Object>>)connectionsObj.get("connections")) {
+						boolean enabled = (Boolean)entry.get("enabled");
+						if(enabled) {
+							Connection connection = new Connection();
+							
+							boolean local = (Boolean)entry.get("local");
+							String baseName = (String)entry.get("name");
+							String baseUrl = (String)entry.get("url");
+							if(local) {
+								// When we are running in the emulator, then we assume that the server is actually running in the VM
+								// Else, we are on a local device and we access a global address
+								boolean ethernet = DarwinoMobileApplication.get().getDevice().isDevEthernet();
+								if(ethernet) {
+									// Development ethernet connection
+									connection.setName(StringUtil.format(baseName, SERVER_URL));
+									connection.setUrl(StringUtil.format(baseUrl, PathUtil.concat(SERVER_URL, pathInfo, '/')));
+								} else {
+									// Real tablet, using the WIFI network
+									connection.setName(StringUtil.format(baseName, BRIDGE_URL));
+									connection.setUrl(PathUtil.concat(StringUtil.format(baseUrl, BRIDGE_URL), pathInfo, '/'));
+								}
+							} else {
+								connection.setName(baseName);
+								connection.setUrl(PathUtil.concat(baseUrl, pathInfo, '/'));
+							}
+							
+							connection.setUserId((String)entry.get("userId"));
+							connection.setUserPassword((String)entry.get("password"));
+							connection.setDn((String)entry.get("dn"));
+							connection.setCn((String)entry.get("cn"));
+							conn.add(connection);
 						}
-					} else {
-						connection.setName(baseName);
-						connection.setUrl(PathUtil.concat(baseUrl, pathInfo, '/'));
 					}
-					
-					connection.setUserId((String)entry.get("userId"));
-					connection.setUserPassword((String)entry.get("password"));
-					connection.setDn((String)entry.get("dn"));
-					connection.setCn((String)entry.get("cn"));
-					conn.add(connection);
+				} finally {
+					StreamUtil.close(is);
 				}
 			}
 		} catch(JsonException le) {
 			throw new RuntimeException("Error loading predefined-connections JSON file", le);
-		} catch(IOException ioe) {
-			throw new RuntimeException("Error loading predefined-connections JSON file", ioe);
 		}
 
 		return conn.toArray(new Connection[conn.size()]);
