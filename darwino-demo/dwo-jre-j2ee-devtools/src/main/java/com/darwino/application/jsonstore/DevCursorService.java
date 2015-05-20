@@ -18,6 +18,7 @@ import com.darwino.commons.services.HttpServiceContext;
 import com.darwino.jsonstore.Cursor;
 import com.darwino.jsonstore.Index;
 import com.darwino.jsonstore.Store;
+import com.darwino.jsonstore.services.cursor.CursorContentFilter;
 import com.darwino.jsonstore.services.cursor.CursorService;
 import com.darwino.jsonstore.sql.impl.full.CursorImpl;
 
@@ -32,8 +33,8 @@ import com.darwino.jsonstore.sql.impl.full.CursorImpl;
  */
 public class DevCursorService extends CursorService {
 	
-	public DevCursorService(Store store, Index index, int method) {
-		super(store, index, method);
+	public DevCursorService(Store store, Index index, int method, CursorContentFilter filter) {
+		super(store, index, method, filter);
 	}
 
 	@Override
