@@ -54,8 +54,7 @@ public class DarwinoServlet extends ServiceDispatcherServlet {
 		// Access to the application content
 		ResourcesRestFactory appFactory = new ResourcesRestFactory(
 				getApplicationContext(),
-				null,
-				new DarwinoRootFileRewriter());
+				null);
 		
 		// json store
 		J2EEServletJsonStoreServiceFactory jsonFactory = new J2EEServletJsonStoreServiceFactory(DarwinoHttpConstants.JSONSTORE_PATH) {
@@ -73,7 +72,6 @@ public class DarwinoServlet extends ServiceDispatcherServlet {
 		HttpServiceFactories factories = new HttpServiceFactories(
 			webLibFactory, appFactory, jsonFactory		
 		);
-		factories.setPathRewriter(new DarwinoGlobalPathRewriter());
 		
 		setServiceFactories(factories);
 	}

@@ -17,8 +17,8 @@ import android.view.MenuItem;
 
 import com.darwino.android.platform.hybrid.DarwinoCordovaHybridActivity;
 import com.darwino.commons.Platform;
+import com.darwino.mobile.hybrid.platform.DarwinoMobileHybridApplication;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
-import com.darwino.mobile.platform.DarwinoMobileHybridApplication;
 
 public class NewsMainActivity extends DarwinoCordovaHybridActivity {
 	
