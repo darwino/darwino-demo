@@ -20,12 +20,7 @@ import java.util.Map;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonJavaFactory;
 import com.darwino.commons.json.JsonParser;
-import com.darwino.commons.security.acl.User;
-import com.darwino.commons.security.acl.UserException;
-import com.darwino.commons.security.acl.UserService;
 import com.darwino.commons.security.acl.impl.StaticUserService;
-import com.darwino.commons.security.acl.impl.UserImpl;
-import com.darwino.commons.security.acl.impl.StaticUserService.StaticUser;
 import com.darwino.demo.config.DemoConfiguration;
 
 
