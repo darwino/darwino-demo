@@ -29,6 +29,6 @@ public class StudioContextListener extends AbstractDarwinoContextListener {
 	
 	@Override
 	protected DarwinoJ2EEApplication createDarwinoApplication(ServletContext context) throws JsonException {
-		return new StudioJ2EEApplication(new StudioManifest());
+		return new StudioJ2EEApplication(context,new StudioManifest());
 	}
 }

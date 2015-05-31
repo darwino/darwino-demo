@@ -30,6 +30,6 @@ public class NewsContextListener extends AbstractDarwinoContextListener {
 	
 	@Override
 	protected DarwinoJ2EEApplication createDarwinoApplication(ServletContext context) throws JsonException {
-		return new NewsJ2EEApplication(new NewsManifest(null));
+		return new NewsJ2EEApplication(context,new NewsManifest(null));
 	}
 }

@@ -11,18 +11,11 @@
 
 package com.darwino.demo.dominodisc.web;
 
-import java.sql.SQLException;
+import javax.servlet.ServletContext;
 
-import com.darwino.commons.Platform;
-import com.darwino.commons.json.JsonException;
-import com.darwino.commons.security.acl.UserService;
-import com.darwino.demo.users.DemoSqlContext;
-import com.darwino.demo.users.StaticTomcatUserService;
-import com.darwino.ibm.services.social.connections.ConnectionsSocialServiceFactory;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
-import com.darwino.jsonstore.sql.impl.full.SqlContext;
+import com.darwino.j2ee.resources.JsonDbConnection;
 import com.darwino.platform.DarwinoManifest;
-import com.darwino.services.social.SocialServiceFactory;
 
 /**
  * J2EE application.
@@ -31,18 +24,12 @@ import com.darwino.services.social.SocialServiceFactory;
  */
 public class DiscDbJ2EEApplication extends DarwinoJ2EEApplication {
 	
-	public DiscDbJ2EEApplication(DarwinoManifest manifest) {
-		super(manifest);
-		
-		// Register the services
-		ConnectionsSocialServiceFactory sc = new ConnectionsSocialServiceFactory() ;
-		Platform.registerService(SocialServiceFactory.class, sc);
-		Platform.registerService(UserService.class, new StaticTomcatUserService());
+	public DiscDbJ2EEApplication(ServletContext context, DarwinoManifest manifest) {
+		super(context,manifest);
 	}
 	
 	@Override
-	protected SqlContext createDefaultSqlContext() throws JsonException, SQLException {
-		DemoSqlContext demoContext = new DemoSqlContext();
-		return demoContext.createDefaultSqlContext();
+	protected String[] getConfigurationBeanNames() {
+		return new String[] {"discdb","demo",JsonDbConnection.BEAN_LOCAL_NAME,JsonDbConnection.BEAN_DEFAULT_NAME};
 	}
 }

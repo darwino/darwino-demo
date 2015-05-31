@@ -38,7 +38,7 @@ public class DiscDbContextListener extends AbstractDarwinoContextListener {
 	
 	@Override
 	protected DarwinoJ2EEApplication createDarwinoApplication(ServletContext context) throws JsonException {
-		return new DiscDbJ2EEApplication(new DiscDbManifest(false,null));
+		return new DiscDbJ2EEApplication(context,new DiscDbManifest(false,null));
 	}
 	
 	@Override
