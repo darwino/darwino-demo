@@ -14,7 +14,7 @@ package com.darwino.demo.news;
 import javax.servlet.ServletContext;
 
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
-import com.darwino.j2ee.resources.JsonDbConnection;
+import com.darwino.j2ee.resources.JsonDb;
 import com.darwino.platform.DarwinoManifest;
 
 /**
@@ -29,7 +29,7 @@ public class NewsJ2EEApplication extends DarwinoJ2EEApplication {
 	}
 	
 	@Override
-	protected String[] getConfigurationBeanNames() {
-		return new String[] {"news","demo",JsonDbConnection.BEAN_LOCAL_NAME,JsonDbConnection.BEAN_DEFAULT_NAME};
+	protected String[] getConfigurationBeanNames(String type) {
+		return new String[] {"news","demo",JsonDb.BEAN_LOCAL_NAME,JsonDb.BEAN_DEFAULT_NAME};
 	}
 }

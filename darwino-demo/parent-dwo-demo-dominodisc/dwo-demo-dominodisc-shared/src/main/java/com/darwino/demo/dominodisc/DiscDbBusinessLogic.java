@@ -43,8 +43,8 @@ public  class DiscDbBusinessLogic extends DefaultExtensionRegistry {
 				String userName = ctx.getUser().getAttribute(User.ATTR_EMAIL);
 				json.putStringDef("from",userName);
 				json.putStringDef("altfrom",userName);
-				json.putStringDef("abbreviatefrom",ctx.getUser().getCommonName()); // Not sure about this
-				json.putStringDef("abrfrom",ctx.getUser().getCommonName()); // Not sure about this
+				json.putStringDef("abbreviatefrom",ctx.getUser().getCn()); // Not sure about this
+				json.putStringDef("abrfrom",ctx.getUser().getCn()); // Not sure about this
 				
 				// Calculate the abstract
 				String body = json.getString("body");
