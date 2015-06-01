@@ -29,7 +29,7 @@ public class StudioJ2EEApplication extends DarwinoJ2EEApplication {
 	}
 	
 	@Override
-	protected String[] getConfigurationBeanNames(String type) {
+	public String[] getConfigurationBeanNames(String type) {
 		return new String[] {"demo",JsonDb.BEAN_LOCAL_NAME,JsonDb.BEAN_DEFAULT_NAME};
 	}
 }
