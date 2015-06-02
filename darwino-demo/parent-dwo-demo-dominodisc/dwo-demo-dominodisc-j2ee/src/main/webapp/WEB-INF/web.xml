@@ -163,7 +163,7 @@
   	</welcome-file-list>
 
 	<security-role>
-		<role-name>user</role-name>
+		<role-name>peuser</role-name>
 	</security-role>
 
 	<security-constraint>
