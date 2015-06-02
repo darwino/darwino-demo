@@ -24,8 +24,8 @@ import com.darwino.application.jsonstore.NewsManifest;
 import com.darwino.commons.buffers.ByteBlockBuffer;
 import com.darwino.commons.buffers.ByteBuffer;
 import com.darwino.commons.json.JsonException;
+import com.darwino.commons.util.io.Content;
 import com.darwino.commons.util.io.StreamUtil;
-import com.darwino.jsonstore.Attachment;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.Store;
@@ -41,7 +41,7 @@ public class DemoDataLoader {
 		return instance;
 	}
 	
-	private static class IconContent implements Attachment.Content {
+	private static class IconContent implements Content {
 		ByteBuffer bc = new ByteBlockBuffer();
 		IconContent(ServletContext context, String name) throws IOException {
 			this.bc = new ByteBlockBuffer();
@@ -53,24 +53,20 @@ public class DemoDataLoader {
 			}
 		}
 		@Override
-		public String getMimeType() throws JsonException {
+		public String getMimeType() throws IOException {
 			return "image/png";
 		}
 		@Override
-		public long getLength() throws JsonException {
+		public long getLength() throws IOException {
 			return bc.length();
 		}
 		@Override
-		public InputStream createInputStream() throws JsonException {
+		public InputStream createInputStream() throws IOException {
 			return bc.getInputStream();
 		}
 		@Override
-		public void copyTo(OutputStream os) throws JsonException {
-			try {
-				bc.copyTo(os);
-			} catch(IOException ex) {
-				throw new JsonException(ex);
-			}
+		public void copyTo(OutputStream os) throws IOException {
+			bc.copyTo(os);
 		}
 	}
 	
@@ -139,7 +135,7 @@ public class DemoDataLoader {
 			doc.set("content", randomContent());
 			doc.set("category", randomCategory());
 			doc.set("source", randomSource());
-			Attachment.Content iconContent = new IconContent(context,randomIcon());
+			Content iconContent = new IconContent(context,randomIcon());
 			doc.createAttachment(NewsManifest.ATTACHMENT_NAME, iconContent);
 			doc.save(Document.SAVE_NOREAD);
 			

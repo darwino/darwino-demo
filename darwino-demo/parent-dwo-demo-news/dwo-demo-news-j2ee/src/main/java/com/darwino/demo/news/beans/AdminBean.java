@@ -26,6 +26,7 @@ import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.util.CallbackImpl;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.commons.util.io.StreamUtil;
+import com.darwino.commons.util.io.content.ByteBufferContent;
 import com.darwino.demo.news.jsonstore.DemoDataLoader;
 import com.darwino.demo.otherdb.PinballDatabaseDef;
 import com.darwino.demodata.json.JsonDatabaseGenerator;
@@ -36,7 +37,6 @@ import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.Store;
-import com.darwino.jsonstore.attachment.ByteBufferContent;
 
 
 /**
