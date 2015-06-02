@@ -19,6 +19,7 @@ import com.darwino.commons.platform.properties.PropertiesExtension;
 import com.darwino.ibm.services.social.connections.ConnectionsSocialServiceFactory;
 import com.darwino.j2ee.platform.DefaultWebBeanExtension;
 import com.darwino.j2ee.platform.DefaultWebPropertiesExtension;
+import com.darwino.j2ee.servlet.authentication.AuthenticationService;
 import com.darwino.services.social.SocialServiceFactory;
 
 
@@ -40,6 +41,15 @@ public class DiscDbPlugin extends PluginImpl {
 			extensions.add(new DefaultWebBeanExtension());
 		} else if(serviceClass==PropertiesExtension.class) {
 			extensions.add(new DefaultWebPropertiesExtension());
+		} else if(serviceClass==AuthenticationService.class) {
+			extensions.add(new AuthenticationService() {
+				@Override
+				protected boolean forceHttpSession() {
+					// We have to set this property to ensure that the basic authentication is kept even
+					// when the client hits a non protected resource.
+					return true;
+				}
+			});
 		}
 	}
 }

@@ -175,7 +175,18 @@
 			<role-name>peuser</role-name>
 		</auth-constraint>
 	</security-constraint>
-
+<!-- 	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>DiscDb Auth</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+ -->
+ 	
 	<login-config>
 		<auth-method>BASIC</auth-method>
 		<realm-name>Discussion Database</realm-name>
