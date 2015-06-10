@@ -109,6 +109,10 @@
 		<display-name>Default Files Servlet</display-name>
 		<servlet-name>DiscDbFilesServlet</servlet-name>
 		<servlet-class>com.darwino.j2ee.servlet.resources.DarwinoAppResourcesServlet</servlet-class>
+		<init-param>
+			<param-name>welcome-file</param-name>
+			<param-value>/index.html</param-value>
+		</init-param>
 	</servlet>
 		
 	<!--  Filter for creating the JSON store session -->
