@@ -128,7 +128,7 @@
       <ion-view view-title="Wall">
         <ion-nav-buttons side="right">
 			<a ng-hide="isReadOnly()" class="button button-icon icon ion-compose" ng-click="entries.newPost()"></a>
-			<a ng-show="isReadOnly()" class="button button-clear button-light" href="auth/login.html">Login</a>
+			<a ng-show="isReadOnly() && !darwino.hybrid.isHybrid()" class="button button-clear button-light" href="auth/login.html">Login</a>
         </ion-nav-buttons>
         <ion-content>
  			<ion-refresher
