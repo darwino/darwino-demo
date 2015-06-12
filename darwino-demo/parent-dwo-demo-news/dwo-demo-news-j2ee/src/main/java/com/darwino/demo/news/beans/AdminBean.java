@@ -28,7 +28,7 @@ import com.darwino.commons.util.StringUtil;
 import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.commons.util.io.content.ByteBufferContent;
 import com.darwino.demo.news.jsonstore.DemoDataLoader;
-import com.darwino.demo.otherdb.PinballDatabaseDef;
+import com.darwino.demo.otherdb.PlaygroundDatabaseDef;
 import com.darwino.demodata.json.JsonDatabaseGenerator;
 import com.darwino.demodata.json.JsonDatabaseGenerator.JsonContent;
 import com.darwino.demodata.json.pinball.PinballDatabase;
@@ -104,13 +104,13 @@ public class AdminBean implements Serializable {
     public void recreatePinballDatabase() {
     	try {
     		// Create the database
-        	DarwinoJ2EEApplication.get().initDatabase(PinballDatabaseDef.DATABASE_PINBALL, true, new PinballDatabaseDef());
+        	DarwinoJ2EEApplication.get().initDatabase(PlaygroundDatabaseDef.DATABASE_PLAYGROUND, true, new PlaygroundDatabaseDef());
         	
         	// And fill the documents
         	final Session jsonSession = DatabaseSession.get();
         	PinballDatabase pd = new PinballDatabase();
         	pd.generate(new CallbackImpl<JsonDatabaseGenerator.JsonContent>() {
-        		Store store = jsonSession.getDatabase(PinballDatabaseDef.DATABASE_PINBALL).getStore(PinballDatabaseDef.STORE_PINBALLS);
+        		Store store = jsonSession.getDatabase(PlaygroundDatabaseDef.DATABASE_PLAYGROUND).getStore(PlaygroundDatabaseDef.STORE_PINBALLS);
 				@Override
 				public void success(JsonContent value) {
 					try {
@@ -140,9 +140,9 @@ public class AdminBean implements Serializable {
 				}
 			});
         	
-        	fillPinballOwners(jsonSession.getDatabase(PinballDatabaseDef.DATABASE_PINBALL).getStore(PinballDatabaseDef.STORE_PINBALLOWNER), 45, 4);
-        	fillPinballOwners(jsonSession.getDatabase(PinballDatabaseDef.DATABASE_PINBALL).getStore(PinballDatabaseDef.STORE_PINBALLOWNERB), 10000, 16);
-        	fillPinballOwners(jsonSession.getDatabase(PinballDatabaseDef.DATABASE_PINBALL).getStore(PinballDatabaseDef.STORE_PINBALLOWNERBG), 100000, 16);
+        	fillPinballOwners(jsonSession.getDatabase(PlaygroundDatabaseDef.DATABASE_PLAYGROUND).getStore(PlaygroundDatabaseDef.STORE_PINBALLOWNER), 45, 4);
+        	fillPinballOwners(jsonSession.getDatabase(PlaygroundDatabaseDef.DATABASE_PLAYGROUND).getStore(PlaygroundDatabaseDef.STORE_PINBALLOWNERB), 10000, 16);
+        	fillPinballOwners(jsonSession.getDatabase(PlaygroundDatabaseDef.DATABASE_PLAYGROUND).getStore(PlaygroundDatabaseDef.STORE_PINBALLOWNERBG), 100000, 16);
 		} catch (JsonException e) {
 			Platform.log(e);
 		}

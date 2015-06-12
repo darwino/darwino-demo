@@ -20,25 +20,31 @@ import com.darwino.jsonstore.meta._FtSearch;
 import com.darwino.jsonstore.meta._Store;
 
 /**
- * Pinball Database Definition.
+ * Playground Database Definition.
  * 
  * @author Philippe Riand
  */
-public class PinballDatabaseDef implements DatabaseFactory {
+public class PlaygroundDatabaseDef implements DatabaseFactory {
 	
-	public static final String DATABASE_PINBALL = "pinball";
+	public static final String DATABASE_PLAYGROUND = "playground";
+	
 	public static final String STORE_PINBALLS = "pinball";
 	public static final String STORE_PINBALLOWNER = "owners";
 	public static final String STORE_PINBALLOWNERB = "owners-big";
 	public static final String STORE_PINBALLOWNERBG = "owners-bigger";
+	
+	public static final String STORE_TEMPDOC  = "temp";
+	public static final String STORE_TEMPDOC1 = "temp1";
+	public static final String STORE_TEMPDOC2 = "temp2";
+	public static final String STORE_TEMPSOC  = "tempsocial";
 
 	
 	@Override
 	public _Database loadDatabase(String databaseName) throws JsonException {
-		if(!StringUtil.equals(databaseName, DATABASE_PINBALL)) {
+		if(!StringUtil.equals(databaseName, DATABASE_PLAYGROUND)) {
 			return null;
 		}
-		_Database db = new _Database(DATABASE_PINBALL, "Pinball Database", 1);
+		_Database db = new _Database(DATABASE_PLAYGROUND, "Playground Database", 1);
 
 		db.setReplicationEnabled(true);
 		//db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
@@ -93,6 +99,29 @@ public class PinballDatabaseDef implements DatabaseFactory {
 			store.addQueryField("state", JsonUtil.TYPE_STRING, false)
 			 	 .addQueryField("city", JsonUtil.TYPE_STRING, false);
 		}
+		
+
+		// Stores: Temp Documents
+		{
+			_Store store = db.addStore(STORE_TEMPDOC);
+			store.setLabel("Temporary Documents");
+		}
+		{
+			_Store store = db.addStore(STORE_TEMPDOC1);
+			store.setLabel("Temporary Documents #1");
+		}
+		{
+			_Store store = db.addStore(STORE_TEMPDOC2);
+			store.setLabel("Temporary Documents #2");
+		}
+		{
+			_Store store = db.addStore(STORE_TEMPSOC);
+			store.setLabel("Temporary Documents With All Social Attributes");
+			store.setTaggingEnabled(true);
+			store.setReadMarkEnabled(true);
+			store.setAnonymousSocial(true);
+		}
+		
 		return db;
 	}
 }
