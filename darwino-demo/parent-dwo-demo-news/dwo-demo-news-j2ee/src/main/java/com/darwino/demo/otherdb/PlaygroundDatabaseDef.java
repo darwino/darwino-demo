@@ -72,7 +72,9 @@ public class PlaygroundDatabaseDef implements DatabaseFactory {
 			ft.setFields("$");
 
 			store.addQueryField("state", JsonUtil.TYPE_STRING, false)
-			 	 .addQueryField("city", JsonUtil.TYPE_STRING, false);
+		 	 	.addQueryField("city", JsonUtil.TYPE_STRING, false)
+		 	 	.addQueryField("firstName", JsonUtil.TYPE_STRING, false)
+		 	 	.addQueryField("lastName", JsonUtil.TYPE_STRING, false);
 		}
 
 		// Store: PINBALL OWNERS BIG
@@ -84,7 +86,9 @@ public class PlaygroundDatabaseDef implements DatabaseFactory {
 			ft.setFields("$");
 
 			store.addQueryField("state", JsonUtil.TYPE_STRING, false)
-			 	 .addQueryField("city", JsonUtil.TYPE_STRING, false);
+		 	 	.addQueryField("city", JsonUtil.TYPE_STRING, false)
+		 	 	.addQueryField("firstName", JsonUtil.TYPE_STRING, false)
+		 	 	.addQueryField("lastName", JsonUtil.TYPE_STRING, false);
 		}
 
 
@@ -97,7 +101,9 @@ public class PlaygroundDatabaseDef implements DatabaseFactory {
 			ft.setFields("$");
 
 			store.addQueryField("state", JsonUtil.TYPE_STRING, false)
-			 	 .addQueryField("city", JsonUtil.TYPE_STRING, false);
+				.addQueryField("city", JsonUtil.TYPE_STRING, false)
+				.addQueryField("firstName", JsonUtil.TYPE_STRING, false)
+				.addQueryField("lastName", JsonUtil.TYPE_STRING, false);
 		}
 		
 
