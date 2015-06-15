@@ -1,0 +1,3 @@
+<beans>
+<!-- Define your J2EE specific beans here, and register a WebInf provider in AppPlugin -->    
+</beans>

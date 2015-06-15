@@ -1,0 +1,24 @@
+{
+  "sync": {
+    "entries": [
+      {
+        "libraryName": "Moment JS",
+        "targetFolder": "/src/main/resources/DARWINO-INF/resources/libs",
+        "_type": "weblib",
+        "version": "0.0.0"
+      },
+      {
+        "libraryName": "Ionic",
+        "targetFolder": "/src/main/resources/DARWINO-INF/resources/libs",
+        "_type": "weblib",
+        "version": "0.0.0"
+      },
+      {
+        "libraryName": "Darwino",
+        "targetFolder": "/src/main/resources/DARWINO-INF/resources/libs",
+        "_type": "weblib",
+        "version": "0.0.0"
+      }
+    ]
+  }
+}

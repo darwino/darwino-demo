@@ -11,7 +11,6 @@
 
 package com.darwino.demo.news.beans;
 
-import java.io.InputStream;
 import java.io.Serializable;
 
 import javax.faces.context.FacesContext;
@@ -20,21 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.darwino.application.jsonstore.NewsDatabaseDef;
 import com.darwino.commons.Platform;
-import com.darwino.commons.httpclnt.HttpBase;
 import com.darwino.commons.json.JsonException;
-import com.darwino.commons.json.JsonObject;
-import com.darwino.commons.util.CallbackImpl;
-import com.darwino.commons.util.StringUtil;
-import com.darwino.commons.util.io.StreamUtil;
-import com.darwino.commons.util.io.content.ByteBufferContent;
 import com.darwino.demo.news.jsonstore.DemoDataLoader;
-import com.darwino.demo.otherdb.PlaygroundDatabaseDef;
-import com.darwino.demodata.json.JsonDatabaseGenerator;
-import com.darwino.demodata.json.JsonDatabaseGenerator.JsonContent;
-import com.darwino.demodata.json.pinball.PinballDatabase;
-import com.darwino.demodata.json.pinball.PinballOwnerDatabase;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
-import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.Store;
 
@@ -99,76 +86,4 @@ public class AdminBean implements Serializable {
 			Platform.log(e);
 		}
 	}
-    
-
-    public void recreatePinballDatabase() {
-    	try {
-    		// Create the database
-        	DarwinoJ2EEApplication.get().initDatabase(PlaygroundDatabaseDef.DATABASE_PLAYGROUND, true, new PlaygroundDatabaseDef());
-        	
-        	// And fill the documents
-        	final Session jsonSession = DatabaseSession.get();
-        	PinballDatabase pd = new PinballDatabase();
-        	pd.generate(new CallbackImpl<JsonDatabaseGenerator.JsonContent>() {
-        		Store store = jsonSession.getDatabase(PlaygroundDatabaseDef.DATABASE_PLAYGROUND).getStore(PlaygroundDatabaseDef.STORE_PINBALLS);
-				@Override
-				public void success(JsonContent value) {
-					try {
-						JsonObject o = value.getJsonObject();
-						String ipdb = o.getString("ipdb");
-						if(StringUtil.isNotEmpty(ipdb)) {
-							Document doc = store.newDocument(ipdb);
-							String img = o.getString("image-src");
-							if(img!=null) {
-								InputStream is = value.createInputStream(img);
-								if(is!=null) {
-									try {
-										ByteBufferContent bf = new ByteBufferContent(is,HttpBase.MIME_IMAGE_PNG);
-										doc.createAttachment("picture.png", bf);
-									} finally {
-										StreamUtil.close(is);
-									}
-								}
-								o.remove("image-src");
-							}
-							doc.setJson(o);
-							doc.save(Document.SAVE_NOREAD);
-						}
-					} catch(Exception ex) {
-						Platform.log(ex);
-					}
-				}
-			});
-        	
-        	fillPinballOwners(jsonSession.getDatabase(PlaygroundDatabaseDef.DATABASE_PLAYGROUND).getStore(PlaygroundDatabaseDef.STORE_PINBALLOWNER), 45, 4);
-        	fillPinballOwners(jsonSession.getDatabase(PlaygroundDatabaseDef.DATABASE_PLAYGROUND).getStore(PlaygroundDatabaseDef.STORE_PINBALLOWNERB), 10000, 16);
-        	fillPinballOwners(jsonSession.getDatabase(PlaygroundDatabaseDef.DATABASE_PLAYGROUND).getStore(PlaygroundDatabaseDef.STORE_PINBALLOWNERBG), 100000, 16);
-		} catch (JsonException e) {
-			Platform.log(e);
-		}
-	}
-    private void fillPinballOwners(final Store store, int nOwners, int maxPinball) {
-    	PinballOwnerDatabase pod = new PinballOwnerDatabase();
-    	pod.generate(new CallbackImpl<JsonDatabaseGenerator.JsonContent>() {
-    		long start = System.currentTimeMillis();
-    		int count;
-			@Override
-			public void success(JsonContent value) {
-				try {
-					JsonObject o = value.getJsonObject();
-					Document doc = store.newDocument();
-					doc.setJson(o);
-					doc.save(Document.SAVE_NOREAD);
-					count++;
-					if((count %100)==0) {
-			    		long now = System.currentTimeMillis();
-			    		int sec = (int)((now-start)/1000L);
-						System.out.println("Entries loaded: "+count+", "+(count/(sec>0?sec:1))+"doc/sec");
-					}
-				} catch(JsonException ex) {
-					Platform.log(ex);
-				}
-			}
-		},nOwners,maxPinball);
-    }
 }

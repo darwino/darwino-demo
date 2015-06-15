@@ -48,6 +48,20 @@
 			</binaries>
 		</moduleSet>
 
+		<!-- Playground -->
+		<moduleSet>
+			<useAllReactorProjects>true</useAllReactorProjects>
+			<includes>
+				<include>com.darwino:dwo-playground-j2ee</include>
+			</includes>
+			<binaries>
+				<outputDirectory>playground</outputDirectory>
+				<unpack>false</unpack>
+				<includeDependencies>false</includeDependencies>
+				<outputFileNameMapping>${module.build.finalName}.${module.extension}</outputFileNameMapping>
+			</binaries>
+		</moduleSet>
+
 		<!-- "Angular" prject -->
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
