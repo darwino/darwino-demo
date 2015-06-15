@@ -52,7 +52,7 @@
 		<moduleSet>
 			<useAllReactorProjects>true</useAllReactorProjects>
 			<includes>
-				<include>com.darwino:dwo-playground-j2ee</include>
+				<include>com.darwino.playground:dwo-playground-j2ee</include>
 			</includes>
 			<binaries>
 				<outputDirectory>playground</outputDirectory>
