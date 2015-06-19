@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Playground Domino
+Bundle-SymbolicName: dwo-playground-domino;singleton:=true
+Bundle-Version: 0.8.0.qualifier
+Bundle-Vendor: DARWINO
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: com.darwino.domino.platform,
+ com.darwino.domino.libs

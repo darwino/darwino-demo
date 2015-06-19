@@ -11,6 +11,7 @@
 		<module>dwo-playground-shared</module>
 		<module>dwo-playground-webui</module>
 		<module>dwo-playground-j2ee</module>
+		<module>dwo-playground-domino</module>		
 	</modules>
 
 	<properties>
