@@ -9,13 +9,9 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.4.0",
  com.ibm.notes.java.api;resolution:=optional,
  com.ibm.pvc.servlet,
  com.darwino.domino.libs,
-<<<<<<< HEAD
- com.darwino.domino.platform
-=======
  com.darwino.domino.platform,
  com.darwino.playground.dwo-playground-shared;resolution:=optional,
  com.darwino.playground.dwo-playground-webui;resolution:=optional
->>>>>>> branch 'develop' of https://github.com/darwino/darwino-demo.git
 Bundle-ClassPath: .
 Bundle-Activator: com.darwino.playground.domino.Activator
 Bundle-ActivationPolicy: lazy
