@@ -43,6 +43,7 @@ public class DarwinoApplication extends DarwinoDominoApplication {
 		super(context,manifest);
 	}
 	
+	@Override
 	public Bundle getBundle() {
 		return Activator.getDefault().getBundle();
 	}

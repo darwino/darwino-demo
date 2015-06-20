@@ -9,6 +9,8 @@
 	
 	<artifactId>dwo-playground-shared</artifactId>
 	
+	<packaging>bundle</packaging>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.darwino</groupId>
@@ -17,4 +19,26 @@
 		</dependency>
 	</dependencies>
 	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				
+				<configuration>
+					<instructions>
+						<Require-Bundle>com.darwino.domino.libs,com.darwino.domino.platform</Require-Bundle>
+					</instructions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestFile>${manifest-location}/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
