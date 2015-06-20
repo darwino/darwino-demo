@@ -11,33 +11,45 @@
 
 package com.darwino.playground.domino;
 
+import javax.servlet.ServletContext;
+
+import org.osgi.framework.Bundle;
+
+import com.darwino.commons.json.JsonException;
+import com.darwino.domino.application.DarwinoDominoApplication;
+import com.darwino.platform.DarwinoManifest;
+import com.darwino.playground.app.AppManifest;
+
 
 /**
  * Domino application.
  * 
  * @author Philippe Riand
  */
-public class DarwinoApplication /*extends DarwinoDoJ2EEApplication*/ {
+public class DarwinoApplication extends DarwinoDominoApplication {
 	
-/*	
-	public static DarwinoJ2EEApplication create(ServletContext context) throws JsonException {
-		if(!DarwinoJ2EEApplication.isInitialized()) {
+	public static DarwinoDominoApplication create(ServletContext context) throws JsonException {
+		if(!DarwinoDominoApplication.isInitialized()) {
 			DarwinoApplication app = new DarwinoApplication(
 					context,
-					new AppManifest(true,new AppJ2EEManifest())
+					new AppManifest(true,new AppDominoManifest())
 			);
 			app.init();
 		}
-		return DarwinoJ2EEApplication.get();
+		return DarwinoDominoApplication.get();
 	}
 	
 	protected DarwinoApplication(ServletContext context, DarwinoManifest manifest) {
 		super(context,manifest);
 	}
 	
-	@Override
-	public String[] getConfigurationBeanNames(String type) {
-		return new String[] {"Playground",JsonDb.BEAN_LOCAL_NAME,JsonDb.BEAN_DEFAULT_NAME};
+	public Bundle getBundle() {
+		return Activator.getDefault().getBundle();
 	}
-*/	
+	
+	
+//	@Override
+//	public String[] getConfigurationBeanNames(String type) {
+//		return new String[] {"Playground",JsonDb.BEAN_LOCAL_NAME,JsonDb.BEAN_DEFAULT_NAME};
+//	}
 }

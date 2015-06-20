@@ -2,20 +2,11 @@
 <?eclipse version="3.4"?>
 <plugin>
 
-	<!-- Platform Extensions -->
-	<extension-point id="darwino.eclipse.darwinoPlugin" name="Darwino Plugins Extension"/>
-
-	<!-- Darwino Nature -->
-	<extension point="darwino.eclipse.darwinoPlugin">
-		<service class="com.darwino.domino.platform.PluginDominoPlatform" />
-	</extension>
-
-<!--
    <extension point="org.eclipse.equinox.http.registry.servlets">
       <servlet
-            alias="/darwino.test"
-            class="com.darwino.domino.servlet.DarwinoApplicationServlet">
+            alias="/playground"
+            class="com.darwino.playground.domino.AppServlet">
       </servlet>
    </extension>
--->
+
 </plugin>
