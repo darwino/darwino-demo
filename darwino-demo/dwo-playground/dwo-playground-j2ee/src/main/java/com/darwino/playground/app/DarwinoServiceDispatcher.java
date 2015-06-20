@@ -13,8 +13,6 @@ package com.darwino.playground.app;
 
 import java.util.List;
 
-import javax.servlet.FilterConfig;
-
 import com.darwino.commons.services.HttpService;
 import com.darwino.commons.services.HttpServiceContext;
 import com.darwino.commons.services.HttpServiceFactories;
@@ -36,7 +34,7 @@ public class DarwinoServiceDispatcher extends DarwinoJ2EEServiceDispatcherFilter
 	 * Add the application specific services. 
 	 */
 	@Override
-	protected void addApplicationServiceFactories(FilterConfig config, HttpServiceFactories factories) {
+	protected void addApplicationServiceFactories(HttpServiceFactories factories) {
 		// The resetDB service is only when running in a J2EE environment as it needs the whole demo data project
 		factories.add(new AppServiceFactory() {
 			@Override
