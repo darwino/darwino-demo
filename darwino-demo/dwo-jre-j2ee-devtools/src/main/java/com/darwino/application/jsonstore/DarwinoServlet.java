@@ -24,9 +24,7 @@ import com.darwino.jsonstore.Store;
 import com.darwino.jsonstore.services.cursor.CursorContentFilter;
 import com.darwino.jsonstore.services.cursor.CursorService;
 import com.darwino.platform.DarwinoHttpConstants;
-import com.darwino.platform.resources.DarwinoGlobalPathRewriter;
 import com.darwino.platform.resources.DarwinoLibsResourcesRestFactory;
-import com.darwino.platform.resources.DarwinoRootFileRewriter;
 
 
 /**
