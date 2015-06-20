@@ -34,7 +34,7 @@ import com.darwino.mobile.platform.DarwinoMobileManifest;
  * @author Philippe Riand
  */
 public class DemoMobileManifest extends DarwinoMobileManifest {
-	public static final String SERVER_URL	= "http://192.168.75.79:8080/";
+	public static final String SERVER_URL	= "http://10.0.1.8:8081/";
 	public static final String BRIDGE_URL	= "http://192.168.1.20:8087/";
 
 	private String pathInfo;

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -11,12 +12,38 @@
 		<module>dwo-playground-shared</module>
 		<module>dwo-playground-webui</module>
 		<module>dwo-playground-j2ee</module>
-		<module>dwo-playground-domino</module>		
+		<module>dwo-playground-domino</module>
+		<module>dwo-playground-domino-update</module>
 	</modules>
 
 	<properties>
 		<DARWINO_VERSION>0.8.0-SNAPSHOT</DARWINO_VERSION>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- The META-INF/MANIFEST.MF file is placed in the root of the project 
+			in order to make OSGi development in Eclipse smoother -->
+		<manifest-location>META-INF</manifest-location>
+		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
+
+		<tycho-version>0.22.0</tycho-version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>notes</id>
+			<url>${notes-platform}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>kepler</id>
+			<url>http://download.eclipse.org/releases/kepler/</url>
+			<layout>p2</layout>
+		</repository>
+	</repositories>
 
 	<build>
 		<pluginManagement>
@@ -35,6 +62,31 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.17</version>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-bundle-plugin</artifactId>
+					<version>2.5.4</version>
+					<extensions>true</extensions>
+
+					<configuration>
+						<manifestLocation>${manifest-location}</manifestLocation>
+						<supportedProjectTypes>
+							<supportedProjectType>jar</supportedProjectType>
+							<supportedProjectType>bundle</supportedProjectType>
+							<supportedProjectType>eclipse-plugin</supportedProjectType>
+						</supportedProjectTypes>
+						<instructions>
+							<Import-Package/>
+							<Private-Package />
+							<_snapshot>${osgi.qualifier}</_snapshot>
+							<_removeheaders>Bnd-LastModified,Built-By,Build-Jdk,Created-By,Tool</_removeheaders>
+						</instructions>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -49,4 +101,17 @@
 		</dependencies>
 
 	</dependencyManagement>
+
+	<profiles>
+		<profile>
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			<properties>
+				<osgi.qualifier>qualifier</osgi.qualifier>
+			</properties>
+		</profile>
+	</profiles>
 </project>
