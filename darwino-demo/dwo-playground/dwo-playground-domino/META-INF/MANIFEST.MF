@@ -10,8 +10,6 @@ Require-Bundle: org.eclipse.core.runtime,
  com.ibm.pvc.servlet,
  com.darwino.domino.libs,
  com.darwino.domino.platform
-Bundle-ClassPath: .,
- lib/shared.jar,
- lib/webui.jar
+Bundle-ClassPath: .
 Bundle-Activator: com.darwino.playground.domino.Activator
 Bundle-ActivationPolicy: lazy
