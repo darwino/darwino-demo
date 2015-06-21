@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.darwino.playground</groupId>
-			<artifactId>dwo-playground-domino</artifactId>
+			<artifactId>com.darwino.playground.domino</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
@@ -66,7 +66,7 @@
 
 									<artifacts>
 										<artifact>
-											<id>com.darwino.playground:dwo-playground-domino:${project.version}</id>
+											<id>com.darwino.playground:com.darwino.playground.domino:${project.version}</id>
 											<transitive>false</transitive>
 											<source>false</source>
 										</artifact>

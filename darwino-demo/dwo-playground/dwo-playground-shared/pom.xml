@@ -27,6 +27,7 @@
 				
 				<configuration>
 					<instructions>
+						<Bundle-SymbolicName>com.darwino.playground.shared</Bundle-SymbolicName>
 						<Require-Bundle>com.darwino.domino.libs,com.darwino.domino.platform</Require-Bundle>
 					</instructions>
 				</configuration>
