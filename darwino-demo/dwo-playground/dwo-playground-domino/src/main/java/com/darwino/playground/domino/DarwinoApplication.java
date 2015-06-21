@@ -17,6 +17,7 @@ import org.osgi.framework.Bundle;
 
 import com.darwino.commons.json.JsonException;
 import com.darwino.domino.application.DarwinoDominoApplication;
+import com.darwino.j2ee.resources.JsonDb;
 import com.darwino.platform.DarwinoManifest;
 import com.darwino.playground.app.AppManifest;
 
@@ -42,15 +43,22 @@ public class DarwinoApplication extends DarwinoDominoApplication {
 	protected DarwinoApplication(ServletContext context, DarwinoManifest manifest) {
 		super(context,manifest);
 	}
-	
+
 	@Override
 	public Bundle getBundle() {
 		return Activator.getDefault().getBundle();
 	}
+
+	@Override
+	public String[] getResourcesBundleNames() {
+		return new String[] {
+			"com.darwino.playground.domino",
+			"com.darwino.playground.webui"
+		};
+	}
 	
-	
-//	@Override
-//	public String[] getConfigurationBeanNames(String type) {
-//		return new String[] {"Playground",JsonDb.BEAN_LOCAL_NAME,JsonDb.BEAN_DEFAULT_NAME};
-//	}
+	@Override
+	public String[] getConfigurationBeanNames(String type) {
+		return new String[] {"Playground",JsonDb.BEAN_LOCAL_NAME,JsonDb.BEAN_DEFAULT_NAME};
+	}
 }
