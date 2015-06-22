@@ -16,8 +16,8 @@ import javax.servlet.ServletContext;
 import org.osgi.framework.Bundle;
 
 import com.darwino.commons.json.JsonException;
+import com.darwino.config.jsonstore.JsonDb;
 import com.darwino.domino.application.DarwinoDominoApplication;
-import com.darwino.j2ee.resources.JsonDb;
 import com.darwino.platform.DarwinoManifest;
 import com.darwino.playground.app.AppManifest;
 
