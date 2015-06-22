@@ -17,7 +17,7 @@ import javax.servlet.ServletContextEvent;
 import com.darwino.commons.json.JsonException;
 import com.darwino.j2ee.application.AbstractDarwinoContextListener;
 import com.darwino.j2ee.application.BackgroundServletSynchronizationExecutor;
-import com.darwino.j2ee.application.DarwinoJ2EEApplication;
+import com.darwino.jre.application.DarwinoJreApplication;
 
 /**
  * Servlet listener for initializing the application.
@@ -32,7 +32,7 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 	}
 	
 	@Override
-	protected DarwinoJ2EEApplication createDarwinoApplication(ServletContext context) throws JsonException {
+	protected DarwinoJreApplication createDarwinoApplication(ServletContext context) throws JsonException {
 		return DarwinoApplication.create(context);
 	}
 

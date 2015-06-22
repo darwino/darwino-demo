@@ -28,7 +28,7 @@ import com.darwino.demodata.json.JsonDatabaseGenerator;
 import com.darwino.demodata.json.JsonDatabaseGenerator.JsonContent;
 import com.darwino.demodata.json.pinball.PinballDatabase;
 import com.darwino.demodata.json.pinball.PinballOwnerDatabase;
-import com.darwino.j2ee.application.DarwinoJ2EEApplication;
+import com.darwino.jre.application.DarwinoJreApplication;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.Session;
@@ -72,7 +72,7 @@ public class ResetDBService extends HttpService {
 	
     public void recreatePinballDatabase(final Session jsonSession) throws JsonException {
 		// Create the database
-    	DarwinoJ2EEApplication.get().initDatabase(AppDatabaseDef.DATABASE_NAME, true, new AppDatabaseDef());
+    	DarwinoJreApplication.get().initDatabase(AppDatabaseDef.DATABASE_NAME, true, new AppDatabaseDef());
     	
     	// And fill the documents
     	PinballDatabase pd = new PinballDatabase();

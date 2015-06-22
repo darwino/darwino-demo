@@ -13,8 +13,8 @@ package com.darwino.demo.dominodisc.web;
 
 import javax.servlet.ServletContext;
 
+import com.darwino.config.jsonstore.JsonDb;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
-import com.darwino.j2ee.resources.JsonDb;
 import com.darwino.platform.DarwinoManifest;
 
 /**

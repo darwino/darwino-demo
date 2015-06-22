@@ -12,14 +12,14 @@
 package com.darwino.playground.app;
 
 import com.darwino.commons.util.StringUtil;
-import com.darwino.j2ee.resources.services.DarwinoJ2EEUserService;
+import com.darwino.jre.services.UserServiceBeanDelegate;
 
 /**
  * Create a user service for this app.
  * 
  * @author Philippe Riand
  */
-public class AppUserService extends DarwinoJ2EEUserService {
+public class AppUserService extends UserServiceBeanDelegate {
 
 	@Override
 	public boolean checkUserPassword(String userName, String password) {

@@ -14,8 +14,9 @@ package com.darwino.playground.app;
 import javax.servlet.ServletContext;
 
 import com.darwino.commons.json.JsonException;
+import com.darwino.config.jsonstore.JsonDb;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
-import com.darwino.j2ee.resources.JsonDb;
+import com.darwino.jre.application.DarwinoJreApplication;
 import com.darwino.platform.DarwinoManifest;
 
 /**
@@ -25,15 +26,15 @@ import com.darwino.platform.DarwinoManifest;
  */
 public class DarwinoApplication extends DarwinoJ2EEApplication {
 	
-	public static DarwinoJ2EEApplication create(ServletContext context) throws JsonException {
-		if(!DarwinoJ2EEApplication.isInitialized()) {
+	public static DarwinoJreApplication create(ServletContext context) throws JsonException {
+		if(!DarwinoJreApplication.isInitialized()) {
 			DarwinoApplication app = new DarwinoApplication(
 					context,
 					new AppManifest(true,new AppJ2EEManifest())
 			);
 			app.init();
 		}
-		return DarwinoJ2EEApplication.get();
+		return DarwinoJreApplication.get();
 	}
 	
 	protected DarwinoApplication(ServletContext context, DarwinoManifest manifest) {
