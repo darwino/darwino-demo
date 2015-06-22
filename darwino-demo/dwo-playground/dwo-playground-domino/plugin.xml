@@ -2,11 +2,16 @@
 <?eclipse version="3.4"?>
 <plugin>
 
-   <extension point="org.eclipse.equinox.http.registry.servlets">
-      <servlet
+	<extension point="org.eclipse.equinox.http.registry.servlets">
+		<servlet
             alias="/playground"
             class="com.darwino.playground.domino.AppServlet">
-      </servlet>
-   </extension>
+		</servlet>
+	</extension>
+
+	<!-- Application specific Plugin -->
+	<extension point="darwino.eclipse.darwinoPlugin">
+		<service class="com.darwino.playground.domino.AppPlugin" />
+	</extension>
 
 </plugin>
