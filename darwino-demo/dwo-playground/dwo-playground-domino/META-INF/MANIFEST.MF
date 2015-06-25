@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Playground Domino
-Bundle-SymbolicName: com.darwino.playground.domino;singleton:=true
+Bundle-SymbolicName: dwo-playground-domino;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Bundle-Vendor: DARWINO
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
@@ -10,6 +10,7 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.4.0",
  com.ibm.pvc.servlet,
  com.darwino.domino.libs,
  com.darwino.domino.platform,
+ com.darwino.web.darwino,
  com.darwino.playground.shared;resolution:=optional,
  com.darwino.playground.webui;resolution:=optional
 Bundle-ClassPath: .

@@ -32,19 +32,6 @@
 		<tycho-version>0.22.0</tycho-version>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>notes</id>
-			<url>${notes-platform}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>kepler</id>
-			<url>http://download.eclipse.org/releases/kepler/</url>
-			<layout>p2</layout>
-		</repository>
-	</repositories>
-
 	<build>
 		<pluginManagement>
 			<plugins>
