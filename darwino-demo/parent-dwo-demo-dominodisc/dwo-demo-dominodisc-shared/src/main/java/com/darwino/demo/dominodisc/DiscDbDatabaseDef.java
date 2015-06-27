@@ -15,7 +15,7 @@ import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonUtil;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.Database;
-import com.darwino.jsonstore.meta.DatabaseFactory;
+import com.darwino.jsonstore.impl.DatabaseFactoryImpl;
 import com.darwino.jsonstore.meta._Database;
 import com.darwino.jsonstore.meta._FtSearch;
 import com.darwino.jsonstore.meta._Store;
@@ -25,18 +25,24 @@ import com.darwino.jsonstore.meta._Store;
  * 
  * @author Philippe Riand
  */
-public class DiscDbDatabaseDef implements DatabaseFactory {
+public class DiscDbDatabaseDef extends DatabaseFactoryImpl {
 
 	public static final String DATABASE_DOMDISC	= "domdisc";
 	public static final String STORE_NSFDATA	= "nsfdata";
 
+	public static final int DATABASE_VERSION	= 1;
 	
+	@Override
+	public int getDatabaseVersion(String databaseName) throws JsonException {
+		return DATABASE_VERSION;
+	}
+
 	@Override
 	public _Database loadDatabase(String databaseName) throws JsonException {
 		if(!StringUtil.equals(databaseName, DATABASE_DOMDISC)) {
 			return null;
 		}
-		_Database db = new _Database(DATABASE_DOMDISC, "Domino Discussion", 1);
+		_Database db = new _Database(DATABASE_DOMDISC, "Domino Discussion", DATABASE_VERSION);
 
 		db.setReplicationEnabled(true);
 		db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
