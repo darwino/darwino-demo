@@ -13,8 +13,8 @@ package com.darwino.application.jsonstore;
 
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.util.StringUtil;
+import com.darwino.jsonstore.impl.DatabaseFactoryImpl;
 import com.darwino.jsonstore.meta._Database;
-import com.darwino.jsonstore.meta.DatabaseFactory;
 import com.darwino.jsonstore.meta._FtSearch;
 import com.darwino.jsonstore.meta._Index;
 import com.darwino.jsonstore.meta._Store;
@@ -25,18 +25,24 @@ import com.darwino.jsonstore.query.nodes.SpecialFieldNode;
  * 
  * @author Philippe Riand
  */
-public class NewsDatabaseDef implements DatabaseFactory {
+public class NewsDatabaseDef extends DatabaseFactoryImpl {
 	
 	public static final String DATABASE_NEWS = "news";
 	public static final String STORE_NEWS = "news";
 
+	public static final int DATABASE_VERSION	= 1;
+	
+	@Override
+	public int getDatabaseVersion(String databaseName) throws JsonException {
+		return DATABASE_VERSION;
+	}
 	
 	@Override
 	public _Database loadDatabase(String databaseName) throws JsonException {
 		if(!StringUtil.equals(databaseName, DATABASE_NEWS)) {
 			return null;
 		}
-		_Database db = new _Database(DATABASE_NEWS, "News Database", 1);
+		_Database db = new _Database(DATABASE_NEWS, "News Database", DATABASE_VERSION);
 
 		db.setReplicationEnabled(true);
 		//db.setDocumentSecurity(Database.DOCSEC_INCLUDE);

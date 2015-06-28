@@ -14,7 +14,7 @@ package com.darwino.playground.app;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonUtil;
 import com.darwino.commons.util.StringUtil;
-import com.darwino.jsonstore.meta.DatabaseFactory;
+import com.darwino.jsonstore.impl.DatabaseFactoryImpl;
 import com.darwino.jsonstore.meta._Database;
 import com.darwino.jsonstore.meta._FtSearch;
 import com.darwino.jsonstore.meta._Store;
@@ -24,9 +24,10 @@ import com.darwino.jsonstore.meta._Store;
  * 
  * @author Philippe Riand
  */
-public class AppDatabaseDef implements DatabaseFactory {
+public class AppDatabaseDef extends DatabaseFactoryImpl {
 
 	public static final String DATABASE_NAME	= "playground";
+	public static final int DATABASE_VERSION	= 1;
 	
 	public static final String STORE_PINBALLS = "pinball";
 	public static final String STORE_PINBALLOWNER = "owners";
@@ -38,13 +39,17 @@ public class AppDatabaseDef implements DatabaseFactory {
 	public static final String STORE_TEMPDOC2 = "temp2";
 	public static final String STORE_TEMPSOC  = "tempsocial";
 
+	@Override
+	public int getDatabaseVersion(String databaseName) throws JsonException {
+		return DATABASE_VERSION;
+	}
 	
 	@Override
 	public _Database loadDatabase(String databaseName) throws JsonException {
 		if(!StringUtil.equals(databaseName, DATABASE_NAME)) {
 			return null;
 		}
-		_Database db = new _Database(DATABASE_NAME, "Playground Database", 1);
+		_Database db = new _Database(DATABASE_NAME, "Playground Database", DATABASE_VERSION);
 
 		db.setReplicationEnabled(true);
 		//db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
