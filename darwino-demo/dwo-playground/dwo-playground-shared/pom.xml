@@ -28,7 +28,11 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>com.darwino.playground.shared</Bundle-SymbolicName>
-						<Require-Bundle>com.darwino.domino.libs,com.darwino.domino.platform</Require-Bundle>
+						<Require-Bundle>
+							com.darwino.domino.libs,
+							com.darwino.domino.platform,
+							com.darwino.web.darwino
+						</Require-Bundle>
 					</instructions>
 				</configuration>
 			</plugin>

@@ -115,11 +115,11 @@
 											<transitive>false</transitive>
 											<source>false</source>
 										</artifact>
-<!-- 										<artifact> -->
-<!-- 											<id>com.darwino:dwo-web-darwino:${DARWINO_VERSION}</id> -->
-<!-- 											<transitive>true</transitive> -->
-<!-- 											<source>false</source> -->
-<!-- 										</artifact> -->
+										<artifact>
+											<id>com.darwino:dwo-web-darwino:${DARWINO_VERSION}</id>
+											<transitive>true</transitive>
+											<source>false</source>
+										</artifact>
 									</artifacts>
 							    </feature>
 							</featureDefinitions>
