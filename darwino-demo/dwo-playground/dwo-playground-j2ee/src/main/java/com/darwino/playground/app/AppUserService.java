@@ -11,7 +11,6 @@
 
 package com.darwino.playground.app;
 
-import com.darwino.commons.util.StringUtil;
 import com.darwino.jre.services.UserServiceBeanDelegate;
 
 /**
@@ -20,12 +19,4 @@ import com.darwino.jre.services.UserServiceBeanDelegate;
  * @author Philippe Riand
  */
 public class AppUserService extends UserServiceBeanDelegate {
-
-	@Override
-	public boolean checkUserPassword(String userName, String password) {
-		if(StringUtil.equals(password,"darwino")) {
-			return true;
-		}
-		return false;
-	}
 }

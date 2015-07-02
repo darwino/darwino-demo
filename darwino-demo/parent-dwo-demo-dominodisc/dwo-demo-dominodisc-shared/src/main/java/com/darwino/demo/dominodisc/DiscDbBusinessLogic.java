@@ -40,7 +40,7 @@ public  class DiscDbBusinessLogic extends DefaultExtensionRegistry {
 				// Add the user who created the entry
 				// we use the email as the ID here, as this is the one understood by Connections profiles
 				DarwinoContext ctx = DarwinoContext.get();
-				String userName = ctx.getUser().getAttribute(User.ATTR_EMAIL);
+				String userName = (String)ctx.getUser().getAttribute(User.ATTR_EMAIL);
 				json.putStringDef("from",userName);
 				json.putStringDef("altfrom",userName);
 				json.putStringDef("abbreviatefrom",ctx.getUser().getCn()); // Not sure about this
