@@ -53,6 +53,9 @@ public class DemoDataLoader {
 			}
 		}
 		@Override
+		public void close() throws IOException {
+		}
+		@Override
 		public String getMimeType() throws IOException {
 			return "image/png";
 		}
