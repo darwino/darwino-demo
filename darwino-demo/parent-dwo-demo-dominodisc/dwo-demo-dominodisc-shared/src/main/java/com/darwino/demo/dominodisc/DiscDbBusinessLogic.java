@@ -14,6 +14,7 @@ package com.darwino.demo.dominodisc;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.security.acl.User;
+import com.darwino.commons.security.acl.UserException;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.extensions.DefaultExtensionRegistry;
@@ -39,19 +40,23 @@ public  class DiscDbBusinessLogic extends DefaultExtensionRegistry {
 
 				// Add the user who created the entry
 				// we use the email as the ID here, as this is the one understood by Connections profiles
-				DarwinoContext ctx = DarwinoContext.get();
-				String userName = ctx.getUser().getAttribute(User.ATTR_EMAIL);
-				json.putStringDef("from",userName);
-				json.putStringDef("altfrom",userName);
-				json.putStringDef("abbreviatefrom",ctx.getUser().getCn()); // Not sure about this
-				json.putStringDef("abrfrom",ctx.getUser().getCn()); // Not sure about this
-				
-				// Calculate the abstract
-				String body = json.getString("body");
-				if(StringUtil.isNotEmpty(body)) {
-					json.putStringDef("abstract",body.length()>30 ? body.substring(0,30)+"..." : body);
-				} else {
-					json.remove("abstract");
+				try {
+					DarwinoContext ctx = DarwinoContext.get();
+					String userName = (String)ctx.getUser().getAttribute(User.ATTR_EMAIL);
+					json.putStringDef("from",userName);
+					json.putStringDef("altfrom",userName);
+					json.putStringDef("abbreviatefrom",ctx.getUser().getCn()); // Not sure about this
+					json.putStringDef("abrfrom",ctx.getUser().getCn()); // Not sure about this
+					
+					// Calculate the abstract
+					String body = json.getString("body");
+					if(StringUtil.isNotEmpty(body)) {
+						json.putStringDef("abstract",body.length()>30 ? body.substring(0,30)+"..." : body);
+					} else {
+						json.remove("abstract");
+					}
+				} catch(UserException ex) {
+					throw new JsonException(ex);
 				}
 			}
 		});
