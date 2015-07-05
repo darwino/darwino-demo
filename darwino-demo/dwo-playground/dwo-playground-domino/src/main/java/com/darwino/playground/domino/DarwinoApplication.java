@@ -16,7 +16,7 @@ import javax.servlet.ServletContext;
 import org.osgi.framework.Bundle;
 
 import com.darwino.commons.json.JsonException;
-import com.darwino.config.jsonstore.JsonDb;
+import com.darwino.commons.platform.ManagedBeansService;
 import com.darwino.domino.application.DarwinoDominoApplication;
 import com.darwino.platform.DarwinoManifest;
 import com.darwino.playground.app.AppManifest;
@@ -58,7 +58,7 @@ public class DarwinoApplication extends DarwinoDominoApplication {
 	}
 	
 	@Override
-	public String[] getConfigurationBeanNames(String type) {
-		return new String[] {"Playground",JsonDb.BEAN_LOCAL_NAME,JsonDb.BEAN_DEFAULT_NAME};
+	public String[] getConfigurationBeanNames() {
+		return new String[] {"Playground",ManagedBeansService.LOCAL_NAME,ManagedBeansService.DEFAULT_NAME};
 	}
 }
