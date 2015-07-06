@@ -14,7 +14,7 @@ package com.darwino.playground.app;
 import javax.servlet.ServletContext;
 
 import com.darwino.commons.json.JsonException;
-import com.darwino.config.jsonstore.JsonDb;
+import com.darwino.commons.platform.ManagedBeansService;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.jre.application.DarwinoJreApplication;
 import com.darwino.platform.DarwinoManifest;
@@ -42,7 +42,7 @@ public class DarwinoApplication extends DarwinoJ2EEApplication {
 	}
 	
 	@Override
-	public String[] getConfigurationBeanNames(String type) {
-		return new String[] {"Playground",JsonDb.BEAN_LOCAL_NAME,JsonDb.BEAN_DEFAULT_NAME};
+	public String[] getConfigurationBeanNames() {
+		return new String[] {"Playground",ManagedBeansService.LOCAL_NAME,ManagedBeansService.DEFAULT_NAME};
 	}
 }

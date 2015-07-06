@@ -9,7 +9,7 @@
 	
 	<artifactId>dwo-playground-shared</artifactId>
 	
-	<packaging>bundle</packaging>
+	<packaging>jar</packaging>
 	
 	<dependencies>
 		<dependency>

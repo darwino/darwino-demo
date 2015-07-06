@@ -13,7 +13,7 @@ package com.darwino.application.jsonstore;
 
 import javax.servlet.ServletContext;
 
-import com.darwino.config.jsonstore.JsonDb;
+import com.darwino.commons.platform.ManagedBeansService;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.platform.DarwinoManifest;
 
@@ -29,7 +29,7 @@ public class StudioJ2EEApplication extends DarwinoJ2EEApplication {
 	}
 	
 	@Override
-	public String[] getConfigurationBeanNames(String type) {
-		return new String[] {"demo",JsonDb.BEAN_LOCAL_NAME,JsonDb.BEAN_DEFAULT_NAME};
+	public String[] getConfigurationBeanNames() {
+		return new String[] {"demo",ManagedBeansService.LOCAL_NAME,ManagedBeansService.DEFAULT_NAME};
 	}
 }
