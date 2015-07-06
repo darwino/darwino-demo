@@ -26,16 +26,16 @@
   	</context-param>
 	<context-param>
     	<param-name>dwo-sync-url</param-name>
-    	<param-value>http://10.0.1.9/darwino.sync</param-value>
+    	<param-value>${discdb.domino.url=http://127.0.0.1/darwino.sync}</param-value>
     </context-param>
 <!--     
 	<context-param>
     	<param-name>dwo-sync-user</param-name>
-    	<param-value>Philippe Riand</param-value>
+    	<param-value>${discdb.domino.user=Philippe Riand}</param-value>
   	</context-param>
 	<context-param>
     	<param-name>dwo-sync-password</param-name>
-    	<param-value>password</param-value>
+    	<param-value>${discdb.domino.password=password}</param-value>
   	</context-param>
  -->  	
 	<context-param>
