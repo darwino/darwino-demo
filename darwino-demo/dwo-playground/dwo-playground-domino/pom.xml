@@ -6,11 +6,21 @@
 		<artifactId>Playground</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>com.darwino.playground.domino</artifactId>
-
-	<packaging>eclipse-plugin</packaging>
+	<artifactId>dwo-playground-domino</artifactId>
  
 	<dependencies>
+		
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-platform</artifactId>
+			<version>0.8.0-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.darwino.domino</groupId>
+			<artifactId>com.darwino.domino.libs</artifactId>
+			<version>0.8.0-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>com.darwino.domino</groupId>
 			<artifactId>com.darwino.domino.platform</artifactId>
@@ -27,10 +37,29 @@
 			<artifactId>dwo-playground-webui</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		
+		<!-- Eclipse and XSP dependencies -->
+		<dependency>
+			<groupId>com.ibm.xsp</groupId>
+			<artifactId>org.eclipse.core.runtime</artifactId>
+			<version>3.4.0.v20080512</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.xsp</groupId>
+			<artifactId>com.ibm.notes.java.api</artifactId>
+			<version>9.0.1.20140404-1000</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.xsp</groupId>
+			<artifactId>com.ibm.pvc.servlet</artifactId>
+			<version>2.5.0.20140627-1700</version>
+		</dependency>
 	</dependencies>
  	
  	
 	<build>
+	
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -42,70 +71,12 @@
 				</configuration>
 			</plugin>
 			
-			
 			<plugin>
-				<!-- enable tycho build extension -->
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<extensions>true</extensions>
-			</plugin>
-			<plugin>
-				<!-- enable tycho packaging extension -->
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-packaging-plugin</artifactId>
-				<version>${tycho-version}</version>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-compiler-plugin</artifactId>
-				<version>${tycho-version}</version>
+				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<filters>
-						<!-- work around Equinox bug 348045 -->
-						<filter>
-							<type>p2-installable-unit</type>
-							<id>org.eclipse.equinox.servletbridge.extensionbundle</id>
-							<removeAll/>
-						</filter>
-					</filters>
-					<environments>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86_64</arch>
-						</environment>
-					</environments>
-					<pomDependencies>consider</pomDependencies>
-					
-					<dependency-resolution>
-						<optionalDependencies>ignore</optionalDependencies>
-					</dependency-resolution>
-
+					<archive>
+						<manifestFile>${manifest-location}/MANIFEST.MF</manifestFile>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>

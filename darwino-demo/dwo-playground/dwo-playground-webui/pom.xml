@@ -8,22 +8,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	
-	<packaging>jar</packaging>
-	
 	<artifactId>dwo-playground-webui</artifactId>
-	
-	<dependencies>
-		<dependency>
-			<groupId>com.darwino</groupId>
-			<artifactId>dwo-web-darwino</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.darwino.playground</groupId>
-			<artifactId>dwo-playground-shared</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
 	
 	<build>
 		<plugins>
@@ -34,7 +19,11 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>com.darwino.playground.webui</Bundle-SymbolicName>
-						<Require-Bundle>com.darwino.domino.libs,com.darwino.domino.platform</Require-Bundle>
+						<Require-Bundle>
+							com.darwino.domino.libs,
+							com.darwino.domino.platform,
+							com.darwino.web.darwino
+						</Require-Bundle>
 					</instructions>
 				</configuration>
 			</plugin>

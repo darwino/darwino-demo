@@ -53,7 +53,8 @@ public class DarwinoApplication extends DarwinoDominoApplication {
 	public String[] getResourcesBundleNames() {
 		return new String[] {
 			"com.darwino.playground.domino",
-			"com.darwino.playground.webui"
+			"com.darwino.playground.webui",
+			"com.darwino.web.darwino"
 		};
 	}
 	
