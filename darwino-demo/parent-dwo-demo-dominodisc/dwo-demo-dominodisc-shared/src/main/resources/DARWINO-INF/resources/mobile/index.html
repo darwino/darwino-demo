@@ -145,6 +145,28 @@
   					<div class="item">
   					<div class="item-body">
 						<div class="pe-comment-message" ng-bind-html="item.value.body"></div>
+
+						<p class="attachments" ng-hide="entries.getAttachments(item).length == 0">
+							<a class="subdued">Attachments</a>
+
+							<table class="attachment-table">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Type</th>
+										<th>Size</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="att in entries.getAttachments(item)">
+										<td><a ng-href="{{att.url}}" target="_blank"><span ng-bind="att.name"></span></a></td>
+										<td><span ng-bind="att.mimeType"></span></td>
+										<td><span ng-bind="att.length"></span></td>
+									</tr>
+								<tbody>
+							</table>
+						</p>
+
     					<p><a class="subdued" ng-click="entries.toggleComments(item)" ng-bind-template="{{item.children.length||0}} Response(s)"></a></p>
 					</div>
 

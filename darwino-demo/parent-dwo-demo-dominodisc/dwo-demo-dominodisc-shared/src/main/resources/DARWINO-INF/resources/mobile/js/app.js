@@ -137,6 +137,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		currentCommentId: null,
 		currentTitle: "",
 		currentText: "",
+		attachments: {},
 		getProfile: function(item) {
 			return profilesService.getProfile(item.value.from,function(){$scope.$apply()});
 		},
@@ -296,6 +297,48 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 				}
 			//}
 			this.cancel();
+		},
+		
+		getAttachments: function(item) {
+			if(!this.attachments[item.unid]) {
+				var result = [];
+				
+				var store = session.getDatabase("domdisc").getStore("nsfdata");
+				var doc = store.loadDocument(item.unid);
+				if(doc != null) {
+					var atts = doc.getAttachments();
+					
+					// Do some post-processing
+					angular.forEach(atts, function(att) {
+						var name = att._name;
+						var delimIndex = name.indexOf("||");
+						
+						// If it's an inline image, ignore it entirely
+						if(delimIndex > -1) {
+							return;
+						}
+						
+						// Otherwise, remove any field-name prefix
+						delimIndex = name.indexOf("^^");
+						if(delimIndex > -1) {
+							name = name.substring(delimIndex+2);
+						}
+						
+						result.push({
+							name: name,
+							length: att._length,
+							mimeType: att._mimeType,
+							url: doc.getAttachmentUrl(att._name)
+						})
+					});
+				}
+				
+				this.attachments[item.unid] = result;
+			}
+			console.log("returning");
+			console.log(this.attachments[item.unid]);
+			return this.attachments[item.unid];
+			
 		},
 		
 		submit: function() {

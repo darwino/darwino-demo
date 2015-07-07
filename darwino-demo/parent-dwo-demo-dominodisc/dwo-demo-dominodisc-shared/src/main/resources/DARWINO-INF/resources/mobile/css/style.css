@@ -97,3 +97,17 @@ body {
 .header.row { height: 75px; top: 0; }
 .body.row { top: 75px; bottom: 50px; }
 .footer.row { height: 50px; bottom: 0; }
+
+
+/*
+ * Entry attachment tables
+ */
+.attachment-table {
+	border-collapse: collapse;
+}
+.attachment-table th {
+	border-bottom: 0.2em solid lightgrey;
+}
+.attachment-table th, .attachment-table td {
+	padding: 0.25em 0.5em;
+}
