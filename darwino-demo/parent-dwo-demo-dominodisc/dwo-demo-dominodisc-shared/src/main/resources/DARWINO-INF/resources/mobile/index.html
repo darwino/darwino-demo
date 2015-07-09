@@ -146,7 +146,7 @@
   					<div class="item-body">
 						<div class="pe-comment-message" ng-bind-html="item.value.body"></div>
 
-						<p class="attachments" ng-hide="entries.getAttachments(item).length == 0">
+						<p class="attachments" ng-hide="entries.getAttachments(item).length == 0" ng-cloak>
 							<a class="subdued">Attachments</a>
 
 							<table class="attachment-table">
