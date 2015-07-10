@@ -27,14 +27,6 @@
 					</instructions>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestFile>${manifest-location}/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 	

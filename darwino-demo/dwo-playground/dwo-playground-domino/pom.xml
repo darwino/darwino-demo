@@ -7,6 +7,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>dwo-playground-domino</artifactId>
+	
+	<name>Playground Domino</name>
  
 	<dependencies>
 		
@@ -59,24 +61,27 @@
  	
  	
 	<build>
-	
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<verbose>true</verbose>
-				</configuration>
-			</plugin>
-			
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestFile>${manifest-location}/MANIFEST.MF</manifestFile>
-					</archive>
+					<instructions>
+						<Bundle-SymbolicName>dwo-playground-domino</Bundle-SymbolicName>
+						<Require-Bundle>
+							org.eclipse.core.runtime;bundle-version="3.4.0",
+							com.ibm.notes.java.api;resolution:=optional,
+							com.ibm.pvc.servlet,
+							com.darwino.domino.libs,
+							com.darwino.domino.platform,
+							com.darwino.web.darwino,
+							com.darwino.playground.shared;resolution:=optional,
+							com.darwino.playground.webui;resolution:=optional
+						</Require-Bundle>
+						<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
+						<Bundle-Activator>com.darwino.playground.domino.Activator</Bundle-Activator>
+					</instructions>
 				</configuration>
 			</plugin>
 		</plugins>
