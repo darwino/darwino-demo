@@ -4,6 +4,9 @@ bin/
 .project
 .classpath
 
+# Auto-generated
+MANIFEST.MF
+
 
 # Mac
 .DS_Store
