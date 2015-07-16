@@ -11,17 +11,12 @@
 
 package com.darwino.demo.dominodisc;
 
-import java.util.Calendar;
-
 import com.darwino.commons.json.JsonException;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.Store;
 import com.darwino.jsonstore.extensions.ExtensionRegistry;
 import com.darwino.jsonstore.meta.DatabaseFactory;
-import com.darwino.jsonstore.replication.ReplicationGroup;
-import com.darwino.jsonstore.replication.ReplicationGroupSimple;
-import com.darwino.jsonstore.replication.ReplicationProfile;
 import com.darwino.platform.DarwinoContext;
 import com.darwino.platform.DarwinoManifest;
 
@@ -87,28 +82,5 @@ public class DiscDbManifest extends DarwinoManifest {
 	@Override
 	public ExtensionRegistry getExtensionRegistry() {
 		return new DiscDbBusinessLogic();
-	}
-	
-	@Override
-	public ReplicationGroup getSynchronizationGroup() {
-		if(mobile) {
-			// Limit the sync entries here
-			// Should we use max entries instead?
-			return new ReplicationGroupSimple(getDatabases()) {
-				@Override
-				public ReplicationProfile getProfile(int index) {
-					ReplicationProfile p = new ReplicationProfile();
-					// Oct 1st 2014
-					Calendar cal = Calendar.getInstance();
-					cal.set(2014, 10-1, 1, 0, 0, 0);
-					p.setStartTime(cal.getTime().getTime());
-					//System.out.println("Selective replication, start date="+(new Date(p.getStartTime())).toString());
-					return p;
-				}
-			};
-		} else {
-			return super.getSynchronizationGroup();
-		}
-		
 	}
 }
