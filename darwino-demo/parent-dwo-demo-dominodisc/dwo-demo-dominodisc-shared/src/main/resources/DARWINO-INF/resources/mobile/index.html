@@ -105,9 +105,9 @@
           </ion-content>
 
 		  <ion-footer-bar class="bar-assertive">
-				<div class="item-avatar item-miniavatar" ng-click="go('/pe/profile')">
-					<img ng-src="{{profilesService.getProfilePhotoUrl('@me')}}" alt="Photo">
-					<div>{{profilesService.getProfile('@me').cn}}</div>
+				<div class="item-avatar item-miniavatar" ng-click="go('/pe/user')">
+					<img ng-src="{{userService.getUserPhotoUrl('@me')}}" alt="Photo">
+					<div>{{userService.getCurrentUser().getCn()}}</div>
 					<div>Discussion Database</div>
 				</div>
 		  </ion-footer-bar>
@@ -140,7 +140,7 @@
   					<div class="item item-avatar">
 						<img ng-src="{{entries.getPhoto(item)}}" alt="Photo">
     					<h2 ng-bind="item.value.subject"></h2>
-    					<h3 ng-bind-template="{{entries.getProfile(item).cn}}, {{item.cdate|formattedDate}}"></h3>
+    					<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
   					</div>
   					<div class="item">
   					<div class="item-body">
@@ -174,7 +174,7 @@
   							<div class="item item-avatar">
 								<img ng-src="{{entries.getPhoto(comment)}}" alt="Photo">
 								<h2 ng-bind="comment.value.subject"></h2>
-    							<h3 ng-bind-template="{{entries.getProfile(comment).cn}}, {{comment.cdate|formattedDate}}"></h3>
+    							<h3 ng-bind-template="{{entries.getUser(comment).getCn()}}, {{comment.cdate|formattedDate}}"></h3>
 								<div class="pe-comment-message" ng-bind-html="comment.value.body"></div>
 		  						<div ng-hide="isReadOnly()" class="item tabs tabs-secondary tabs-icon-left">
     								<a class="tab-item" ng-click="entries.editComment(item,comment)">
@@ -254,13 +254,13 @@
   		</ion-modal-view>
 	</script>
 
-    <script id="templates/profile.html" type="text/ng-template">
-      <ion-view view-title="Profile">
+    <script id="templates/user.html" type="text/ng-template">
+      <ion-view view-title="User">
         <ion-content>
 			<div>
-				<img class="pe-profile-avatar" ng-src="{{profilesService.getProfilePhotoUrl('@me')}}" alt="Photo">
+				<img class="pe-profile-avatar" ng-src="{{userService.getUserPhotoUrl('@me')}}" alt="Photo">
 			</div>
-			<div class="pe-profile-cn">{{profilesService.getProfile('@me').cn}}</div>
+			<div class="pe-profile-cn">{{userService.getCurrentUser().getCn()}}</div>
         </ion-content>
       </ion-view>
     </script>

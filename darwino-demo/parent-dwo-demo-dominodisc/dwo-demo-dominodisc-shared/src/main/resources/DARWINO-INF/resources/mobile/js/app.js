@@ -10,13 +10,13 @@
  */
 
 var jstore = darwino.jstore;
-var social = darwino.social;
+var services = darwino.services;
 
 var jstore_baseUrl = "$darwino-jstore";
 var social_baseUrl = "$darwino-social";
 
 var session = jstore.createRemoteApplication(jstore_baseUrl).createSession();
-var profilesService = social.createProfilesService(social_baseUrl+"/profiles");
+var userService = services.createUserService(social_baseUrl+"/users");
 
 // Enable some logging
 var LOG_GROUP = "discdb.web";
@@ -28,7 +28,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	// Make some global var visible
 	$rootScope.darwino = darwino;
 	$rootScope.session = session;
-	$rootScope.profilesService = profilesService;
+	$rootScope.userService = userService;
 	
 	$rootScope.menuDisc = true;
 	$rootScope.menuSync = true;
@@ -48,10 +48,10 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	};
 
 	$rootScope.isAnonymous = function() {
-		return profilesService.isAnonymous();
+		return userService.getCurrentUser().isAnonymous();
 	};
 	$rootScope.isReadOnly = function() {
-		return profilesService.isAnonymous();
+		return this.isAnonymous();
 	};
 	$rootScope.go = function(path) {
 		$location.path(path);
@@ -138,11 +138,11 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		currentTitle: "",
 		currentText: "",
 		attachments: {},
-		getProfile: function(item) {
-			return profilesService.getProfile(item.value.from,function(){$scope.$apply()});
+		getUser: function(item) {
+			return userService.findUser(item.value.from,function(u,n){if(n){$scope.$apply()}});
 		},
 		getPhoto: function(item) {
-			return profilesService.getProfilePhotoUrl(item.value.from);
+			return userService.getUserPhotoUrl(item.value.from);
 		},
 		isEditItem: function(item) {
 			return this.mode==1 && item==this.currentItem;
@@ -335,8 +335,6 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 				
 				this.attachments[item.unid] = result;
 			}
-			console.log("returning");
-			console.log(this.attachments[item.unid]);
 			return this.attachments[item.unid];
 			
 		},
@@ -421,7 +419,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 
 
 //
-//	Profile
+//	User
 //
-.controller('ProfileCtrl', function($scope) {
+.controller('UserCtrl', function($scope) {
 });
