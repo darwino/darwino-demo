@@ -9,20 +9,20 @@
 	<!-- Make sure that the database is properly deployed when the app is launched -->
 	<context-param>
     	<param-name>dwo-auto-deploy-jsonstore</param-name>
-    	<param-value>true</param-value>
-  	</context-param>
+    	<param-value>${discdb.domino.auto-deploy-jsonstore=true}</param-value>
+    </context-param>
   	
 	<context-param>
     	<param-name>dwo-sync-trace</param-name>
-    	<param-value>true</param-value>
+    	<param-value>${discdb.domino.sync-trace=false}</param-value>
   	</context-param>
 	<context-param>
     	<param-name>dwo-sync-enabled</param-name>
-    	<param-value>true</param-value>
+    	<param-value>${discdb.domino.sync-enabled=true}</param-value>
   	</context-param>
 	<context-param>
     	<param-name>dwo-sync-emptyjsondbonstart</param-name>
-    	<param-value>false</param-value>
+    	<param-value>${discdb.domino.sync-emptyjsondbonstart=false}</param-value>
   	</context-param>
 	<context-param>
     	<param-name>dwo-sync-url</param-name>

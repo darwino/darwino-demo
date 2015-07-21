@@ -34,7 +34,7 @@ import com.darwino.jsonstore.UrlBuilder;
 import com.darwino.jsonstore.callback.CursorEntry;
 import com.darwino.jsonstore.callback.CursorHandler;
 import com.darwino.jsonstore.impl.UrlBuilderImpl;
-import com.darwino.runtime.util.UrlUtil;
+import com.darwino.runtime.util.HttpUtil;
 
 
 /**
@@ -93,7 +93,7 @@ public class MainBean implements Serializable {
 		    	final ArrayList<Object> l = new ArrayList<Object>();
 		    	try {
 		    		HttpServletRequest req = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		    		String reqUrl = UrlUtil.getContextUrl(req);
+		    		String reqUrl = HttpUtil.getContextUrl(req);
 					//final UrlBuilder ub = DatabaseSession.get().getUrlBuilder();
 					final UrlBuilder ub = new UrlBuilderImpl(PathUtil.concat(reqUrl,"jsonstore",'/'));
 			    	Cursor cursor = DatabaseSession.get().getDatabase(NewsDatabaseDef.DATABASE_NEWS)
