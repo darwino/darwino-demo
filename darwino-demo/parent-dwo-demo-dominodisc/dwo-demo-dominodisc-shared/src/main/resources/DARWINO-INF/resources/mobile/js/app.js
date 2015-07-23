@@ -29,6 +29,9 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	$rootScope.darwino = darwino;
 	$rootScope.session = session;
 	$rootScope.userService = userService;
+
+	$rootScope.database = $rootScope.session.getDatabase("domdisc");
+	$rootScope.nsfdata = $rootScope.database.getStore("nsfdata");
 	
 	$rootScope.menuDisc = true;
 	$rootScope.menuSync = true;
@@ -40,18 +43,20 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	$rootScope._entriesCount = -1;
 	$rootScope.getEntriesCount = function() {
 		if($rootScope._entriesCount<0) {
-			var store = session.getDatabase("domdisc").getStore("nsfdata");
-			$rootScope._entriesCount = store.documentCount();
+			$rootScope._entriesCount = $rootScope.nsfdata.documentCount();
 			darwino.log.d(LOG_GROUP,"Calculated discussion entries count {0}",$rootScope._entriesCount);
 		}
 		return $rootScope._entriesCount; 
 	};
-
+	
 	$rootScope.isAnonymous = function() {
 		return userService.getCurrentUser().isAnonymous();
 	};
 	$rootScope.isReadOnly = function() {
 		return this.isAnonymous();
+	};
+	$rootScope.isFtEnabled = function() {
+		return $rootScope.nsfdata.isFtSearchEnabled();
 	};
 	$rootScope.go = function(path) {
 		$location.path(path);
@@ -137,6 +142,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		currentCommentId: null,
 		currentTitle: "",
 		currentText: "",
+		ftSearch: "",
 		attachments: {},
 		getUser: function(item) {
 			return userService.findUser(item.value.from,function(u,n){if(n){$scope.$apply()}});
@@ -154,6 +160,8 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			return this.mode==3 && item==this.currentItem;
 		},
 		refresh: function() {
+			this.eof = false;
+			entries.all = [];
 			this.loadItems(0,itemCount);
 			darwino.hybrid.setDirty(false);
 		},
@@ -161,13 +169,13 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			return !this.eof;
 		},
 		loadMore: function() {
+			// Prevent a request if nothing has been loaded yet
+			if(entries.all.length==0) {
+				return;
+			}
 			this.loadItems(entries.all.length,itemCount);
 		},
 		loadItems: function(skip,limit) {
-			if(skip==0) {
-				this.eof = false;
-				entries.all = [];
-			}
 			// Prevents loop with infinite scroll
 			if(this.eof) {
 				$scope.$broadcast('scroll.infiniteScrollComplete');
@@ -177,10 +185,11 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 					+'?skip='+skip
 					+'&limit='+limit
 					+'&hierarchical=2'
+					+(this.ftSearch?"&ftsearch="+encodeURIComponent(this.ftSearch):"")
 					+'&orderby=_cdate desc'
 					+'&jsontree=true'
-					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES);
-			this._loadItems(wallURL,function(entry) {
+					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+			this._loadItems(wallURL,limit,function(entry) {
 				entries.all.push(entry);
 			},true);
 		},
@@ -188,10 +197,11 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			var wallURL = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
 					+'?unid='+unid
 					+'&hierarchical=2'
+					+(this.ftSearch?"&ftsearch="+encodeURIComponent(this.ftSearch):"")
 					+'&orderby=_cdate desc'
 					+'&jsontree=true'
-					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES);
-			this._loadItems(wallURL,function(entry) {
+					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+			this._loadItems(wallURL,1,function(entry) {
 				entries.all.unshift(entry);
 			},true);
 		},
@@ -202,10 +212,11 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			var wallURL = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
 					+'?unid='+item.unid
 					+'&hierarchical=2'
+					+(this.ftSearch?"&ftsearch="+encodeURIComponent(this.ftSearch):"")
 					+'&orderby=_cdate desc'
 					+'&jsontree=true'
-					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES);
-			this._loadItems(wallURL,function(entry) {
+					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+			this._loadItems(wallURL,1,function(entry) {
 				for(var i=0; i<entries.all.length; i++) {
 					darwino.log.d(LOG_GROUP,"Check DiscDB entry="+entries.all[i].unid+", "+entry.unid);
 					if(entries.all[i].unid==entry.unid) {
@@ -216,7 +227,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 				}
 			});
 		},
-		_loadItems: function(wallURL,cb,event) {
+		_loadItems: function(wallURL,itemCount,cb,event) {
 			function absoluteURL(url) {
 				var a = document.createElement('a');
 				a.href = url;
@@ -224,9 +235,10 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			}
 			wallURL = absoluteURL(wallURL); 
 			var successCallback = function(data, status, headers, config) {
-				if(data.length==0) {
+				if(data.length<itemCount) {
 					entries.eof = true;
-				} else {
+				}
+				if(data.length>0) {
 					for(var i=0; i<data.length; i++) {
 						var entry = data[i];
 						cb(entry);
@@ -245,7 +257,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			return entries.all.length;
 		},
 		
-		newPost: function(item) {
+		newPost: function() {
 			this.mode = 1;
 			this.currentTitle = "";
 			this.currentText = "";
@@ -259,8 +271,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			$scope.postModal.show();
 		},
 		deletePost: function(item) {
-			var store = session.getDatabase("domdisc").getStore("nsfdata");
-			var del = store.deleteDocument(item.unid);
+			var del = $rootScope.nsfdata.deleteDocument(item.unid);
 			// Should check the # of deletion when available
 			//if(del) {
 				var idx = entries.all.indexOf(item);
@@ -287,8 +298,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			$scope.commentModal.show();
 		},
 		deleteComment: function(item,comment) {
-			var store = session.getDatabase("domdisc").getStore("nsfdata");
-			var del = store.deleteDocument(comment.unid);
+			var del = $rootScope.nsfdata.deleteDocument(comment.unid);
 			// Should check the # of deletion when available
 			//if(del) {
 				var idx = item.children.indexOf(comment);
@@ -303,8 +313,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			if(!this.attachments[item.unid]) {
 				var result = [];
 				
-				var store = session.getDatabase("domdisc").getStore("nsfdata");
-				var doc = store.loadDocument(item.unid);
+				var doc = $rootScope.nsfdata.loadDocument(item.unid);
 				if(doc != null) {
 					var atts = doc.getAttachments();
 					
@@ -343,8 +352,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			switch(this.mode) {
 				case 1: { // New item
 					if(this.currentText) {
-						var store = session.getDatabase("domdisc").getStore("nsfdata");
-						var doc = store.newDocument();
+						var doc = $rootScope.nsfdata.newDocument();
 						var json = {
 							"subject": this.currentTitle,
 							"body":	this.currentText
@@ -357,8 +365,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 				} break;
 				case 2: { // Edit item
 					if(this.currentItem && this.currentText) {
-						var store = session.getDatabase("domdisc").getStore("nsfdata");
-						var doc = store.loadDocument(this.currentItem.unid);
+						var doc = $rootScope.nsfdata.loadDocument(this.currentItem.unid);
 						if(doc!=null) {
 							doc.getJson().subject = this.currentTitle; 
 							doc.getJson().body = this.currentText; 
@@ -370,8 +377,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 				} break;
 				case 3: { // New comment
 					if(this.currentItem && this.currentText) {
-						var store = session.getDatabase("domdisc").getStore("nsfdata");
-						var doc = store.newDocument();
+						var doc = $rootScope.nsfdata.newDocument();
 						var json = {
 							"subject":	this.currentTitle,
 							"body":	this.currentText
@@ -385,8 +391,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 				} break;
 				case 4: { // Edit comment
 					if(this.currentItem && this.currentText) {
-						var store = session.getDatabase("domdisc").getStore("nsfdata");
-						var doc = store.loadDocument(this.currentComment.unid);
+						var doc = $rootScope.nsfdata.loadDocument(this.currentComment.unid);
 						if(doc!=null) {
 							doc.getJson().subject = this.currentTitle; 
 							doc.getJson().body = this.currentText; 
@@ -414,7 +419,30 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		}
 	};
 
+	
+	//
+	// Search Bar
+	//
+	$scope.searchMode = 0;
+	$scope.startSearch = function() {
+		$scope.searchMode = 1;
+	};
+	$scope.executeSearch = function() {
+		entries.refresh();
+	};
+	$scope.cancelSearch = function() {
+		$scope.searchMode = 0;
+		if(entries.ftSearch) {
+			entries.ftSearch = "";
+			entries.refresh();
+		}
+	};
+	
 	$scope.entries = entries;
+	
+	// Initialize the data
+	$scope.refresh();
+	
 }])
 
 

@@ -1,0 +1,89 @@
+<ion-view view-title="By Date">
+
+	<button ng-hide="isReadOnly()" class="button button-positive button-fab button-fab-bottom-right" id="fab" ng-click="entries.newPost()">
+       	<i class="icon ion-android-create"></i>
+   	</button>
+
+	<ion-nav-buttons side="right">
+		<div class="item-input-inset" ng-show="searchMode==1">
+  			<label class="item-input-wrapper">
+				<button ng-show="searchMode==1" class="button-icon ion-android-search" ng-click="executeSearch()">
+				</button>
+				<input type="text" placeholder="Search..." ng-model="entries.ftSearch" class="search-bar-input">
+  			</label>
+			<button class="button-clear button-icon ion-close" ng-click="cancelSearch()">
+			</button>
+		</div>
+		
+		<button ng-show="searchMode==0" class="button button-icon button-clear ion-search" ng-click="startSearch()">
+		</button>
+			
+		<button ng-show="isReadOnly() && !darwino.hybrid.isHybrid()" class="button button-icon button-clear ion-log-in" onclick="window.location='auth/login.html'">
+		</button>	
+	</ion-nav-buttons>
+	
+	<ion-content>
+
+		<ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>			
+		<div ng-repeat="item in entries.all" class="list">
+			<div class="card">
+				<div class="item item-avatar item-icon-right item-list-header {{item.read?'item-read':'item-unread'}}">
+					<img ng-src="{{entries.getPhoto(item)}}" alt="Photo">
+					<h2 ng-bind="item.value.subject"></h2>
+					<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
+					<div ng-hide="isReadOnly()" class="icon icon-post">
+						<i class="ion-reply" ng-click="entries.newComment(item)"></i>
+						<i class="ion-android-create" ng-click="entries.editPost(item)"></i>
+						<i class="ion-trash-a" ng-click="entries.deletePost(item)"></i>
+					</div>
+				</div>
+				
+				<div class="item item-list-content">
+					<div class="item-body">
+						<div class="dwo-comment-message" ng-bind-html="item.value.body"></div>
+						<p class="attachments" ng-hide="entries.getAttachments(item).length == 0" ng-cloak>
+							<a class="subdued">Attachments</a>
+							<table class="attachment-table">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Type</th>
+										<th>Size</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="att in entries.getAttachments(item)">
+										<td><a ng-href="{{att.url}}" target="_blank"><span ng-bind="att.name"></span></a></td>
+										<td><span ng-bind="att.mimeType"></span></td>
+										<td><span ng-bind="att.length"></span></td>
+									</tr>
+								<tbody>
+							</table>
+						</p>
+    					<p>
+    						<a class="subdued" ng-click="entries.toggleComments(item)" ng-bind-template="{{item.children.length||0}} Response(s)"></a>
+    					</p>
+					</div>
+
+					<div ng-repeat="comment in item.children" ng-show="item.showComments">
+						<div class="item item-avatar item-icon-right">
+							<img ng-src="{{entries.getPhoto(comment)}}" alt="Photo">
+								<h2 ng-bind="comment.value.subject"></h2>
+								<h3 ng-bind-template="{{entries.getUser(comment).getCn()}}, {{comment.cdate|formattedDate}}"></h3>
+								<div ng-hide="isReadOnly()" class="icon icon-post">
+									<i class="ion-reply" ng-click="entries.deleteComment(item,comment)"></i>
+									<i class="ion-android-create" ng-click="entries.editComment(item,comment)"></i>
+									<i class="ion-trash-a" ng-click="entries.deleteComment(item,comment)"></i>
+								</div>
+								<div class="dwo-comment-message" ng-bind-html="comment.value.body"></div>
+  							</div>
+						</div>
+					</div>
+  				</div>
+		    </div>
+        			    
+  			<ion-infinite-scroll ng-if="hasMore()" on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
+  			
+        </ion-content>
+
+      </ion-view>

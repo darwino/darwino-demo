@@ -1,0 +1,8 @@
+<ion-view view-title="User">
+	<ion-content>
+		<div>
+			<img class="dwo-profile-avatar" ng-src="{{userService.getUserPhotoUrl('@me')}}" alt="Photo">
+		</div>
+		<div class="dwo-profile-cn">{{userService.getCurrentUser().getCn()}}</div>
+	</ion-content>
+</ion-view>
