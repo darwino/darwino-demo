@@ -132,6 +132,21 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	}).then(function(commentModal) {
 		$scope.commentModal = commentModal;
 	});
+	
+	var initRTE = function(selector, text) {
+		tinymce.init({
+			selector: selector,
+			menubar: false,
+			statusbar: false,
+			height: 150,
+			
+			setup: function(ed) {
+				ed.on("LoadContent", function(e) {
+					ed.setContent(text);
+				});
+			}
+		});
+	}
 
 	var itemCount = 10; // Number of items requested by request
 	var entries = {
@@ -262,6 +277,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			this.currentTitle = "";
 			this.currentText = "";
 			$scope.postModal.show();
+			initRTE("#post_content", this.currentText);
 		},
 		editPost: function(item) {
 			this.mode = 2;
@@ -269,6 +285,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			this.currentTitle = item.value.subject;
 			this.currentText = item.value.body;
 			$scope.postModal.show();
+			initRTE("#post_content", this.currentText);
 		},
 		deletePost: function(item) {
 			var del = $rootScope.nsfdata.deleteDocument(item.unid);
@@ -288,6 +305,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			this.currentTitle = "";
 			this.currentText = "";
 			$scope.commentModal.show();
+			initRTE("#comment_content", this.currentText);
 		},
 		editComment: function(item,comment) {
 			this.mode = 4;
@@ -296,6 +314,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			this.currentTitle = comment.value.subject;
 			this.currentText = comment.value.body;
 			$scope.commentModal.show();
+			initRTE("#comment_content", this.currentText);
 		},
 		deleteComment: function(item,comment) {
 			var del = $rootScope.nsfdata.deleteDocument(comment.unid);
@@ -349,6 +368,12 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		},
 		
 		submit: function() {
+			if(tinymce.activeEditor) {
+				var textarea = tinymce.activeEditor.targetElm;
+				tinymce.activeEditor.save();
+				this.currentText = tinymce.activeEditor.getContent();
+				tinymce.activeEditor.destroy();
+			}
 			switch(this.mode) {
 				case 1: { // New item
 					if(this.currentText) {
@@ -404,6 +429,10 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			}
 		},
 		cancel: function() {
+			if(tinymce.activeEditor) {
+				var textarea = tinymce.activeEditor.targetElm;
+				tinymce.activeEditor.destroy();
+			}
 			switch(this.mode) {
 				case 1:
 				case 2:
