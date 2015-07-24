@@ -169,6 +169,16 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			}
 		});
 	}
+	var clearRTE = function() {
+		if(tinymce.activeEditor) {
+			var textarea = tinymce.activeEditor.targetElm;
+			tinymce.activeEditor.save();
+			var result = tinymce.activeEditor.getContent();
+			tinymce.activeEditor.destroy();
+			return result;
+		}
+		return "";
+	}
 
 	var itemCount = 10; // Number of items requested by request
 	var entries = {
@@ -391,12 +401,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		},
 		
 		submit: function() {
-			if(tinymce.activeEditor) {
-				var textarea = tinymce.activeEditor.targetElm;
-				tinymce.activeEditor.save();
-				this.currentText = tinymce.activeEditor.getContent();
-				tinymce.activeEditor.destroy();
-			}
+			this.currentText = clearRTE();
 			switch(this.mode) {
 				case 1: { // New item
 					if(this.currentText) {
@@ -452,10 +457,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			}
 		},
 		cancel: function() {
-			if(tinymce.activeEditor) {
-				var textarea = tinymce.activeEditor.targetElm;
-				tinymce.activeEditor.destroy();
-			}
+			clearRTE();
 			switch(this.mode) {
 				case 1:
 				case 2:
