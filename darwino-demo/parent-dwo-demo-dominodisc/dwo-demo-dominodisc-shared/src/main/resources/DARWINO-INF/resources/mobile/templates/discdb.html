@@ -13,7 +13,7 @@
 	</ion-side-menu-content> 
 
 	<ion-side-menu side="left" class="dwo-left-menu">
-		<ion-header-bar class="expanded bar bar-header disable-user-behavior" ng-click="go('/main/user')">
+		<ion-header-bar class="expanded bar bar-header disable-user-behavior" ng-click="go('/disc/user/'+userService.getCurrentUser().getDn())">
 			<!-- <img class="avatar item-maxiavatar motion spin fade" ng-src="{{userService.getUserPhotoUrl('@me')}}" alt="Photo"/>  -->
 			<img class="avatar item-maxiavatar" ng-src="{{userService.getUserPhotoUrl('@me')}}" alt="Photo"/>
 			<div class="menu-bottom">
@@ -24,15 +24,20 @@
 		<ion-content class="has-expanded-header scroll-content ionic-scroll has-header">
 			<br/>
 			<ul class="list animate-rip" ng-show="menuDisc">
-				<a href="#/discdb/bydate" class="item item-icon-left item-selected" menu-close>
+				<a href="#/disc/home" class="item item-icon-left {{isState('disc.home')?'item-selected':''}}" menu-close>
+					<i class="icon ion-compose"></i>
+					Home
+				</a>
+			</ul>
+			<ul class="list animate-rip" ng-show="menuDisc">
+				<a href="#/disc/bydate" class="item item-icon-left {{isState('disc.byDate')?'item-selected':''}}" menu-close>
 					<i class="icon ion-compose"></i>
 					By Date
 					<span class='count'>&nbsp;&nbsp;{{getEntriesCount()}}</span>
 				</a>
 			</ul>
 	
-			<div>
-			<!-- <div ng-show="darwino.hybrid.isHybrid()"> -->
+			<div ng-show="darwino.hybrid.isHybrid()">
 				<div class="item item-divider">
 					Data Synchronization
 				</div>

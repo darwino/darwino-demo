@@ -28,9 +28,9 @@
 		<div ng-repeat="item in entries.all" class="list">
 			<div class="card">
 				<div class="item item-avatar item-icon-right item-list-header {{item.read?'item-read':'item-unread'}}">
-					<img ng-src="{{entries.getPhoto(item)}}" alt="Photo">
+					<img ng-src="{{entries.getPhoto(item)}}" alt="Photo" ng-click="go('/disc/user/'+entries.getUserDn(item))" onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
 					<h2 ng-bind="item.value.subject"></h2>
-					<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
+					<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}" ng-click="go('/disc/user/'+entries.getUserDn(item))"></h3>
 					<div ng-hide="isReadOnly()" class="icon icon-post">
 						<i class="ion-reply" ng-click="entries.newComment(item)"></i>
 						<i class="ion-android-create" ng-click="entries.editPost(item)"></i>

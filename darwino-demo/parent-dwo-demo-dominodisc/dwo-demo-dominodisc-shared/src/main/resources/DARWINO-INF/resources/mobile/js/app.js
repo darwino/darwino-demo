@@ -24,7 +24,7 @@ darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
 angular.module('discDb', [ 'ngSanitize','ionic' ])
 
-.run(function($rootScope,$location) {
+.run(function($rootScope,$location,$state,$http) {
 	// Make some global var visible
 	$rootScope.darwino = darwino;
 	$rootScope.session = session;
@@ -43,8 +43,11 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	$rootScope._entriesCount = -1;
 	$rootScope.getEntriesCount = function() {
 		if($rootScope._entriesCount<0) {
-			$rootScope._entriesCount = $rootScope.nsfdata.documentCount();
-			darwino.log.d(LOG_GROUP,"Calculated discussion entries count {0}",$rootScope._entriesCount);
+			$rootScope._entriesCount = 0;
+			$http.get(jstore_baseUrl+"/databases/domdisc/stores/nsfdata/documentscount").success(function(data) {
+				$rootScope._entriesCount = data['count'];
+				darwino.log.d(LOG_GROUP,"Calculated discussion entries count {0}",$rootScope._entriesCount);
+			});
 		}
 		return $rootScope._entriesCount; 
 	};
@@ -61,9 +64,20 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	$rootScope.go = function(path) {
 		$location.path(path);
 	};
+	$rootScope.apply = function() {
+		setTimeout(function(){$rootScope.$apply()});
+	};
+	
+	$rootScope.displayUser = function(dn) {
+        $state.go('disc.user',{userdn:dn});
+    }	
+	
+	$rootScope.isState = function(state) {
+        return $state.is(state);
+    }	
 	
 	darwino.hybrid.addSettingsListener(function(){
-		$rootScope.$apply()
+		$rootScope.apply();
 	});
 })
 
@@ -92,6 +106,14 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			'menuContent' : {
 				templateUrl : "templates/bydate.html",
 				controller : "ByDateCtrl"
+			}
+		}
+	}).state('disc.user', {
+		url : "/user/:userdn",
+		views : {
+			'menuContent' : {
+				templateUrl : "templates/user.html",
+				controller : "UserCtrl"
 			}
 		}
 	});
@@ -143,9 +165,11 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		currentTitle: "",
 		currentText: "",
 		ftSearch: "",
-		attachments: {},
+		getUserDn: function(item) {
+			return item.value.from;
+		},
 		getUser: function(item) {
-			return userService.findUser(item.value.from,function(u,n){if(n){$scope.$apply()}});
+			return userService.findUser(item.value.from,function(u,n){if(n){$scope.apply()}});
 		},
 		getPhoto: function(item) {
 			return userService.getUserPhotoUrl(item.value.from);
@@ -310,42 +334,41 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		},
 		
 		getAttachments: function(item) {
-			if(!this.attachments[item.unid]) {
-				var result = [];
+			if(!item.attachments) {
+				item.attachments = [];
 				
-				var doc = $rootScope.nsfdata.loadDocument(item.unid);
-				if(doc != null) {
-					var atts = doc.getAttachments();
-					
-					// Do some post-processing
-					angular.forEach(atts, function(att) {
-						var name = att._name;
-						var delimIndex = name.indexOf("||");
-						
-						// If it's an inline image, ignore it entirely
-						if(delimIndex > -1) {
-							return;
-						}
-						
-						// Otherwise, remove any field-name prefix
-						delimIndex = name.indexOf("^^");
-						if(delimIndex > -1) {
-							name = name.substring(delimIndex+2);
-						}
-						
-						result.push({
-							name: name,
-							length: att._length,
-							mimeType: att._mimeType,
-							url: doc.getAttachmentUrl(att._name)
-						})
-					});
-				}
-				
-				this.attachments[item.unid] = result;
+				var jsonfields = jstore.Document.JSON_ALLATTACHMENTS;
+				var options = jstore.Store.DOCUMENT_NOREADMARK;
+				$http.get(jstore_baseUrl+"/databases/domdisc/stores/nsfdata/documents/"+encodeURIComponent(item.unid)+"?jsonfields="+jsonfields+"&options="+options).success(function(data) {
+					var atts = data.attachments;
+					if(atts) {
+						// Do some post-processing
+						angular.forEach(atts, function(att) {
+							var name = att.name;
+							var delimIndex = name.indexOf("||");
+							
+							// If it's an inline image, ignore it entirely
+							if(delimIndex > -1) {
+								return;
+							}
+							
+							// Otherwise, remove any field-name prefix
+							delimIndex = name.indexOf("^^");
+							if(delimIndex > -1) {
+								name = name.substring(delimIndex+2);
+							}
+							
+							item.attachments.push({
+								name: name,
+								length: att.length,
+								mimeType: att.mimeType,
+								url: session.getUrlBuilder().getAttachmentUrl($scope.database.getId(), $scope.nsfdata.getId(), data.unid, att.name)
+							})
+						});
+					}
+				});
 			}
-			return this.attachments[item.unid];
-			
+			return item.attachments;
 		},
 		
 		submit: function() {
@@ -449,5 +472,33 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 //
 //	User
 //
-.controller('UserCtrl', function($scope) {
-});
+.controller('UserCtrl', ['$scope','$stateParams', function($scope,$stateParams) {
+	$scope.userAttr = "";
+	$scope.userPayload = "";
+	$scope.userConnAttrs = "";
+	$scope.userConnPayload = "";
+	
+	$scope.user = userService.findUser($stateParams.userdn, function(user,read) {
+		if(read) {
+			$scope.user = user;
+			$scope.$apply();
+		}
+// DEBUG
+/*		
+		$scope.userAttr = user.getAttributes();
+		user.getContentAsBinaryString("payload",function(r) {
+			$scope.userPayload = r;
+			$scope.$apply();
+		});
+		var cdata = user.getUserData("connections")
+		if(cdata) {
+			$scope.userConnAttr = cdata.getAttributes();
+			cdata.getContentAsBinaryString("payload",function(r) {
+				console.log(r);
+				$scope.userConnPayload = r;
+				$scope.$apply();
+			});
+		}
+*/		
+	});
+}]);

@@ -174,6 +174,16 @@ body {
 	text-align: center;
 }
 
+.dwo-profile-dn {
+	font-size: 1.2em;	
+	font-weight: 200;	
+	text-align: center;
+}
+
+.dwo-profile-label {
+	font-weight: 700;	
+}
+
 /* Panel CSS explained here: http://blog.stevensanderson.com/2011/10/05/full-height-app-layouts-a-css-trick-to-make-it-easier/  */
 .row, .col { overflow: hidden; position: absolute; }
 .row { left: 0; right: 0; }
