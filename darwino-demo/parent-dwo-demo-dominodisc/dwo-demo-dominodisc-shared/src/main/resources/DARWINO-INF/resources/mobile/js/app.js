@@ -156,28 +156,66 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	});
 	
 	var initRTE = function(selector, text) {
-		tinymce.init({
-			selector: selector,
-			menubar: false,
-			statusbar: false,
-			height: 150,
-			
-			setup: function(ed) {
-				ed.on("LoadContent", function(e) {
-					ed.setContent(text);
-				});
-			}
-		});
-	}
-	var clearRTE = function() {
-		if(tinymce.activeEditor) {
-			var textarea = tinymce.activeEditor.targetElm;
-			tinymce.activeEditor.save();
-			var result = tinymce.activeEditor.getContent();
-			tinymce.activeEditor.destroy();
-			return result;
+//		tinymce.init({
+//			selector: selector,
+//			menubar: false,
+//			statusbar: false,
+//			height: 150,
+//			
+//			setup: function(ed) {
+//				ed.on("LoadContent", function(e) {
+//					ed.setContent(text);
+//				});
+//			}
+//		});
+		/*config.toolbarGroups = [
+		                		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
+		                		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+		                		{ name: 'links' },
+		                		{ name: 'insert' },
+		                		{ name: 'forms' },
+		                		{ name: 'tools' },
+		                		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+		                		{ name: 'others' },
+		                		'/',
+		                		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		                		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+		                		{ name: 'styles' },
+		                		{ name: 'colors' },
+		                		{ name: 'about' }
+		                	];*/
+		// TODO don't just assume it's always "#someid"
+		var id = selector.substring(1);
+		if(!CKEDITOR.instances[id]) {
+			CKEDITOR.replace(id, {
+				toolbarGroups: [
+				                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+				                { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+				                { name: 'styles' },
+		                		{ name: 'colors' }
+				               ],
+				removePlugins: "elementspath",
+				height: 125,
+				skin: "minimalist",
+				resize_enabled: false,
+				contentsCss: "css/ckeditor.css"
+			});
 		}
-		return "";
+		CKEDITOR.instances[id].setData(text);
+	}
+	var clearRTE = function(selector) {
+//		if(tinymce.activeEditor) {
+//			var textarea = tinymce.activeEditor.targetElm;
+//			tinymce.activeEditor.save();
+//			var result = tinymce.activeEditor.getContent();
+//			tinymce.activeEditor.destroy();
+//			return result;
+//		}
+//		return "";
+		var id = selector.substring(1);
+		if(CKEDITOR.instances[id]) {
+			return CKEDITOR.instances[id].getData();
+		}
 	}
 
 	var itemCount = 10; // Number of items requested by request
@@ -401,9 +439,9 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		},
 		
 		submit: function() {
-			this.currentText = clearRTE();
 			switch(this.mode) {
 				case 1: { // New item
+					this.currentText = clearRTE("#post_content");
 					if(this.currentText) {
 						var doc = $rootScope.nsfdata.newDocument();
 						var json = {
@@ -417,6 +455,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 					}
 				} break;
 				case 2: { // Edit item
+					this.currentText = clearRTE("#post_content");
 					if(this.currentItem && this.currentText) {
 						var doc = $rootScope.nsfdata.loadDocument(this.currentItem.unid);
 						if(doc!=null) {
@@ -429,6 +468,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 					}
 				} break;
 				case 3: { // New comment
+					this.currentText = clearRTE("#comment_content");
 					if(this.currentItem && this.currentText) {
 						var doc = $rootScope.nsfdata.newDocument();
 						var json = {
@@ -443,6 +483,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 					}
 				} break;
 				case 4: { // Edit comment
+					this.currentText = clearRTE("#comment_content");
 					if(this.currentItem && this.currentText) {
 						var doc = $rootScope.nsfdata.loadDocument(this.currentComment.unid);
 						if(doc!=null) {
@@ -457,7 +498,8 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 			}
 		},
 		cancel: function() {
-			clearRTE();
+			clearRTE("#post_content");
+			clearRTE("#comment_content");
 			switch(this.mode) {
 				case 1:
 				case 2:

@@ -1,0 +1,9 @@
+.cke_editable {
+	margin: 5px !important;
+}
+.cke_editable p:first-child {
+	margin-top: 5px;
+}
+.cke {
+	border: 0 !important;
+}
