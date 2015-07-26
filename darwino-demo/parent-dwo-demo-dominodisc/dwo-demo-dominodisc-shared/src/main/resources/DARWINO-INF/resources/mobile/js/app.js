@@ -24,7 +24,7 @@ darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
 angular.module('discDb', [ 'ngSanitize','ionic' ])
 
-.run(function($rootScope,$location,$state,$http) {
+.run(function($rootScope,$location,$state,$http,entries) {
 	// Make some global var visible
 	$rootScope.darwino = darwino;
 	$rootScope.session = session;
@@ -32,25 +32,8 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 
 	$rootScope.database = $rootScope.session.getDatabase("domdisc");
 	$rootScope.nsfdata = $rootScope.database.getStore("nsfdata");
-	
-	$rootScope.menuDisc = true;
-	$rootScope.menuSync = true;
-	$rootScope.menuSettings = true;
-	$rootScope.toggleMenu = function(menu) {
-		$rootScope[menu] = !$rootScope[menu]; 
-	}
 
-	$rootScope._entriesCount = -1;
-	$rootScope.getEntriesCount = function() {
-		if($rootScope._entriesCount<0) {
-			$rootScope._entriesCount = 0;
-			$http.get(jstore_baseUrl+"/databases/domdisc/stores/nsfdata/documentscount").success(function(data) {
-				$rootScope._entriesCount = data['count'];
-				darwino.log.d(LOG_GROUP,"Calculated discussion entries count {0}",$rootScope._entriesCount);
-			});
-		}
-		return $rootScope._entriesCount; 
-	};
+	$rootScope.entries = entries;
 	
 	$rootScope.isAnonymous = function() {
 		return userService.getCurrentUser().isAnonymous();
@@ -79,6 +62,8 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	darwino.hybrid.addSettingsListener(function(){
 		$rootScope.apply();
 	});
+	
+	
 })
 
 .filter('formattedDate', function() {
@@ -108,6 +93,14 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 				controller : "ByDateCtrl"
 			}
 		}
+	}).state('disc.editpost', {
+		url : "/editpost/:id",
+		views : {
+			'menuContent' : {
+				templateUrl : "templates/editpost.html",
+				controller : "EditCtrl"
+			}
+		}
 	}).state('disc.user', {
 		url : "/user/:userdn",
 		views : {
@@ -124,286 +117,211 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 .controller('MainCtrl', function($scope) {
 })
 
-
-//
-//	By Date
-//
-.controller('ByDateCtrl', ['$scope','$rootScope','$http','$ionicModal', function($scope,$rootScope,$http,$ionicModal) {
-	$scope.refresh = function() {
-		$scope.entries.refresh();
-	};
-
-	$scope.hasMore = function() {
-		return $scope.entries.hasMore();
-	};
-
-	$scope.loadMore = function() {
-		$scope.entries.loadMore();
-	};
-	
-	$ionicModal.fromTemplateUrl('templates/discdb-post.html', {
-		scope: $scope,
-		animation: 'slide-in-up'
-	}).then(function(postModal) {
-		$scope.postModal = postModal;
-	});
-	
-	$ionicModal.fromTemplateUrl('templates/discdb-comment.html', {
-		scope: $scope,
-		animation: 'slide-in-up'
-	}).then(function(commentModal) {
-		$scope.commentModal = commentModal;
-	});
-	
-	var initRTE = function(selector, text) {
-//		tinymce.init({
-//			selector: selector,
-//			menubar: false,
-//			statusbar: false,
-//			height: 150,
-//			
-//			setup: function(ed) {
-//				ed.on("LoadContent", function(e) {
-//					ed.setContent(text);
-//				});
-//			}
-//		});
-		/*config.toolbarGroups = [
-		                		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-		                		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-		                		{ name: 'links' },
-		                		{ name: 'insert' },
-		                		{ name: 'forms' },
-		                		{ name: 'tools' },
-		                		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-		                		{ name: 'others' },
-		                		'/',
-		                		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		                		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-		                		{ name: 'styles' },
-		                		{ name: 'colors' },
-		                		{ name: 'about' }
-		                	];*/
-		// TODO don't just assume it's always "#someid"
-		var id = selector.substring(1);
-		if(!CKEDITOR.instances[id]) {
-			CKEDITOR.replace(id, {
-				toolbarGroups: [
-				                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-				                { name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-				                { name: 'styles' },
-		                		{ name: 'colors' }
-				               ],
-				removePlugins: "elementspath",
-				height: 125,
-				skin: "minimalist",
-				resize_enabled: false,
-				contentsCss: "css/ckeditor.css"
-			});
-		}
-		CKEDITOR.instances[id].setData(text);
-	}
-	var clearRTE = function(selector) {
-//		if(tinymce.activeEditor) {
-//			var textarea = tinymce.activeEditor.targetElm;
-//			tinymce.activeEditor.save();
-//			var result = tinymce.activeEditor.getContent();
-//			tinymce.activeEditor.destroy();
-//			return result;
-//		}
-//		return "";
-		var id = selector.substring(1);
-		if(CKEDITOR.instances[id]) {
-			return CKEDITOR.instances[id].getData();
-		}
-	}
-
+.service('entries', function($rootScope,$http) {
 	var itemCount = 10; // Number of items requested by request
-	var entries = {
+	var _this = {
+		view: "byDate",
+		
 		all: [],
+		count: -1,
 		eof: false,
-		mode: 0,		// 0: status, 1: edit item, 2: edit comment, 3: new comment
-		currentItemId: null,
-		currentCommentId: null,
-		currentTitle: "",
-		currentText: "",
+		selectedItem: null,
+		detailItem: null,
 		ftSearch: "",
+		showComments: {},
+		
+		findRoot: function(unid) {
+			if(unid) {
+				for(var i=0; i<this.all.length; i++) {
+					if(this.all[i].unid==unid) {
+						return this.all[i];
+					}
+					if(this._hasItem(this.all[i],unid)) {
+						return this.all[i];
+					}
+				}
+			}
+			return null;
+		},
+		_hasItem: function(root,unid) {
+			if(root.children) {
+				for(var i=0; i<root.children.length; i++) {
+					if(root.children[i].unid==unid) {
+						return true;
+					}
+					if(this._hasItem(root.children[i],unid)) {
+						return true;
+					}
+				}
+			}
+			return false;
+		},
+
+		getEntriesCount: function() {
+			if(this.all.length==0) {
+				return 0;
+			}
+			if(this.count<0) {
+				this.count = 0;
+				$http.get(jstore_baseUrl+"/databases/domdisc/stores/nsfdata/documentscount").success(function(data) {
+					_this.count = data['count'];
+					darwino.log.d(LOG_GROUP,"Calculated discussion entries count {0}",_this.count);
+				});
+			}
+			return this.count; 
+		},
+		
 		getUserDn: function(item) {
-			return item.value.from;
+			return item ? item.value.from : null;
 		},
 		getUser: function(item) {
-			return userService.findUser(item.value.from,function(u,n){if(n){$scope.apply()}});
+			return item ? userService.findUser(item.value.from,function(u,n){if(n){$rootScope.apply()}}) : darwino.services.User.ANONYMOUS_USER;
 		},
 		getPhoto: function(item) {
-			return userService.getUserPhotoUrl(item.value.from);
+			return item ? userService.getUserPhotoUrl(item.value.from) : null;
 		},
-		isEditItem: function(item) {
-			return this.mode==1 && item==this.currentItem;
-		},
-		isEditComment: function(comment) {
-			return this.mode==2 && comment==this.currentComment;
-		},
-		isNewComment: function(item) {
-			return this.mode==3 && item==this.currentItem;
+		selectItem: function(selectedItem) {
+			this.detailItem = selectedItem;
+			if(!selectedItem.parentUnid) {
+				this.selectedItem = selectedItem;
+			}	
 		},
 		refresh: function() {
 			this.eof = false;
-			entries.all = [];
+			this.all = [];
+			this.selectedItem = null;
+			this.detailItem = null;
+			this.count = -1;
+			this.showComments = {};
 			this.loadItems(0,itemCount);
 			darwino.hybrid.setDirty(false);
 		},
+		toggleComments: function(item) {
+			this.showComments[item.unid] = !this.showComments[item.unid];
+		},
+		
 		hasMore: function() {
 			return !this.eof;
 		},
 		loadMore: function() {
 			// Prevent a request if nothing has been loaded yet
-			if(entries.all.length==0) {
+			if(this.all.length==0) {
 				return;
 			}
-			this.loadItems(entries.all.length,itemCount);
+			this.loadItems(this.all.length,itemCount);
 		},
+		
 		loadItems: function(skip,limit) {
 			// Prevents loop with infinite scroll
 			if(this.eof) {
-				$scope.$broadcast('scroll.infiniteScrollComplete');
+				$rootScope.$broadcast('scroll.infiniteScrollComplete');
 				return;
 			}
-			var wallURL = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
+			var url = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
 					+'?skip='+skip
 					+'&limit='+limit
-					+'&hierarchical=2'
+					+'&hierarchical=99'
 					+(this.ftSearch?"&ftsearch="+encodeURIComponent(this.ftSearch):"")
 					+'&orderby=_cdate desc'
 					+'&jsontree=true'
 					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
-			this._loadItems(wallURL,limit,function(entry) {
-				entries.all.push(entry);
-			},true);
+			this._loadItems(url,limit,function(entry) {
+				_this.all.push(entry);
+			},function() {
+				$rootScope.$broadcast('scroll.infiniteScrollComplete');
+				$rootScope.$broadcast('scroll.refreshComplete');
+			});
 		},
 		loadOneItem: function(unid) {
-			var wallURL = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
+			var url = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
 					+'?unid='+unid
-					+'&hierarchical=2'
-					+(this.ftSearch?"&ftsearch="+encodeURIComponent(this.ftSearch):"")
+					+'&hierarchical=99'
 					+'&orderby=_cdate desc'
 					+'&jsontree=true'
 					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
-			this._loadItems(wallURL,1,function(entry) {
-				entries.all.unshift(entry);
-			},true);
+			this._loadItems(url,1,function(entry) {
+				_this.all.unshift(entry);				
+				_this.selectItem(entry);
+			});
 		},
-		toggleComments: function(item) {
-			item.showComments = !item.showComments;
-		},
-		reloadItem: function(item,showComments) {
-			var wallURL = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
+		reloadItem: function(item) {
+			var url = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
 					+'?unid='+item.unid
-					+'&hierarchical=2'
-					+(this.ftSearch?"&ftsearch="+encodeURIComponent(this.ftSearch):"")
+					+'&hierarchical=99'
 					+'&orderby=_cdate desc'
 					+'&jsontree=true'
 					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
-			this._loadItems(wallURL,1,function(entry) {
-				for(var i=0; i<entries.all.length; i++) {
-					darwino.log.d(LOG_GROUP,"Check DiscDB entry="+entries.all[i].unid+", "+entry.unid);
-					if(entries.all[i].unid==entry.unid) {
-						entry.showComments = showComments;
-						entries.all[i] = entry;
+			this._loadItems(url,1,function(entry) {
+				for(var i=0; i<_this.all.length; i++) {
+					darwino.log.d(LOG_GROUP,"Check DiscDB entry="+_this.all[i].unid+", "+entry.unid);
+					if(_this.all[i].unid==entry.unid) {
+						_this.all[i] = entry;
+						_this.selectItem(entry);
 						break;
 					}
 				}
 			});
 		},
-		_loadItems: function(wallURL,itemCount,cb,event) {
+		_loadItems: function(url,itemCount,cb,cball) {
 			function absoluteURL(url) {
 				var a = document.createElement('a');
 				a.href = url;
 				return a.href;
 			}
-			wallURL = absoluteURL(wallURL); 
+			url = absoluteURL(url); 
 			var successCallback = function(data, status, headers, config) {
 				if(data.length<itemCount) {
-					entries.eof = true;
+					_this.eof = true;
 				}
 				if(data.length>0) {
 					for(var i=0; i<data.length; i++) {
 						var entry = data[i];
 						cb(entry);
 					}
-					$rootScope._wallCount = -1;
 				}
-				if(event) {
-					$scope.$broadcast('scroll.infiniteScrollComplete');
-					$scope.$broadcast('scroll.refreshComplete');
+				if(!_this.selectedItem && _this.all.length) {
+					_this.selectItem(_this.all[0]);
 				}
-				darwino.log.d(LOG_GROUP,'Entries loaded from server: '+wallURL+', #', entries.all.length);
+				if(cball) {
+					cball();
+				}
+				darwino.log.d(LOG_GROUP,'Entries loaded from server: '+url+', #', _this.all.length);
 			};
-			$http.get(wallURL).success(successCallback);
+			$http.get(url).success(successCallback);
 		},
 		allCount: function() {
-			return entries.all.length;
+			return this.all.length;
 		},
 		
 		newPost: function() {
-			this.mode = 1;
-			this.currentTitle = "";
-			this.currentText = "";
-			$scope.postModal.show();
-			initRTE("#post_content", this.currentText);
+			$rootScope.go('/disc/editpost/new');
 		},
 		editPost: function(item) {
-			this.mode = 2;
-			this.currentItem = item;
-			this.currentTitle = item.value.subject;
-			this.currentText = item.value.body;
-			$scope.postModal.show();
-			initRTE("#post_content", this.currentText);
+			$rootScope.go('/disc/editpost/id:'+item.unid);
 		},
 		deletePost: function(item) {
-			var del = $rootScope.nsfdata.deleteDocument(item.unid);
-			// Should check the # of deletion when available
-			//if(del) {
-				var idx = entries.all.indexOf(item);
+			$rootScope.nsfdata.deleteDocument(item.unid);
+			var rootItem = this.findRoot(item.unid);
+			if(rootItem && rootItem!=item) { 
+				this.reloadItem(rootItem);
+				this.detailItem = this.findRoot(item.parentUnid);
+			} else {
+				var idx = this.all.indexOf(item);
 				if(idx>=0) {
-					entries.all.splice(idx,1);
+					this.all.splice(idx,1);
+					this.selectedItem = this.all.length ? this.all[Math.max(idx-1,0)] : null;
 				}
-			//}
-			this.cancel();
+			}
 		},
 		
 		newComment: function(item) {
-			this.mode = 3;
-			this.currentItem = item;
-			this.currentTitle = "";
-			this.currentText = "";
-			$scope.commentModal.show();
-			initRTE("#comment_content", this.currentText);
-		},
-		editComment: function(item,comment) {
-			this.mode = 4;
-			this.currentItem = item;
-			this.currentComment = comment;
-			this.currentTitle = comment.value.subject;
-			this.currentText = comment.value.body;
-			$scope.commentModal.show();
-			initRTE("#comment_content", this.currentText);
-		},
-		deleteComment: function(item,comment) {
-			var del = $rootScope.nsfdata.deleteDocument(comment.unid);
-			// Should check the # of deletion when available
-			//if(del) {
-				var idx = item.children.indexOf(comment);
-				if(idx>=0) {
-					item.children.splice(idx,1);
-				}
-			//}
-			this.cancel();
+			$rootScope.go('/disc/editpost/pid:'+item.unid);
 		},
 		
 		getAttachments: function(item) {
+			if(!item) return null;
 			if(!item.attachments) {
 				item.attachments = [];
-				
 				var jsonfields = jstore.Document.JSON_ALLATTACHMENTS;
 				var options = jstore.Store.DOCUMENT_NOREADMARK;
 				$http.get(jstore_baseUrl+"/databases/domdisc/stores/nsfdata/documents/"+encodeURIComponent(item.unid)+"?jsonfields="+jsonfields+"&options="+options).success(function(data) {
@@ -429,91 +347,36 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 								name: name,
 								length: att.length,
 								mimeType: att.mimeType,
-								url: session.getUrlBuilder().getAttachmentUrl($scope.database.getId(), $scope.nsfdata.getId(), data.unid, att.name)
+								url: session.getUrlBuilder().getAttachmentUrl($rootScope.database.getId(), $rootScope.nsfdata.getId(), data.unid, att.name)
 							})
 						});
 					}
 				});
 			}
 			return item.attachments;
-		},
-		
-		submit: function() {
-			switch(this.mode) {
-				case 1: { // New item
-					this.currentText = clearRTE("#post_content");
-					if(this.currentText) {
-						var doc = $rootScope.nsfdata.newDocument();
-						var json = {
-							"subject": this.currentTitle,
-							"body":	this.currentText
-						};
-						doc.setJson(json);
-						doc.save();
-						this.loadOneItem(doc.getUnid());
-						this.cancel();
-					}
-				} break;
-				case 2: { // Edit item
-					this.currentText = clearRTE("#post_content");
-					if(this.currentItem && this.currentText) {
-						var doc = $rootScope.nsfdata.loadDocument(this.currentItem.unid);
-						if(doc!=null) {
-							doc.getJson().subject = this.currentTitle; 
-							doc.getJson().body = this.currentText; 
-							doc.save();
-							this.reloadItem(this.currentItem,this.currentItem.showComments);
-						}
-						this.cancel();
-					}
-				} break;
-				case 3: { // New comment
-					this.currentText = clearRTE("#comment_content");
-					if(this.currentItem && this.currentText) {
-						var doc = $rootScope.nsfdata.newDocument();
-						var json = {
-							"subject":	this.currentTitle,
-							"body":	this.currentText
-						};
-						doc.setJson(json);
-						doc.setParentUnid(this.currentItem.unid);
-						doc.save();
-						this.reloadItem(this.currentItem,true);
-						this.cancel();
-					}
-				} break;
-				case 4: { // Edit comment
-					this.currentText = clearRTE("#comment_content");
-					if(this.currentItem && this.currentText) {
-						var doc = $rootScope.nsfdata.loadDocument(this.currentComment.unid);
-						if(doc!=null) {
-							doc.getJson().subject = this.currentTitle; 
-							doc.getJson().body = this.currentText; 
-							doc.save();
-							this.reloadItem(this.currentItem,true);
-						}
-						this.cancel();
-					}
-				} break;
-			}
-		},
-		cancel: function() {
-			clearRTE("#post_content");
-			clearRTE("#comment_content");
-			switch(this.mode) {
-				case 1:
-				case 2:
-					$scope.postModal.hide();
-				break;
-				case 3:
-				case 4:
-					$scope.commentModal.hide();
-				break;
-
-			}
-			this.mode = 0;
 		}
-	};
+    }
+	return _this;
+})
+
+//
+//	By Date
+//
+.controller('ByDateCtrl', ['$scope','$rootScope','$http','$ionicModal','entries', function($scope,$rootScope,$http,$ionicModal,entries) {
+	var initRTE = function(selector, text) {
+		tinymce.init({
+			selector: selector,
+			menubar: false,
+			statusbar: false,
+			height: 150,
+			
+			setup: function(ed) {
+				ed.on("LoadContent", function(e) {
+					ed.setContent(text);
+				});
+			}
+		});
+	}
 
 	
 	//
@@ -534,44 +397,72 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		}
 	};
 	
-	$scope.entries = entries;
-	
 	// Initialize the data
-	$scope.refresh();
+	entries.refresh();	
+}])
+
+
+
+//
+//	Editor
+//
+.controller('EditCtrl', ['$scope','$stateParams','$ionicHistory','entries', function($scope,$stateParams,$ionicHistory,entries) {
+	// Should we make this async?
+	var id = $stateParams.id;
+	if(id && darwino.Utils.startsWith(id,'id:')) {
+		$scope.doc = $scope.nsfdata.loadDocument(id.substring(3));
+	} else {
+		$scope.doc = $scope.nsfdata.newDocument();
+		if(id && darwino.Utils.startsWith(id,'pid:')) {
+			$scope.doc.setParentUnid(id.substring(4));
+		}
+	}
+	$scope.json = $scope.doc.getJson();
 	
+	$scope.submit = function() {
+		var doc = $scope.doc;
+
+		var isNew = doc.isNewDocument();
+		doc.save();
+		if(isNew && !doc.getParentUnid()) {
+			entries.loadOneItem(doc.getUnid());
+		} else {
+			var root = entries.findRoot(doc.getParentUnid()||doc.getUnid());
+			if(root) {
+				entries.reloadItem(root); // All hierarchy...
+			}
+		}
+		$ionicHistory.goBack();
+	}
+
+	$scope.cancel = function() {
+		$ionicHistory.goBack();
+	}
+	
+	$scope.getTitle = function() {
+		var doc = $scope.doc;
+		if(doc.getParentUnid()) {
+			return doc.isNewDocument() ? "New Comment" : "Edit Comment";
+		} else {
+			return doc.isNewDocument() ? "New Post" : "Edit Post";
+		}
+	}
 }])
 
 
 //
 //	User
 //
-.controller('UserCtrl', ['$scope','$stateParams', function($scope,$stateParams) {
+.controller('UserCtrl', ['$scope','$stateParams','entries', function($scope,$stateParams,entries) {
 	$scope.userAttr = "";
 	$scope.userPayload = "";
 	$scope.userConnAttrs = "";
 	$scope.userConnPayload = "";
-	
+
 	$scope.user = userService.findUser($stateParams.userdn, function(user,read) {
 		if(read) {
 			$scope.user = user;
 			$scope.$apply();
 		}
-// DEBUG
-/*		
-		$scope.userAttr = user.getAttributes();
-		user.getContentAsBinaryString("payload",function(r) {
-			$scope.userPayload = r;
-			$scope.$apply();
-		});
-		var cdata = user.getUserData("connections")
-		if(cdata) {
-			$scope.userConnAttr = cdata.getAttributes();
-			cdata.getContentAsBinaryString("payload",function(r) {
-				console.log(r);
-				$scope.userConnPayload = r;
-				$scope.$apply();
-			});
-		}
-*/		
 	});
 }]);

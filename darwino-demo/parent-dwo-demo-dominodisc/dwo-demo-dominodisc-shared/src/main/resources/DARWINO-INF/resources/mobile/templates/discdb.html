@@ -23,17 +23,17 @@
 		</ion-header-bar>
 		<ion-content class="has-expanded-header scroll-content ionic-scroll has-header">
 			<br/>
-			<ul class="list animate-rip" ng-show="menuDisc">
+			<ul class="list animate-rip">
 				<a href="#/disc/home" class="item item-icon-left {{isState('disc.home')?'item-selected':''}}" menu-close>
 					<i class="icon ion-compose"></i>
 					Home
 				</a>
 			</ul>
-			<ul class="list animate-rip" ng-show="menuDisc">
+			<ul class="list animate-rip">
 				<a href="#/disc/bydate" class="item item-icon-left {{isState('disc.byDate')?'item-selected':''}}" menu-close>
 					<i class="icon ion-compose"></i>
 					By Date
-					<span class='count'>&nbsp;&nbsp;{{getEntriesCount()}}</span>
+					<span class='count'>&nbsp;&nbsp;{{entries.getEntriesCount()}}</span>
 				</a>
 			</ul>
 	
@@ -41,7 +41,7 @@
 				<div class="item item-divider">
 					Data Synchronization
 				</div>
-				<ul class="list animate-rip" ng-show="menuSync">
+				<ul class="list animate-rip">
 					<a class="item item-icon-left item-icon-right" ng-click="darwino.hybrid.switchToRemote()">
 						<i class="icon ion-cloud"></i>
 						Work With Remote Data
@@ -71,7 +71,7 @@
 			<div class="item item-divider item-icon-right">
    				Settings
 			</div>
-           	<ul class="list animate-rip" ng-show="menuSettings" ng-show='false'>
+           	<ul class="list animate-rip">
            		<a class="item item-icon-left item-icon-right" ng-click="darwino.hybrid.refreshData()">
 					<i class="icon ion-refresh"></i>
 					Refresh Page

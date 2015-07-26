@@ -184,16 +184,29 @@ body {
 	font-weight: 700;	
 }
 
-/* Panel CSS explained here: http://blog.stevensanderson.com/2011/10/05/full-height-app-layouts-a-css-trick-to-make-it-easier/  */
-.row, .col { overflow: hidden; position: absolute; }
-.row { left: 0; right: 0; }
-.col { top: 0; bottom: 0; }
-.scroll-x { overflow-x: auto; }
-.scroll-y { overflow-y: auto; }
 
-.header.row { height: 75px; top: 0; }
-.body.row { top: 75px; bottom: 50px; }
-.footer.row { height: 50px; bottom: 0; }
+/*
+ * List of entries
+ */
+.list-content {
+    border-right: 1px solid #DDDDDD;
+} 
+.list-entries .list .item {
+    padding: 4px 4px 4px 4px;
+    border-bottom: 1px solid #DDDDDD;
+} 
+.item-list-entries-selected {
+    border-left: 5px solid #387EF5;
+}
+
+/*
+ * Entry detail
+ */
+.item-body .item {
+	border-style: solid;
+	border-color: #DDDDDD;
+	border-width: 1px 0 0 0; 
+} 
 
 
 /*
