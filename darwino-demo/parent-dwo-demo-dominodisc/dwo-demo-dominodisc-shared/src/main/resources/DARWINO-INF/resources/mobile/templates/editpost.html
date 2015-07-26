@@ -3,10 +3,9 @@
 	<ion-nav-buttons side="right">
 		<button class="button button-icon button-clear ion-android-cancel" ng-click="cancel()"></button>
 		<button class="button button-icon button-clear ion-android-done" ng-click="submit()"></button>
-		</div>
 	</ion-nav-buttons>
 
-	<ion-content>
+	<ion-content scroll="false">
 	
 		<label class="item item-input item-stacked-label">
 			<span class="input-label">Title</span>
@@ -15,7 +14,10 @@
 		
 		<label class="item item-input item-stacked-label" style="width:100%">
 			<span class="input-label">Content</span>
-			<textarea id="post_content" ng-model="json.body" style="width:100%" rows="12"></textarea>
+<!-- 			<textarea id="post_content" ng-model="json.body" style="width:100%" rows="12"></textarea> -->
+			<ng-quill-editor ng-model="json.body" toolbar="true" link-tooltip="true" image-tooltip="true"
+			toolbar-entries="font size bold list bullet italic underline strike align color background link image"
+			editor-required="true" required="" error-class="input-error"></ng-quill-editor>
 		</label>
 		
 	</ion-content>
