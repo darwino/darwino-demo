@@ -13,6 +13,14 @@
 		{
 			"enabled": true,
 			"local": false,
+			"name": "Darwino Playground - http://playground.darwino.com/playground",
+			"url": "http://playground.darwino.com/playground",
+			"userId": "Al Mass",
+			"password": "floflo"
+		},
+		{
+			"enabled": true,
+			"local": false,
 			"name": "IBM Bluemix - http://dwo-demo-news-j2ee.mybluemix.net",
 			"url": "http://dwo-demo-news-j2ee.mybluemix.net",
 			"userId": "amass",

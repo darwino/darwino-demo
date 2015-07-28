@@ -76,7 +76,7 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 								}
 							} else {
 								connection.setName(baseName);
-								connection.setUrl(PathUtil.concat(baseUrl, pathInfo, '/'));
+								connection.setUrl(baseUrl);
 							}
 							
 							connection.setUserId((String)entry.get("userId"));
