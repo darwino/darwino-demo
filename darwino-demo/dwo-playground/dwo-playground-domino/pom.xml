@@ -61,6 +61,15 @@
  	
  	
 	<build>
+ 		<resources>
+ 			<resource>
+ 				<directory>${project.basedir}</directory>
+ 				<includes>
+ 					<include>plugin.xml</include>
+ 				</includes>
+ 			</resource>
+ 		</resources>
+ 		
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
