@@ -55,7 +55,7 @@
 						<configuration>
 							<featureDefinitions>
 								<feature>
-									<id>dwo-playground-domino.feature</id>
+									<id>com.darwino.domino.playground.feature</id>
 									<version>${project.version}</version>
 									<label>Darwino Playground</label>
 									<providerName>Provider Name</providerName>
@@ -113,11 +113,6 @@
 										<artifact>
 											<id>com.darwino.domino:com.darwino.domino.napi.win32-x86:${DARWINO_VERSION}</id>
 											<transitive>false</transitive>
-											<source>false</source>
-										</artifact>
-										<artifact>
-											<id>com.darwino:dwo-web-darwino:${DARWINO_VERSION}</id>
-											<transitive>true</transitive>
 											<source>false</source>
 										</artifact>
 									</artifacts>
