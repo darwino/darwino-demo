@@ -68,7 +68,7 @@
 				
 				<configuration>
 					<instructions>
-						<Bundle-SymbolicName>com.darwino.playground.domino</Bundle-SymbolicName>
+						<Bundle-SymbolicName>com.darwino.playground.domino;singleton:=true</Bundle-SymbolicName>
 						<Require-Bundle>
 							org.eclipse.core.runtime;bundle-version="3.4.0",
 							com.ibm.notes.java.api;resolution:=optional,
