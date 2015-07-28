@@ -75,7 +75,6 @@
 							com.ibm.pvc.servlet,
 							com.darwino.domino.libs,
 							com.darwino.domino.platform,
-							com.darwino.web.darwino,
 							com.darwino.playground.shared;resolution:=optional,
 							com.darwino.playground.webui;resolution:=optional
 						</Require-Bundle>
