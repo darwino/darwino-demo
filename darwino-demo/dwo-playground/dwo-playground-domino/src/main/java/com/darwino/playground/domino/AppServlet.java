@@ -17,6 +17,12 @@ import com.darwino.commons.json.JsonException;
 import com.darwino.commons.services.HttpServiceFactories;
 import com.darwino.domino.application.DarwinoApplicationServlet;
 import com.darwino.domino.application.DarwinoDominoApplication;
+import com.darwino.domino.application.DominoJsonStoreServiceFactory;
+import com.darwino.jsonstore.Index;
+import com.darwino.jsonstore.Store;
+import com.darwino.jsonstore.services.cursor.CursorContentFilter;
+import com.darwino.jsonstore.services.cursor.CursorService;
+import com.darwino.platform.DarwinoHttpConstants;
 import com.darwino.playground.app.AppServiceFactory;
 
 
@@ -37,8 +43,25 @@ public class AppServlet extends DarwinoApplicationServlet {
 	protected DarwinoDominoApplication createDarwinoApplication(ServletContext servletContext) throws JsonException {
 		return DarwinoApplication.create(servletContext);
 	}
+
+	@Override
+	protected void addJsonStoreServiceFactories(HttpServiceFactories factories) {
+		DominoJsonStoreServiceFactory jsonFactory = new DominoJsonStoreServiceFactory(DarwinoHttpConstants.JSONSTORE_PATH) {
+			@Override
+			protected DefaultServiceContributor getDefaultServiceContributor() {
+				return new DefaultServiceContributor(this) {
+					@Override
+					protected CursorService newCursorService(Store store, Index index, int method, CursorContentFilter filter) {
+						return new DevCursorService(store, index, method, filter);
+					}
+				};
+			}
+		};
+		factories.add(jsonFactory);
+	}
 	
 	/**
+	 * 
 	 * Add the application specific services. 
 	 */
 	@Override
