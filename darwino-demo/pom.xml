@@ -22,7 +22,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
-		<robovm.version>1.0.0</robovm.version>
+		<robovm.version>1.5.0</robovm.version>
 		
 		<android.plugin.version>4.1.1</android.plugin.version>
 		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
