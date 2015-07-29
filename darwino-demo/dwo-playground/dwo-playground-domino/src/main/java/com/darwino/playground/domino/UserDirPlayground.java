@@ -11,8 +11,8 @@
 
 package com.darwino.playground.domino;
 
-import com.darwino.commons.security.acl.impl.UserServiceImpl;
 import com.darwino.commons.util.StringUtil;
+import com.darwino.domino.resources.UserDirDomino;
 
 
 /**
@@ -20,9 +20,9 @@ import com.darwino.commons.util.StringUtil;
  * 
  * @author Philippe Riand
  */
-public class DominoDnFixer implements UserServiceImpl.DnFixer {
+public class UserDirPlayground extends UserDirDomino {
 	
-	public DominoDnFixer() {
+	public UserDirPlayground() {
 	}
 
 	@Override
