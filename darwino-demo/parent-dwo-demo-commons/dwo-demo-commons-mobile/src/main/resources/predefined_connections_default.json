@@ -3,7 +3,7 @@
 		{
 			"enabled": true,
 			"local": true,
-			"name": "Local Server - {0}",
+			"name": "Local TOMCAT Server - {0}",
 			"url": "{0}",
 			"userId": "amass",
 			"password": "floflo",
@@ -15,24 +15,27 @@
 			"local": false,
 			"name": "Darwino Playground - http://playground.darwino.com/playground",
 			"url": "http://playground.darwino.com/playground",
-			"userId": "Al Mass",
-			"password": "floflo"
+			"password": "floflo",
+			"dn": "cn=al mass,o=triloggroup",
+			"cn": "Al Mass"
 		},
 		{
 			"enabled": true,
 			"local": false,
 			"name": "IBM Bluemix - http://dwo-demo-news-j2ee.mybluemix.net",
 			"url": "http://dwo-demo-news-j2ee.mybluemix.net",
-			"userId": "amass",
-			"password": "floflo"
+			"password": "floflo",
+			"dn": "cn=al mass,o=triloggroup",
+			"cn": "Al Mass"
 		},
 		{
 			"enabled": false,
 			"local": false,
 			"name": "Heroku - http://priand-demo-news.herokuapp.com",
 			"url": "http://priand-demo-news.herokuapp.com",
-			"userId": "amass",
-			"password": "floflo"
+			"password": "floflo",
+			"dn": "cn=al mass,o=triloggroup",
+			"cn": "Al Mass"
 		}
 	]
 }
