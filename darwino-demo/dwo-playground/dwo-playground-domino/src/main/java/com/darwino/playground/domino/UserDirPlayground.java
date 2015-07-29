@@ -33,7 +33,7 @@ public class UserDirPlayground extends UserDirDomino {
 			// cn=al mass,o=triloggroup
 			// cn=al mass,o=darwino
 			if(StringUtil.endsWithIgnoreCase(dn, "o=triloggroup")) {
-				return dn.substring(dn.length()-"o=triloggroup".length())+"o=darwino";
+				return dn.substring(0,dn.length()-"o=triloggroup".length())+"o=darwino";
 			}
 			return dn;
 		}
@@ -42,7 +42,7 @@ public class UserDirPlayground extends UserDirDomino {
 		// A darwino email should be transformed to a triloggroup one
 		if(StringUtil.equals(provider,"connections")) {
 			if(StringUtil.endsWithIgnoreCase(dn, "@darwino.com")) {
-				return dn.substring(dn.length()-"@darwino.com".length())+"@triloggroup.com";
+				return dn.substring(0,dn.length()-"@darwino.com".length())+"@triloggroup.com";
 			}
 			return dn;
 		}

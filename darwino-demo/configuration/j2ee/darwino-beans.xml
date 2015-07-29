@@ -32,6 +32,10 @@
     <!-- ================================================================================================== -->
     <property name="uc">com.darwino.config.user.UserDirStatic$User</property>
     <bean type="darwino/userdir" name="static" class="com.darwino.config.user.UserDirStatic" alias="demo,default">
+        <list name="providers">
+            <bean class='com.darwino.ibm.services.social.connections.IbmConnectionsUserProvider'>
+            </bean>
+        </list>
         <list name="users">
             <bean class='${uc}'>
                 <property name='dn'>cn=phil,o=triloggroup</property>
