@@ -15,6 +15,7 @@
 			"local": false,
 			"name": "Darwino Playground - http://playground.darwino.com/playground",
 			"url": "http://playground.darwino.com/playground",
+			"userId": "amass",
 			"password": "floflo",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"

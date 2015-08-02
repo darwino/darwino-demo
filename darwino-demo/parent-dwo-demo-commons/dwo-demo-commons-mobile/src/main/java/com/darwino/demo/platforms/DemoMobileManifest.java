@@ -13,11 +13,10 @@ package com.darwino.demo.platforms;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonJavaFactory;
+import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.json.JsonParser;
 import com.darwino.commons.util.PathUtil;
 import com.darwino.commons.util.StringUtil;
@@ -43,7 +42,6 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 		this.pathInfo = pathInfo;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public Connection[] getPredefinedConnections() {
 		ArrayList<Connection> conn = new ArrayList<DarwinoMobileManifest.Connection>();
@@ -52,15 +50,16 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 			InputStream is = DemoConfiguration.loadResource("/predefined_connections.json", "/predefined_connections_default.json");
 			if(is!=null) {
 				try {
-					Map<String, Object> connectionsObj = (Map<String, Object>)JsonParser.fromJson(JsonJavaFactory.instance, is);
-					for(Map<String, Object> entry : (List<Map<String, Object>>)connectionsObj.get("connections")) {
-						boolean enabled = (Boolean)entry.get("enabled");
+					JsonObject connectionsObj = (JsonObject)JsonParser.fromJson(JsonJavaFactory.instance, is);
+					for(Object entryObj : connectionsObj.getArray("connections")) {
+						JsonObject entry = (JsonObject)entryObj;
+						boolean enabled = entry.getBoolean("enabled");
 						if(enabled) {
 							Connection connection = new Connection();
 							
-							boolean local = (Boolean)entry.get("local");
-							String baseName = (String)entry.get("name");
-							String baseUrl = (String)entry.get("url");
+							boolean local = entry.getBoolean("local");
+							String baseName = entry.getString("name");
+							String baseUrl = entry.getString("url");
 							if(local) {
 								// When we are running in the emulator, then we assume that the server is actually running in the VM
 								// Else, we are on a local device and we access a global address
@@ -79,10 +78,16 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 								connection.setUrl(baseUrl);
 							}
 							
-							connection.setUserId((String)entry.get("userId"));
-							connection.setUserPassword((String)entry.get("password"));
-							connection.setDn((String)entry.get("dn"));
-							connection.setCn((String)entry.get("cn"));
+							String userId = entry.getString("userId");
+							String dn = entry.getString("dn");
+							if(StringUtil.isNotEmpty(userId)) {
+								connection.setUserId(userId);
+							} else {
+								connection.setUserId(dn);
+							}
+							connection.setUserPassword(entry.getString("password"));
+							connection.setDn(dn);
+							connection.setCn(entry.getString("cn"));
 							conn.add(connection);
 						}
 					}
