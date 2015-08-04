@@ -22,7 +22,7 @@ var userService = services.createUserService(social_baseUrl+"/users");
 var LOG_GROUP = "discdb.web";
 darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
-angular.module('discDb', [ 'ngSanitize','ionic', 'ngCkeditor' ])
+angular.module('discDb', [ 'ngSanitize','ionic', 'angular-quill' ])
 
 .run(function($rootScope,$location,$state,$http,entries) {
 	// Make some global var visible
