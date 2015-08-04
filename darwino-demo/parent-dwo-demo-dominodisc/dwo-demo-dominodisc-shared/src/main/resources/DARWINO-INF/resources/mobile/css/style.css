@@ -33,14 +33,47 @@ body {
     left: 24px;
 }
 
+/* Avatar in the left menu */
+/* From material design*/ 
+.menu .avatar {
+    height: 65px;
+    left: 16px;
+    top: 16px;
+    width: 65px;
+}
+/* From material design*/ 
+.avatar, .item-avatar .avatar {
+    background-position: center center;
+    background-size: cover;
+    border-radius: 50%;
+    display: inline-block;
+    height: 56px;
+    left: 16px;
+    position: absolute;
+    width: 56px;
+}
+/* From material design*/ 
+.menu-bottom {
+    bottom: 16px;
+    left: 16px;
+    position: absolute;
+    right: 16px;
+}
+/* From material design*/ 
+.has-expanded-header {
+    top: 150px !important;
+}
 .menu .bar.bar-header.expanded {
 	background-image: url("../img/header.png");
     background-position: 0 center;
     background-size: 120% auto;
     transition: all 0.5s ease-in-out 0s;
-	margin-bottom: 20px; 
+	margin-bottom: 20px;
+	/* From material design*/ 
+    box-shadow: none;
+    color: #fff;
+    min-height: 150px;
 }	
-
 .menu-header-user {
 	font-weight: 300;
 	color: white;
