@@ -10,7 +10,7 @@
 			<div ng-click="entries.selectItem(item)" style="width:100%">
 				<h2 ng-bind="item.value.subject"></h2>
 				<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
-				<h4 ng-bind-html="item.value.abstract"></h4>
+				<h4 ng-bind="item.value.abstract"></h4>
 			</div>
 		</div>
 		</div>

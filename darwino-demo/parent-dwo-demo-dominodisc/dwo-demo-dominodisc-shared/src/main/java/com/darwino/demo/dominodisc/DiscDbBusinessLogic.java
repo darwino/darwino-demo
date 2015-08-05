@@ -16,6 +16,7 @@ import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.security.acl.User;
 import com.darwino.commons.security.acl.UserException;
 import com.darwino.commons.util.StringUtil;
+import com.darwino.commons.util.text.HtmlTextUtil;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.extensions.DefaultExtensionRegistry;
 import com.darwino.jsonstore.extensions.DocumentEvents;
@@ -51,7 +52,8 @@ public  class DiscDbBusinessLogic extends DefaultExtensionRegistry {
 					// Calculate the abstract
 					String body = json.getString("body");
 					if(StringUtil.isNotEmpty(body)) {
-						json.putStringDef("abstract",body.length()>30 ? body.substring(0,30)+"..." : body);
+						String abs = HtmlTextUtil.fromHTML(body,300); // 300 matches the LotusScript one
+						json.putStringDef("abstract",abs);
 					} else {
 						json.remove("abstract");
 					}
