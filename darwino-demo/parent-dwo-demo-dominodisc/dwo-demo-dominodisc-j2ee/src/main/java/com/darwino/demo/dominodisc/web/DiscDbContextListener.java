@@ -56,5 +56,6 @@ public class DiscDbContextListener extends AbstractDarwinoContextListener {
 			syncExecutor.stop();
 			syncExecutor = null;
 		}
+		super.contextDestroyed(sce);
 	}
 }

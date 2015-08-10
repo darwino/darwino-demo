@@ -68,47 +68,6 @@ body {
     font-size: 24px;
 }
 
-.dwo-left-menu .item-icon-left .icon {
-	font-size: 24px;
-}
-
-
-.dwo-left-menu {
-	color: #757575;
-	background-color: white;
-}
-
-.dwo-left-menu .item {
-	border: none;
-	font-size: 16px;
-	font-weight: 300;
-} 
-
-.dwo-left-menu .item-selected {
-	background-color: #EEE;
-} 
-
-.dwo-left-menu .item-title {
-	background-color: #EF4E3A;
-	font-size: 20px;
-	font-style: bold;
-} 
-
-.dwo-left-menu .count {
-	font-style: italic;
-	font-size: 80%;
-} 
-
-.dwo-left-menu .list {
-	margin-bottom: 0;
-} 
-
-.dwo-left-menu .item-divider {
-	font-size: 14px;
-	font-weight: 300;
-	border-top: 1px solid #e0e0e0 !important;
-	margin-top: 3px;
-} 
 
 .dwo-date-image {
 	color: white;
@@ -152,21 +111,6 @@ body {
 	font-weight: 700;	
 }
 
-
-/*
- * List of entries
- */
-.list-content {
-    border-right: 1px solid #DDDDDD;
-} 
-.list-entries .list .item {
-    padding: 4px 4px 4px 4px;
-    border-bottom: 1px solid #DDDDDD;
-} 
-.item-list-entries-selected {
-    border-left: 5px solid #387EF5;
-}
-
 /*
  * Entry detail
  */
@@ -205,6 +149,83 @@ body {
 .search-bar-icon {
 	color: white;
 	font-size: 14px;
+}
+
+
+
+/****************************************************************************** */
+/* RICH TEXT : CANCEL IONIC TAG OVERRIDES										*/
+/****************************************************************************** */
+
+i, em {
+	font-style: italic;
+}
+
+
+/****************************************************************************** */
+/* LEFT SIDE MENU																*/
+/****************************************************************************** */
+
+.left-side-menu .item-icon-left .icon {
+	font-size: 24px;
+}
+
+.left-side-menu {
+	color: #757575;
+	background-color: white;
+}
+
+.left-side-menu .item {
+	border: none;
+	font-size: 16px;
+    font-weight: 700;
+} 
+
+.left-side-menu .item-divider {
+	background-color: white;
+	border-top: 1px solid rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 14px;
+	font-weight: 400;
+    height: 48px;
+    line-height: 48px;
+}
+
+.left-side-menu .item-selected {
+	background-color: #EEE;
+} 
+
+.left-side-menu .item-title {
+	background-color: #EF4E3A;
+	font-size: 20px;
+	font-style: bold;
+} 
+
+.left-side-menu .count {
+	font-style: italic;
+	font-size: 80%;
+} 
+
+.left-side-menu .list {
+	margin-bottom: 0;
+} 
+
+
+
+
+/****************************************************************************** */
+/* List of entries
+/****************************************************************************** */
+
+.list-content {
+    border-right: 1px solid #DDDDDD;
+} 
+.list-entries .list .item {
+	padding: 4px 4px 4px 4px;
+    border-bottom: 1px solid #DDDDDD;
+} 
+.list-entries .list .item .selected {
+    border-left: 5px solid #387EF5;
 }
 
 
@@ -302,11 +323,8 @@ body {
 }
 
 
-
-/****************************************************************************** */
-/* IONIC OVERRIDES              												*/
-/****************************************************************************** */
-
-i, em {
-	font-style: italic;
+/* Buttons on the toolbar should not be oversized */
+.bar .button.button-icon .icon::before, .bar .button.button-icon.icon-left::before, .bar .button.button-icon.icon-right::before, .bar .button.button-icon::before {
+    font-size: 24px;
+    vertical-align: top;
 }

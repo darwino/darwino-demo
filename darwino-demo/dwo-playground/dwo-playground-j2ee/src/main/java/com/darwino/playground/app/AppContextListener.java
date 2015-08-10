@@ -54,5 +54,6 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 			syncExecutor.stop();
 			syncExecutor = null;
 		}
+		super.contextDestroyed(sce);
 	}
 }

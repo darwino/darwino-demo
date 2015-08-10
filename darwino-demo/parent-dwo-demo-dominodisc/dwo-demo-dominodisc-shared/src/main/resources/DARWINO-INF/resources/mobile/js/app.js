@@ -22,7 +22,7 @@ var userService = services.createUserService(social_baseUrl+"/users");
 var LOG_GROUP = "discdb.web";
 darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
-angular.module('discDb', [ 'ngSanitize','ionic', 'angular-quill' ])
+angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'angular-quill' ])
 
 .run(function($rootScope,$location,$state,$http,entries) {
 	// Make some global var visible
@@ -93,6 +93,14 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'angular-quill' ])
 				controller : "ByDateCtrl"
 			}
 		}
+	}).state('disc.readpost', {
+		url : "/readpost",
+		views : {
+			'menuContent' : {
+				templateUrl : "templates/readpost.html",
+				controller : "ReadCtrl"
+			}
+		}
 	}).state('disc.editpost', {
 		url : "/editpost/:id",
 		views : {
@@ -117,13 +125,14 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'angular-quill' ])
 .controller('MainCtrl', function($scope) {
 })
 
-.service('entries', function($rootScope,$http) {
+.service('entries', function($rootScope,$http,$timeout) {
 	var itemCount = 10; // Number of items requested by request
+	var refreshTimeout;
 	var _this = {
 		view: "byDate",
 		
 		all: [],
-		count: -1,
+		count: -2,
 		eof: false,
 		selectedItem: null,
 		detailItem: null,
@@ -158,17 +167,19 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'angular-quill' ])
 		},
 
 		getEntriesCount: function() {
-			if(this.all.length==0) {
-				return 0;
-			}
-			if(this.count<0) {
-				this.count = 0;
-				$http.get(jstore_baseUrl+"/databases/domdisc/stores/nsfdata/documentscount").success(function(data) {
+			if(this.count<-1) {
+				this.count = -1;
+				if(this.ftSearch) {
+					var url = "/databases/domdisc/stores/nsfdata/count?ftsearch="+encodeURIComponent(this.ftSearch)+'&hierarchical=1';
+				} else {
+					var url = "/databases/domdisc/stores/nsfdata/documentscount";
+				}
+				$http.get(jstore_baseUrl+url).success(function(data) {
 					_this.count = data['count'];
 					darwino.log.d(LOG_GROUP,"Calculated discussion entries count {0}",_this.count);
 				});
 			}
-			return this.count; 
+			return this.count>=0 ? this.count : null; 
 		},
 		
 		getUserDn: function(item) {
@@ -186,15 +197,28 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'angular-quill' ])
 				this.selectedItem = selectedItem;
 			}	
 		},
-		refresh: function() {
-			this.eof = false;
-			this.all = [];
-			this.selectedItem = null;
-			this.detailItem = null;
-			this.count = -1;
-			this.showComments = {};
-			this.loadItems(0,itemCount);
-			darwino.hybrid.setDirty(false);
+		refresh: function(delay) {
+			var _this = this;
+			function doRefresh() {
+				refreshTimeout = null;
+				_this.eof = false;
+				_this.all = [];
+				_this.selectedItem = null;
+				_this.detailItem = null;
+				_this.count = -2;
+				_this.showComments = {};
+				_this.loadItems(0,itemCount);
+				darwino.hybrid.setDirty(false);
+			}
+			if(refreshTimeout) {
+				$timeout.cancel(refreshTimeout);
+				refreshTimeout = null;
+			}
+			if(delay) {
+				refreshTimeout = $timeout(doRefresh,delay);
+			} else {
+				doRefresh();
+			}
 		},
 		toggleComments: function(item) {
 			this.showComments[item.unid] = !this.showComments[item.unid];
@@ -387,7 +411,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'angular-quill' ])
 		$scope.searchMode = 1;
 	};
 	$scope.executeSearch = function() {
-		entries.refresh();
+		entries.refresh(500);
 	};
 	$scope.cancelSearch = function() {
 		$scope.searchMode = 0;
@@ -401,6 +425,12 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'angular-quill' ])
 	entries.refresh();	
 }])
 
+
+//
+//	Reader
+//
+.controller('ReadCtrl', ['$scope','$stateParams','$ionicHistory','entries', function($scope,$stateParams,$ionicHistory,entries) {
+}])
 
 
 //
