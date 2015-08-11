@@ -9,7 +9,7 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.darwino.demo.dominodisc.android;
+package com.darwino.android.app.dominodisc;
 
 import android.app.Application;
 

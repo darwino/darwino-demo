@@ -1,5 +1,3 @@
-<ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-				
 <ion-list class='list-entries'>
 	<ion-item ng-repeat="item in entries.all" class="list-item item-list-entries ">
 		<div class="{{item==entries.selectedItem?'selected':''}}">
@@ -16,5 +14,3 @@
 		</div>
 	</ion-item>
 </ion-list>
-	    
-<ion-infinite-scroll ng-if="hasMore()" on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>

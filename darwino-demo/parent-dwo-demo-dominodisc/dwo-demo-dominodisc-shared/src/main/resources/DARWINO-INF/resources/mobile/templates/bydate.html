@@ -20,11 +20,13 @@
 		</button>	
 	</ion-nav-buttons>
 
- 	<div class="row" if-media="large">
+ 	<div class="row" if-media="large" style="height:100%">
 		<ion-content class="list-content col col-33">
-			<div ng-include src="'templates/itemlist.html'"></div>
+			<ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+			<ng-include src="'templates/itemlist.html'"></ng-include>
+			<ion-infinite-scroll ng-if="hasMore()" on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
      	</ion-content>
-		<div class="col col-offset-33 col-67 padding">
+		<div class="col col-offset-33 col-67">
 			<div ng-include src="'templates/itemdetail.html'"></div>
      	</div>
 	</div>

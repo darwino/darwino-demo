@@ -16,7 +16,8 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	
 	var mod = angular.module('darwino.angular.jstore',[]);
 
-	var ITEMCOUNT = 10;
+	var REFRESHCOUNT = 10;
+	var MORECOUNT = 10;
 
 	var ngHttp;
 	var ngTimeout;
@@ -27,6 +28,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.baseUrl = session.getHttpStoreClient().getHttpClient().getBaseUrl();
 		this.databaseId = databaseId;
 		this.storeId = storeId;
+		this.state = 0;
 		this.all = [];
 		this.count = -2;
 		this.eof = false;
@@ -35,7 +37,8 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.detailDocument = null;
 		this.ftSearch = "";
 		this.showResponses = {};
-		this.itemCount = ITEMCOUNT;
+		this.refreshCount = REFRESHCOUNT;
+		this.moreCount = MORECOUNT;
 
 		this.refreshTimeout = null;
 		this.loading = false;
@@ -55,7 +58,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	}
 	
 	ItemList.prototype._databaseUrl = function() {
-		return this.baseUrl+"/databases/"+encodeURIComponent(this.databaseId);
+		return darwino.Utils.concatPath(this.baseUrl,"/databases/")+encodeURIComponent(this.databaseId);
 	}
 	ItemList.prototype._storeUrl = function(u) {
 		return this._databaseUrl()+"/stores/"+encodeURIComponent(this.storeId);
@@ -122,7 +125,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			_this.detailItem = null;
 			_this.count = -2;
 			_this.showResponses = {};
-			_this.loadItems(0,cb);
+			_this.loadItems(0,_this.refreshCount,cb);
 		}
 		if(_this.refreshTimeout) {
 			ngTimeout.cancel(_this.refreshTimeout);
@@ -153,19 +156,19 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		// If there is already an ongoing request, then ignore the new one
 		// We call the callback anyway to broadcast what should be broadcasted...
 		if(!this.hasMore() || this.loading) {
-			if(cb) ngTimeout(cb());
+			if(cb) cb();
 			return;
 		}
 		darwino.log.d(LOG_GROUP,"Load more entries, count={0}",this.all.length);
 		this.loading = true;
-		this.loadItems(this.all.length,cb);
+		this.loadItems(this.all.length,this.moreCount,cb);
 	}
 	
-	ItemList.prototype.loadItems = function(skip,cb) {
+	ItemList.prototype.loadItems = function(skip,count,cb) {
 		var _this = this;
 		var url = this._storeUrl()+'/entries'
 				+'?skip='+skip
-				+'&limit='+this.itemCount
+				+'&limit='+count
 				+'&hierarchical=99'
 				+(this.ftSearch?"&ftsearch="+encodeURIComponent(this.ftSearch):"")
 				+'&orderby=_cdate desc'
@@ -176,7 +179,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				for(var i=0; i<data.length; i++) {
 					_this.all.push(data[i]);
 				}
-				if(data.length<_this.itemCount) {
+				if(data.length<count) {
 					_this.eof = true;
 				}
 				if(!_this.selectedItem && _this.all.length) {

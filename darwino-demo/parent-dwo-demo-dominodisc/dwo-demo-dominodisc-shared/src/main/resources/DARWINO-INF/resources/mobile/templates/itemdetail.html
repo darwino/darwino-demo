@@ -1,5 +1,5 @@
 <div class="item-body" ng-hide="!entries.detailItem">
-
+<ion-scroll style="width:100%;height:100%">
 	<div ng-click="entries.selectItem(entries.detailItem)">
 		<h2 ng-bind="entries.detailItem.value.subject"></h2>
 	</div>
@@ -54,4 +54,5 @@
 			</div>
 		</div>
 	</div>
+</ion-scroll>
 </div>

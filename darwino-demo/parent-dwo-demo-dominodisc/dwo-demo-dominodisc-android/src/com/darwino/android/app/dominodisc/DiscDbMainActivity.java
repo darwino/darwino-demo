@@ -9,14 +9,14 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.darwino.demo.dominodisc.android;
+package com.darwino.android.app.dominodisc;
 
 import android.os.Bundle;
 
-import com.darwino.android.platform.hybrid.DarwinoCordovaHybridActivity;
+import com.darwino.android.platform.hybrid.DarwinoHybridActivity;
 import com.darwino.commons.Platform;
 
-public class DiscDbMainActivity extends DarwinoCordovaHybridActivity {
+public class DiscDbMainActivity extends DarwinoHybridActivity {
 	
 	public DiscDbMainActivity() {
 	}
@@ -24,14 +24,6 @@ public class DiscDbMainActivity extends DarwinoCordovaHybridActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		try {
-			DiscDbAndroidHybridApplication.create(getApplication());
-		} catch(Throwable t) {
-			Platform.log(t);
-			closeActivity(t);
-		}
-        
         loadMainPage();
 	}
 }

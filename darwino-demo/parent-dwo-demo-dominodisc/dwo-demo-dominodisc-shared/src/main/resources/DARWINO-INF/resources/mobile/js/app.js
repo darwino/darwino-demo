@@ -75,8 +75,13 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	}
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
-
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+    // Enable native scrolls for Android platform only,
+    // as you see, we're disabling jsScrolling to achieve this.
+	if(false && ionic.Platform.isAndroid()) {
+		$ionicConfigProvider.scrolling.jsScrolling(false);
+	}
+	
 	$stateProvider.state('disc', {
 		url : "/disc",
 		abstract : true,
@@ -159,8 +164,6 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 //	By Date
 //
 .controller('ByDateCtrl', ['$scope','$rootScope','$http','$ionicModal','entries', function($scope,$rootScope,$http,$ionicModal,entries) {
-	console.log('ByDateCtrl START');
-	
 	//
 	//
 	//
@@ -178,6 +181,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		entries.refresh( 0, function() {
 			darwino.hybrid.setDirty(false);
 			$scope.$broadcast('scroll.refreshComplete');
+			//$scope.$broadcast('scroll.infiniteScrollComplete');
 			console.log('scroll.refreshComplete!');
 		});
 	}
@@ -202,8 +206,6 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	
 	// Initialize the data
 	$scope.refresh();
-	console.log('ByDateCtrl END');
-		
 }])
 
 
