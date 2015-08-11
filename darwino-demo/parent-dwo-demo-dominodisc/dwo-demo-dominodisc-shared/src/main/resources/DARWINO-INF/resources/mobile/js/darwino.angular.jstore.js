@@ -22,7 +22,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	var ngTimeout;
 	
 	function ItemList(session,databaseId,storeId) {
-		darwino.log.d(LOG_GROUP,"Create ItemList for database {0}, store {1}",databaseId,storeId);
+		//darwino.log.d(LOG_GROUP,"Create ItemList for database {0}, store {1}",databaseId,storeId);
 		this.session = session;
 		this.baseUrl = session.getHttpStoreClient().getHttpClient().getBaseUrl();
 		this.databaseId = databaseId;
@@ -192,7 +192,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+'&orderby=_cdate desc'
 				+'&jsontree=true'
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
-		this._loadItems(url,function(entry) {
+		this._loadItems(url,function(data) {
 			if(data.length>0) {
 				var entry = data[0]
 				_this.all.unshift(entry);				
