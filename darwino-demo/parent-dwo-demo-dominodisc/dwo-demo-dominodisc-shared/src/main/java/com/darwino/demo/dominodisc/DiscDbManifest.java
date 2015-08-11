@@ -62,6 +62,7 @@ public class DiscDbManifest extends DarwinoManifest {
 	@Override
 	public String getMainPageUrl() {
 		return "mobile/index.html";
+		//return "mobileold/index.html";
 	}
 	
 	@Override
