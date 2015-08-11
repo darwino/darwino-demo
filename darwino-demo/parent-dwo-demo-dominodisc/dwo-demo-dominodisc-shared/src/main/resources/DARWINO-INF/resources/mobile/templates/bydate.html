@@ -20,34 +20,37 @@
 		</button>	
 	</ion-nav-buttons>
 
- 	<div class="row" show-when-media="large">
+ 	<div class="row" if-media="large">
 		<ion-content class="list-content col col-33">
 			<div ng-include src="'templates/itemlist.html'"></div>
      	</ion-content>
-		<ion-content class="col col-offset-33 col-67 padding">
+		<div class="col col-offset-33 col-67 padding">
 			<div ng-include src="'templates/itemdetail.html'"></div>
-     	</ion-content>
+     	</div>
 	</div>
-	  			
-	<ion-content class="list-content" hide-when-media="large">
-		<ion-refresher pulling-text="Pull to refresh..." on-refresh="entries.refresh()"></ion-refresher>
-		<ion-list class='list-entries'>
-			<ion-item ng-repeat="item in entries.all" class="list-item item-list-entries" ng-click="go('/disc/readpost')">
-				<div class="{{item==entries.selectedItem?'selected':''}}">
-					<div class="item-avatar item-icon-right item-list-header {{item.read?'item-read':'item-unread'}}">
-						<img ng-src="{{entries.getPhoto(item)}}" alt="Photo" 
-								ng-click="go('/disc/user/'+entries.getUserDn(item))" 
-								onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
-						<div ng-click="entries.selectItem(item)" style="width:100%">
-							<h2 ng-bind="item.value.subject"></h2>
-							<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
-							<h4 ng-bind="item.value.abstract"></h4>
+
+ 	<div if-not-media="large">
+		<ion-content class="list-content">
+			<ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+			<ion-list class='list-entries'>
+				<ion-item ng-repeat="item in entries.all" class="list-item item-list-entries" ng-click="go('/disc/readpost')">
+					<div class="{{item==entries.selectedItem?'selected':''}}">
+						<div class="item-avatar item-icon-right item-list-header {{item.read?'item-read':'item-unread'}}">
+							<img ng-src="{{entries.getPhoto(item)}}" alt="Photo" 
+									ng-click="go('/disc/user/'+entries.getUserDn(item))" 
+									onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
+							<div ng-click="entries.selectItem(item)" style="width:100%">
+								<h2 ng-bind="item.value.subject"></h2>
+								<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
+								<h4 ng-bind="item.value.abstract"></h4>
+							</div>
 						</div>
 					</div>
-				</div>
-			</ion-item>
-		</ion-list>
-		<ion-infinite-scroll ng-if="entries.hasMore()" on-infinite="entries.loadMore()" distance="5%"></ion-infinite-scroll>
-   	</ion-content>
-
+				</ion-item>
+			</ion-list>
+			<ion-infinite-scroll ng-if="hasMore()" on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
+   		</ion-content>
+<!--    		
+	</div>
+ -->
 </ion-view>

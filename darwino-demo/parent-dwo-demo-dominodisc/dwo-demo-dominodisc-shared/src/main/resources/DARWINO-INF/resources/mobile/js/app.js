@@ -22,7 +22,10 @@ var userService = services.createUserService(social_baseUrl+"/users");
 var LOG_GROUP = "discdb.web";
 darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
-angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'angular-quill' ])
+var DATABASE_NAME = "domdisc";
+var STORE_NAME = "nsfdata";
+
+angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'angular-quill' ])
 
 .run(function($rootScope,$location,$state,$http,entries) {
 	// Make some global var visible
@@ -30,8 +33,8 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'angular-quill
 	$rootScope.session = session;
 	$rootScope.userService = userService;
 
-	$rootScope.database = $rootScope.session.getDatabase("domdisc");
-	$rootScope.nsfdata = $rootScope.database.getStore("nsfdata");
+	$rootScope.database = $rootScope.session.getDatabase(DATABASE_NAME);
+	$rootScope.nsfdata = $rootScope.database.getStore(STORE_NAME);
 
 	$rootScope.entries = entries;
 	
@@ -125,283 +128,59 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'angular-quill
 .controller('MainCtrl', function($scope) {
 })
 
-.service('entries', function($rootScope,$http,$timeout) {
-	var itemCount = 10; // Number of items requested by request
-	var refreshTimeout;
-	var _this = {
-		view: "byDate",
-		
-		all: [],
-		count: -2,
-		eof: false,
-		selectedItem: null,
-		detailItem: null,
-		ftSearch: "",
-		showComments: {},
-		
-		findRoot: function(unid) {
-			if(unid) {
-				for(var i=0; i<this.all.length; i++) {
-					if(this.all[i].unid==unid) {
-						return this.all[i];
-					}
-					if(this._hasItem(this.all[i],unid)) {
-						return this.all[i];
-					}
-				}
-			}
-			return null;
-		},
-		_hasItem: function(root,unid) {
-			if(root.children) {
-				for(var i=0; i<root.children.length; i++) {
-					if(root.children[i].unid==unid) {
-						return true;
-					}
-					if(this._hasItem(root.children[i],unid)) {
-						return true;
-					}
-				}
-			}
-			return false;
-		},
-
-		getEntriesCount: function() {
-			if(this.count<-1) {
-				this.count = -1;
-				if(this.ftSearch) {
-					var url = "/databases/domdisc/stores/nsfdata/count?ftsearch="+encodeURIComponent(this.ftSearch)+'&hierarchical=1';
-				} else {
-					var url = "/databases/domdisc/stores/nsfdata/documentscount";
-				}
-				$http.get(jstore_baseUrl+url).success(function(data) {
-					_this.count = data['count'];
-					darwino.log.d(LOG_GROUP,"Calculated discussion entries count {0}",_this.count);
-				});
-			}
-			return this.count>=0 ? this.count : null; 
-		},
-		
-		getUserDn: function(item) {
-			return item ? item.value.from : null;
-		},
-		getUser: function(item) {
-			return item ? userService.findUser(item.value.from,function(u,n){if(n){$rootScope.apply()}}) : darwino.services.User.ANONYMOUS_USER;
-		},
-		getPhoto: function(item) {
-			return item ? userService.getUserPhotoUrl(item.value.from) : null;
-		},
-		selectItem: function(selectedItem) {
-			this.detailItem = selectedItem;
-			if(!selectedItem.parentUnid) {
-				this.selectedItem = selectedItem;
-			}	
-		},
-		refresh: function(delay) {
-			var _this = this;
-			function doRefresh() {
-				refreshTimeout = null;
-				_this.eof = false;
-				_this.all = [];
-				_this.selectedItem = null;
-				_this.detailItem = null;
-				_this.count = -2;
-				_this.showComments = {};
-				_this.loadItems(0,itemCount);
-				darwino.hybrid.setDirty(false);
-			}
-			if(refreshTimeout) {
-				$timeout.cancel(refreshTimeout);
-				refreshTimeout = null;
-			}
-			if(delay) {
-				refreshTimeout = $timeout(doRefresh,delay);
-			} else {
-				doRefresh();
-			}
-		},
-		toggleComments: function(item) {
-			this.showComments[item.unid] = !this.showComments[item.unid];
-		},
-		
-		hasMore: function() {
-			return !this.eof;
-		},
-		loadMore: function() {
-			// Prevent a request if nothing has been loaded yet
-			if(this.all.length==0) {
-				return;
-			}
-			this.loadItems(this.all.length,itemCount);
-		},
-		
-		loadItems: function(skip,limit) {
-			// Prevents loop with infinite scroll
-			if(this.eof) {
-				$rootScope.$broadcast('scroll.infiniteScrollComplete');
-				return;
-			}
-			var url = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
-					+'?skip='+skip
-					+'&limit='+limit
-					+'&hierarchical=99'
-					+(this.ftSearch?"&ftsearch="+encodeURIComponent(this.ftSearch):"")
-					+'&orderby=_cdate desc'
-					+'&jsontree=true'
-					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
-			this._loadItems(url,limit,function(entry) {
-				_this.all.push(entry);
-			},function() {
-				$rootScope.$broadcast('scroll.infiniteScrollComplete');
-				$rootScope.$broadcast('scroll.refreshComplete');
-			});
-		},
-		loadOneItem: function(unid) {
-			var url = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
-					+'?unid='+unid
-					+'&hierarchical=99'
-					+'&orderby=_cdate desc'
-					+'&jsontree=true'
-					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
-			this._loadItems(url,1,function(entry) {
-				_this.all.unshift(entry);				
-				_this.selectItem(entry);
-			});
-		},
-		reloadItem: function(item) {
-			var url = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/entries'
-					+'?unid='+item.unid
-					+'&hierarchical=99'
-					+'&orderby=_cdate desc'
-					+'&jsontree=true'
-					+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
-			this._loadItems(url,1,function(entry) {
-				for(var i=0; i<_this.all.length; i++) {
-					darwino.log.d(LOG_GROUP,"Check DiscDB entry="+_this.all[i].unid+", "+entry.unid);
-					if(_this.all[i].unid==entry.unid) {
-						_this.all[i] = entry;
-						_this.selectItem(entry);
-						break;
-					}
-				}
-			});
-		},
-		_loadItems: function(url,itemCount,cb,cball) {
-			function absoluteURL(url) {
-				var a = document.createElement('a');
-				a.href = url;
-				return a.href;
-			}
-			url = absoluteURL(url); 
-			var successCallback = function(data, status, headers, config) {
-				if(data.length<itemCount) {
-					_this.eof = true;
-				}
-				if(data.length>0) {
-					for(var i=0; i<data.length; i++) {
-						var entry = data[i];
-						cb(entry);
-					}
-				}
-				if(!_this.selectedItem && _this.all.length) {
-					_this.selectItem(_this.all[0]);
-				}
-				if(cball) {
-					cball();
-				}
-				darwino.log.d(LOG_GROUP,'Entries loaded from server: '+url+', #', _this.all.length);
-			};
-			$http.get(url).success(successCallback);
-		},
-		allCount: function() {
-			return this.all.length;
-		},
-		
-		newPost: function() {
-			$rootScope.go('/disc/editpost/new');
-		},
-		editPost: function(item) {
-			$rootScope.go('/disc/editpost/id:'+item.unid);
-		},
-		deletePost: function(item) {
-			$rootScope.nsfdata.deleteDocument(item.unid);
-			var rootItem = this.findRoot(item.unid);
-			if(rootItem && rootItem!=item) { 
-				this.reloadItem(rootItem);
-				this.detailItem = this.findRoot(item.parentUnid);
-			} else {
-				var idx = this.all.indexOf(item);
-				if(idx>=0) {
-					this.all.splice(idx,1);
-					this.selectedItem = this.all.length ? this.all[Math.max(idx-1,0)] : null;
-				}
-			}
-		},
-		
-		newComment: function(item) {
-			$rootScope.go('/disc/editpost/pid:'+item.unid);
-		},
-		
-		getAttachments: function(item) {
-			if(!item) return null;
-			if(!item.attachments) {
-				item.attachments = [];
-				var jsonfields = jstore.Document.JSON_ALLATTACHMENTS;
-				var options = jstore.Store.DOCUMENT_NOREADMARK;
-				$http.get(jstore_baseUrl+"/databases/domdisc/stores/nsfdata/documents/"+encodeURIComponent(item.unid)+"?jsonfields="+jsonfields+"&options="+options).success(function(data) {
-					var atts = data.attachments;
-					if(atts) {
-						// Do some post-processing
-						angular.forEach(atts, function(att) {
-							var name = att.name;
-							var delimIndex = name.indexOf("||");
-							
-							// If it's an inline image, ignore it entirely
-							if(delimIndex > -1) {
-								return;
-							}
-							
-							// Otherwise, remove any field-name prefix
-							delimIndex = name.indexOf("^^");
-							if(delimIndex > -1) {
-								name = name.substring(delimIndex+2);
-							}
-							
-							item.attachments.push({
-								name: name,
-								length: att.length,
-								mimeType: att.mimeType,
-								url: session.getUrlBuilder().getAttachmentUrl($rootScope.database.getId(), $rootScope.nsfdata.getId(), data.unid, att.name)
-							})
-						});
-					}
-				});
-			}
-			return item.attachments;
-		}
-    }
-	return _this;
+// This is currently a service as the left menu needs access to the count
+// let's think about a better architecture here
+.service('entries', function($rootScope,$http,$timeout,$jstore) {
+	var entries = $jstore.createItemList(session,DATABASE_NAME,STORE_NAME)
+	
+	// Specific methods
+	entries.getUserDn = function(item) {
+		return item ? item.value.from : null;
+	}
+	entries.getUser = function(item) {
+		return item ? userService.findUser(item.value.from,function(u,n){if(n){$rootScope.apply()}}) : darwino.services.User.ANONYMOUS_USER;
+	}
+	entries.getPhoto =  function(item) {
+		return item ? userService.getUserPhotoUrl(item.value.from) : null;
+	}
+	entries.newPost = function() {
+		$rootScope.go('/disc/editpost/new');
+	}
+	entries.editPost = function(item) {
+		$rootScope.go('/disc/editpost/id:'+item.unid);
+	}
+	entries.newComment = function(item) {
+		$rootScope.go('/disc/editpost/pid:'+item.unid);
+	}
+	return entries;
 })
 
 //
 //	By Date
 //
 .controller('ByDateCtrl', ['$scope','$rootScope','$http','$ionicModal','entries', function($scope,$rootScope,$http,$ionicModal,entries) {
-	var initRTE = function(selector, text) {
-		tinymce.init({
-			selector: selector,
-			menubar: false,
-			statusbar: false,
-			height: 150,
-			
-			setup: function(ed) {
-				ed.on("LoadContent", function(e) {
-					ed.setContent(text);
-				});
-			}
+	console.log('ByDateCtrl START');
+	
+	//
+	//
+	//
+	$scope.hasMore = function() {
+		return entries.hasMore();
+	}
+	$scope.loadMore = function() {
+		entries.loadMore( function() {
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+			console.log('scroll.infiniteScrollComplete!');
+			//$scope.$broadcast('scroll.resize');
 		});
 	}
-
+	$scope.refresh = function() {
+		entries.refresh( 0, function() {
+			darwino.hybrid.setDirty(false);
+			$scope.$broadcast('scroll.refreshComplete');
+			console.log('scroll.refreshComplete!');
+		});
+	}
 	
 	//
 	// Search Bar
@@ -422,7 +201,9 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'angular-quill
 	};
 	
 	// Initialize the data
-	entries.refresh();	
+	$scope.refresh();
+	console.log('ByDateCtrl END');
+		
 }])
 
 

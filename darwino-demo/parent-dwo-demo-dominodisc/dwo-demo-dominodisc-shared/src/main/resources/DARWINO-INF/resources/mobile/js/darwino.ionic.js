@@ -3,10 +3,6 @@
 
 	// ShowWhen and HideWhen
 	// Inpired from https://github.com/andrewmcgivery/ionic-ion-showWhen, MIT license
-	function media(m) {
-		if(m=="large") return "(min-width:768px)"
-		return m;
-	}
 	function showhide($window,show) {
 		return {
 			restrict: 'A',
@@ -47,6 +43,35 @@
 	}]);
 	mod.directive('hideWhenMedia', ['$window', function($window) {
 		return showhide($window,false);
+	}]);
+	
+	function media(m) {
+		if(m=="large") return "(min-width:768px)"
+		return m;
+	}
+	function ifmedia(ngIfDirective,$window,show) {
+		var ngIf = ngIfDirective[0];
+		return {
+			transclude: ngIf.transclude,
+			priority: ngIf.priority,
+			terminal: ngIf.terminal,
+			restrict: ngIf.restrict,
+			link: function($scope, $element, $attr) {
+				$attr.ngIf = function() {
+					var mq = media($attr[show?'ifMedia':'ifNotMedia']);
+					var matches = $window.matchMedia(mq).matches;
+					var visible = (show && matches) || (!show && !matches);
+					return visible;
+				};
+				ngIf.link.apply(ngIf, arguments);
+			}
+		};
+	}
+	mod.directive('ifMedia', ['ngIfDirective', '$window', function(ngIfDirective,$window) {
+		return ifmedia(ngIfDirective,$window,true);
+	}]);
+	mod.directive('ifNotMedia', ['ngIfDirective', '$window', function(ngIfDirective,$window) {
+		return ifmedia(ngIfDirective,$window,false);
 	}]);
 
 	// See if this is useful.
