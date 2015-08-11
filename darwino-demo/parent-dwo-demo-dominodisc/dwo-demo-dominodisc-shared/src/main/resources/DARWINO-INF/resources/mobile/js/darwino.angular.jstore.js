@@ -121,7 +121,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			_this.selectedItem = null;
 			_this.detailItem = null;
 			_this.count = -2;
-			_this.showComments = {};
+			_this.showResponses = {};
 			_this.loadItems(0,cb);
 		}
 		if(_this.refreshTimeout) {
@@ -135,8 +135,11 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			doRefresh();
 		}
 	}
+	ItemList.prototype.isShowResponses = function(item) {
+		return this.showResponses[item.unid]==true;
+	}
 	ItemList.prototype.toggleResponses = function(item) {
-		this.showResponses[item.unid] = !this.showComments[item.unid];
+		this.showResponses[item.unid] = !this.showResponses[item.unid];
 	}
 	
 	ItemList.prototype.hasMore = function() {
