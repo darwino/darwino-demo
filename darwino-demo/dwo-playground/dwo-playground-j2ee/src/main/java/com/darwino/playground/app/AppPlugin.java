@@ -44,10 +44,6 @@ public class AppPlugin extends PluginImpl {
 			// By default it uses the J2EE Principal as provided by the application server, but
 			// this can be changed to use alternate authentication methods
 			//extensions.add(new AppAuthenticationService());
-		} else if(serviceClass==UserService.class) {
-			// User service
-			// This service can point to an LDAP server or a static directory
-			extensions.add(new AppUserService());
 		} else if(serviceClass==ManagedBeansExtension.class) {
 			// Ok, default web entries - can be replaced by something more accurate
 			extensions.add(new DefaultWebBeanExtension());

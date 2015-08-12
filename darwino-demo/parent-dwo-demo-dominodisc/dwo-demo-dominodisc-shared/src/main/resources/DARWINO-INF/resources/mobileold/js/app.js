@@ -24,7 +24,7 @@ darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
 angular.module('discDb', [ 'ngSanitize','ionic' ])
 
-.run(function($rootScope,$location) {
+.run(function($rootScope,$location,$http) {
 	// Make some global var visible
 	$rootScope.darwino = darwino;
 	$rootScope.session = session;
@@ -40,9 +40,12 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	$rootScope._entriesCount = -1;
 	$rootScope.getEntriesCount = function() {
 		if($rootScope._entriesCount<0) {
-			var store = session.getDatabase("domdisc").getStore("nsfdata");
-			$rootScope._entriesCount = store.documentCount();
-			darwino.log.d(LOG_GROUP,"Calculated discussion entries count {0}",$rootScope._entriesCount);
+			$rootScope._entriesCount = 0;
+			var url = jstore_baseUrl+'/databases/domdisc/stores/nsfdata/count';
+			$http.get(url).success(function(data) {
+				$rootScope._entriesCount = data['count'];
+				darwino.log.d(LOG_GROUP,"Calculated discussion entries count {0}",$rootScope._entriesCount);
+			});
 		}
 		return $rootScope._entriesCount; 
 	};

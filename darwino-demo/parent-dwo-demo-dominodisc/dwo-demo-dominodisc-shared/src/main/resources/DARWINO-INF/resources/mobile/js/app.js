@@ -78,9 +78,9 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     // Enable native scrolls for Android platform only,
     // as you see, we're disabling jsScrolling to achieve this.
-	if(false && ionic.Platform.isAndroid()) {
-		$ionicConfigProvider.scrolling.jsScrolling(false);
-	}
+//	if(ionic.Platform.isAndroid()) {
+//		$ionicConfigProvider.scrolling.jsScrolling(false);
+//	}
 	
 	$stateProvider.state('disc', {
 		url : "/disc",
