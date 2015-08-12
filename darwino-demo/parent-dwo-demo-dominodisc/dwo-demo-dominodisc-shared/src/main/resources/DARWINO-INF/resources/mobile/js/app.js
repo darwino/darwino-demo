@@ -275,7 +275,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$scope.user = userService.findUser($stateParams.userdn, function(user,read) {
 		if(read) {
 			$scope.user = user;
-			$scope.$apply();
+			$scope.apply();
 		}
 	});
 }]);

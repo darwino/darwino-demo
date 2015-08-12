@@ -59,9 +59,12 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 	$rootScope.go = function(path) {
 		$location.path(path);
 	};
+	$rootScope.apply = function() {
+		setTimeout(function(){$rootScope.$apply()});
+	};
 	
 	darwino.hybrid.addSettingsListener(function(){
-		$rootScope.$apply()
+		$rootScope.apply()
 	});
 })
 
@@ -142,7 +145,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		currentText: "",
 		attachments: {},
 		getUser: function(item) {
-			return userService.findUser(item.value.from,function(u,n){if(n){$scope.$apply()}});
+			return userService.findUser(item.value.from,function(u,n){if(n){$rootScope.apply()}});
 		},
 		getPhoto: function(item) {
 			return userService.getUserPhotoUrl(item.value.from);
@@ -305,12 +308,10 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		getAttachments: function(item) {
 			if(!this.attachments[item.unid]) {
 				var result = [];
-				
 				var store = session.getDatabase("domdisc").getStore("nsfdata");
-				var doc = store.loadDocument(item.unid);
-				if(doc != null) {
+				var options = jstore.Store.DOCUMENT_NOREADMARK;
+				var doc = store.loadDocument(item.unid,options,function(doc) {
 					var atts = doc.getAttachments();
-					
 					// Do some post-processing
 					angular.forEach(atts, function(att) {
 						var name = att._name;
@@ -334,7 +335,8 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 							url: doc.getAttachmentUrl(att._name)
 						})
 					});
-				}
+					$rootScope.apply();
+				});
 				
 				this.attachments[item.unid] = result;
 			}
