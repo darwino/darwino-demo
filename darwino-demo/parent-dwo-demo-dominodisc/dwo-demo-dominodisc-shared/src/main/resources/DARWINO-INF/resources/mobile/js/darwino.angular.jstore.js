@@ -264,6 +264,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	}
 
 	ItemList.prototype.getAttachments = function(item) {
+		var _this = this;
 		if(!item) return null;
 		if(!item.attachments) {
 			item.attachments = [];
@@ -292,7 +293,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 							name: name,
 							length: att.length,
 							mimeType: att.mimeType,
-							url: session.getUrlBuilder().getAttachmentUrl($rootScope.database.getId(), $rootScope.nsfdata.getId(), data.unid, att.name)
+							url: session.getUrlBuilder().getAttachmentUrl(_this.databaseId, _this.storeId, data.unid, att.name)
 						})
 					});
 				}
