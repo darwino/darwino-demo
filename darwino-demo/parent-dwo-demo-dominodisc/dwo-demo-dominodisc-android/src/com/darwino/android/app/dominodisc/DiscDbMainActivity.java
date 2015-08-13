@@ -13,9 +13,10 @@ package com.darwino.android.app.dominodisc;
 
 import android.os.Bundle;
 
+//import com.darwino.android.platform.hybrid.DarwinoCordovaHybridActivity;
 import com.darwino.android.platform.hybrid.DarwinoHybridActivity;
-import com.darwino.commons.Platform;
 
+//public class DiscDbMainActivity extends DarwinoCordovaHybridActivity {
 public class DiscDbMainActivity extends DarwinoHybridActivity {
 	
 	public DiscDbMainActivity() {

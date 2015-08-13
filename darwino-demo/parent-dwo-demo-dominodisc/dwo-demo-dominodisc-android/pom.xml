@@ -21,7 +21,13 @@
 			<artifactId>dwo-android-platform-hybrid</artifactId>
 			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
-
+<!-- In case we want to use Cordova		
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-android-platform-cordova</artifactId>
+			<version>0.8.0-SNAPSHOT</version>
+		</dependency>
+ -->
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-web-darwino</artifactId>
