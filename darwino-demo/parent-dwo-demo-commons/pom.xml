@@ -9,6 +9,7 @@
   <packaging>pom</packaging>
   <modules>
   	<module>dwo-demo-commons</module>
+    <module>dwo-demo-commons-j2ee</module>
   	<module>dwo-demo-commons-mobile</module>
   </modules>
 </project>
