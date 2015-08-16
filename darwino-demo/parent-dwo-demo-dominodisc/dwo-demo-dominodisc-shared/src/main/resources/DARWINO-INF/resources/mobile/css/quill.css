@@ -6,3 +6,7 @@
   -o-user-select: auto !important;
   user-select: auto !important;
 }
+
+body .ql-container {
+	padding: 0 15px;
+}
