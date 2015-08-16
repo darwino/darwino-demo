@@ -32,20 +32,25 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$rootScope.darwino = darwino;
 	$rootScope.session = session;
 	$rootScope.userService = userService;
-
-	$rootScope.database = $rootScope.session.getDatabase(DATABASE_NAME);
-	$rootScope.nsfdata = $rootScope.database.getStore(STORE_NAME);
+	
+	$rootScope.dbPromise = session.getDatabase(DATABASE_NAME,null,true);
+	$rootScope.dbPromise.then(function(database) {
+		$rootScope.database = database;
+		$rootScope.nsfdata = database.getStore(STORE_NAME);
+		$rootScope.apply();
+	});
 
 	$rootScope.entries = entries;
 	
 	$rootScope.isAnonymous = function() {
-		return userService.getCurrentUser().isAnonymous();
+		var u = userService.getCurrentUser();
+		return !u || u.isAnonymous();
 	};
 	$rootScope.isReadOnly = function() {
 		return this.isAnonymous();
 	};
 	$rootScope.isFtEnabled = function() {
-		return $rootScope.nsfdata.isFtSearchEnabled();
+		return $rootScope.nsfdata && $rootScope.nsfdata.isFtSearchEnabled();
 	};
 	$rootScope.go = function(path) {
 		$location.path(path);
@@ -220,32 +225,41 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 //	Editor
 //
 .controller('EditCtrl', ['$scope','$stateParams','$ionicHistory','entries', function($scope,$stateParams,$ionicHistory,entries) {
-	// Should we make this async?
 	var id = $stateParams.id;
-	if(id && darwino.Utils.startsWith(id,'id:')) {
-		$scope.doc = $scope.nsfdata.loadDocument(id.substring(3));
-	} else {
-		$scope.doc = $scope.nsfdata.newDocument();
+	$scope.doc = null;
+	$scope.json = null;
+	$scope.dbPromise.then(function() {
+		if(id && darwino.Utils.startsWith(id,'id:')) {
+			return $scope.nsfdata.loadDocument(id.substring(3),0,true);
+		} else {
+			return $scope.nsfdata.newDocument(null,true);
+		}
+	}).then(function (doc) {
 		if(id && darwino.Utils.startsWith(id,'pid:')) {
 			$scope.doc.setParentUnid(id.substring(4));
 		}
-	}
-	$scope.json = $scope.doc.getJson();
+		$scope.doc = doc;
+		$scope.json = doc.getJson();
+		$scope.apply();
+	});
 	
 	$scope.submit = function() {
 		var doc = $scope.doc;
-
-		var isNew = doc.isNewDocument();
-		doc.save();
-		if(isNew && !doc.getParentUnid()) {
-			entries.loadOneItem(doc.getUnid());
-		} else {
-			var root = entries.findRoot(doc.getParentUnid()||doc.getUnid());
-			if(root) {
-				entries.reloadItem(root); // All hierarchy...
-			}
+		if(doc) {
+			var isNew = doc.isNewDocument();
+			var p = doc.save(0,true);
+			p.then(function() {
+				if(isNew && !doc.getParentUnid()) {
+					entries.loadOneItem(doc.getUnid());
+				} else {
+					var root = entries.findRoot(doc.getParentUnid()||doc.getUnid());
+					if(root) {
+						entries.reloadItem(root); // All hierarchy...
+					}
+				}
+			})
+			$ionicHistory.goBack();
 		}
-		$ionicHistory.goBack();
 	}
 
 	$scope.cancel = function() {
@@ -254,11 +268,14 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	
 	$scope.getTitle = function() {
 		var doc = $scope.doc;
-		if(doc.getParentUnid()) {
-			return doc.isNewDocument() ? "New Comment" : "Edit Comment";
-		} else {
-			return doc.isNewDocument() ? "New Post" : "Edit Post";
+		if(doc) {
+			if(doc.getParentUnid()) {
+				return doc.isNewDocument() ? "New Comment" : "Edit Comment";
+			} else {
+				return doc.isNewDocument() ? "New Post" : "Edit Post";
+			}
 		}
+		return "";
 	}
 }])
 
