@@ -25,7 +25,7 @@ darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
 
-angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'angular-quill' ])
+angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
 .run(function($rootScope,$location,$state,$http,entries) {
 	// Make some global var visible
