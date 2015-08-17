@@ -175,12 +175,12 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+'&jsontree=true'
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
 		this._loadItems(url,function(data) {
+			if(data.length<count) {
+				_this.eof = true;
+			}
 			if(data.length>0) {
 				for(var i=0; i<data.length; i++) {
 					_this.all.push(data[i]);
-				}
-				if(data.length<count) {
-					_this.eof = true;
 				}
 				if(!_this.selectedItem && _this.all.length) {
 					_this.selectItem(_this.all[0]);

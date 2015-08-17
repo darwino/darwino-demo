@@ -14,8 +14,6 @@ package com.darwino.playground.domino;
 import java.util.List;
 
 import com.darwino.commons.platform.impl.PluginImpl;
-import com.darwino.services.social.SocialServiceFactory;
-import com.darwino.services.social.basic.BasicSocialServiceFactory;
 
 
 
@@ -30,9 +28,7 @@ public class AppPlugin extends PluginImpl {
 
 	@Override
 	public void findExtensions(Class<?> serviceClass, List<Object> extensions) {
-		if(serviceClass==SocialServiceFactory.class) {
-			extensions.add(new BasicSocialServiceFactory()); // Basic factory, just the user service
-//		} else if(serviceClass==AuthenticationService.class) {
+//		if(serviceClass==AuthenticationService.class) {
 //			// User authentication service
 //			// This service grabs the currently authenticated user from the server context
 //			// By default it uses the J2EE Principal as provided by the application server, but
@@ -59,6 +55,5 @@ public class AppPlugin extends PluginImpl {
 //				}
 //			});
 //*/			
-		}
 	}
 }

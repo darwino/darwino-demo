@@ -17,7 +17,7 @@ var jstore_baseUrl = "$darwino-jstore";
 var social_baseUrl = "$darwino-social";
 
 var session = jstore.createRemoteApplication(jstore_baseUrl).createSession();
-var profilesService = social.createProfilesService(social_baseUrl+"/profiles");
+var userService = services.createUserService(social_baseUrl+"/users");
 
 // Enable some logging
 var LOG_GROUP = "Playground.web";
@@ -29,7 +29,7 @@ angular.module('Playground', [ 'ngSanitize','ionic' ])
 	// Make some global var visible
 	$rootScope.darwino = darwino;
 	$rootScope.session = session;
-	$rootScope.profilesService = profilesService;
+	$rootScope.userService = userService;
 	
 	$rootScope.menuMain = true;
 	$rootScope.menuSync = true;
@@ -39,10 +39,11 @@ angular.module('Playground', [ 'ngSanitize','ionic' ])
 	}
 
 	$rootScope.isAnonymous = function() {
-		return profilesService.isAnonymous();
+		var u = userService.getCurrentUser();
+		return !u || u.isAnonymous();
 	};
 	$rootScope.isReadOnly = function() {
-		return profilesService.isAnonymous();
+		return this.isAnonymous();
 	};
 	$rootScope.go = function(path) {
 		$location.path(path);

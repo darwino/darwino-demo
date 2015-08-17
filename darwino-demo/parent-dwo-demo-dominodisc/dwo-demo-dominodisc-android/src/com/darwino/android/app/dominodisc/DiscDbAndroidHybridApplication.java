@@ -14,16 +14,13 @@ package com.darwino.android.app.dominodisc;
 import android.app.Application;
 
 import com.darwino.android.platform.hybrid.DarwinoAndroidHybridApplication;
-import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.log.Logger;
 import com.darwino.demo.dominodisc.DiscDbManifest;
 import com.darwino.demo.platforms.DemoMobileManifest;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.MobileLogger;
-import com.darwino.mobile.services.social.MobileSocialServiceFactory;
 import com.darwino.platform.DarwinoManifest;
-import com.darwino.services.social.SocialServiceFactory;
 
 
 public class DiscDbAndroidHybridApplication extends DarwinoAndroidHybridApplication {
@@ -41,9 +38,6 @@ public class DiscDbAndroidHybridApplication extends DarwinoAndroidHybridApplicat
 	protected DiscDbAndroidHybridApplication(DarwinoManifest manifest, Application application) {
 		super(manifest, application);
 		// Register the services
-		MobileSocialServiceFactory sc = new MobileSocialServiceFactory();
-		//sc.getServices().put(IdentityService.class, new ProjExecIdentityService(sc));
-		Platform.registerService(SocialServiceFactory.class, sc);
 		
 		// Enable some debug trace
 		//MobileLogger.HYBRID_HTTPD.setLogLevel(LogMgr.LOG_INFO_LEVEL);

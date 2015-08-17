@@ -11,15 +11,12 @@
 
 package com.darwino.demo.dominodisc.robovm;
 
-import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
 import com.darwino.demo.dominodisc.DiscDbManifest;
 import com.darwino.demo.platforms.DemoMobileManifest;
 import com.darwino.ios.platform.hybrid.DarwinoIOSHybridApplication;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
-import com.darwino.mobile.services.social.MobileSocialServiceFactory;
 import com.darwino.platform.DarwinoManifest;
-import com.darwino.services.social.SocialServiceFactory;
 
 
 public class DiscDbRoboVMHybridApplication extends DarwinoIOSHybridApplication {
@@ -35,9 +32,5 @@ public class DiscDbRoboVMHybridApplication extends DarwinoIOSHybridApplication {
 	
 	public DiscDbRoboVMHybridApplication(DarwinoManifest manifest) {
 		super(manifest);
-		// Register the services
-		MobileSocialServiceFactory sc = new MobileSocialServiceFactory();
-		//sc.getServices().put(IdentityService.class, new ProjExecIdentityService(sc));
-		Platform.registerService(SocialServiceFactory.class, sc);
 	}
 }
