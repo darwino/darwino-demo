@@ -10,7 +10,7 @@
  */
 
 var jstore = darwino.jstore;
-var social = darwino.social;
+var services = darwino.services;
 
 var app_baseUrl = "$darwino-app";
 var jstore_baseUrl = "$darwino-jstore";
