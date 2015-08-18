@@ -28,6 +28,29 @@
 
 
     <!-- ================================================================================================== -->
+    <!-- HttpTracer -->
+    <!-- ================================================================================================== -->
+    <property name="tr">com.darwino.commons.services.impl.HttpTracerServiceImpl$Tracer</property>
+    <bean type="darwino/httptracer" name="tracer" class="com.darwino.commons.services.impl.HttpTracerServiceImpl" alias="demo,default">
+        <property name="enabled">true</property>
+        <list name="tracers">
+            <bean class='${tr}'>
+                <property name="enabled">true</property>
+                <property name="uri">*</property>    
+<!--                
+                <property name="requestDetails">true</property>
+                <property name="requestHeaders">true</property>
+                <property name="requestContent">128</property>
+                <property name="responseDetails">true</property>
+                <property name="responseHeaders">true</property>
+                <property name="responseContent">128</property>
+-->                
+            </bean>
+        </list>
+    </bean>
+
+
+    <!-- ================================================================================================== -->
     <!-- Static directory of users users -->
     <!-- ================================================================================================== -->
     <property name="uc">com.darwino.config.user.UserDirStatic$User</property>
