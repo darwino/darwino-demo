@@ -10,7 +10,7 @@
 		<ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
 	</ion-side-menu-content> 
 
-	<ion-side-menu side="left" expose-aside-when="large" class="left-side-menu">
+	<ion-side-menu side="left" expose-aside-when="(min-width:1280px)" class="left-side-menu">
 		<ion-header-bar class="expanded bar bar-header disable-user-behavior" ng-click="go('/disc/user/'+userService.getCurrentUser().getDn())">
 			<!-- <img class="avatar item-maxiavatar motion spin fade" ng-src="{{userService.getUserPhotoUrl('@me')}}" alt="Photo"/>  -->
 			<img class="avatar item-maxiavatar" ng-src="{{userService.getUserPhotoUrl('@me')}}" alt="Photo"/>
