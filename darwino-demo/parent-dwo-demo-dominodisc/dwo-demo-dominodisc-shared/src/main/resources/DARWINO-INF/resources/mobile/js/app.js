@@ -148,7 +148,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		return item ? item.value.from : null;
 	}
 	entries.getUser = function(item) {
-		return item ? userService.findUser(item.value.from,function(u,n){if(n){$rootScope.apply()}}) : darwino.services.User.ANONYMOUS_USER;
+		return item ? userService.getUser(item.value.from,function(u,n){if(n){$rootScope.apply()}}) : darwino.services.User.ANONYMOUS_USER;
 	}
 	entries.getPhoto =  function(item) {
 		return item ? userService.getUserPhotoUrl(item.value.from) : null;
@@ -289,7 +289,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$scope.userConnAttrs = "";
 	$scope.userConnPayload = "";
 
-	$scope.user = userService.findUser($stateParams.userdn, function(user,read) {
+	$scope.user = userService.getUser($stateParams.userdn, function(user,read) {
 		if(read) {
 			$scope.user = user;
 			$scope.apply();

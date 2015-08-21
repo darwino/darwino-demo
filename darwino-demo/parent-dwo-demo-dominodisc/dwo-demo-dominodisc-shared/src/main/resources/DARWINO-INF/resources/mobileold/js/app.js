@@ -145,7 +145,7 @@ angular.module('discDb', [ 'ngSanitize','ionic' ])
 		currentText: "",
 		attachments: {},
 		getUser: function(item) {
-			return userService.findUser(item.value.from,function(u,n){if(n){$rootScope.apply()}});
+			return userService.getUser(item.value.from,function(u,n){if(n){$rootScope.apply()}});
 		},
 		getPhoto: function(item) {
 			return userService.getUserPhotoUrl(item.value.from);
