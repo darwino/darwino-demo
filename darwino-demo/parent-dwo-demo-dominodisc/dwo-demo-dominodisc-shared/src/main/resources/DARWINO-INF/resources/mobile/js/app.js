@@ -33,7 +33,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$rootScope.session = session;
 	$rootScope.userService = userService;
 	
-	$rootScope.dbPromise = session.getDatabase(DATABASE_NAME,null,true);
+	$rootScope.dbPromise = session.getDatabase(DATABASE_NAME);
 	$rootScope.dbPromise.then(function(database) {
 		$rootScope.database = database;
 		$rootScope.nsfdata = database.getStore(STORE_NAME);
@@ -230,13 +230,13 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$scope.json = null;
 	$scope.dbPromise.then(function() {
 		if(id && darwino.Utils.startsWith(id,'id:')) {
-			return $scope.nsfdata.loadDocument(id.substring(3),0,true);
+			return $scope.nsfdata.loadDocument(id.substring(3));
 		} else {
-			return $scope.nsfdata.newDocument(null,true);
+			return $scope.nsfdata.newDocument();
 		}
 	}).then(function (doc) {
 		if(id && darwino.Utils.startsWith(id,'pid:')) {
-			$scope.doc.setParentUnid(id.substring(4));
+			doc.setParentUnid(id.substring(4));
 		}
 		$scope.doc = doc;
 		$scope.json = doc.getJson();
@@ -247,7 +247,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		var doc = $scope.doc;
 		if(doc) {
 			var isNew = doc.isNewDocument();
-			var p = doc.save(0,true);
+			var p = doc.save();
 			p.then(function() {
 				if(isNew && !doc.getParentUnid()) {
 					entries.loadOneItem(doc.getUnid());

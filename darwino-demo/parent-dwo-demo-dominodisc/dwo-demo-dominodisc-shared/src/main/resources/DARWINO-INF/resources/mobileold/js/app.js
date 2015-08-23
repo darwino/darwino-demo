@@ -16,6 +16,8 @@ var jstore_baseUrl = "$darwino-jstore";
 var social_baseUrl = "$darwino-social";
 
 var session = jstore.createRemoteApplication(jstore_baseUrl).createSession();
+session.setAsync(false);
+
 var userService = services.createUserService(social_baseUrl+"/users");
 
 // Enable some logging
