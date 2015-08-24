@@ -49,6 +49,18 @@
         </list>
     </bean>
 
+    <!-- ================================================================================================== -->
+    <!-- Mail server -->
+    <!-- ================================================================================================== -->
+    <bean type="darwino/mail" name="gmail-tls" class="com.darwino.config.mail.MailJava" alias="default">
+        <property name="user">darwinounit1@gmail.com</property>    
+        <property name="password">darwino14</property>    
+        <map name="properties">
+            <entry key='mail.smtp.host'>smtp.gmail.com</entry>
+            <entry key='mail.smtp.starttls.enable'>true</entry>
+            <entry key='mail.smtp.port'>587</entry>
+        </map>    
+    </bean>
 
     <!-- ================================================================================================== -->
     <!-- Static directory of users users -->
