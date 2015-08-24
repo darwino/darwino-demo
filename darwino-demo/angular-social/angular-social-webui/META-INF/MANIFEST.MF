@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: angular-social-webui
+Bundle-SymbolicName: com.darwino.angular-social-webui
+Bundle-Version: 0.0.1.qualifier
+DARWINO_VERSION: 0.8.0-SNAPSHOT
+Include-Resource: DARWINO-INF/resources/mobile/css/style.css=src/main/re
+ sources/DARWINO-INF/resources/mobile/css/style.css,DARWINO-INF/resource
+ s/mobile/img/appicon.png=src/main/resources/DARWINO-INF/resources/mobil
+ e/img/appicon.png,DARWINO-INF/resources/mobile/index.html=src/main/reso
+ urces/DARWINO-INF/resources/mobile/index.html,DARWINO-INF/resources/mob
+ ile/js/app.js=src/main/resources/DARWINO-INF/resources/mobile/js/app.js
+Private-Package: DARWINO-INF.resources.mobile.css,DARWINO-INF.resources.
+ mobile.img,DARWINO-INF.resources.mobile,DARWINO-INF.resources.mobile.js

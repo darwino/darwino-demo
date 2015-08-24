@@ -1,0 +1,10 @@
+{
+  "sync": {
+    "entries": [
+      {
+        "_type": "robovm-native-jsonstore",
+        "arch": "Universal"
+      }
+    ]
+  }
+}
