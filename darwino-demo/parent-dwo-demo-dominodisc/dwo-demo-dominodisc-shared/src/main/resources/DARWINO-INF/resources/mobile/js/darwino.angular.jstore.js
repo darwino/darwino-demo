@@ -275,8 +275,8 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				if(atts) {
 					// Do some post-processing
 					angular.forEach(atts, function(att) {
-						var name = att.name;
-						var delimIndex = name.indexOf("||");
+						var display = att.name;
+						var delimIndex = display.indexOf("||");
 						
 						// If it's an inline image, ignore it entirely
 						if(delimIndex > -1) {
@@ -284,13 +284,14 @@ darwino.provide("darwino/angular/jstore",null,function() {
 						}
 						
 						// Otherwise, remove any field-name prefix
-						delimIndex = name.indexOf("^^");
+						delimIndex = display.indexOf("^^");
 						if(delimIndex > -1) {
-							name = name.substring(delimIndex+2);
+							display = display.substring(delimIndex+2);
 						}
 						
 						item.attachments.push({
-							name: name,
+							name: att.name,
+							display: display,
 							length: att.length,
 							mimeType: att.mimeType,
 							url: session.getUrlBuilder().getAttachmentUrl(_this.databaseId, _this.storeId, data.unid, att.name)
