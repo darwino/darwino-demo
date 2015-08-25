@@ -47,14 +47,13 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.darwino.android.platform.anative.DarwinoAndroidNativeActions;
+import com.darwino.android.platform.anative.AppAndroidNativeCommandExecutor;
 import com.darwino.android.platform.ui.NativeUtils;
 import com.darwino.android.widget.AbstractAdapter;
 import com.darwino.android.widget.json.store.JsonCursorAdapter;
 import com.darwino.application.jsonstore.NewsManifest;
 import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
-import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.tasks.TaskException;
 import com.darwino.commons.tasks.TaskExecutor;
 import com.darwino.commons.tasks.TaskExecutorContext;
@@ -64,6 +63,7 @@ import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.callback.CursorEntry;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileContext;
+import com.darwino.mobile.platform.commands.AppCommand;
 
 /**
  * Fragment that displays the news headlines for a particular news category.
@@ -72,57 +72,52 @@ import com.darwino.mobile.platform.DarwinoMobileContext;
  * When an item is selected, it notifies the configured listener that a headlines was selected.
  */
 public class HeadlinesFragment extends ListFragment implements OnItemClickListener {
-	
-	private class NewsNativeTasks extends DarwinoAndroidNativeActions {
-		NewsNativeTasks(Activity activity) {
+
+	private class HeadlinesCommands extends AppAndroidNativeCommandExecutor {
+		HeadlinesCommands(Activity activity) {
 			super(activity);
 		}
-
 		@Override
-		protected void doExecute(TaskExecutorContext<Void> context, int taskIndex, JsonObject params) throws TaskException {
-			try {
-				switch(taskIndex) {
-					case FIRST_CUSTOMTASK: {
-						Session session = DarwinoMobileApplication.get().getSession();
-						if(session!=null) {
-				        	initCursor(session
-				        			.getDatabase(NewsManifest.NEWS_DATABASE)
-				        			.getStore(NewsManifest.NEWS_STORE)
-				        			.getIndex("byCategory").openCursor()).markAllRead(true);
-							reloadUi(context);
-						}
-			        	return;
-					}
-					case FIRST_CUSTOMTASK+1: {
-						Session session = DarwinoMobileApplication.get().getSession();
-						if(session!=null) {
-				        	initCursor(session
-				        			.getDatabase(NewsManifest.NEWS_DATABASE)
-				        			.getStore(NewsManifest.NEWS_STORE)
-				        			.getIndex("byCategory").openCursor()).markAllRead(false);
-							reloadUi(context);
-						}
-			        	return;
-					}
-					default:
-						break;
-				}
-				super.doExecute(context,taskIndex,params);
-			} catch(Throwable t) {
-				throw new TaskException(t,"Error while executing task");
-			}
-		}
-
-		public void markAllRead() {
-			execTask("Mark All Documents Read", TaskExecutor.DIALOG_INDETERMINATE, createNotificationTaskCallback("All documents are marked read"), FIRST_CUSTOMTASK,null);
-		}
-		public void markAllUnread() {
-			execTask("Mark All Documents Unread", TaskExecutor.DIALOG_INDETERMINATE, createNotificationTaskCallback("All documents are marked unread"), FIRST_CUSTOMTASK+1,null);
-		}
-		@Override
-		public void refreshUi() {
+		protected void _refreshUi() {
 			HeadlinesFragment.this.refreshData();
 	    }
+		public void markAllRead() {
+			execute(new MarkAllRead(true, TaskExecutor.DIALOG_INDETERMINATE), null);
+		}
+		public void markAllUnread() {
+			execute(new MarkAllRead(false, TaskExecutor.DIALOG_INDETERMINATE), null);
+		}
+	}
+	
+	private class MarkAllRead extends AppCommand {
+		private boolean read;
+		public MarkAllRead(boolean read, int options) {
+			super("Mark All Documents Read, "+read, options);
+			this.read = read;
+		}
+		@Override
+		public Void execute(TaskExecutorContext context) throws TaskException {
+			try {
+				Session session = DarwinoMobileApplication.get().getSession();
+				if(session!=null) {
+		        	initCursor(session
+		        			.getDatabase(NewsManifest.NEWS_DATABASE)
+		        			.getStore(NewsManifest.NEWS_STORE)
+		        			.getIndex("byCategory").openCursor()).markAllRead(read);
+					refreshUi(context);
+					if(isNotify(context)) {
+						if(read) {
+							notify(context,"All documents are marked as read");
+						} else {
+							notify(context,"All documents are marked as unread");
+						}
+					}
+				}
+	        	return null;
+			} catch(JsonException ex) {
+				throw new TaskException(ex);
+			}
+		}
 	}
 
 	// The list adapter for the list we are displaying
@@ -216,44 +211,44 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	        case R.id.refresh: {
-	        	getMenuHelper().refreshData();
+	        	getHeadlinesCommands().refreshData();
 	            return true;
 	        }
 	        case R.id.switchlocal: {
-	        	getMenuHelper().switchToLocal();
+	        	getHeadlinesCommands().switchToLocal();
 	        	item.setChecked(true);
 	            return true;
 	        }
 	        case R.id.switchremote: {
-	        	getMenuHelper().switchToRemote();
+	        	getHeadlinesCommands().switchToRemote();
 	        	item.setChecked(true);
 	            return true;
 	        }
 	        case R.id.synchronize: {
-	        	getMenuHelper().synchronizeData();
+	        	getHeadlinesCommands().synchronizeData();
 	            return true;
 	        }
 	        case R.id.erase: {
-	        	getMenuHelper().eraseLocalData();
+	        	getHeadlinesCommands().eraseLocalData();
 	            return true;
 	        }
 	        case R.id.allread: {
-	        	getMenuHelper().markAllRead();
+	        	getHeadlinesCommands().markAllRead();
 	            return true;
 	        }
 	        case R.id.allunread: {
-	        	getMenuHelper().markAllUnread();
+	        	getHeadlinesCommands().markAllUnread();
 	            return true;
 	        }
 	        case R.id.settings: {
-	        	getMenuHelper().openSettings();
+	        	getHeadlinesCommands().openSettings();
 	            return true;
 	        }
 	    }
         return super.onOptionsItemSelected(item);
 	}	
-	private NewsNativeTasks getMenuHelper() {
-		return new NewsNativeTasks(getActivity());
+	private HeadlinesCommands getHeadlinesCommands() {
+		return new HeadlinesCommands(getActivity());
 	}
 
     /**

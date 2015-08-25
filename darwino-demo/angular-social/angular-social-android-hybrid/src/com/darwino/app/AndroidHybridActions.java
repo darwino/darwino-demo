@@ -14,16 +14,16 @@ package com.darwino.app;
 
 import java.util.Map;
 
-import com.darwino.mobile.hybrid.actions.HybridAction;
-import com.darwino.mobile.hybrid.actions.HybridActionExtension;
+import com.darwino.mobile.platform.commands.AppCommand;
+import com.darwino.mobile.platform.commands.CommandsExtension;
 
 /**
  * Registering hybrid Actions.
  * 
  */
-public class AndroidHybridActions extends HybridActionExtension {
+public class AndroidHybridActions extends CommandsExtension {
 
 	@Override
-	public void registerActions(Map<String, HybridAction> actions) {
+	public void registerCommands(Map<String, AppCommand> actions) {
 	}
 }
