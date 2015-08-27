@@ -115,7 +115,6 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	}
 
 	ItemList.prototype.refresh = function(delay,cb) {
-		console.log("Calling refresh");
 		var _this = this;
 		function doRefresh() {
 			_this.refreshTimeout = null;
@@ -152,7 +151,6 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	}
 	
 	ItemList.prototype.loadMore = function(cb) {
-		console.log("Calling loadmore");
 		// If there is already an ongoing request, then ignore the new one
 		// We call the callback anyway to broadcast what should be broadcasted...
 		if(!this.hasMore() || this.loading) {

@@ -28,6 +28,10 @@
     	<param-name>dwo-sync-url</param-name>
     	<param-value>${discdb.domino.url=http://127.0.0.1/darwino.sync}</param-value>
     </context-param>
+	<context-param>
+    	<param-name>dwo-sync-instances</param-name>
+    	<param-value>${discdb.domino.instances}</param-value>
+    </context-param>
 <!--     
 	<context-param>
     	<param-name>dwo-sync-user</param-name>

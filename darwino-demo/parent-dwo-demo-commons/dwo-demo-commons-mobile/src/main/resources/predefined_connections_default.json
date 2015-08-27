@@ -12,6 +12,16 @@
 		},
 		{
 			"enabled": true,
+			"local": true,
+			"name": "Phil's VM",
+			"url": "http://192.168.75.79:8080",
+			"userId": "amass",
+			"password": "darwino",
+			"dn": "cn=al mass,o=triloggroup",
+			"cn": "Al Mass"
+		},
+		{
+			"enabled": true,
 			"local": false,
 			"name": "Darwino Playground - http://playground.darwino.com/playground",
 			"url": "http://playground.darwino.com/playground",
