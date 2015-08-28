@@ -16,9 +16,8 @@ import {
     directives: []
 })
 export class ResourceCmp {
-    modelItem: Resource;
+    modelItem: {value: Resource}[];
     constructor() {
-        this.modelItem = {title: 'aaaa'};
     }
 }
 

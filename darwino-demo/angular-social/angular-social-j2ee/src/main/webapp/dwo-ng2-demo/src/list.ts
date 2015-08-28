@@ -19,7 +19,7 @@ import {
     directives: [ResourceCmp, NgFor]
 })
 export class ListCmp {
-    modelList: [Resource];
+    modelList: Resource[];
     constructor() {
     }
 }
