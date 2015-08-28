@@ -24,6 +24,7 @@ darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
 var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
+var INSTANCE_NAME = "DarwinoDiscussion.nsf";
 
 angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
@@ -33,7 +34,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$rootScope.session = session;
 	$rootScope.userService = userService;
 	
-	$rootScope.dbPromise = session.getDatabase(DATABASE_NAME);
+	$rootScope.dbPromise = session.getDatabase(DATABASE_NAME, INSTANCE_NAME);
 	$rootScope.dbPromise.then(function(database) {
 		$rootScope.database = database;
 		$rootScope.nsfdata = database.getStore(STORE_NAME);
@@ -197,7 +198,8 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$scope.openAttachment = function(att) {
 		darwino.hybrid.exec("OpenAttachment",{
 			database:DATABASE_NAME, 
-			store:STORE_NAME, 
+			store:STORE_NAME,
+			instance:INSTANCE_NAME,
 			unid:entries.detailItem.unid, 
 			name:att.name,
 			file:att.display,

@@ -46,14 +46,14 @@ public class DiscDbDatabaseDef extends DatabaseFactoryImpl {
 
 		db.setReplicationEnabled(true);
 		db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
-		db.setInstanceEnabled(false);
+		db.setInstanceEnabled(true);
 
 		// Store: NSF data
 		{
 			_Store store = db.addStore(STORE_NSFDATA);
 			store.setLabel("NSF Data");
 			store.setFtSearchEnabled(true);
-			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
+			_FtSearch ft = store.setFTSearch(new _FtSearch());
 			ft.setFields("$");
 
 			store.addQueryField("form", JsonUtil.TYPE_STRING, false);

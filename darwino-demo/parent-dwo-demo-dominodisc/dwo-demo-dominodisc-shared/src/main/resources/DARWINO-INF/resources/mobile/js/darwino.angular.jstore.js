@@ -56,6 +56,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}
 		return this.store;
 	}
+
+	ItemList.prototype.getInstance = function() {
+		return "DarwinoDiscussion.nsf";
+	}
 	
 	ItemList.prototype._databaseUrl = function() {
 		return darwino.Utils.concatPath(this.baseUrl,"/databases/")+encodeURIComponent(this.databaseId);
@@ -95,9 +99,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		if(this.count<-1) {
 			this.count = -1;
 			if(this.ftSearch) {
-				var url = this._storeUrl()+"/count?ftsearch="+encodeURIComponent(this.ftSearch)+'&hierarchical=1';
+				var url = this._storeUrl()+"/count?ftsearch="+encodeURIComponent(this.ftSearch)+'&hierarchical=1&instance=' + encodeURIComponent(this.getInstance());
 			} else {
-				var url = this._storeUrl()+"/count?hierarchical=1";
+				var url = this._storeUrl()+"/count?hierarchical=1&instance=" + encodeURIComponent(this.getInstance());
 			}
 			ngHttp.get(url).success(function(data) {
 				_this.count = data['count'];
@@ -171,6 +175,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+(this.ftSearch?"&ftsearch="+encodeURIComponent(this.ftSearch):"")
 				+'&orderby=_cdate desc'
 				+'&jsontree=true'
+				+'&instance=' + encodeURIComponent(this.getInstance())
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
 		this._loadItems(url,function(data) {
 			if(data.length<count) {
@@ -195,6 +200,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+'&hierarchical=99'
 				+'&orderby=_cdate desc'
 				+'&jsontree=true'
+				+'&instance=' + encodeURIComponent(this.getInstance())
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
 		this._loadItems(url,function(data) {
 			if(data.length>0) {
@@ -212,6 +218,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+'&hierarchical=99'
 				+'&orderby=_cdate desc'
 				+'&jsontree=true'
+				+'&instance=' + encodeURIComponent(this.getInstance())
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
 		this._loadItems(url,function(data) {
 			if(data.length>0) {
@@ -268,7 +275,8 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			item.attachments = [];
 			var jsonfields = jstore.Document.JSON_ALLATTACHMENTS;
 			var options = jstore.Store.DOCUMENT_NOREADMARK;
-			ngHttp.get(this._storeUrl()+"/documents/"+encodeURIComponent(item.unid)+"?jsonfields="+jsonfields+"&options="+options).success(function(data) {
+			var instance = encodeURIComponent(this.getInstance());
+			ngHttp.get(this._storeUrl()+"/documents/"+encodeURIComponent(item.unid)+"?jsonfields="+jsonfields+"&options="+options+"&instance="+instance).success(function(data) {
 				var atts = data.attachments;
 				if(atts) {
 					// Do some post-processing
