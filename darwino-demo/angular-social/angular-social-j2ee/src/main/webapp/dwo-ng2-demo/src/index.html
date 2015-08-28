@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>material2</title>
+
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.indigo-pink.min.css">
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+    <div app class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header"></div>
+
+    <!-- ES6-related imports -->
+    <script src="lib/traceur-runtime.js"></script>
+    <script src="lib/system-csp-production.js"></script>
+    <script>
+        //configure system loader
+        System.config({defaultJSExtensions: true});
+    </script>
+    <script src="lib/angular2.dev.js"></script>
+    <script src="lib/http.dev.js"></script>
+    <script>
+        //bootstrap the Angular2 application
+        System.import('app').catch(console.log.bind(console));
+    </script>
+
+</body>
+</html>

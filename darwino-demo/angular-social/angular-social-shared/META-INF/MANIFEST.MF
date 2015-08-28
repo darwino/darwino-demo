@@ -4,6 +4,8 @@ Bundle-Name: angular-social-shared
 Bundle-SymbolicName: com.darwino.angular-social-shared
 Bundle-Version: 0.0.1.qualifier
 DARWINO_VERSION: 0.8.0-SNAPSHOT
-Export-Package: com.darwino.app;version="0.0.1"
+Export-Package: com.darwino.app;version="0.0.1",com.darwino.services.res
+ t;version="0.0.1"
 Require-Bundle: com.darwino.domino.platform;resolution:=optional
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
+Import-Package: com.darwino.jsonstore.services.document

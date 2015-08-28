@@ -19,10 +19,12 @@ import com.darwino.commons.services.HttpServiceContext;
 import com.darwino.commons.services.HttpServiceError;
 import com.darwino.commons.services.rest.RestServiceBinder;
 import com.darwino.commons.services.rest.RestServiceFactory;
+import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.Session;
 import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.DarwinoContext;
 import com.darwino.platform.DarwinoHttpConstants;
+import com.darwino.services.rest.ResourcesRest;
 
 
 /**
@@ -78,5 +80,19 @@ public class AppServiceFactory extends RestServiceFactory {
 				return new AppInformation();
 			}
 		});
+		
+		binders.add(new RestServiceBinder("resources") {
+			@Override
+			public HttpService createService(HttpServiceContext context, String[] parts) {
+				return new ResourcesRest();
+			}
+		});
+		binders.add(new RestServiceBinder("resources", null) {
+			@Override
+			public HttpService createService(HttpServiceContext context, String[] parts) {
+				return new ResourcesRest(parts[1]);
+			}
+		});
+
 	}	
 }
