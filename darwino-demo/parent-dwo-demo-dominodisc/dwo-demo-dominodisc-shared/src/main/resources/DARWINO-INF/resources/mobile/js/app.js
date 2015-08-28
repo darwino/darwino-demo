@@ -192,6 +192,20 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	}
 	
 	//
+	// Handling attachment
+	//
+	$scope.openAttachment = function(att) {
+		darwino.hybrid.exec("OpenAttachment",{
+			database:DATABASE_NAME, 
+			store:STORE_NAME, 
+			unid:entries.detailItem.unid, 
+			name:att.name,
+			file:att.display,
+			mimeType:att.mimeType
+		});
+	}
+
+	//
 	// Search Bar
 	//
 	$scope.searchMode = 0;

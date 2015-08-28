@@ -9,7 +9,7 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.darwino.app;
+package com.darwino.android.app.dominodisc;
 
 import java.util.List;
 
@@ -19,19 +19,19 @@ import com.darwino.mobile.platform.commands.CommandsExtension;
 
 
 /**
- * IOS Plugin for registering the services.
+ * Android Plugin for registering the services.
  * 
  */
-public class IOSPlugin extends PluginImpl {
+public class AndroidPlugin extends PluginImpl {
 	
-	public IOSPlugin() {
-		super("IOS Application");
+	public AndroidPlugin() {
+		super("Android Application");
 	}
 
 	@Override
 	public void findExtensions(Class<?> serviceClass, List<Object> extensions) {
 		if(serviceClass==CommandsExtension.class) {
-			extensions.add(new IOSHybridActions());
+			extensions.add(new AndroidHybridActions());
 		}
 	}
 }

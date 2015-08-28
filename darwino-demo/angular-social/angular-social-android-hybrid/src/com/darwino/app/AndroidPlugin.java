@@ -14,7 +14,7 @@ package com.darwino.app;
 import java.util.List;
 
 import com.darwino.commons.platform.impl.PluginImpl;
-import com.darwino.mobile.hybrid.actions.HybridActionExtension;
+import com.darwino.mobile.platform.commands.CommandsExtension;
 
 
 
@@ -30,7 +30,7 @@ public class AndroidPlugin extends PluginImpl {
 
 	@Override
 	public void findExtensions(Class<?> serviceClass, List<Object> extensions) {
-		if(serviceClass==HybridActionExtension.class) {
+		if(serviceClass==CommandsExtension.class) {
 			extensions.add(new AndroidHybridActions());
 		}
 	}

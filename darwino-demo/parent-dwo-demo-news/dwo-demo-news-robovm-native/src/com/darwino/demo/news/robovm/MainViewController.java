@@ -166,7 +166,7 @@ public class MainViewController extends UITableViewController {
 			@Override
 			public void onClick(UIBarButtonItem barButtonItem) {
 				DarwinoMobileApplication app = DarwinoMobileApplication.get();
-				app.createDarwinoTasks().openSettings();
+				app.createCommandExecutor().openSettings();
 			}
 		});
 

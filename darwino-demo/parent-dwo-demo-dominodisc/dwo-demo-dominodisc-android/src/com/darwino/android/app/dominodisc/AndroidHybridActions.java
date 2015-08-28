@@ -9,11 +9,12 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.darwino.app;
+package com.darwino.android.app.dominodisc;
 
 
 import java.util.Map;
 
+import com.darwino.android.app.dominodisc.commands.OpenAttachmentCommand;
 import com.darwino.mobile.platform.commands.AppCommand;
 import com.darwino.mobile.platform.commands.CommandsExtension;
 
@@ -25,5 +26,7 @@ public class AndroidHybridActions extends CommandsExtension {
 
 	@Override
 	public void registerCommands(Map<String, AppCommand> actions) {
+		//actions.put("OpenFile", new OpenFileCommand());
+		actions.put("OpenAttachment", new OpenAttachmentCommand());
 	}
 }
