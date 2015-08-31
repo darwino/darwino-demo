@@ -79,7 +79,7 @@ public class ResetDBService extends HttpService {
     	pd.generate(new CallbackImpl<JsonDatabaseGenerator.JsonContent>() {
     		Store store = jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_PINBALLS);
 			@Override
-			public void success(JsonContent value) {
+			public Object success(JsonContent value) {
 				try {
 					JsonObject o = value.getJsonObject();
 					String ipdb = o.getString("ipdb");
@@ -104,6 +104,7 @@ public class ResetDBService extends HttpService {
 				} catch(Exception ex) {
 					Platform.log(ex);
 				}
+				return null;
 			}
 		});
     	
@@ -117,7 +118,7 @@ public class ResetDBService extends HttpService {
     		long start = System.currentTimeMillis();
     		int count;
 			@Override
-			public void success(JsonContent value) {
+			public Object success(JsonContent value) {
 				try {
 					JsonObject o = value.getJsonObject();
 					Document doc = store.newDocument();
@@ -132,6 +133,7 @@ public class ResetDBService extends HttpService {
 				} catch(JsonException ex) {
 					Platform.log(ex);
 				}
+				return null;
 			}
 		},nOwners,maxPinball);
     }

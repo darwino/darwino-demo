@@ -9,9 +9,13 @@
 	<!-- Make sure that the database is properly deployed when the app is launched -->
 	<context-param>
     	<param-name>dwo-auto-deploy-jsonstore</param-name>
-    	<param-value>true</param-value>
+    	<param-value>${ngsocial.domino.auto-deploy-jsonstore=true}</param-value>
   	</context-param>
-  	
+	<context-param>
+    	<param-name>dwo-auto-deploy-jsonstore-import</param-name>
+    	<param-value>${ngsocial.domino.auto-deploy-jsonstore-import=false}</param-value>
+  	</context-param>
+		
 <!-- 	
 	<context-param>
     	<param-name>dwo-sync-enabled</param-name>
@@ -105,7 +109,19 @@
     	<filter-name>DarwinoApplication</filter-name>
     	<url-pattern>/*</url-pattern>
 	</filter-mapping>
-			
+					
+	<!--  CORS filter for the JsonStore -->
+	<filter>
+    	<filter-name>Cors</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.cors.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+    	<filter-name>Cors</filter-name>
+    	<url-pattern>/*</url-pattern>
+    	<dispatcher>REQUEST</dispatcher>
+    	<dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+	
 	<!--  Filter for $darwino URL rewriting -->
 	<!--  This filter must be before the services or resources filters, to make sure that the URL is processed before reaching them -->
 	<filter>
@@ -141,20 +157,6 @@
     	<dispatcher>REQUEST</dispatcher>
     	<dispatcher>FORWARD</dispatcher>
     </filter-mapping>
-	
-	<!--  CORS filter for the JsonStore -->
-<!-- 	
-	<filter>
-    	<filter-name>Cors</filter-name>
-    	<filter-class>com.darwino.j2ee.servlet.cors.CorsFilter</filter-class>
-	</filter>
-	<filter-mapping>
-    	<filter-name>Cors</filter-name>
-    	<url-pattern>/jsonstore/*</url-pattern>
-    	<dispatcher>REQUEST</dispatcher>
-    	<dispatcher>FORWARD</dispatcher>
-    </filter-mapping>
--->    
 			
 	<!-- Welcome pages -->
   	<welcome-file-list>
@@ -162,6 +164,7 @@
   	</welcome-file-list>
 
 <!-- Enable this to use the J2EE CONTAINER security -->
+<!-- 
 	<security-role>
 		<role-name>user</role-name>
 	</security-role>
@@ -179,5 +182,6 @@
 		<auth-method>BASIC</auth-method>
 		<realm-name>ngsocial</realm-name>
 	</login-config>
-  	  	
+ -->
+   	  	
 </web-app>

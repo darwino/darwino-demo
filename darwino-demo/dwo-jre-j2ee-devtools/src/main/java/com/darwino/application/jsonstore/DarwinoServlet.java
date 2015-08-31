@@ -19,6 +19,7 @@ import com.darwino.commons.services.resources.ResourcesRestFactory;
 import com.darwino.commons.services.rest.RestServiceContributor;
 import com.darwino.j2ee.servlet.server.servlet.ServiceDispatcherServlet;
 import com.darwino.json.store.services.http.J2EEServletJsonStoreServiceFactory;
+import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Index;
 import com.darwino.jsonstore.Store;
 import com.darwino.jsonstore.services.cursor.CursorContentFilter;
@@ -60,8 +61,8 @@ public class DarwinoServlet extends ServiceDispatcherServlet {
 			protected RestServiceContributor getDefaultServiceContributor() {
 				return new DefaultHttpServiceContributor(this) {
 					@Override
-					protected CursorService newCursorService(Store store, Index index, int method, CursorContentFilter filter) {
-						return new DevCursorService(store, index, method, filter);
+					protected CursorService newCursorService(Database database, Store store, Index index, int method, CursorContentFilter filter) {
+						return new DevCursorService(database, store, index, method, filter);
 					}
 				};
 			}

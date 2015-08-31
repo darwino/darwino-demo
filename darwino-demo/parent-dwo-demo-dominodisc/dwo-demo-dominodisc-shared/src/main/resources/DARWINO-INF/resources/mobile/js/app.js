@@ -24,7 +24,7 @@ darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
 var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
-var INSTANCE_NAME = "DarwinoDiscussion.nsf";
+var INSTANCE_NAME = ""; //"DarwinoDiscussion.nsf";
 
 angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
@@ -142,7 +142,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 // This is currently a service as the left menu needs access to the count
 // let's think about a better architecture here
 .service('entries', function($rootScope,$http,$timeout,$jstore) {
-	var entries = $jstore.createItemList(session,DATABASE_NAME,STORE_NAME)
+	var entries = $jstore.createItemList(session,DATABASE_NAME,STORE_NAME,INSTANCE_NAME)
 	
 	// Specific methods
 	entries.getUserDn = function(item) {

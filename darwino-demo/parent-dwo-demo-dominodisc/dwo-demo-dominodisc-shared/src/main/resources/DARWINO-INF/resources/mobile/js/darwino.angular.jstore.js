@@ -22,12 +22,13 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	var ngHttp;
 	var ngTimeout;
 	
-	function ItemList(session,databaseId,storeId) {
+	function ItemList(session,databaseId,storeId,instanceId) {
 		//darwino.log.d(LOG_GROUP,"Create ItemList for database {0}, store {1}",databaseId,storeId);
 		this.session = session;
 		this.baseUrl = session.getHttpStoreClient().getHttpClient().getBaseUrl();
 		this.databaseId = databaseId;
 		this.storeId = storeId;
+		this.instanceId = instanceId;
 		this.state = 0;
 		this.all = [];
 		this.count = -2;
@@ -58,7 +59,11 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	}
 
 	ItemList.prototype.getInstance = function() {
-		return "DarwinoDiscussion.nsf";
+		return this.instanceId;
+	}
+	ItemList.prototype.setInstance = function(id,cb) {
+		this.instanceId = id;
+		this.refresh(0,cb);
 	}
 	
 	ItemList.prototype._databaseUrl = function() {
@@ -98,10 +103,12 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		var _this = this;
 		if(this.count<-1) {
 			this.count = -1;
+			var url = this._storeUrl()+"/count?hierarchical=1";
 			if(this.ftSearch) {
-				var url = this._storeUrl()+"/count?ftsearch="+encodeURIComponent(this.ftSearch)+'&hierarchical=1&instance=' + encodeURIComponent(this.getInstance());
-			} else {
-				var url = this._storeUrl()+"/count?hierarchical=1&instance=" + encodeURIComponent(this.getInstance());
+				url += "&ftsearch="+encodeURIComponent(this.ftSearch);
+			}
+			if(this.instanceId) {
+				url += '&instance=' + encodeURIComponent(this.instanceId);
 			}
 			ngHttp.get(url).success(function(data) {
 				_this.count = data['count'];
@@ -172,11 +179,15 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+'?skip='+skip
 				+'&limit='+count
 				+'&hierarchical=99'
-				+(this.ftSearch?"&ftsearch="+encodeURIComponent(this.ftSearch):"")
 				+'&orderby=_cdate desc'
 				+'&jsontree=true'
-				+'&instance=' + encodeURIComponent(this.getInstance())
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+		if(this.ftSearch) {
+			url += "&ftsearch="+encodeURIComponent(this.ftSearch);
+		}
+		if(this.instanceId) {
+			url += '&instance=' + encodeURIComponent(this.instanceId);
+		}
 		this._loadItems(url,function(data) {
 			if(data.length<count) {
 				_this.eof = true;
@@ -200,8 +211,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+'&hierarchical=99'
 				+'&orderby=_cdate desc'
 				+'&jsontree=true'
-				+'&instance=' + encodeURIComponent(this.getInstance())
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+		if(this.instanceId) {
+			url += '&instance=' + encodeURIComponent(this.instanceId);
+		}
 		this._loadItems(url,function(data) {
 			if(data.length>0) {
 				var entry = data[0]
@@ -218,8 +231,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+'&hierarchical=99'
 				+'&orderby=_cdate desc'
 				+'&jsontree=true'
-				+'&instance=' + encodeURIComponent(this.getInstance())
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+		if(this.instanceId) {
+			url += '&instance=' + encodeURIComponent(this.instanceId);
+		}
 		this._loadItems(url,function(data) {
 			if(data.length>0) {
 				var entry = data[0]
@@ -275,8 +290,11 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			item.attachments = [];
 			var jsonfields = jstore.Document.JSON_ALLATTACHMENTS;
 			var options = jstore.Store.DOCUMENT_NOREADMARK;
-			var instance = encodeURIComponent(this.getInstance());
-			ngHttp.get(this._storeUrl()+"/documents/"+encodeURIComponent(item.unid)+"?jsonfields="+jsonfields+"&options="+options+"&instance="+instance).success(function(data) {
+			var url = this._storeUrl()+"/documents/"+encodeURIComponent(item.unid)+"?jsonfields="+jsonfields+"&options="+options;
+			if(this.instanceId) {
+				url += '&instance=' + encodeURIComponent(this.instanceId);
+			}
+			ngHttp.get(url).success(function(data) {
 				var atts = data.attachments;
 				if(atts) {
 					// Do some post-processing
