@@ -18,6 +18,7 @@ import com.darwino.commons.services.HttpServiceFactories;
 import com.darwino.domino.application.DarwinoApplicationServlet;
 import com.darwino.domino.application.DarwinoDominoApplication;
 import com.darwino.domino.application.DominoJsonStoreServiceFactory;
+import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Index;
 import com.darwino.jsonstore.Store;
 import com.darwino.jsonstore.services.cursor.CursorContentFilter;
@@ -51,8 +52,8 @@ public class AppServlet extends DarwinoApplicationServlet {
 			protected DefaultServiceContributor getDefaultServiceContributor() {
 				return new DefaultServiceContributor(this) {
 					@Override
-					protected CursorService newCursorService(Store store, Index index, int method, CursorContentFilter filter) {
-						return new DevCursorService(store, index, method, filter);
+					protected CursorService newCursorService(Database database, Store store, Index index, int method, CursorContentFilter filter) {
+						return new DevCursorService(database, store, index, method, filter);
 					}
 				};
 			}
