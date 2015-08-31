@@ -24,7 +24,6 @@ darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
 var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
-var INSTANCE_NAME = ""; //"DarwinoDiscussion.nsf";
 
 angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
@@ -33,13 +32,24 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$rootScope.darwino = darwino;
 	$rootScope.session = session;
 	$rootScope.userService = userService;
-	
-	$rootScope.dbPromise = session.getDatabase(DATABASE_NAME, INSTANCE_NAME);
-	$rootScope.dbPromise.then(function(database) {
-		$rootScope.database = database;
-		$rootScope.nsfdata = database.getStore(STORE_NAME);
-		$rootScope.apply();
+
+	$rootScope.instances = [];
+	$rootScope.hasInstances = function() {
+		return $rootScope.instances.length>1;  
+	}
+	$rootScope.reset = function() {
+		entries.setInstance($rootScope.context.instance);
+		$rootScope.dbPromise = session.getDatabase(DATABASE_NAME, $rootScope.context.instance);
+		$rootScope.dbPromise.then(function(database) {
+			$rootScope.database = database;
+			$rootScope.nsfdata = database.getStore(STORE_NAME);
+			$rootScope.apply();
+		});
+	}
+	session.getDatabaseInstances(DATABASE_NAME).then(function(instances) {
+		$rootScope.instances = instances;
 	});
+
 
 	$rootScope.entries = entries;
 	
@@ -71,8 +81,9 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	darwino.hybrid.addSettingsListener(function(){
 		$rootScope.apply();
 	});
-	
-	
+
+	// Initialize the DB with the default instance
+	$rootScope.reset();
 })
 
 .filter('formattedDate', function() {
@@ -142,7 +153,15 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 // This is currently a service as the left menu needs access to the count
 // let's think about a better architecture here
 .service('entries', function($rootScope,$http,$timeout,$jstore) {
-	var entries = $jstore.createItemList(session,DATABASE_NAME,STORE_NAME,INSTANCE_NAME)
+	// Should this me moved to an initialization servie??
+	// Use an object because of prototypical inheritance
+	// http://stackoverflow.com/questions/15305900/angularjs-ng-model-input-type-number-to-rootscope-not-updating
+	$rootScope.context = {
+		instance: "", 		// default instance
+		view:     "byDate"  // View
+	}
+	
+	var entries = $jstore.createItemList(session,DATABASE_NAME,STORE_NAME,$rootScope.context.instance)
 	
 	// Specific methods
 	entries.getUserDn = function(item) {
@@ -199,7 +218,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		darwino.hybrid.exec("OpenAttachment",{
 			database:DATABASE_NAME, 
 			store:STORE_NAME,
-			instance:INSTANCE_NAME,
+			instance:$rootScope.context.instance,
 			unid:entries.detailItem.unid, 
 			name:att.name,
 			file:att.display,

@@ -83,8 +83,14 @@
 					<i class="icon ion-social-angular-outline"></i>
 					Simple UI
 				</a>
+				<div class="list item item-input item-select" ng-show="hasInstances()">
+					&nbsp;
+			    	<!-- <select ng-model="instance" ng-change="resetInstance()" ng-options="inst in instances">  -->
+			    	<select ng-model="context.instance" ng-change="reset()">
+						<option ng-repeat="inst in instances" >{{inst}}</option>
+					</select>
+				</div>
        		</ul>
-
 		</ion-content>
 
 	</ion-side-menu>
