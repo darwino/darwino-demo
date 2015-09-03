@@ -48,6 +48,10 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	}
 	session.getDatabaseInstances(DATABASE_NAME).then(function(instances) {
 		$rootScope.instances = instances;
+		if(instances && instances.length>0 && $rootScope.context.instance!=instances[0]) {
+			$rootScope.context.instance = instances[0];
+			$rootScope.reset();
+		}
 	});
 
 
