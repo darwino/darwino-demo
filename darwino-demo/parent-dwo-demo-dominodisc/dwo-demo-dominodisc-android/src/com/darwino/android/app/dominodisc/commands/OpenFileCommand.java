@@ -11,12 +11,6 @@
 
 package com.darwino.android.app.dominodisc.commands;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;

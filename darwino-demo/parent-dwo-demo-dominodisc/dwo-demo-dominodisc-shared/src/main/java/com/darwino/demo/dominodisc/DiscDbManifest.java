@@ -42,6 +42,7 @@ public class DiscDbManifest extends DarwinoManifest {
 	}
 	
 
+	@SuppressWarnings("unused")
 	private boolean mobile;
 	
 	public DiscDbManifest(boolean mobile, Section section) {
