@@ -186,6 +186,8 @@
 										<goals>
 											<goal>consume-aar</goal>
 											<goal>emma</goal>
+											<goal>generate-sources</goal>
+											<goal>proguard</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
