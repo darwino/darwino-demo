@@ -25,7 +25,7 @@
 		
 		<robovm.version>1.5.0</robovm.version>
 		
-		<android.plugin.version>4.1.1</android.plugin.version>
+		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
 		<android.platform.sdk.version>19</android.platform.sdk.version>
 	</properties>
