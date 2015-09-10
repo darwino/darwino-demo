@@ -277,6 +277,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		if(id && darwino.Utils.startsWith(id,'pid:')) {
 			doc.setParentUnid(id.substring(4));
 		}
+		doc.convertAttachmentUrlsForDisplay();
 		$scope.doc = doc;
 		$scope.json = doc.getJson();
 		$scope.apply();
@@ -285,9 +286,13 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$scope.submit = function() {
 		var doc = $scope.doc;
 		if(doc) {
+			doc.convertAttachmentUrlsForStorage();
+			
 			var isNew = doc.isNewDocument();
 			var p = doc.save();
 			p.then(function() {
+				doc.convertAttachmentUrlsForDisplay();
+				
 				if(isNew && !doc.getParentUnid()) {
 					entries.loadOneItem(doc.getUnid());
 				} else {

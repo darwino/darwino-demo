@@ -200,6 +200,14 @@ darwino.provide("darwino/angular/jstore",null,function() {
 					_this.selectItem(_this.all[0]);
 				}
 			}
+			
+			// Convert attachment URLs to display format
+			for(var i = 0; i < data.length; i++) {
+				for(var field in data[i].value) {
+					data[i].value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, data[i].storeId, _this.instanceId, data[i].unid, data[i].value[field]);
+				}
+			}
+			
 			if(cb) cb(data);
 		});
 	}
@@ -218,6 +226,12 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this._loadItems(url,function(data) {
 			if(data.length>0) {
 				var entry = data[0]
+				
+				// Convert attachment URLs to display format
+				for(var field in entry.value) {
+					entry.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, entry.storeId, _this.instanceId, entry.unid, entry.value[field]);
+				}
+				
 				_this.all.unshift(entry);				
 				_this.selectItem(entry);
 			}
@@ -238,6 +252,12 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this._loadItems(url,function(data) {
 			if(data.length>0) {
 				var entry = data[0]
+				
+				// Convert attachment URLs to display format
+				for(var field in entry.value) {
+					entry.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, entry.storeId, _this.instanceId, entry.unid, entry.value[field]);
+				}
+				
 				for(var i=0; i<_this.all.length; i++) {
 					darwino.log.d(LOG_GROUP,"Check DiscDB entry="+_this.all[i].unid+", "+entry.unid);
 					if(_this.all[i].unid==entry.unid) {
