@@ -16,7 +16,7 @@ wReader.config(function($httpProvider) {
 	//$httpProvider.defaults.useXDomain = true;
 });
   
-function AppController($scope, items, scroll) {
+wReader.controller('AppController', function ($scope, items, scroll) {
 
 	$scope.items = items;
 
@@ -51,13 +51,11 @@ function AppController($scope, items, scroll) {
 	$scope.getMode = function() {
 		return darwino.hybrid.getMode();
 	};
-}
-
-AppController.$inject = ['$scope', 'items', 'scroll']; // For JS compilers.
+});
 
 
 // Top Menu/Nav Bar
-function NavBarController($scope, items) {
+wReader.controller('NavBarController', function ($scope, items) {
 
 	$scope.showAll = function() {
 		items.clearFilter();
@@ -70,9 +68,7 @@ function NavBarController($scope, items) {
 	$scope.showRead = function() {
 		items.filterBy('read', true);
 	};
-}
-
-NavBarController.$inject = ['$scope', 'items'];  // For JS compilers.
+});
 
 document.addEventListener('DOMContentLoaded', function(e) {
 	//On mobile devices, hide the address bar
