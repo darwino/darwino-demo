@@ -208,7 +208,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			// Convert attachment URLs to display format
 			for(var i = 0; i < data.length; i++) {
 				for(var field in data[i].value) {
-					data[i].value[field] = jstore.richTextToDisplayFormat(_this.databaseId, data[i].storeId, _this.instanceId, data[i].unid, data[i].value[field]);
+					if(darwino.Utils.isString(data[i].value[field])) {
+						data[i].value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, data[i].storeId, _this.instanceId, data[i].unid, data[i].value[field]);
+					}
 				}
 			}
 			
@@ -233,7 +235,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				
 				// Convert attachment URLs to display format
 				for(var field in entry.value) {
-					entry.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, entry.storeId, _this.instanceId, entry.unid, entry.value[field]);
+					if(darwino.Utils.isString(data[i].value[field])) {
+						entry.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, entry.storeId, _this.instanceId, entry.unid, entry.value[field]);
+					}
 				}
 				
 				_this.all.unshift(entry);				
@@ -259,7 +263,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				
 				// Convert attachment URLs to display format
 				for(var field in entry.value) {
-					entry.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, entry.storeId, _this.instanceId, entry.unid, entry.value[field]);
+					if(darwino.Utils.isString(data[i].value[field])) {
+						entry.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, entry.storeId, _this.instanceId, entry.unid, entry.value[field]);
+					}
 				}
 				
 				for(var i=0; i<_this.all.length; i++) {
