@@ -15,7 +15,9 @@ import javax.servlet.ServletContext;
 
 import com.darwino.commons.platform.ManagedBeansService;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
+import com.darwino.jsonstore.meta.DatabaseCustomizer;
 import com.darwino.platform.DarwinoManifest;
+import com.darwino.sql.drivers.DBDriver;
 
 /**
  * J2EE application.
@@ -31,5 +33,10 @@ public class DiscDbJ2EEApplication extends DarwinoJ2EEApplication {
 	@Override
 	public String[] getConfigurationBeanNames() {
 		return new String[] {"discdb","demo",ManagedBeansService.LOCAL_NAME,ManagedBeansService.DEFAULT_NAME};
+	}
+	
+	@Override
+	protected DatabaseCustomizer findDatabaseCustomizerFactory(DBDriver driver, String dbName) {
+		return new DiscDbDatabaseCustomizer(driver); 
 	}
 }

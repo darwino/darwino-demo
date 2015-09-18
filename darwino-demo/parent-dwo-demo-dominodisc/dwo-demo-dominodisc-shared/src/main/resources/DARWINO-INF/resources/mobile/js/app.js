@@ -46,13 +46,17 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 			$rootScope.apply();
 		});
 	}
-	session.getDatabaseInstances(DATABASE_NAME).then(function(instances) {
-		$rootScope.instances = instances;
-		if(instances && instances.length>0 && $rootScope.context.instance!=instances[0]) {
-			$rootScope.context.instance = instances[0];
-			$rootScope.reset();
-		}
-	});
+	
+	$rootScope.instances = ['xpagesforum.nsf','nd85forum.nsf','nd8forum.nsf','ndseforum.nsf','nd6forum.nsf'];
+	$rootScope.context.instance = $rootScope.instances[0];
+	
+//	session.getDatabaseInstances(DATABASE_NAME).then(function(instances) {
+//		$rootScope.instances = instances;
+//		if(instances && instances.length>0 && $rootScope.context.instance!=instances[0]) {
+//			$rootScope.context.instance = instances[0];
+//			$rootScope.reset();
+//		}
+//	});
 
 
 	$rootScope.entries = entries;
@@ -170,6 +174,12 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	// Specific methods
 	entries.getUserDn = function(item) {
 		return item ? item.value.from : null;
+	}
+	entries.getEntriesCount = function() {
+		// Performance on larger dataset
+		// A count can be very time consuming, so we disable it
+		// -> https://wiki.postgresql.org/wiki/FAQ#Why_is_.22SELECT_count.28.2A.29_FROM_bigtable.3B.22_slow.3F 
+		return "";
 	}
 	entries.getUser = function(item) {
 		return item ? userService.getUser(item.value.from,function(u,n){if(n){$rootScope.apply()}}) : darwino.services.User.ANONYMOUS_USER;

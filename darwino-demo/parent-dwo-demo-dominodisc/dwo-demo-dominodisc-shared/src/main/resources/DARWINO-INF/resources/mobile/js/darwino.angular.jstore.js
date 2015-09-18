@@ -22,6 +22,8 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	var ngHttp;
 	var ngTimeout;
 	
+	var jstore = darwino.jstore;
+	
 	function ItemList(session,databaseId,storeId,instanceId) {
 		//darwino.log.d(LOG_GROUP,"Create ItemList for database {0}, store {1}",databaseId,storeId);
 		this.session = session;
@@ -103,7 +105,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		var _this = this;
 		if(this.count<-1) {
 			this.count = -1;
-			var url = this._storeUrl()+"/count?hierarchical=1";
+			var url = this._storeUrl()+"/count";
+			var options = jstore.Cursor.RANGE_ROOT;
+			url += "?options="+options;
 			if(this.ftSearch) {
 				url += "&ftsearch="+encodeURIComponent(this.ftSearch);
 			}
@@ -204,7 +208,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			// Convert attachment URLs to display format
 			for(var i = 0; i < data.length; i++) {
 				for(var field in data[i].value) {
-					data[i].value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, data[i].storeId, _this.instanceId, data[i].unid, data[i].value[field]);
+					data[i].value[field] = jstore.richTextToDisplayFormat(_this.databaseId, data[i].storeId, _this.instanceId, data[i].unid, data[i].value[field]);
 				}
 			}
 			

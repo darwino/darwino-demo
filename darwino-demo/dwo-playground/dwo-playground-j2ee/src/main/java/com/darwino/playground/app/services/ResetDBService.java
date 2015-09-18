@@ -72,7 +72,7 @@ public class ResetDBService extends HttpService {
 	
     public void recreatePinballDatabase(final Session jsonSession) throws JsonException {
 		// Create the database
-    	DarwinoJreApplication.get().initDatabase(AppDatabaseDef.DATABASE_NAME, true, new AppDatabaseDef());
+    	DarwinoJreApplication.get().initDatabase(AppDatabaseDef.DATABASE_NAME, true, new AppDatabaseDef(), null);
     	
     	// And fill the documents
     	PinballDatabase pd = new PinballDatabase();
