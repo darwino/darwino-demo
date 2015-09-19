@@ -42,17 +42,11 @@
 			<artifactId>angular-social-webui</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
-		<dependency>
-			<groupId>android</groupId>
-			<artifactId>android</artifactId>
-			<version>${android.platform.version}</version>
-			<scope>provided</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<directory>bin</directory>
 		<finalName>${project.artifactId}</finalName>
 		
 		<plugins>
@@ -67,4 +61,25 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<!-- Eclipse may attempt to include this in the final result, even if the scope is provided; however, it is
+		still needed for a CLI Maven build. -->
+	<profiles>
+		<profile>
+			<id>non-m2e</id>
+			<activation>
+				<property>
+					<name>!m2e.version</name>
+				</property>
+			</activation>
+			
+			<dependencies>
+				<dependency>
+					<groupId>android</groupId>
+					<artifactId>android</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>
