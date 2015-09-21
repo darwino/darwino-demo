@@ -185,9 +185,12 @@
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>DiscDb Mobile</web-resource-name>
+<!-- 			<url-pattern>/*</url-pattern> -->
 			<url-pattern>/mobile/auth/*</url-pattern>
-			<url-pattern>/mobile2/auth/*</url-pattern>
-					</web-resource-collection>
+			<url-pattern>/mobileold/auth/*</url-pattern>
+			<url-pattern>/$darwino-social/*</url-pattern>
+			<url-pattern>/$darwino-jstore/*</url-pattern>
+		</web-resource-collection>
 		<auth-constraint>
 			<role-name>peuser</role-name>
 		</auth-constraint>

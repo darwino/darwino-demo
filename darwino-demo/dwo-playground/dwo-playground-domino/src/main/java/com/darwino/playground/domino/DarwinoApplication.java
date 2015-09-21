@@ -33,7 +33,7 @@ public class DarwinoApplication extends DarwinoDominoApplication {
 		if(!DarwinoDominoApplication.isInitialized()) {
 			DarwinoApplication app = new DarwinoApplication(
 					context,
-					new AppManifest(true,new AppDominoManifest())
+					new AppManifest(new AppDominoManifest())
 			);
 			app.init();
 		}

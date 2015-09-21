@@ -11,16 +11,17 @@
 
 package com.darwino.android.app.dominodisc;
 
-import android.app.Application;
-
 import com.darwino.android.platform.hybrid.DarwinoAndroidHybridApplication;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.log.Logger;
 import com.darwino.demo.dominodisc.DiscDbManifest;
 import com.darwino.demo.platforms.DemoMobileManifest;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
+import com.darwino.mobile.platform.DarwinoMobileSettings;
 import com.darwino.mobile.platform.MobileLogger;
 import com.darwino.platform.DarwinoManifest;
+
+import android.app.Application;
 
 
 public class DiscDbAndroidHybridApplication extends DarwinoAndroidHybridApplication {
@@ -51,5 +52,17 @@ public class DiscDbAndroidHybridApplication extends DarwinoAndroidHybridApplicat
 			return true;
 		}
 		return super.hasCapability(name);
+	}
+	
+	@Override
+	protected DarwinoMobileSettings createSettings() throws JsonException {
+		// Should be shared by Android & iOS
+		return new DarwinoMobileSettings() {
+			@Override
+			public void initDefault(DarwinoManifest mf) {
+				super.initDefault(mf);
+				this.syncStorageDuration = "3n"; // 3 months
+			}
+		};
 	}
 }

@@ -133,7 +133,7 @@ public class MainViewController extends UITableViewController {
 				Platform.log("SYNC DATA");
 				try {
 					DarwinoMobileApplication app = DarwinoMobileApplication.get();
-					ReplicationGroup group = app.getManifest().getSynchronizationGroup();
+					ReplicationGroup group = app.getSynchronizationGroup();
 					if(group!=null) {
 						int sz = group.size();
 						for(int i=0; i<sz; i++) {

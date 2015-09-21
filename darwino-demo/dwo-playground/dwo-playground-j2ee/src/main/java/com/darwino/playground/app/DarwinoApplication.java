@@ -30,7 +30,7 @@ public class DarwinoApplication extends DarwinoJ2EEApplication {
 		if(!DarwinoJreApplication.isInitialized()) {
 			DarwinoApplication app = new DarwinoApplication(
 					context,
-					new AppManifest(true,new AppJ2EEManifest())
+					new AppManifest(new AppJ2EEManifest())
 			);
 			app.init();
 		}

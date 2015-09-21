@@ -16,7 +16,6 @@ import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.extensions.ExtensionRegistry;
 import com.darwino.jsonstore.meta.DatabaseFactory;
-import com.darwino.jsonstore.replication.ReplicationGroup;
 import com.darwino.platform.DarwinoContext;
 import com.darwino.platform.DarwinoManifest;
 
@@ -39,11 +38,8 @@ public class AppManifest extends DarwinoManifest {
 	}
 	
 
-	private boolean mobile;
-	
-	public AppManifest(boolean mobile, Section section) {
+	public AppManifest(Section section) {
 		super(section);
-		this.mobile = mobile;
 	}
 	
 	@Override
@@ -79,24 +75,5 @@ public class AppManifest extends DarwinoManifest {
 	@Override
 	public ExtensionRegistry getExtensionRegistry() {
 		return new AppDBBusinessLogic();
-	}
-	
-	@Override
-	public ReplicationGroup getSynchronizationGroup() {
-		//Add replication constraints here for mobile devices 		
-		if(mobile) {
-//			// Example on limiting the sync entries here
-//			return new ReplicationGroupSimple(getDatabases()) {
-//				@Override
-//				public ReplicationProfile getProfile(int index) {
-//					ReplicationProfile p = new ReplicationProfile();
-//					// Oct 1st 2014
-//					p.setStartTime((new Date(2014-1900,10-1,1)).getTime());
-//					//System.out.println("Selective replication, start date="+(new Date(p.getStartTime())).toString());
-//					return p;
-//				}
-//			};
-		}
-		return super.getSynchronizationGroup();
 	}
 }

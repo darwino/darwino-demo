@@ -33,9 +33,6 @@ import com.darwino.mobile.platform.DarwinoMobileManifest;
  */
 public class DemoMobileManifest extends DarwinoMobileManifest {
 	
-	public static final String SERVER_URL	= "http://10.0.1.8:8081/";
-	public static final String BRIDGE_URL	= "http://192.168.1.20:8087/";
-
 	private String pathInfo;
 	
 	public DemoMobileManifest(String pathInfo) {
@@ -65,13 +62,15 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 								// Else, we are on a local device and we access a global address
 								boolean ethernet = DarwinoMobileApplication.get().getDevice().isDevEthernet();
 								if(ethernet) {
+									String url = findServerUrl();
 									// Development ethernet connection
-									connection.setName(StringUtil.format(baseName, SERVER_URL));
-									connection.setUrl(StringUtil.format(baseUrl, PathUtil.concat(SERVER_URL, pathInfo, '/')));
+									connection.setName(StringUtil.format(baseName, url));
+									connection.setUrl(StringUtil.format(baseUrl, PathUtil.concat(url, pathInfo, '/')));
 								} else {
+									String url = findBridgeUrl();
 									// Real tablet, using the WIFI network
-									connection.setName(StringUtil.format(baseName, BRIDGE_URL));
-									connection.setUrl(PathUtil.concat(StringUtil.format(baseUrl, BRIDGE_URL), pathInfo, '/'));
+									connection.setName(StringUtil.format(baseName, url));
+									connection.setUrl(PathUtil.concat(StringUtil.format(baseUrl, url), pathInfo, '/'));
 								}
 							} else {
 								connection.setName(baseName);
@@ -100,5 +99,12 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 		}
 
 		return conn.toArray(new Connection[conn.size()]);
+	}
+	public String findServerUrl() {
+		//return "http://10.0.1.8:8081/";
+		return "http://192.168.75.79:8080/";
+	}
+	public String findBridgeUrl() {
+		return "http://192.168.1.20:8087/";
 	}
 }

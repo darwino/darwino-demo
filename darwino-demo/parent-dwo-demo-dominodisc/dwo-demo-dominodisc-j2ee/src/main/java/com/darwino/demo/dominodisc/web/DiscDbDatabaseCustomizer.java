@@ -38,19 +38,36 @@ public class DiscDbDatabaseCustomizer extends JdbcDatabaseCustomizer {
 		return 1;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void getAlterStatements(List<String> statements, String schema, String databaseName, int existingVersion) throws JsonException {
 		if(existingVersion<1) {
-			statements.add(StringUtil.format(
-				"CREATE INDEX {0} ON {1} ({2},{3},{4} DESC NULLS FIRST,{5} ASC NULLS FIRST)",
-					getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 1),
-					SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
-					DBSchema.FDOC_INSTID,
-					DBSchema.FDOC_STOREID,
-					DBSchema.FDOC_CDATE,
-					DBSchema.FDOC_UNID
-				)
-			);
+			switch(getDBDriver().getDatabaseType()) {
+				case POSTGRESQL: {
+					statements.add(StringUtil.format(
+							"CREATE INDEX {0} ON {1} ({2},{3},{4} DESC NULLS FIRST,{5} ASC NULLS FIRST)",
+								getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 1),
+								SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+								DBSchema.FDOC_INSTID,
+								DBSchema.FDOC_STOREID,
+								DBSchema.FDOC_CDATE,
+								DBSchema.FDOC_UNID
+							)
+						);
+				} break;
+//				case DB2: {
+//					statements.add(StringUtil.format(
+//							"CREATE INDEX {0} ON {1} ({2},{3},{4} DESC,{5} ASC)",
+//								getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 1),
+//								SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+//								DBSchema.FDOC_INSTID,
+//								DBSchema.FDOC_STOREID,
+//								DBSchema.FDOC_CDATE,
+//								DBSchema.FDOC_UNID
+//							)
+//						);
+//				} break;
+			}
 		}
 	}
 }

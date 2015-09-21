@@ -16,6 +16,7 @@ import com.darwino.demo.dominodisc.DiscDbManifest;
 import com.darwino.demo.platforms.DemoMobileManifest;
 import com.darwino.ios.platform.hybrid.DarwinoIOSHybridApplication;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
+import com.darwino.mobile.platform.DarwinoMobileSettings;
 import com.darwino.platform.DarwinoManifest;
 
 
@@ -32,5 +33,17 @@ public class DiscDbRoboVMHybridApplication extends DarwinoIOSHybridApplication {
 	
 	public DiscDbRoboVMHybridApplication(DarwinoManifest manifest) {
 		super(manifest);
+	}
+	
+	@Override
+	protected DarwinoMobileSettings createSettings() throws JsonException {
+		// Should be shared by Android & iOS
+		return new DarwinoMobileSettings() {
+			@Override
+			public void initDefault(DarwinoManifest mf) {
+				super.initDefault(mf);
+				this.syncStorageDuration = "3n"; // 3 months
+			}
+		};
 	}
 }
