@@ -175,12 +175,6 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	entries.getUserDn = function(item) {
 		return item ? item.value.from : null;
 	}
-	entries.getEntriesCount = function() {
-		// Performance on larger dataset
-		// A count can be very time consuming, so we disable it
-		// -> https://wiki.postgresql.org/wiki/FAQ#Why_is_.22SELECT_count.28.2A.29_FROM_bigtable.3B.22_slow.3F 
-		return "";
-	}
 	entries.getUser = function(item) {
 		return item ? userService.getUser(item.value.from,function(u,n){if(n){$rootScope.apply()}}) : darwino.services.User.ANONYMOUS_USER;
 	}

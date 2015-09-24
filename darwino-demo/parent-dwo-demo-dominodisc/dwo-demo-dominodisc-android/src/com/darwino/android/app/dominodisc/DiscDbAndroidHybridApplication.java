@@ -16,6 +16,7 @@ import com.darwino.commons.json.JsonException;
 import com.darwino.commons.log.Logger;
 import com.darwino.demo.dominodisc.DiscDbManifest;
 import com.darwino.demo.platforms.DemoMobileManifest;
+import com.darwino.jsonstore.sql.impl.sqlite.SqliteDatabaseCustomizer;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
 import com.darwino.mobile.platform.MobileLogger;
@@ -64,5 +65,10 @@ public class DiscDbAndroidHybridApplication extends DarwinoAndroidHybridApplicat
 				this.syncStorageDuration = "3n"; // 3 months
 			}
 		};
+	}
+
+	@Override
+	protected SqliteDatabaseCustomizer findDatabaseCustomizer(String dbName) throws JsonException {
+		return new DiscDbDatabaseCustomizer();
 	}
 }

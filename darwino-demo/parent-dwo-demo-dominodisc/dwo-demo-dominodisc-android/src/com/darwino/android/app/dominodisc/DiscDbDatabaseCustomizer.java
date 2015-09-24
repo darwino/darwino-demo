@@ -9,28 +9,26 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.darwino.demo.dominodisc.web;
+package com.darwino.android.app.dominodisc;
 
 import java.util.List;
 
 import com.darwino.commons.json.JsonException;
+import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.sql.DBSchema;
 import com.darwino.jsonstore.sql.SqlUtils;
-import com.darwino.jsonstore.sql.impl.full.JdbcDatabaseCustomizer;
-import com.darwino.sql.drivers.DBDriver;
-import com.ibm.commons.util.StringUtil;
+import com.darwino.jsonstore.sql.impl.sqlite.SqliteDatabaseCustomizer;
 
 
 
 /**
  * Database customizer.
  */
-public class DiscDbDatabaseCustomizer extends JdbcDatabaseCustomizer {
+public class DiscDbDatabaseCustomizer extends SqliteDatabaseCustomizer {
 	
 	public static final int VERSION = 2;
 	
-	public DiscDbDatabaseCustomizer(DBDriver driver) {
-		super(driver,null);
+	public DiscDbDatabaseCustomizer() {
 	}
 	
 	@Override
@@ -47,14 +45,6 @@ public class DiscDbDatabaseCustomizer extends JdbcDatabaseCustomizer {
 		if(existingVersion==VERSION) {
 			// Ok, we are good!
 			return;
-		}
-
-		if(existingVersion==1) {
-			if(getDBDriver().getDatabaseType()==DBDriver.DbType.POSTGRESQL) {
-				statements.add(StringUtil.format(
-					"DROP INDEX {0}", getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 1))
-				);
-			}
 		}
 		
 		statements.add(StringUtil.format(

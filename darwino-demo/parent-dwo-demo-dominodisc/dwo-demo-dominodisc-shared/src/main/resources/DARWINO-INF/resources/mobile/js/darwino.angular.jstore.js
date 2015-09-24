@@ -16,7 +16,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	
 	var mod = angular.module('darwino.angular.jstore',[]);
 
-	var REFRESHCOUNT = 10;
+	var REFRESHCOUNT = 15;
 	var MORECOUNT = 10;
 
 	var ngHttp;
@@ -102,6 +102,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		return false;
 	}
 	ItemList.prototype.getEntriesCount = function() {
+		// Performance on larger dataset
+		// A count can be very time consuming, so we disable it
+		// -> https://wiki.postgresql.org/wiki/FAQ#Why_is_.22SELECT_count.28.2A.29_FROM_bigtable.3B.22_slow.3F
+		// We postpone the count to a bit later, so the data query is executed before...
 		var _this = this;
 		if(this.count<-1) {
 			this.count = -1;
@@ -114,10 +118,13 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			if(this.instanceId) {
 				url += '&instance=' + encodeURIComponent(this.instanceId);
 			}
-			ngHttp.get(url).success(function(data) {
-				_this.count = data['count'];
-				darwino.log.d(LOG_GROUP,"Calculated store entries count {0}",_this.count);
-			});
+			setTimeout(function() {
+				ngHttp.get(url).success(function(data) {
+					_this.count = data['count'];
+					darwino.log.d(LOG_GROUP,"Calculated store entries count {0}",_this.count);
+				})
+			},
+			200);
 		}
 		return this.count>=0 ? this.count : null; 
 	}
@@ -183,11 +190,13 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+'?skip='+skip
 				+'&limit='+count
 				+'&hierarchical=99'
-				+'&orderby=_cdate desc'
 				+'&jsontree=true'
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
 		if(this.ftSearch) {
 			url += "&ftsearch="+encodeURIComponent(this.ftSearch);
+			//url += '&orderby=_ftRank'
+		} else {
+			url += '&orderby=_cdate desc'
 		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
