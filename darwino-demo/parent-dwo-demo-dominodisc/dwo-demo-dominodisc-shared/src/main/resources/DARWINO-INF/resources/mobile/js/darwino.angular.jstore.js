@@ -235,7 +235,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				
 				// Convert attachment URLs to display format
 				for(var field in entry.value) {
-					if(darwino.Utils.isString(data[i].value[field])) {
+					if(darwino.Utils.isString(entry.value[field])) {
 						entry.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, entry.storeId, _this.instanceId, entry.unid, entry.value[field]);
 					}
 				}
@@ -263,7 +263,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				
 				// Convert attachment URLs to display format
 				for(var field in entry.value) {
-					if(darwino.Utils.isString(data[i].value[field])) {
+					if(darwino.Utils.isString(entry.value[field])) {
 						entry.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, entry.storeId, _this.instanceId, entry.unid, entry.value[field]);
 					}
 				}
