@@ -52,7 +52,7 @@
  -->  	
 	<context-param>
     	<param-name>dwo-sync-mode</param-name>
-    	<param-value>pull+push</param-value>
+    	<param-value>${discdb.domino.sync-mode=pull+push}</param-value>
   	</context-param>
 							  		
 	<!-- Application initialization -->
