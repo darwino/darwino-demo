@@ -152,7 +152,6 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			ngTimeout.cancel(_this.refreshTimeout);
 			_this.refreshTimeout = null;
 		}
-		_this.loading = true;
 		if(delay) {
 			_this.refreshTimeout = ngTimeout(doRefresh,delay);
 		} else {
@@ -174,13 +173,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	
 	ItemList.prototype.loadMore = function(cb) {
 		// If there is already an ongoing request, then ignore the new one
-		// We call the callback anyway to broadcast what should be broadcasted...
 		if(!this.hasMore() || this.loading) {
-			if(cb) cb();
 			return;
 		}
 		darwino.log.d(LOG_GROUP,"Load more entries, count={0}",this.all.length);
-		this.loading = true;
 		this.loadItems(this.all.length,this.moreCount,cb);
 	}
 	
@@ -201,7 +197,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
 		}
+		
+		this.loading = true;
 		this._loadItems(url,function(data) {
+			_this.loading = false;
 			if(data.length<count) {
 				_this.eof = true;
 			}
@@ -222,8 +221,11 @@ darwino.provide("darwino/angular/jstore",null,function() {
 					}
 				}
 			}
-			
 			if(cb) cb(data);
+		}, function() {
+			// In case of error, all the items are considered loaded...
+			_this.loading = false;
+			_this.eof = true;
 		});
 	}
 
@@ -304,7 +306,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}
 	}
 	
-	ItemList.prototype._loadItems = function(url,cb) {
+	ItemList.prototype._loadItems = function(url,cb,cberr) {
 		var _this = this;
 		function absoluteURL(url) {
 			var a = document.createElement('a');
@@ -312,14 +314,19 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			return a.href;
 		}
 		url = absoluteURL(url); 
-		var successCallback = function(data, status, headers, config) {
+		var successCallback = function(response) {
 			if(cb) {
-				cb(data);
+				cb(response.data);
 			}
 			darwino.log.d(LOG_GROUP,'Entries loaded from server: '+url+', #', _this.all.length);
-			_this.loading = false;
 		};
-		ngHttp.get(url).success(successCallback);
+		var errorCallback = function(response) {
+			if(cberr) {
+				cberr();
+			}
+			darwino.log.d(LOG_GROUP,'Error while loading entries from server: '+url+', Err:'+response.status);
+		};
+		ngHttp.get(url).then(successCallback,errorCallback);
 	}
 
 	ItemList.prototype.getAttachments = function(item) {

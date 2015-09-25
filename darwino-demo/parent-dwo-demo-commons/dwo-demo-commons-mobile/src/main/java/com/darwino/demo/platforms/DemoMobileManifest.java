@@ -105,6 +105,6 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 		return "http://192.168.75.79:8080/";
 	}
 	public String findBridgeUrl() {
-		return "http://192.168.1.20:8087/";
+		return "http://192.168.1.20:8080/";
 	}
 }
