@@ -71,4 +71,34 @@ public class DiscDbAndroidHybridApplication extends DarwinoAndroidHybridApplicat
 	protected SqliteDatabaseCustomizer findDatabaseCustomizer(String dbName) throws JsonException {
 		return new DiscDbDatabaseCustomizer();
 	}
+	
+/*
+	@Override
+	protected DarwinoHttpServer createHttpServer(HttpServerContext context) {
+		return new DarwinoHttpServer(context) {
+			@Override
+			protected void service(HTTPDServiceContext context, HttpServiceMatcher matcher) {
+				String url = context.getDebugUri();
+				boolean trace = url.contains("/entries");
+				if(trace) {
+					try {
+						//Debug.startMethodTracingSampling("dwodb"); // 4.4
+						//java.lang.reflect.Method m = Debug.class.getMethod("startMethodTracingSampling",String.class,Integer.TYPE,Integer.TYPE);
+						//m.invoke(null, "dwodbs");
+						Debug.startMethodTracing("dwodb",8000000,1000);
+						try {
+							super.service(context, matcher);
+						} finally {
+							Debug.stopMethodTracing();
+						}
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					super.service(context, matcher);
+				}
+			}
+		};
+	}
+*/	
 }
