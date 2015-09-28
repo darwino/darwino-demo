@@ -139,6 +139,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	ItemList.prototype.refresh = function(delay,cb) {
 		var _this = this;
 		function doRefresh() {
+			// If there is already an ongoing request, then ignore the new one
+			if(_this.loading) {
+				return;
+			}
 			_this.refreshTimeout = null;
 			_this.eof = false;
 			_this.all = [];
