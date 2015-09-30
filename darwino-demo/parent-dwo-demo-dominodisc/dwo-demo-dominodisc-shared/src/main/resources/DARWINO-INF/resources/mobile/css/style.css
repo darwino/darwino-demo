@@ -259,6 +259,11 @@ i, em {
     z-index: 9999;
 }
 
+/* Action buttons */
+.icon-action {
+	font-size: 24px;
+}
+
 /* Avatar in the left menu */
 .menu .avatar {
     height: 65px;

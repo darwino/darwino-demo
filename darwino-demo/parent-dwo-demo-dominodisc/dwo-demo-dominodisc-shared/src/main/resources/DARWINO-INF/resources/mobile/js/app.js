@@ -28,6 +28,10 @@ var STORE_NAME = "nsfdata";
 angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
 .run(function($rootScope,$location,$state,$http,entries) {
+	// Some options
+	$rootScope.infiniteScroll = false;
+	$rootScope.accessUserService = true;
+	
 	// Make some global var visible
 	$rootScope.darwino = darwino;
 	$rootScope.session = session;
@@ -160,7 +164,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 
 // This is currently a service as the left menu needs access to the count
 // let's think about a better architecture here
-.service('entries', function($rootScope,$http,$timeout,$jstore) {
+.service('entries', function($rootScope,$http,$timeout,$jstore,$ionicPopup) {
 	// Should this me moved to an initialization servie??
 	// Use an object because of prototypical inheritance
 	// http://stackoverflow.com/questions/15305900/angularjs-ng-model-input-type-number-to-rootscope-not-updating
@@ -176,19 +180,47 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		return item ? item.value.from : null;
 	}
 	entries.getUser = function(item) {
-		return item ? userService.getUser(item.value.from,function(u,n){if(n){$rootScope.apply()}}) : darwino.services.User.ANONYMOUS_USER;
+		if(item) {
+			if($rootScope.accessUserService) {  
+				return userService.getUser(item.value.from,function(u,n){if(n){$rootScope.apply()}})
+			}
+			return userService.createUser(item.value.from);
+		}
+		return darwino.services.User.ANONYMOUS_USER;
 	}
 	entries.getPhoto =  function(item) {
-		return item ? userService.getUserPhotoUrl(item.value.from) : null;
+		if(item) {
+			if($rootScope.accessUserService) {  
+				return userService.getUserPhotoUrl(item.value.from);
+			}
+		}
+		return darwino.services.User.ANONYMOUS_PHOTO;
 	}
 	entries.newPost = function() {
 		$rootScope.go('/disc/editpost/new');
 	}
-	entries.editPost = function(item) {
+	entries.editEntry = function(item) {
+		var item = item || entries.detailItem;
+		if(!item) return;
 		$rootScope.go('/disc/editpost/id:'+item.unid);
 	}
-	entries.newComment = function(item) {
+	entries.newResponse = function(item) {
+		var item = item || entries.detailItem;
+		if(!item) return;
 		$rootScope.go('/disc/editpost/pid:'+item.unid);
+	}
+	entries.deleteEntry = function(item) {
+		var item = item || entries.detailItem;
+		if(!item) return;
+		var confirmPopup = $ionicPopup.confirm({
+			title: 'Delete entry',
+			template: 'Are you sure you want to delete this document?'
+		});
+		confirmPopup.then(function(res) {
+			if(res) {
+				entries.deleteItem(item);
+			}
+		});
 	}
 	return entries;
 })
@@ -202,6 +234,9 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	//
 	$scope.hasMore = function() {
 		return entries.hasMore();
+	}
+	$scope.hasMoreButton = function() {
+		return !$rootScope.infiniteScroll && entries.hasMore() && !entries.isLoading();
 	}
 	$scope.loadMore = function() {
 		entries.loadMore( function() {

@@ -1,16 +1,19 @@
 <ion-list class='list-entries'>
 	<ion-item ng-repeat="item in entries.all" class="list-item item-list-entries ">
 		<div class="{{item==entries.selectedItem?'selected':''}}">
-		<div class="item-avatar item-icon-right item-list-header {{item.read?'item-read':'item-unread'}}">
-			<img ng-src="{{entries.getPhoto(item)}}" alt="Photo" 
+			<div class="item-avatar item-icon-right item-list-header {{item.read?'item-read':'item-unread'}}">
+				<img ng-src="{{entries.getPhoto(item)}}" alt="Photo" 
 					ng-click="go('/disc/user/'+entries.getUserDn(item))" 
 					onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
-			<div ng-click="entries.selectItem(item)" style="width:100%">
-				<h2 ng-bind="item.value.subject"></h2>
-				<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
-				<h4 ng-bind="item.value.abstract"></h4>
+				<div ng-click="entries.selectItem(item)" style="width:100%">
+					<h2 ng-bind="item.value.subject"></h2>
+					<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
+					<h4 ng-bind="item.value.abstract"></h4>
+				</div>
 			</div>
 		</div>
-		</div>
+	</ion-item>
+	<ion-item ng-if="hasMoreButton()">
+		<button class="button button-clear button-block button-positive" ng-click="loadMore()">Load More...</button>
 	</ion-item>
 </ion-list>

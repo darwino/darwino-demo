@@ -11,10 +11,10 @@
 		<div ng-click="entries.selectItem(entries.detailItem)" style="width:100%">
 			<h3 ng-bind-template="{{entries.getUser(entries.detailItem).getCn()}}, {{entries.detailItem.cdate|formattedDate}}"></h3>
 		</div>
-		<div ng-hide="isReadOnly()" class="icon icon-post">
-			<i class="ion-reply" ng-click="entries.newComment(entries.detailItem)"></i>
-			<i class="ion-android-create" ng-click="entries.editPost(entries.detailItem)"></i>
-			<i class="ion-trash-a" ng-click="entries.deletePost(entries.detailItem)"></i>
+		<div ng-hide="isReadOnly()" class="icon">
+			<a class="button button-clear ion-reply icon-action" ng-click="entries.newResponse()"></a>
+			<a class="button button-clear ion-android-create icon-action" ng-click="entries.editEntry()"></a>
+			<a class="button button-clear ion-trash-a icon-action" ng-click="entries.deleteEntry()"></a>
 		</div>
 	</div>
 	

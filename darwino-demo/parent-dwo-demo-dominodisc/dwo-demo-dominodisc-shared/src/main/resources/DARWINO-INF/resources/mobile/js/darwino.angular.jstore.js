@@ -46,19 +46,6 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.refreshTimeout = null;
 		this.loading = false;
 	}
-	
-	ItemList.prototype.getDatabase = function() {
-		if(!this.database) {
-			this.database = session.getDatabase(this.databaseId);
-		}
-		return this.database;
-	}
-	ItemList.prototype.getStore = function() {
-		if(!this.store) {
-			this.store = this.getDatabase().getStore(this.storeId);
-		}
-		return this.store;
-	}
 
 	ItemList.prototype.getInstance = function() {
 		return this.instanceId;
@@ -73,6 +60,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	}
 	ItemList.prototype._storeUrl = function(u) {
 		return this._databaseUrl()+"/stores/"+encodeURIComponent(this.storeId);
+	}
+
+	ItemList.prototype.isLoading = function() {
+		return this.loading;
 	}
 	
 	ItemList.prototype.findRoot = function(unid) {
@@ -119,7 +110,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				url += '&instance=' + encodeURIComponent(this.instanceId);
 			}
 			setTimeout(function() {
-				ngHttp.get(url).success(function(data) {
+				ngHttp.get(url).then(function(data) {
 					_this.count = data['count'];
 					darwino.log.d(LOG_GROUP,"Calculated store entries count {0}",_this.count);
 				})
@@ -175,16 +166,16 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		return !this.eof;
 	}
 	
-	ItemList.prototype.loadMore = function(cb) {
+	ItemList.prototype.loadMore = function(cb,err) {
 		// If there is already an ongoing request, then ignore the new one
 		if(!this.hasMore() || this.loading) {
 			return;
 		}
 		darwino.log.d(LOG_GROUP,"Load more entries, count={0}",this.all.length);
-		this.loadItems(this.all.length,this.moreCount,cb);
+		this.loadItems(this.all.length,this.moreCount,cb,err);
 	}
 	
-	ItemList.prototype.loadItems = function(skip,count,cb) {
+	ItemList.prototype.loadItems = function(skip,count,cb,err) {
 		var _this = this;
 		var url = this._storeUrl()+'/entries'
 				+'?skip='+skip
@@ -226,10 +217,11 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				}
 			}
 			if(cb) cb(data);
-		}, function() {
+		}, function(data) {
 			// In case of error, all the items are considered loaded...
 			_this.loading = false;
 			_this.eof = true;
+			if(err) err(data);
 		});
 	}
 
@@ -295,19 +287,25 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		});
 	}
 	
-	ItemList.prototype.removeItem = function(item) {
-		this.getStore().deleteDocument(item.unid);
-		var rootItem = this.findRoot(item.unid);
-		if(rootItem && rootItem!=item) { 
-			this.reloadItem(rootItem);
-			this.detailItem = this.findRoot(item.parentUnid);
-		} else {
-			var idx = this.all.indexOf(item);
-			if(idx>=0) {
-				this.all.splice(idx,1);
-				this.selectedItem = this.all.length ? this.all[Math.max(idx-1,0)] : null;
-			}
+	ItemList.prototype.deleteItem = function(item) {
+		var _this = this;
+		var url = this._storeUrl()+"/documents/"+encodeURIComponent(item.unid);
+		if(this.instanceId) {
+			url += '?instance=' + encodeURIComponent(this.instanceId);
 		}
+		ngHttp.delete(url).then(function(data) {
+			var rootItem = _this.findRoot(item.unid);
+			if(rootItem && rootItem!=item) { 
+				_this.reloadItem(rootItem);
+				_this.detailItem = _this.findRoot(item.parentUnid);
+			} else {
+				var idx = _this.all.indexOf(item);
+				if(idx>=0) {
+					_this.all.splice(idx,1);
+					_this.selectedItem = _this.all.length ? _this.all[Math.max(idx-1,0)] : null;
+				}
+			}
+		});
 	}
 	
 	ItemList.prototype._loadItems = function(url,cb,cberr) {
@@ -344,7 +342,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			if(this.instanceId) {
 				url += '&instance=' + encodeURIComponent(this.instanceId);
 			}
-			ngHttp.get(url).success(function(data) {
+			ngHttp.get(url).then(function(data) {
 				var atts = data.attachments;
 				if(atts) {
 					// Do some post-processing
