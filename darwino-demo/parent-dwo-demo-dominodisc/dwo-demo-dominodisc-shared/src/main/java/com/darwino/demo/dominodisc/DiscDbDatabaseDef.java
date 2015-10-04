@@ -27,10 +27,14 @@ import com.darwino.jsonstore.meta._Store;
  */
 public class DiscDbDatabaseDef extends DatabaseFactoryImpl {
 
-	public static final String DATABASE_DOMDISC	= "domdisc";
-	public static final String STORE_NSFDATA	= "nsfdata";
+	public static final String DATABASE_DOMDISC	   = "domdisc"; //$NON-NLS-1$
+	public static final String STORE_NSFDATA       = "nsfdata"; //$NON-NLS-1$
+	public static final String STORE_NSFDATA_LABEL = "NSF Data"; //$NON-NLS-1$
+	public static final String STORE_CONFIG        = "config"; //$NON-NLS-1$
+	public static final String STORE_CONFIG_LABEL  = "Configuration"; //$NON-NLS-1$
+	public static final String DATABASE_NAME       = "Domino Discussion"; //$NON-NLS-1$
 
-	public static final int DATABASE_VERSION	= 1;
+	public static final int DATABASE_VERSION	= 2;
 	
 	@Override
 	public int getDatabaseVersion(String databaseName) throws JsonException {
@@ -42,7 +46,7 @@ public class DiscDbDatabaseDef extends DatabaseFactoryImpl {
 		if(!StringUtil.equals(databaseName, DATABASE_DOMDISC)) {
 			return null;
 		}
-		_Database db = new _Database(DATABASE_DOMDISC, "Domino Discussion", DATABASE_VERSION);
+		_Database db = new _Database(DATABASE_DOMDISC, DATABASE_NAME, DATABASE_VERSION);
 
 		db.setReplicationEnabled(true);
 		db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
@@ -51,12 +55,23 @@ public class DiscDbDatabaseDef extends DatabaseFactoryImpl {
 		// Store: NSF data
 		{
 			_Store store = db.addStore(STORE_NSFDATA);
-			store.setLabel("NSF Data");
+			store.setLabel(STORE_NSFDATA_LABEL);
 			store.setFtSearchEnabled(true);
 			_FtSearch ft = store.setFTSearch(new _FtSearch());
-			ft.setFields("$");
+			ft.setFields("$"); //$NON-NLS-1$
 
-			store.addQueryField("form", JsonUtil.TYPE_STRING, false);
+			store.addQueryField("form", JsonUtil.TYPE_STRING, false); //$NON-NLS-1$
+		}
+		
+		// Store: Configuration
+		{
+			_Store store = db.addStore(STORE_CONFIG);
+			store.setLabel(STORE_CONFIG_LABEL);
+			store.setFtSearchEnabled(true);
+			_FtSearch ft = store.setFTSearch(new _FtSearch());
+			ft.setFields("$"); //$NON-NLS-1$
+			
+			store.addQueryField("form", JsonUtil.TYPE_STRING, false); //$NON-NLS-1$
 		}
 
 		return db;
