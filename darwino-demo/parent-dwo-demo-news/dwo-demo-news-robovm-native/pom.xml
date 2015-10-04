@@ -96,5 +96,31 @@
 				</plugins>
 			</build>
 		</profile>
+		
+		<!--
+			When m2e has workspace resolution enabled, the dependency-plugin copy fails (copying in the pom
+			instead of the binary file), so it's safest to just turn this off in Eclipse for now.
+		-->
+		<profile>
+			<id>m2e-workaround</id>
+			<activation>
+				<property>
+					<name>m2e.version</name>
+				</property>
+			</activation>
+			
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.10</version>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 </project>
