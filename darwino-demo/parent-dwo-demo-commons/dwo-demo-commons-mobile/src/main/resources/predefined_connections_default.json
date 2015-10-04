@@ -23,8 +23,8 @@
 		{
 			"enabled": true,
 			"local": false,
-			"name": "Darwino Playground - http://playground.darwino.com/playground",
-			"url": "http://playground.darwino.com/playground",
+			"name": "Darwino Playground - http://playground.darwino.com:8080/dominodisc",
+			"url": "http://playground.darwino.com:8080/dominodisc",
 			"userId": "amass",
 			"password": "floflo",
 			"dn": "cn=al mass,o=triloggroup",

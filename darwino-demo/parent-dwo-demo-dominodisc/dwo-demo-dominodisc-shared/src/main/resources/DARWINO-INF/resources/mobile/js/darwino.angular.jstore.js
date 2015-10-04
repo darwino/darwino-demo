@@ -110,8 +110,8 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				url += '&instance=' + encodeURIComponent(this.instanceId);
 			}
 			setTimeout(function() {
-				ngHttp.get(url).then(function(data) {
-					_this.count = data['count'];
+				ngHttp.get(url).then(function(response) {
+					_this.count = response.data['count'];
 					darwino.log.d(LOG_GROUP,"Calculated store entries count {0}",_this.count);
 				})
 			},
@@ -293,7 +293,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		if(this.instanceId) {
 			url += '?instance=' + encodeURIComponent(this.instanceId);
 		}
-		ngHttp.delete(url).then(function(data) {
+		ngHttp.delete(url).then(function(response) {
 			var rootItem = _this.findRoot(item.unid);
 			if(rootItem && rootItem!=item) { 
 				_this.reloadItem(rootItem);
@@ -342,8 +342,8 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			if(this.instanceId) {
 				url += '&instance=' + encodeURIComponent(this.instanceId);
 			}
-			ngHttp.get(url).then(function(data) {
-				var atts = data.attachments;
+			ngHttp.get(url).then(function(response) {
+				var atts = response.data.attachments;
 				if(atts) {
 					// Do some post-processing
 					angular.forEach(atts, function(att) {
