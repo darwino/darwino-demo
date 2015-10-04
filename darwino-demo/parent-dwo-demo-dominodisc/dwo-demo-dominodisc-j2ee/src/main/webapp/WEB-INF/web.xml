@@ -179,7 +179,7 @@
   	</welcome-file-list>
 
 	<security-role>
-		<role-name>peuser</role-name>
+		<role-name>user</role-name>
 	</security-role>
 
 	<security-constraint>
@@ -192,7 +192,7 @@
 			<url-pattern>/$darwino-jstore/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>peuser</role-name>
+			<role-name>user</role-name>
 		</auth-constraint>
 	</security-constraint>
 <!-- 	
