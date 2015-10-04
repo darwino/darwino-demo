@@ -70,5 +70,12 @@
 			<string>{414, 736}</string>
 		</dict>
 	</array>
+	
+	<!-- Allow insecure connections generally (for now) -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
