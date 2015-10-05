@@ -14,11 +14,11 @@ package com.darwino.demo.dominodisc.web;
 import java.util.List;
 
 import com.darwino.commons.json.JsonException;
+import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.sql.DBSchema;
 import com.darwino.jsonstore.sql.SqlUtils;
 import com.darwino.jsonstore.sql.impl.full.JdbcDatabaseCustomizer;
 import com.darwino.sql.drivers.DBDriver;
-import com.ibm.commons.util.StringUtil;
 
 
 
