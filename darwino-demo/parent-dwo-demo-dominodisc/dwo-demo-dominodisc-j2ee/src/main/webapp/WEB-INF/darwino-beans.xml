@@ -1,0 +1,40 @@
+<beans>
+    
+<!-- Define your J2EE specific beans here, and register a WebInf provider in AppPlugin -->
+
+<!-- HTTP Security constraints -->
+    <property name="c">com.darwino.config.http.HttpConstraintsStatic</property>
+    <property name="cc">com.darwino.config.http.HttpConstraintsStatic$Constraint</property>
+<!--     
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>DiscDb Mobile</web-resource-name>
+			<url-pattern>/mobile/auth/*</url-pattern>
+			<url-pattern>/mobileold/auth/*</url-pattern>
+			<url-pattern>/$darwino-social/*</url-pattern>
+			<url-pattern>/$darwino-jstore/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>user</role-name>
+		</auth-constraint>
+	</security-constraint>
+ -->
+     
+    <bean type="darwino/httpconstraint" name="auth" class="${c}" alias="demo,local,default">
+        <list name="constraints">
+            <bean class='${cc}'>
+                <property name='urlPattern'>/mobile/auth/*</property>
+            </bean>    
+            <bean class='${cc}'>
+                <property name='urlPattern'>/mobileold/auth/*</property>
+            </bean>    
+            <bean class='${cc}'>
+                <property name='urlPattern'>/$darwino-social/*</property>
+            </bean>    
+            <bean class='${cc}'>
+                <property name='urlPattern'>/$darwino-jstore/*</property>
+            </bean>    
+		</list>
+    </bean>
+     
+</beans>

@@ -33,9 +33,9 @@
 		{
 			"enabled": true,
 			"local": false,
-			"name": "IBM Bluemix - http://dwo-demo-news-j2ee.mybluemix.net",
-			"url": "http://dwo-demo-news-j2ee.mybluemix.net",
-			"password": "floflo",
+			"name": "IBM Bluemix - http://dominodisc.mybluemix.net",
+			"url": "http://dominodisc.mybluemix.net/",
+			"password": "darwino",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"
 		},

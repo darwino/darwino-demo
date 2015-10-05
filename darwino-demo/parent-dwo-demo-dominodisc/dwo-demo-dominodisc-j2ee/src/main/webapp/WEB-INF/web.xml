@@ -62,7 +62,20 @@
 	    </listener-class>
 	</listener>
 
-		
+ 
+	<!--  Filter for custom authentication -->
+	<!--  We have to use such a filter to support custom authentication and Bluemix  -->
+	<filter>
+    	<filter-name>DarwinoAuthentication</filter-name>
+   		<filter-class>com.darwino.j2ee.servlet.authentication.BasicAuthenticationFilter</filter-class>
+    </filter>
+	<filter-mapping>
+    	<filter-name>DarwinoAuthentication</filter-name>
+    	<url-pattern>/*</url-pattern>
+   		<dispatcher>REQUEST</dispatcher>
+    	<dispatcher>FORWARD</dispatcher>
+   </filter-mapping>
+			
 	<!-- IBM Social Business Toolkit -->
 	<filter>
         <description>This filter is responsible for creating the toolkit application and context objects for every servlet within this web application.</description>
@@ -182,10 +195,11 @@
 		<role-name>user</role-name>
 	</security-role>
 
+<!-- 	
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>DiscDb Mobile</web-resource-name>
-<!-- 			<url-pattern>/*</url-pattern> -->
+// 			<url-pattern>/*</url-pattern>
 			<url-pattern>/mobile/auth/*</url-pattern>
 			<url-pattern>/mobileold/auth/*</url-pattern>
 			<url-pattern>/$darwino-social/*</url-pattern>
@@ -195,21 +209,11 @@
 			<role-name>user</role-name>
 		</auth-constraint>
 	</security-constraint>
-<!-- 	
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>DiscDb Auth</web-resource-name>
-			<url-pattern>/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>*</role-name>
-		</auth-constraint>
-	</security-constraint>
- -->
  	
 	<login-config>
 		<auth-method>BASIC</auth-method>
 		<realm-name>Discussion Database</realm-name>
 	</login-config>
-	  	
+-->
+
 </web-app>
