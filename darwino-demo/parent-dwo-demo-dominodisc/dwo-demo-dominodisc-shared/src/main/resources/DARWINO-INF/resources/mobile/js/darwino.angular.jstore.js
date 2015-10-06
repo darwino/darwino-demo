@@ -366,7 +366,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 							display: display,
 							length: att.length,
 							mimeType: att.mimeType,
-							url: session.getUrlBuilder().getAttachmentUrl(_this.databaseId, _this.storeId, data.unid, att.name)
+							url: session.getUrlBuilder().getAttachmentUrl(_this.databaseId, _this.storeId, response.data.unid, att.name)
 						})
 					});
 				}
