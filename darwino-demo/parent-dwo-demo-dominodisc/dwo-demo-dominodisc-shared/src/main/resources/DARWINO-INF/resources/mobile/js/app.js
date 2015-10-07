@@ -51,16 +51,16 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		});
 	}
 	
-	$rootScope.instances = ['xpagesforum.nsf','nd85forum.nsf','nd8forum.nsf','ndseforum.nsf','nd6forum.nsf'];
-	$rootScope.context.instance = $rootScope.instances[0];
+//	$rootScope.instances = ['xpagesforum.nsf','nd85forum.nsf','nd8forum.nsf','ndseforum.nsf','nd6forum.nsf'];
+//	$rootScope.context.instance = $rootScope.instances[0];
 	
-//	session.getDatabaseInstances(DATABASE_NAME).then(function(instances) {
-//		$rootScope.instances = instances;
-//		if(instances && instances.length>0 && $rootScope.context.instance!=instances[0]) {
-//			$rootScope.context.instance = instances[0];
-//			$rootScope.reset();
-//		}
-//	});
+	session.getDatabaseInstances(DATABASE_NAME).then(function(instances) {
+		$rootScope.instances = instances;
+		if(instances && instances.length>0 && $rootScope.context.instance!=instances[0]) {
+			$rootScope.context.instance = instances[0];
+			$rootScope.reset();
+		}
+	});
 
 
 	$rootScope.entries = entries;
