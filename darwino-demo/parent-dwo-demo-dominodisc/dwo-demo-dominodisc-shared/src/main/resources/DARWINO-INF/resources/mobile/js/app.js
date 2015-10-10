@@ -28,6 +28,25 @@ var STORE_NAME = "nsfdata";
 angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
 .run(function($rootScope,$location,$state,$http,entries) {
+	// Storage utilities
+	function storage() {
+		try {
+			return 'localStorage' in window && window['localStorage'] !== null ? window.localStorage : null;
+		} catch(e){
+			return null;
+		}
+	}	
+	function arrayIndexOf(a, obj) {
+	    var i = a.length;
+	    while (i--) {
+	       if (a[i] === obj) {
+	           return i;
+	       }
+	    }
+	    return -1;
+	}
+	var storage = storage(); 
+	
 	// Some options
 	$rootScope.infiniteScroll = false;
 	$rootScope.accessUserService = true;
@@ -41,9 +60,18 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$rootScope.hasInstances = function() {
 		return $rootScope.instances.length>1;  
 	}
+	$rootScope.instanceChanged = function() {
+		var inst = $rootScope.context.instance;
+		if(storage) {
+			storage.setItem('dwo.domdisc.instance',inst);
+		}
+		$rootScope.reset();
+	}
+
 	$rootScope.reset = function() {
-		entries.setInstance($rootScope.context.instance);
-		$rootScope.dbPromise = session.getDatabase(DATABASE_NAME, $rootScope.context.instance);
+		var inst = $rootScope.context.instance;
+		entries.setInstance(inst);
+		$rootScope.dbPromise = session.getDatabase(DATABASE_NAME,inst);
 		$rootScope.dbPromise.then(function(database) {
 			$rootScope.database = database;
 			$rootScope.nsfdata = database.getStore(STORE_NAME);
@@ -51,17 +79,22 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		});
 	}
 	
-//	$rootScope.instances = ['xpagesforum.nsf','nd85forum.nsf','nd8forum.nsf','ndseforum.nsf','nd6forum.nsf'];
-//	$rootScope.context.instance = $rootScope.instances[0];
-	
 	session.getDatabaseInstances(DATABASE_NAME).then(function(instances) {
 		$rootScope.instances = instances;
-		if(instances && instances.length>0 && $rootScope.context.instance!=instances[0]) {
-			$rootScope.context.instance = instances[0];
-			$rootScope.reset();
+		if(instances && instances.length>0) {
+			var inst = storage ? storage.getItem('dwo.domdisc.instance') : null;
+			if(!inst || !arrayIndexOf(instances,inst)) {
+				inst = instances[0];
+			}
+			$rootScope.context.instance = inst;
+			$rootScope.instanceChanged();
 		}
 	});
-
+	
+	
+//	localStorage.setItem('someName', 'savedData');
+//	When you have to retrieve it later you just use:
+//	var data = localStorage.getItem('someName');
 
 	$rootScope.entries = entries;
 	
@@ -93,9 +126,6 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	darwino.hybrid.addSettingsListener(function(){
 		$rootScope.apply();
 	});
-
-	// Initialize the DB with the default instance
-	$rootScope.reset();
 })
 
 .filter('formattedDate', function() {
@@ -286,9 +316,6 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 			entries.refresh();
 		}
 	};
-	
-	// Initialize the data
-	$scope.refresh();
 }])
 
 
