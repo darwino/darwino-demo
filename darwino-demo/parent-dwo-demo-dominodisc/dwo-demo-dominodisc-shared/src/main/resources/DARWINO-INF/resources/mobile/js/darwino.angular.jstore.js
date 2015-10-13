@@ -33,7 +33,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.instanceId = instanceId;
 		this.state = 0;
 		this.all = [];
-		this.count = -2;
+		this.count = -1;
 		this.eof = false;
 		this.selectedItem = null;
 		this.detailItem = null;
@@ -139,7 +139,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			_this.all = [];
 			_this.selectedItem = null;
 			_this.detailItem = null;
-			_this.count = -2;
+			_this.count = -2; // Ask for the count
 			_this.showResponses = {};
 			_this.loadItems(0,_this.refreshCount,cb);
 		}

@@ -11,7 +11,11 @@
     	<param-name>dwo-auto-deploy-jsonstore</param-name>
     	<param-value>${discdb.domino.auto-deploy-jsonstore=true}</param-value>
     </context-param>
-  	
+	<context-param>
+    	<param-name>dwo-profiler</param-name>
+    	<param-value>${discdb.domino.profiler=false}</param-value>
+    </context-param>
+		
 	<context-param>
     	<param-name>dwo-sync-trace</param-name>
     	<param-value>${discdb.domino.sync-trace=false}</param-value>
@@ -87,69 +91,11 @@
         <filter-name>SBTFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-	
-	<!--  Mapping for the JSON store services -->
-	<servlet-mapping>
-		<servlet-name>JsonStoreservlet</servlet-name>
-		<url-pattern>/jsonstore/*</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<display-name>JSON Store Servlet</display-name>
-		<servlet-name>JsonStoreservlet</servlet-name>
-		<servlet-class>com.darwino.json.store.services.http.JsonStoreServlet</servlet-class>
-		<init-param>
-			<param-name>databases</param-name>
-			<param-value>domdisc</param-value>
-		</init-param>	
-	</servlet>
 
-	<!-- Mapping for the social services -->
-	<servlet-mapping>
-		<servlet-name>SocialServicesServlet</servlet-name>
-		<url-pattern>/social/*</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<display-name>Social Services Servlet</display-name>
-		<servlet-name>SocialServicesServlet</servlet-name>
-		<servlet-class>com.darwino.social.SocialServicesServlet</servlet-class>
-	</servlet>
-		
-	<!--  Mapping for the virtual libraries -->
-	<servlet-mapping>
-		<servlet-name>LibResourcesServlet</servlet-name>
-		<url-pattern>/.darwino-libs/*</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<display-name>Virtual Libraries Resources Servlet</display-name>
-		<servlet-name>LibResourcesServlet</servlet-name>
-		<servlet-class>com.darwino.j2ee.servlet.resources.DarwinoLibResourcesServlet</servlet-class>
-	</servlet>
-
-	<!--  Mapping for disc db resources -->
-	<servlet-mapping>
-		<servlet-name>DiscDbFilesServlet</servlet-name>
-		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<display-name>Default Files Servlet</display-name>
-		<servlet-name>DiscDbFilesServlet</servlet-name>
-		<servlet-class>com.darwino.j2ee.servlet.resources.DarwinoAppResourcesServlet</servlet-class>
-		<init-param>
-			<param-name>welcome-file</param-name>
-			<param-value>/index.html</param-value>
-		</init-param>
-	</servlet>
-		
 	<!--  Filter for creating the JSON store session -->
 	<filter>
     	<filter-name>DiscDbDatabase</filter-name>
     	<filter-class>com.darwino.j2ee.application.DarwinoJ2EEFilter</filter-class>
-    	<!-- 
-    	<init-param>
-        	<param-name>varName</param-name>
-        	<param-value>__newsdatabase_session</param-value>
-    	</init-param>
-    	 -->
 	</filter>
 	<filter-mapping>
     	<filter-name>DiscDbDatabase</filter-name>
@@ -185,7 +131,41 @@
     	<filter-name>DarwinoRewriting</filter-name>
     	<url-pattern>/*</url-pattern>
 	</filter-mapping>
-			
+				
+	<!--  Filter for publishing the Darwino Services -->
+	<filter>
+    	<filter-name>DarwinoServices</filter-name>
+    	<filter-class>com.darwino.j2ee.application.DarwinoJ2EEServiceDispatcherFilter</filter-class>
+	</filter>
+	<filter-mapping>
+    	<filter-name>DarwinoServices</filter-name>
+    	<url-pattern>/*</url-pattern>
+    	<!-- DarwinoRewriting can trigger a forward  -->
+    	<dispatcher>REQUEST</dispatcher>
+    	<dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+	
+	
+	<!--  Mapping for web resources -->
+	<!--  Mapping to /* prevents the <welcome-file-list> to be honored. To work it around, the servlet -->
+	<!--  has an optional welcome-file parameter. -->
+	<!--  The other solution is to map a subpath, like /mobile/* -->
+	<servlet-mapping>
+		<servlet-name>FilesServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+		<!-- <url-pattern>/mobile/*</url-pattern> -->
+	</servlet-mapping>
+	<servlet>
+		<display-name>Default Files Servlet</display-name>
+		<servlet-name>FilesServlet</servlet-name>
+		<servlet-class>com.darwino.j2ee.servlet.resources.DarwinoAppResourcesServlet</servlet-class>
+		<init-param>
+			<param-name>welcome-file</param-name>
+			<param-value>/index.html</param-value>
+		</init-param>
+	</servlet>
+	
+		
 	<!-- Welcome pages -->
   	<welcome-file-list>
     	<welcome-file>index.html</welcome-file>
@@ -217,3 +197,58 @@
 -->
 
 </web-app>
+    
+
+<!-- For reference only, in case you want to use single servlets - Better to use the Darwino services 
+	// Mapping for the JSON store services
+	<servlet-mapping>
+		<servlet-name>JsonStoreservlet</servlet-name>
+		<url-pattern>/jsonstore/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>JSON Store Servlet</display-name>
+		<servlet-name>JsonStoreservlet</servlet-name>
+		<servlet-class>com.darwino.json.store.services.http.JsonStoreServlet</servlet-class>
+		<init-param>
+			<param-name>databases</param-name>
+			<param-value>domdisc</param-value>
+		</init-param>	
+	</servlet>
+
+	// Mapping for the social services
+	<servlet-mapping>
+		<servlet-name>SocialServicesServlet</servlet-name>
+		<url-pattern>/social/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Social Services Servlet</display-name>
+		<servlet-name>SocialServicesServlet</servlet-name>
+		<servlet-class>com.darwino.social.SocialServicesServlet</servlet-class>
+	</servlet>
+		
+	// Mapping for the virtual libraries
+	<servlet-mapping>
+		<servlet-name>LibResourcesServlet</servlet-name>
+		<url-pattern>/.darwino-libs/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Virtual Libraries Resources Servlet</display-name>
+		<servlet-name>LibResourcesServlet</servlet-name>
+		<servlet-class>com.darwino.j2ee.servlet.resources.DarwinoLibResourcesServlet</servlet-class>
+	</servlet>
+
+	// Mapping for disc db resources
+	<servlet-mapping>
+		<servlet-name>DiscDbFilesServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Default Files Servlet</display-name>
+		<servlet-name>DiscDbFilesServlet</servlet-name>
+		<servlet-class>com.darwino.j2ee.servlet.resources.DarwinoAppResourcesServlet</servlet-class>
+		<init-param>
+			<param-name>welcome-file</param-name>
+			<param-value>/index.html</param-value>
+		</init-param>
+	</servlet>
+-->
