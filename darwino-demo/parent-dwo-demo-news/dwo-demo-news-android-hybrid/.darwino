@@ -1,16 +1,3 @@
 {
-  "sync": {
-    "entries": [
-      {
-        "_type": "android-hybrid-activitysettings"
-      },
-      {
-        "x86": true,
-        "_type": "android-native-jsonstore",
-        "armeabi": true,
-        "mips": true,
-        "armeabiv7a": true
-      }
-    ]
-  }
+
 }
