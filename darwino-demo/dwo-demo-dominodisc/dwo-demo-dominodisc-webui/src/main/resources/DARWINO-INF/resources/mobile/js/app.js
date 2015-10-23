@@ -83,7 +83,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		$rootScope.instances = instances;
 		if(instances && instances.length>0) {
 			var inst = storage ? storage.getItem('dwo.domdisc.instance') : null;
-			if(!inst || !arrayIndexOf(instances,inst)) {
+			if(!inst || arrayIndexOf(instances,inst)<0) {
 				inst = instances[0];
 			}
 			$rootScope.context.instance = inst;
