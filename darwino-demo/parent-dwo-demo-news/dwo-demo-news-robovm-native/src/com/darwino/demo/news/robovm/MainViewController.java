@@ -43,12 +43,11 @@ public class MainViewController extends UITableViewController {
 
 	private LinkedList<MenuListItem> menuList = new LinkedList<MenuListItem>();
 
-	private final static String MY_CELL_IDENTIFIER = "MyTableViewCell";
+	private final static String MY_CELL_IDENTIFIER = "MyTableViewCell"; //$NON-NLS-1$
 
-	private class MyTableViewCell extends UITableViewCell {
-		@Override
-		protected long init (UITableViewCellStyle style, String reuseIdentifier) {
-			return super.init(UITableViewCellStyle.Subtitle, reuseIdentifier);
+	public static class MyTableViewCell extends UITableViewCell {
+		public MyTableViewCell(UITableViewCellStyle style, String reuseIdentifier) {
+			super(UITableViewCellStyle.Subtitle, reuseIdentifier);
 		}
 	}
 
@@ -91,8 +90,8 @@ public class MainViewController extends UITableViewController {
 		// Add items to list where they will be retrieved when to display
 		this.newsViewController = new NewsViewController();
 		String[] cat = NewsManifest.getCategoryLabels();
-		for(int i=0; i<cat.length; i++) {
-			menuList.add(new MenuListItem(cat[i]));
+		for (String element : cat) {
+			menuList.add(new MenuListItem(element));
 		}
 
 		createTopbar();

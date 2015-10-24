@@ -44,10 +44,9 @@ public class NewsViewController extends UITableViewController {
 
     private final static String MY_CELL_IDENTIFIER = "MyTableViewCell";
 
-    private class MyTableViewCell extends UITableViewCell {
-        @Override
-        protected long init (UITableViewCellStyle style, String reuseIdentifier) {
-            return super.init(UITableViewCellStyle.Default, reuseIdentifier);
+    public static class MyTableViewCell extends UITableViewCell {
+        public MyTableViewCell(UITableViewCellStyle style, String reuseIdentifier) {
+            super(UITableViewCellStyle.Default, reuseIdentifier);
         }
     }
 
