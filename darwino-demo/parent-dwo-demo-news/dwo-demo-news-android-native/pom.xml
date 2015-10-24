@@ -29,16 +29,11 @@
 			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 		
-<!-- 		<dependency> -->
-<!-- 			<groupId>android</groupId> -->
-<!-- 			<artifactId>support-v4</artifactId> -->
-<!-- 			<version>1.0</version> -->
-<!-- 			<scope>system</scope> -->
-<!-- 			<systemPath>${project.basedir}/libs/android-support-v4.jar</systemPath> -->
-<!-- 		</dependency> -->
-<!-- 
-PHIL: 3/14/2015 This seems to not be needed. Left commented out, in case we want to revert it.
--->	
+		<dependency>
+			<groupId>android</groupId>
+			<artifactId>android</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>android.support</groupId>
 			<artifactId>compatibility-v4</artifactId>
@@ -115,25 +110,4 @@ PHIL: 3/14/2015 This seems to not be needed. Left commented out, in case we want
 			</plugin>
 		</plugins>
 	</build>
-	
-	<!-- Eclipse may attempt to include this in the final result, even if the scope is provided; however, it is
-		still needed for a CLI Maven build. -->
-	<profiles>
-		<profile>
-			<id>non-m2e</id>
-			<activation>
-				<property>
-					<name>!m2e.version</name>
-				</property>
-			</activation>
-			
-			<dependencies>
-				<dependency>
-					<groupId>android</groupId>
-					<artifactId>android</artifactId>
-					<scope>provided</scope>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
 </project>
