@@ -1,75 +1,15 @@
 <beans>
     <!-- ================================================================================================== -->
-    <!-- Database access -->
-    <!-- ================================================================================================== -->
-    <bean type="darwino/jsondb" name="postgresql" class="com.darwino.config.jsonstore.JsonDbJdbc" alias="demo,default">
-    	<property name="db">postgresql</property>    
-    	<property name="user">postgres</property>    
-    	<property name="password">postgres</property>    
-    	<property name="url">jdbc:postgresql://localhost:5434/dwodemo</property>    
-    </bean>
-    <bean type="darwino/jsondb" name="db2" class="com.darwino.config.jsonstore.JsonDbJdbc">
-    	<property name="db">db2</property>    
-    	<property name="url">jdbc:db2://localhost:50000/dwodemo</property>    
-    	<property name="user">db2admin</property>    
-    	<property name="password">passw0rd</property>    
-    </bean>
-
-
-    <!-- ================================================================================================== -->
-    <!-- IBM Connections ENDPOINT -->
-    <!-- ================================================================================================== -->
-    <bean type="ibmsbt/endpoint" name="tglc45" class="com.ibm.sbt.services.endpoints.BasicEndpoint" alias="demo,default">
-        <property name="url">https://tglc45.triloggroup.com/</property>    
-        <property name="forceTrustSSLCertificate">true</property>    
-        <property name="user">amass</property>    
-        <property name="password">floflo</property>    
-    </bean>
-
-
-    <!-- ================================================================================================== -->
-    <!-- HttpTracer -->
-    <!-- ================================================================================================== -->
-    <property name="tr">com.darwino.commons.services.impl.HttpTracerServiceImpl$Tracer</property>
-    <bean type="darwino/httptracer" name="tracer" class="com.darwino.commons.services.impl.HttpTracerServiceImpl" alias="demo,default">
-        <property name="enabled">true</property>
-        <list name="tracers">
-            <bean class='${tr}'>
-                <property name="enabled">true</property>
-                <property name="uri">*</property>    
-<!--                
-                <property name="requestDetails">true</property>
-                <property name="requestHeaders">true</property>
-                <property name="requestContent">128</property>
-                <property name="responseDetails">true</property>
-                <property name="responseHeaders">true</property>
-                <property name="responseContent">128</property>
--->                
-            </bean>
-        </list>
-    </bean>
-
-    <!-- ================================================================================================== -->
-    <!-- Mail server -->
-    <!-- ================================================================================================== -->
-    <bean type="darwino/mail" name="gmail-tls" class="com.darwino.config.mail.MailJava" alias="default">
-        <property name="user">darwinounit1@gmail.com</property>    
-        <property name="password">darwino14</property>    
-        <map name="properties">
-            <entry key='mail.smtp.host'>smtp.gmail.com</entry>
-            <entry key='mail.smtp.starttls.enable'>true</entry>
-            <entry key='mail.smtp.port'>587</entry>
-        </map>    
-    </bean>
-
-    <!-- ================================================================================================== -->
     <!-- Static directory of users users -->
     <!-- ================================================================================================== -->
     <property name="uc">com.darwino.config.user.UserDirStatic$User</property>
     <bean type="darwino/userdir" name="static" class="com.darwino.config.user.UserDirStatic" alias="demo,default">
+        <property name='allowUnknownUsers'>true</property>
         <list name="providers">
-            <bean class='com.darwino.ibm.services.social.connections.IbmConnectionsUserProvider'>
-            </bean>
+<!--            
+            <bean class='com.darwino.ibm.services.social.connections.IbmConnectionsUserProvider'></bean>
+-->            
+            <bean class='com.darwino.social.gravatar.GravatarUserProvider'></bean>
         </list>
         <list name="users">
             <bean class='${uc}'>
