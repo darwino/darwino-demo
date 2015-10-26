@@ -34,7 +34,6 @@ public class IOSNews extends UIApplicationDelegateAdapter {
     public boolean didFinishLaunching (UIApplication application, UIApplicationLaunchOptions launchOptions) {
         try {
         	IOSInstall.init();
-        	Platform.log("SQLITE: "+SQLiteImpl.get().libversion());
         } catch(Exception t) {
         	Platform.log(t);
         }
