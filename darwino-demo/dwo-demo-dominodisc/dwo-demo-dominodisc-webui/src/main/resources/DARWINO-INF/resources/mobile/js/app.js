@@ -287,16 +287,23 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	//
 	// Handling attachment
 	//
-	$scope.openAttachment = function(att) {
-		darwino.hybrid.exec("OpenAttachment",{
-			database:DATABASE_NAME, 
-			store:STORE_NAME,
-			instance:$rootScope.context.instance,
-			unid:entries.detailItem.unid, 
-			name:att.name,
-			file:att.display,
-			mimeType:att.mimeType
-		});
+	// Desktop browsers will use the link normally, but hybrid mobile
+	// apps should use special handling.
+	//
+	$scope.openAttachment = function(thisEvent, att) {
+		if(darwino.hybrid.isHybrid()) {
+			thisEvent.preventDefault();
+			
+			darwino.hybrid.exec("OpenAttachment",{
+				database:DATABASE_NAME, 
+				store:STORE_NAME,
+				instance:$rootScope.context.instance,
+				unid:entries.detailItem.unid, 
+				name:att.name,
+				file:att.display,
+				mimeType:att.mimeType
+			});
+		}
 	}
 
 	//
