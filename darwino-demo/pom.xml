@@ -22,6 +22,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<compiler>1.6</compiler>
 		
 		<robovm.version>1.5.0</robovm.version>
 		
@@ -127,8 +129,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.1</version>
 					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
+						<source>${compiler}</source>
+						<target>${compiler}</target>
 					</configuration>
 				</plugin>
 				<plugin>

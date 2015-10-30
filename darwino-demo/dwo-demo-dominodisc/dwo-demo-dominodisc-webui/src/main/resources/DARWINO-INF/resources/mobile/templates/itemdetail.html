@@ -35,11 +35,11 @@
 <!-- 				
 					<td><a ng-href="{{att.url}}" target="_blank"><span ng-bind="att.display"></span></a></td>
  -->					
-					<td><a href="#" ng-click="openAttachment(att)"><span ng-bind="att.display"></span></a></td>
+					<td><a href="{{att.url}}?instance={{context.instance}}" ng-click="openAttachment($event, att)"><span ng-bind="att.display"></span></a></td>
 					<td><span ng-bind="att.mimeType"></span></td>
 					<td><span ng-bind="att.length"></span></td>
 				</tr>
-			<tbody>
+			</tbody>
 		</table>
 	</p>
 

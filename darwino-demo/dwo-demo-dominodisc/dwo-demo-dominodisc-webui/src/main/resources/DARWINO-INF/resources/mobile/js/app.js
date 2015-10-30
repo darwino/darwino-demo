@@ -25,6 +25,30 @@ darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
 
+//
+// Handling attachment
+//
+// Desktop browsers will use the link normally, but hybrid mobile
+// apps should use special handling.
+// This method is used twice below
+//
+var openAttachmentFunc = function(thisEvent, att, $rootScope, entries) {
+	if(darwino.hybrid.isHybrid()) {
+		thisEvent.preventDefault();
+		console.log(att);
+		
+		darwino.hybrid.exec("OpenAttachment",{
+			database:DATABASE_NAME, 
+			store:STORE_NAME,
+			instance:$rootScope.context.instance,
+			unid:entries.detailItem.unid, 
+			name:att.name,
+			file:att.display,
+			mimeType:att.mimeType
+		});
+	}
+}
+
 angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
 .run(function($rootScope,$location,$state,$http,entries) {
@@ -287,17 +311,9 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	//
 	// Handling attachment
 	//
-	$scope.openAttachment = function(att) {
-		darwino.hybrid.exec("OpenAttachment",{
-			database:DATABASE_NAME, 
-			store:STORE_NAME,
-			instance:$rootScope.context.instance,
-			unid:entries.detailItem.unid, 
-			name:att.name,
-			file:att.display,
-			mimeType:att.mimeType
-		});
-	}
+	$scope.openAttachment = function(thisEvent, att) {
+		openAttachmentFunc(thisEvent, att, $rootScope, entries);
+	};
 
 	//
 	// Search Bar
@@ -322,7 +338,13 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 //
 //	Reader
 //
-.controller('ReadCtrl', ['$scope','$stateParams','$ionicHistory','entries', function($scope,$stateParams,$ionicHistory,entries) {
+.controller('ReadCtrl', ['$scope','$rootScope','$stateParams','$ionicHistory','entries', function($scope,$rootScope,$stateParams,$ionicHistory,entries) {
+	//
+	// Handling attachment
+	//
+	$scope.openAttachment = function(thisEvent, att) {
+		openAttachmentFunc(thisEvent, att, $rootScope, entries);
+	};
 }])
 
 
