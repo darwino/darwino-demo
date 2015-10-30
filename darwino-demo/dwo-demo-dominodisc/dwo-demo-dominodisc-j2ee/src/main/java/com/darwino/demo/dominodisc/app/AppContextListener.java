@@ -12,9 +12,9 @@
 package com.darwino.demo.dominodisc.app;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
 
 import com.darwino.commons.json.JsonException;
+import com.darwino.commons.tasks.TaskProgress;
 import com.darwino.j2ee.application.AbstractDarwinoContextListener;
 import com.darwino.j2ee.application.BackgroundServletSynchronizationExecutor;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
@@ -37,20 +37,20 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 	}
 
 	@Override
-	public void contextInitialized(ServletContextEvent sce) {
-		super.contextInitialized(sce);
+	public void initSync(ServletContext servletContext) throws Exception {
+		super.initSync(servletContext);
 		
-		syncExecutor = new BackgroundServletSynchronizationExecutor(sce.getServletContext());
+		syncExecutor = new BackgroundServletSynchronizationExecutor(servletContext);
 		syncExecutor.putPropertyValue("dwo-sync-database",AppDatabaseDef.DATABASE_NAME);
 		syncExecutor.start();
 	}
 
 	@Override
-	public void contextDestroyed(ServletContextEvent sce) {
+	public void destroyApplication(ServletContext servletContext, TaskProgress progress) throws Exception {
 		if(syncExecutor!=null) {
 			syncExecutor.stop();
 			syncExecutor = null;
 		}
-		super.contextDestroyed(sce);
+		super.destroyApplication(servletContext, progress);
 	}
 }
