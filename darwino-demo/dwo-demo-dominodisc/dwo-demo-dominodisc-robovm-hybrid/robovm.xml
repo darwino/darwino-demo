@@ -22,8 +22,6 @@
         <pattern>com.android.okhttp.HttpHandler</pattern>
         <pattern>java.util.logging.ConsoleHandler</pattern>
         <pattern>java.util.logging.SimpleFormatter</pattern>
-		<!-- Web Views -->
-		<pattern>com.darwino.ios.platform.hybrid.webview.*</pattern>
 		<!-- Library plugins -->
 		<pattern>com.darwino.platform.web.PluginDarwinoWeb</pattern>
     </forceLinkClasses>
