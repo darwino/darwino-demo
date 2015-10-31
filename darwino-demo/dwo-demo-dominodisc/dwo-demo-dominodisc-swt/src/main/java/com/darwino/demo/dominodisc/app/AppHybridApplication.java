@@ -14,7 +14,6 @@ package com.darwino.demo.dominodisc.app;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.log.Logger;
 import com.darwino.commons.services.HttpServerContext;
-import com.darwino.jsonstore.sql.impl.sqlite.SqliteDatabaseCustomizer;
 import com.darwino.mobile.hybrid.platform.DarwinoHttpServer;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.MobileLogger;
@@ -42,34 +41,6 @@ public class AppHybridApplication extends DarwinoSwtHybridApplication {
 		//MobileLogger.HYBRID_HTTPD.setLogLevel(LogMgr.LOG_INFO_LEVEL);
 		MobileLogger.DBSYNC.setLogLevel(Logger.LOG_DEBUG_LEVEL);
 		//SocialLogger.DBCACHE.setLogLevel(LogMgr.LOG_DEBUG_LEVEL);
-	}
-
-	@Override
-	public boolean hasCapability(String name) {
-		if(CAPABILITY_LOCALSERVICESCACHE.equals(name)) {
-			return true;
-		}
-		return super.hasCapability(name);
-	}
-
-/*
- * Uncomment if you want to initialize the default settings
-	@Override
-	protected DarwinoMobileSettings createSettings() throws JsonException {
-		// Should be shared by Android & iOS
-		return new DarwinoMobileSettings() {
-			@Override
-			public void initDefault(DarwinoManifest mf) {
-				super.initDefault(mf);
-				this.syncStorageDuration = "3n"; // 3 months
-			}
-		};
-	}
-*/	
-
-	@Override
-	protected SqliteDatabaseCustomizer findDatabaseCustomizer(String dbName) throws JsonException {
-		return new AppDatabaseCustomizer();
 	}
 
 	@Override

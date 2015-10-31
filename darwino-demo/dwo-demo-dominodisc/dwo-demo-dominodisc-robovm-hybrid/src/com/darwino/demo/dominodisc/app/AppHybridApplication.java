@@ -15,7 +15,6 @@ package com.darwino.demo.dominodisc.app;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.services.HttpServerContext;
 import com.darwino.ios.platform.hybrid.DarwinoIOSHybridApplication;
-import com.darwino.jsonstore.sql.impl.sqlite.SqliteDatabaseCustomizer;
 import com.darwino.mobile.hybrid.platform.DarwinoHttpServer;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
@@ -41,11 +40,6 @@ public class AppHybridApplication extends DarwinoIOSHybridApplication {
 	
 	public AppHybridApplication(DarwinoManifest manifest) {
 		super(manifest);
-	}
-
-	@Override
-	protected SqliteDatabaseCustomizer findDatabaseCustomizer(String dbName) throws JsonException {
-		return new AppDatabaseCustomizer();
 	}
 
 	@Override
