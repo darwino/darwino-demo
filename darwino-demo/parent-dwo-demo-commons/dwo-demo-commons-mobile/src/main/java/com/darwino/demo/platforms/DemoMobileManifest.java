@@ -24,6 +24,7 @@ import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.demo.config.DemoConfiguration;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
+import com.darwino.mobile.platform.DarwinoMobileSettings.Connection;
 
 
 /**
@@ -41,7 +42,7 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 	
 	@Override
 	public Connection[] getPredefinedConnections() {
-		ArrayList<Connection> conn = new ArrayList<DarwinoMobileManifest.Connection>();
+		ArrayList<Connection> conn = new ArrayList<Connection>();
 		
 		try {
 			InputStream is = DemoConfiguration.loadResource("/predefined_connections.json", "/predefined_connections_default.json");
