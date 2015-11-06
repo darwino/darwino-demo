@@ -276,7 +276,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				}
 				
 				for(var i=0; i<_this.all.length; i++) {
-					darwino.log.d(LOG_GROUP,"Check DiscDB entry="+_this.all[i].unid+", "+entry.unid);
+					darwino.log.d(LOG_GROUP,"Check DB entry="+_this.all[i].unid+", "+entry.unid);
 					if(_this.all[i].unid==entry.unid) {
 						_this.all[i] = entry;
 						_this.selectItem(entry);

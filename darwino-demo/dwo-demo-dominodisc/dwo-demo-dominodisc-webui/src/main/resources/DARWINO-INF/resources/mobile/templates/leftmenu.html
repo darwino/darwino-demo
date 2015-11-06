@@ -11,7 +11,7 @@
 	</ion-side-menu-content> 
 
 	<ion-side-menu side="left" expose-aside-when="(min-width:1280px)" class="left-side-menu">
-		<ion-header-bar class="expanded bar bar-header disable-user-behavior" ng-click="go('/disc/user/'+userService.getCurrentUser().getDn())">
+		<ion-header-bar class="expanded bar bar-header disable-user-behavior" ng-click="go('/app/user/'+userService.getCurrentUser().getDn())">
 			<!-- <img class="avatar item-maxiavatar motion spin fade" ng-src="{{userService.getUserPhotoUrl('@me')}}" alt="Photo"/>  -->
 			<img class="avatar item-maxiavatar" ng-src="{{userService.getUserPhotoUrl('@me')}}" alt="Photo"/>
 			<div class="menu-bottom">
@@ -22,13 +22,13 @@
 		<ion-content class="has-expanded-header scroll-content ionic-scroll has-header">
 			<br/>
 			<ul class="list animate-rip">
-				<a href="#/disc/home" class="item item-icon-left {{isState('disc.home')?'item-selected':''}}" menu-close>
+				<a href="#/app/home" class="item item-icon-left {{isState('app.home')?'item-selected':''}}" menu-close>
 					<i class="icon ion-ios-home"></i>
 					Home
 				</a>
 			</ul>
 			<ul class="list animate-rip">
-				<a href="#/disc/bydate" class="item item-icon-left {{isState('disc.byDate')?'item-selected':''}}" menu-close>
+				<a href="#/app/bydate" class="item item-icon-left {{isState('app.byDate')?'item-selected':''}}" menu-close>
 					<i class="icon ion-calendar"></i>
 					By Date
 					<span class='count'>&nbsp;&nbsp;{{entries.getEntriesCount()}}</span>

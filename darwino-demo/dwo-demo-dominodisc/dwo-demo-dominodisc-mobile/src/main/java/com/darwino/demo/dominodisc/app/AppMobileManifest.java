@@ -37,5 +37,16 @@ public class AppMobileManifest extends DarwinoMobileManifest {
 	public SqliteDatabaseCustomizer findDatabaseCustomizer(String dbName) throws JsonException {
 		return new AppDatabaseCustomizer();
 	}
-	
+
+	@Override
+	public String[] getReplicationInstances() {
+		return new String[] {
+			"nd6forum.nsf",
+			"nd85forum.nsf",
+			"nd8forum.nsf",
+			"ndseforum.nsf",
+			"xpagesforum.nsf",
+			"lcforum.nsf"
+		};
+	}
 }

@@ -6,7 +6,7 @@
 	
 	<div class="item item-avatar item-icon-right">
 		<img ng-src="{{entries.getPhoto(entries.detailItem)}}" alt="Photo" 
-				ng-click="go('/disc/user/'+entries.getUserDn(entries.detailItem))" 
+				ng-click="go('/app/user/'+entries.getUserDn(entries.detailItem))" 
 				onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
 		<div ng-click="entries.selectItem(entries.detailItem)" style="width:100%">
 			<h3 ng-bind-template="{{entries.getUser(entries.detailItem).getCn()}}, {{entries.detailItem.cdate|formattedDate}}"></h3>
@@ -48,7 +48,7 @@
 	<div ng-repeat="comment in entries.detailItem.children">
 		<div class="item item-avatar item-icon-right">
 			<img ng-src="{{entries.getPhoto(comment)}}" alt="Photo" 
-					ng-click="go('/disc/user/'+entries.getUserDn(comment))" 
+					ng-click="go('/app/user/'+entries.getUserDn(comment))" 
 					onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
 			<div ng-click="entries.selectItem(comment)" style="width:100%">
 				<h2 ng-bind="comment.value.subject"></h2>

@@ -32,8 +32,6 @@ import org.robovm.rt.bro.annotation.MachineSizedSInt;
 import com.darwino.application.jsonstore.NewsManifest;
 import com.darwino.commons.Platform;
 import com.darwino.jsonstore.replication.ConsoleReplicationProgress;
-import com.darwino.jsonstore.replication.ReplicationGroup;
-import com.darwino.jsonstore.replication.ReplicationOptions;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 
 /**
@@ -132,15 +130,7 @@ public class MainViewController extends UITableViewController {
 				Platform.log("SYNC DATA");
 				try {
 					DarwinoMobileApplication app = DarwinoMobileApplication.get();
-					ReplicationGroup group = app.getSynchronizationGroup();
-					if(group!=null) {
-						int sz = group.size();
-						for(int i=0; i<sz; i++) {
-							ReplicationOptions options = new ReplicationOptions(group.getProfile(i));
-							options.setReplicationProgress(new ConsoleReplicationProgress());
-							app.synchronize(group.getDatabase(i), options);
-						}
-					}
+					app.synchronize(new ConsoleReplicationProgress());
 				} catch(Exception t) {
 					Platform.log(t);
 				}

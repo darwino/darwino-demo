@@ -1,15 +1,15 @@
 <ion-view view-title="By Date">
 
 	<button ng-hide="isReadOnly()" class="button button-positive button-fab button-fab-bottom-right" id="fab" ng-click="entries.newPost()">
-       	<i class="icon ion-android-create"></i>
-   	</button>
-
+	    <i class="icon ion-android-create"></i>
+	</button>
+	
 	<ion-nav-buttons side="right">
 		<div class="item-input-inset" ng-show="searchMode==1">
-  			<label class="item-input-wrapper">
-  				<i class="icon ion-android-search placeholder-icon"></i>
+	 			<label class="item-input-wrapper">
+	 				<i class="icon ion-android-search placeholder-icon"></i>
 				<input type="text" placeholder="Search..." ng-model="entries.ftSearch" class="search-bar-input" ng-change="executeSearch()">
-  			</label>
+	 			</label>
 			<button class="button-clear button-icon ion-close" ng-click="cancelSearch()">
 			</button>
 		</div>
@@ -20,40 +20,18 @@
 		</button>	
 	</ion-nav-buttons>
 
- 	<div class="row" if-media="large" style="height:100%">
+ 	<div class="row" ng-if="isDualPane()">
 		<ion-content class="list-content col col-33">
-			<ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
 			<ng-include src="'templates/itemlist.html'"></ng-include>
-			<ion-infinite-scroll ng-if="infiniteScroll && hasMore()" on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
      	</ion-content>
 		<div class="col col-offset-33 col-67">
 			<div ng-include src="'templates/itemdetail.html'"></div>
      	</div>
 	</div>
 
- 	<div if-not-media="large">
+ 	<div ng-if="!isDualPane()">
 		<ion-content class="list-content">
-			<ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-			<ion-list class='list-entries'>
-				<ion-item ng-repeat="item in entries.all" class="list-item item-list-entries">
-					<div class="{{item==entries.selectedItem?'selected':''}}">
-						<div class="item-avatar item-icon-right item-list-header {{item.read?'item-read':'item-unread'}}">
-							<img ng-src="{{entries.getPhoto(item)}}" alt="Photo" 
-									ng-click="go('/disc/user/'+entries.getUserDn(item))" 
-									onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
-							<div ng-click="entries.selectItem(item); go('/disc/readpost')" style="width:100%">
-								<h2 ng-bind="item.value.subject"></h2>
-								<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
-								<h4 ng-bind="item.value.abstract"></h4>
-							</div>
-						</div>
-					</div>
-				</ion-item>
-			<ion-item ng-if="hasMoreButton()">
-				<button class="button button-clear button-block button-positive" ng-click="loadMore()">Load More...</button>
-			</ion-item>
-			</ion-list>
-			<ion-infinite-scroll ng-if="infiniteScroll &&hasMore()" on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
+			<ng-include src="'templates/itemlist.html'"></ng-include>
    		</ion-content>
 	</div>
 	

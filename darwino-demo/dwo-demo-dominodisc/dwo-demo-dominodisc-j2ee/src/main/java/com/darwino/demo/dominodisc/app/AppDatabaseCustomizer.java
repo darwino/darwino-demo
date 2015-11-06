@@ -52,7 +52,7 @@ public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 		if(existingVersion==1) {
 			if(getDBDriver().getDatabaseType()==DBDriver.DbType.POSTGRESQL) {
 				statements.add(StringUtil.format(
-					"DROP INDEX {0}", getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 1))
+					"DROP INDEX {0}", getFullIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 1))
 				);
 			}
 		}

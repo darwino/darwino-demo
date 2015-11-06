@@ -19,11 +19,12 @@ var session = jstore.createRemoteApplication(jstore_baseUrl).createSession();
 var userService = services.createUserService(social_baseUrl+"/users");
 
 // Enable some logging
-var LOG_GROUP = "discdb.web";
+var LOG_GROUP = "app.web";
 darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
 var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
+var INSTANCE_PROP = "dwo.domdisc.instance";
 
 //
 // Handling attachment
@@ -49,9 +50,9 @@ var openAttachmentFunc = function(thisEvent, att, $rootScope, entries) {
 	}
 }
 
-angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
+angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
-.run(function($rootScope,$location,$state,$http,entries) {
+.run(function($rootScope,$location,$state,$http,$window,entries) {
 	// Storage utilities
 	function storage() {
 		try {
@@ -87,11 +88,10 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$rootScope.instanceChanged = function() {
 		var inst = $rootScope.context.instance;
 		if(storage) {
-			storage.setItem('dwo.domdisc.instance',inst);
+			storage.setItem(INSTANCE_PROP,inst);
 		}
 		$rootScope.reset();
 	}
-
 	$rootScope.reset = function() {
 		var inst = $rootScope.context.instance;
 		entries.setInstance(inst);
@@ -102,11 +102,18 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 			$rootScope.apply();
 		});
 	}
+
+	$rootScope.isDualPane = function() {
+		if($window.matchMedia("(min-width:768px)").matches) {
+			return true;
+		}
+		return false
+	}
 	
 	session.getDatabaseInstances(DATABASE_NAME).then(function(instances) {
 		$rootScope.instances = instances;
 		if(instances && instances.length>0) {
-			var inst = storage ? storage.getItem('dwo.domdisc.instance') : null;
+			var inst = storage ? storage.getItem(INSTANCE_PROP) : null;
 			if(!inst || arrayIndexOf(instances,inst)<0) {
 				inst = instances[0];
 			}
@@ -132,7 +139,12 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	$rootScope.isFtEnabled = function() {
 		return $rootScope.nsfdata && $rootScope.nsfdata.isFtSearchEnabled();
 	};
-	$rootScope.go = function(path) {
+	$rootScope.go = function(path,monoPaneOnly) {
+		if(monoPaneOnly) {
+			if($rootScope.isDualPane()) {
+				return;
+			}
+		}
 		$location.path(path);
 	};
 	$rootScope.apply = function() {
@@ -140,7 +152,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 	};
 	
 	$rootScope.displayUser = function(dn) {
-        $state.go('disc.user',{userdn:dn});
+        $state.go('app.user',{userdn:dn});
     }	
 	
 	$rootScope.isState = function(state) {
@@ -165,18 +177,18 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 //		$ionicConfigProvider.scrolling.jsScrolling(false);
 //	}
 	
-	$stateProvider.state('disc', {
-		url : "/disc",
+	$stateProvider.state('app', {
+		url : "/app",
 		abstract : true,
-		templateUrl : "templates/discdb.html"
-	}).state('disc.home', {
+		templateUrl : "templates/leftmenu.html"
+	}).state('app.home', {
 		url : "/home",
 		views : {
 			'menuContent' : {
 				templateUrl : "templates/home.html"
 			}
 		}
-	}).state('disc.byDate', {
+	}).state('app.byDate', {
 		url : "/bydate",
 		views : {
 			'menuContent' : {
@@ -184,7 +196,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 				controller : "ByDateCtrl"
 			}
 		}
-	}).state('disc.readpost', {
+	}).state('app.readpost', {
 		url : "/readpost",
 		views : {
 			'menuContent' : {
@@ -192,7 +204,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 				controller : "ReadCtrl"
 			}
 		}
-	}).state('disc.editpost', {
+	}).state('app.editpost', {
 		url : "/editpost/:id",
 		views : {
 			'menuContent' : {
@@ -200,7 +212,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 				controller : "EditCtrl"
 			}
 		}
-	}).state('disc.user', {
+	}).state('app.user', {
 		url : "/user/:userdn",
 		views : {
 			'menuContent' : {
@@ -210,7 +222,7 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		}
 	});
 
-	$urlRouterProvider.otherwise("/disc/bydate");
+	$urlRouterProvider.otherwise("/app/bydate");
 })
 
 .controller('MainCtrl', function($scope) {
@@ -251,17 +263,17 @@ angular.module('discDb', [ 'ngSanitize','ionic', 'darwino.ionic', 'darwino.angul
 		return darwino.services.User.ANONYMOUS_PHOTO;
 	}
 	entries.newPost = function() {
-		$rootScope.go('/disc/editpost/new');
+		$rootScope.go('/app/editpost/new');
 	}
 	entries.editEntry = function(item) {
 		var item = item || entries.detailItem;
 		if(!item) return;
-		$rootScope.go('/disc/editpost/id:'+item.unid);
+		$rootScope.go('/app/editpost/id:'+item.unid);
 	}
 	entries.newResponse = function(item) {
 		var item = item || entries.detailItem;
 		if(!item) return;
-		$rootScope.go('/disc/editpost/pid:'+item.unid);
+		$rootScope.go('/app/editpost/pid:'+item.unid);
 	}
 	entries.deleteEntry = function(item) {
 		var item = item || entries.detailItem;
