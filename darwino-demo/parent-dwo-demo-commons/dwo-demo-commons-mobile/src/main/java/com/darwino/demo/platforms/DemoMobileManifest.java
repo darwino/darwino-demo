@@ -88,6 +88,7 @@ public class DemoMobileManifest extends DarwinoMobileManifest {
 							connection.setUserPassword(entry.getString("password"));
 							connection.setDn(dn);
 							connection.setCn(entry.getString("cn"));
+							connection.setProperties(entry.getObject("properties"));
 							conn.add(connection);
 						}
 					}

@@ -11,7 +11,10 @@
 
 package com.darwino.demo.dominodisc.app;
 
+import com.darwino.commons.platform.ManagedBeansService;
 import com.darwino.j2ee.application.DarwinoJ2EEManifest;
+import com.darwino.jsonstore.sql.impl.full.JdbcDatabaseCustomizer;
+import com.darwino.sql.drivers.DBDriver;
 
 /**
  * J2EE Application Manifest.
@@ -21,5 +24,31 @@ import com.darwino.j2ee.application.DarwinoJ2EEManifest;
 public class AppJ2EEManifest extends DarwinoJ2EEManifest {
 	
 	public AppJ2EEManifest() {
+	}
+
+	/**
+	 * Bean aliases.
+	 */
+	@Override
+	public String[] getConfigurationBeanNames() {
+		return new String[] {"discdb",ManagedBeansService.LOCAL_NAME,ManagedBeansService.DEFAULT_NAME};
+	}
+	
+	/**
+	 * Database customizer.
+	 */
+	@Override
+	public JdbcDatabaseCustomizer findDatabaseCustomizerFactory(DBDriver driver, String dbName) {
+		return new AppDatabaseCustomizer(driver); 
+	}
+	
+	/**
+	 * Properties to push down to the device
+	 */
+	@Override
+	protected String[] getMobilePushedPropertyKeys() {
+		return new String[] {
+			"discdb.instances"
+		};
 	}
 }

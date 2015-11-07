@@ -50,7 +50,7 @@
 	<servlet>
 		<display-name>JSON Store Servlet</display-name>
 		<servlet-name>JsonStoreservlet</servlet-name>
-		<servlet-class>com.darwino.json.store.services.http.JsonStoreServlet</servlet-class>
+		<servlet-class>com.darwino.j2ee.servlet.jstore.JsonStoreServlet</servlet-class>
 	</servlet>
 
 	<!-- Mapping for the social services -->
