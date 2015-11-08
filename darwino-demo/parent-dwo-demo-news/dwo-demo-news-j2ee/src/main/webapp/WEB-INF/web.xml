@@ -53,17 +53,28 @@
 		<servlet-class>com.darwino.j2ee.servlet.jstore.JsonStoreServlet</servlet-class>
 	</servlet>
 
+	<!-- Mapping for the mobile services -->
+	<servlet-mapping>
+		<servlet-name>MobileServicesServlet</servlet-name>
+		<url-pattern>/.darwino-mobile/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<display-name>Mobile Services Servlet</display-name>
+		<servlet-name>MobileServicesServlet</servlet-name>
+		<servlet-class>com.darwino.j2ee.servlet.mobile.MobileServicesServlet</servlet-class>
+	</servlet>
+
 	<!-- Mapping for the social services -->
 	<servlet-mapping>
 		<servlet-name>SocialServicesServlet</servlet-name>
-		<url-pattern>/social/*</url-pattern>
+		<url-pattern>/.darwino-social/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<display-name>Social Services Servlet</display-name>
 		<servlet-name>SocialServicesServlet</servlet-name>
 		<servlet-class>com.darwino.social.SocialServicesServlet</servlet-class>
 	</servlet>
-    	
+		
 	<!-- Mapping for the virtual libraries -->
 	<servlet-mapping>
 		<servlet-name>LibResourcesServlet</servlet-name>
