@@ -3,6 +3,8 @@ bin/
 .settings/
 .project
 .classpath
+.factorypath
+/apt_generated/
 
 # Mac
 .DS_Store
