@@ -114,7 +114,7 @@
 	</filter>
 	<filter-mapping>
     	<filter-name>Cors</filter-name>
-    	<url-pattern>/jsonstore/*</url-pattern>
+    	<url-pattern>/.darwino-jstore/*</url-pattern>
     	<dispatcher>REQUEST</dispatcher>
     	<dispatcher>FORWARD</dispatcher>
     </filter-mapping>

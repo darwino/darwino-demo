@@ -45,7 +45,7 @@
 	<!-- Mapping for the JSON store services -->
 	<servlet-mapping>
 		<servlet-name>JsonStoreservlet</servlet-name>
-		<url-pattern>/jsonstore/*</url-pattern>
+		<url-pattern>/.darwino-jstore/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<display-name>JSON Store Servlet</display-name>
@@ -138,7 +138,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>NewsDatabaseCors</filter-name>
-		<url-pattern>/jsonstore/*</url-pattern>
+		<url-pattern>/.darwino-jstore/*</url-pattern>
 	</filter-mapping>
 
 
