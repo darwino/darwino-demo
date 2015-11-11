@@ -171,12 +171,6 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
-    // Enable native scrolls for Android platform only,
-    // as you see, we're disabling jsScrolling to achieve this.
-//	if(ionic.Platform.isAndroid()) {
-//		$ionicConfigProvider.scrolling.jsScrolling(false);
-//	}
-	
 	$stateProvider.state('app', {
 		url : "/app",
 		abstract : true,
@@ -188,12 +182,12 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				templateUrl : "templates/home.html"
 			}
 		}
-	}).state('app.byDate', {
-		url : "/bydate",
+	}).state('app.mainview', {
+		url : "/mainview",
 		views : {
 			'menuContent' : {
-				templateUrl : "templates/bydate.html",
-				controller : "ByDateCtrl"
+				templateUrl : "templates/mainview.html",
+				controller : "MainViewCtrl"
 			}
 		}
 	}).state('app.readpost', {
@@ -222,24 +216,24 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		}
 	});
 
-	$urlRouterProvider.otherwise("/app/bydate");
+	$urlRouterProvider.otherwise("/app/mainview");
 })
 
 .controller('MainCtrl', function($scope) {
 })
 
 // This is currently a service as the left menu needs access to the count
-// let's think about a better architecture here
 .service('entries', function($rootScope,$http,$timeout,$jstore,$ionicPopup) {
-	// Should this me moved to an initialization servie??
+	// Should this me moved to an initialization service?
 	// Use an object because of prototypical inheritance
 	// http://stackoverflow.com/questions/15305900/angularjs-ng-model-input-type-number-to-rootscope-not-updating
 	$rootScope.context = {
-		instance: "", 		// default instance
-		view:     "byDate"  // View
+		instance: 	"", 		// default instance
+		view:     	"MainView"  // View
 	}
 	
 	var entries = $jstore.createItemList(session,DATABASE_NAME,STORE_NAME,$rootScope.context.instance)
+	entries.orderBy = "_cdate desc";
 	
 	// Specific methods
 	entries.getUserDn = function(item) {
@@ -292,9 +286,9 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 })
 
 //
-//	By Date
+//	Main View
 //
-.controller('ByDateCtrl', ['$scope','$rootScope','$http','$ionicModal','entries', function($scope,$rootScope,$http,$ionicModal,entries) {
+.controller('MainViewCtrl', ['$scope','$rootScope','$http','$ionicModal','entries', function($scope,$rootScope,$http,$ionicModal,entries) {
 	//
 	//
 	//
@@ -307,16 +301,12 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	$scope.loadMore = function() {
 		entries.loadMore( function() {
 			$scope.$broadcast('scroll.infiniteScrollComplete');
-			console.log('scroll.infiniteScrollComplete!');
-			//$scope.$broadcast('scroll.resize');
 		});
 	}
 	$scope.refresh = function() {
 		entries.refresh( 0, function() {
 			darwino.hybrid.setDirty(false);
 			$scope.$broadcast('scroll.refreshComplete');
-			//$scope.$broadcast('scroll.infiniteScrollComplete');
-			console.log('scroll.refreshComplete!');
 		});
 	}
 	

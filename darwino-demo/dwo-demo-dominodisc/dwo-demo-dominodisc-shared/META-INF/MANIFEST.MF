@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: dwo-demo-dominodisc-shared
 Bundle-SymbolicName: com.darwino.demo.dominodisc.dwo-demo-dominodisc-sha
  red
-Bundle-Version: 0.0.1.201511090115
+Bundle-Version: 0.0.1.201511111548
 DARWINO_VERSION: 0.8.0-SNAPSHOT
 Export-Package: com.darwino.demo.dominodisc.app;version="0.0.1"
 Originally-Created-By: Maven Integration for Eclipse
