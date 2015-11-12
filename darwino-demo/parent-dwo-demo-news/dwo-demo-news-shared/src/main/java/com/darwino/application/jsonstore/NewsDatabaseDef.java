@@ -39,7 +39,7 @@ public class NewsDatabaseDef extends DatabaseFactoryImpl {
 	
 	@Override
 	public _Database loadDatabase(String databaseName) throws JsonException {
-		if(!StringUtil.equals(databaseName, DATABASE_NEWS)) {
+		if(!StringUtil.equalsIgnoreCase(databaseName, DATABASE_NEWS)) {
 			return null;
 		}
 		_Database db = new _Database(DATABASE_NEWS, "News Database", DATABASE_VERSION);

@@ -46,7 +46,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 	
 	@Override
 	public _Database loadDatabase(String databaseName) throws JsonException {
-		if(!StringUtil.equals(databaseName, DATABASE_NAME)) {
+		if(!StringUtil.equalsIgnoreCase(databaseName, DATABASE_NAME)) {
 			return null;
 		}
 		_Database db = new _Database(DATABASE_NAME, "Playground Database", DATABASE_VERSION);
