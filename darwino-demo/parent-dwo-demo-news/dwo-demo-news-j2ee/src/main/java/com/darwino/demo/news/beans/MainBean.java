@@ -95,7 +95,7 @@ public class MainBean implements Serializable {
 		    		HttpServletRequest req = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		    		String reqUrl = HttpUtil.getContextUrl(req);
 					//final UrlBuilder ub = DatabaseSession.get().getUrlBuilder();
-					final UrlBuilder ub = new UrlBuilderImpl(PathUtil.concat(reqUrl,"jsonstore",'/'));
+					final UrlBuilder ub = new UrlBuilderImpl(PathUtil.concat(reqUrl,"$darwino-jstore",'/'));
 			    	Cursor cursor = DatabaseSession.get().getDatabase(NewsDatabaseDef.DATABASE_NEWS)
 			    			.getStore(NewsDatabaseDef.STORE_NEWS)
 			    			.getIndex(getIndexName())

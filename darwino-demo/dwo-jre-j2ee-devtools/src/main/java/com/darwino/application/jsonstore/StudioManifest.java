@@ -12,6 +12,7 @@
 package com.darwino.application.jsonstore;
 
 import com.darwino.commons.json.JsonException;
+import com.darwino.commons.util.StringArray;
 import com.darwino.jsonstore.Session;
 import com.darwino.platform.DarwinoContext;
 import com.darwino.platform.DarwinoManifest;
@@ -29,6 +30,14 @@ public class StudioManifest extends DarwinoManifest {
 
 	
 	public StudioManifest() {
+	}
+	
+	/**
+	 * No database being returned = all databases can be accessed this way.
+	 */
+	@Override
+	public String[] getDatabases() {
+		return null;
 	}
 	
 	@Override

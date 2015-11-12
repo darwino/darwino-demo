@@ -12,7 +12,7 @@
 var services = angular.module('wReader.services', ['ngSanitize']);
 
 var jstore = darwino.jstore;
-var jstore_baseUrl = "$root/jsonstore";
+var jstore_baseUrl = "$darwino-jstore";
 
 var session = jstore.createRemoteApplication(jstore_baseUrl).createSession();
 

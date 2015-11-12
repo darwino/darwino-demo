@@ -30,7 +30,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.baseUrl = session.getHttpStoreClient().getHttpClient().getBaseUrl();
 		this.databaseId = databaseId;
 		this.storeId = storeId;
+		this.indexId = null;
 		this.instanceId = instanceId;
+		this.orderBy = null;
 		this.state = 0;
 		this.all = [];
 		this.count = -1;
@@ -59,7 +61,11 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		return darwino.Utils.concatPath(this.baseUrl,"/databases/")+encodeURIComponent(this.databaseId);
 	}
 	ItemList.prototype._storeUrl = function(u) {
-		return this._databaseUrl()+"/stores/"+encodeURIComponent(this.storeId);
+		var url = this._databaseUrl()+"/stores/"+encodeURIComponent(this.storeId);
+		if(this.indexId) {
+			url += "/indexes/"+encodeURIComponent(this.indexId);
+		}
+		return url;
 	}
 
 	ItemList.prototype.isLoading = function() {
@@ -185,9 +191,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
 		if(this.ftSearch) {
 			url += "&ftsearch="+encodeURIComponent(this.ftSearch);
-			//url += '&orderby=_ftRank'
-		} else {
-			url += '&orderby=_cdate desc'
+			url += '&orderby=_ftRank'
+		} else if(this.orderBy) {
+			url += '&orderby='+encodeURIComponent(this.orderBy);
 		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
@@ -230,9 +236,11 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		var url = this._storeUrl()+'/entries'
 				+'?unid='+unid
 				+'&hierarchical=99'
-				+'&orderby=_cdate desc'
 				+'&jsontree=true'
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+		if(this.orderBy) {
+			url += '&orderby=' + encodeURIComponent(this.orderBy);
+		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
 		}
@@ -258,9 +266,11 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		var url = this._storeUrl()+'/entries'
 				+'?unid='+item.unid
 				+'&hierarchical=99'
-				+'&orderby=_cdate desc'
 				+'&jsontree=true'
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+		if(this.orderBy) {
+			url += '&orderby=' + encodeURIComponent(this.orderBy);
+		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
 		}
