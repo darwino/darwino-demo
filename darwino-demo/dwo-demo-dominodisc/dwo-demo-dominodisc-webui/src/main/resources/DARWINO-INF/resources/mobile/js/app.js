@@ -36,7 +36,6 @@ var INSTANCE_PROP = "dwo.domdisc.instance";
 var openAttachmentFunc = function(thisEvent, att, $rootScope, entries) {
 	if(darwino.hybrid.isHybrid()) {
 		thisEvent.preventDefault();
-		console.log(att);
 		
 		darwino.hybrid.exec("OpenAttachment",{
 			database:DATABASE_NAME, 
