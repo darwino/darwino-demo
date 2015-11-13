@@ -11,6 +11,9 @@
 
 package com.darwino.playground.domino;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.darwino.domino.application.DarwinoDominoManifest;
 
 /**
@@ -21,5 +24,13 @@ import com.darwino.domino.application.DarwinoDominoManifest;
 public class AppDominoManifest extends DarwinoDominoManifest {
 	
 	public AppDominoManifest() {
+	}
+	
+	@Override
+	public Map<String,String> getMobilePushedProperties() {
+		HashMap<String, String> p = new HashMap<String, String>();
+		p.put("darwino.playground.example1", "ExampleValueI");
+		p.put("darwino.playground.example2", "ExampleValueII");
+		return p;
 	}
 }
