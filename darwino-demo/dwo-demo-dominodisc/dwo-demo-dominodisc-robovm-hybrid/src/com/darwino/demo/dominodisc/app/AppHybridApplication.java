@@ -17,7 +17,6 @@ import com.darwino.commons.services.HttpServerContext;
 import com.darwino.ios.platform.hybrid.DarwinoIOSHybridApplication;
 import com.darwino.mobile.hybrid.platform.DarwinoHttpServer;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
-import com.darwino.mobile.platform.DarwinoMobileManifest;
 import com.darwino.platform.DarwinoManifest;
 
 
@@ -32,7 +31,7 @@ public class AppHybridApplication extends DarwinoIOSHybridApplication {
 	public static AppHybridApplication create() throws JsonException {
 		if(!DarwinoMobileApplication.isInitialized()) {
 			AppHybridApplication app = new AppHybridApplication(
-					new AppManifest(new DarwinoMobileManifest(AppManifest.MOBILE_PATHINFO)));
+					new AppManifest(new AppMobileManifest(AppManifest.MOBILE_PATHINFO)));
 			app.init();
 		}
 		return (AppHybridApplication)AppHybridApplication.get();
