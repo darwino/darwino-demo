@@ -69,8 +69,6 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 			_Store store = db.addStore(STORE_CONFIG);
 			store.setLabel(STORE_CONFIG_LABEL);
 			store.setFtSearchEnabled(true);
-			_FtSearch ft = store.setFTSearch(new _FtSearch());
-			ft.setFields("$"); //$NON-NLS-1$
 			
 			store.addQueryField("form", JsonUtil.TYPE_STRING, false); //$NON-NLS-1$
 		}
