@@ -86,7 +86,7 @@ public class NewsManifest extends DarwinoManifest {
 	}
 	
 	@Override
-	public DatabaseFactory getDatabaseFactory(String dbName) {
+	public DatabaseFactory getDatabaseFactory() {
 		return new NewsDatabaseDef();
 	}
 }

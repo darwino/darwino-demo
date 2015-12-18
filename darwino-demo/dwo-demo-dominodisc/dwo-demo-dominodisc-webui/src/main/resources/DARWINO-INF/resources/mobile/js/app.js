@@ -117,8 +117,8 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				inst = instances[0];
 			}
 			$rootScope.context.instance = inst;
-			$rootScope.instanceChanged();
 		}
+		$rootScope.instanceChanged();
 	});
 	
 	
@@ -356,6 +356,9 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	var id = $stateParams.id;
 	$scope.doc = null;
 	$scope.json = null;
+	if($scope.database) {
+		
+	}
 	$scope.dbPromise.then(function() {
 		if(id && darwino.Utils.startsWith(id,'id:')) {
 			return $scope.nsfdata.loadDocument(id.substring(3));

@@ -39,8 +39,14 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 	public static final String STORE_TEMPDOC2 = "temp2";
 	public static final String STORE_TEMPSOC  = "tempsocial";
 
+	public AppDatabaseDef() {
+	}
+	
 	@Override
 	public int getDatabaseVersion(String databaseName) throws JsonException {
+		if(!StringUtil.equalsIgnoreCase(databaseName, DATABASE_NAME)) {
+			return -1;
+		}
 		return DATABASE_VERSION;
 	}
 	

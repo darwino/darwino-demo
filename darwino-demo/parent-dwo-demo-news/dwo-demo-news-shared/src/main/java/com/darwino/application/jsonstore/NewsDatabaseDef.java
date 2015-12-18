@@ -34,6 +34,9 @@ public class NewsDatabaseDef extends DatabaseFactoryImpl {
 	
 	@Override
 	public int getDatabaseVersion(String databaseName) throws JsonException {
+		if(!StringUtil.equalsIgnoreCase(databaseName, DATABASE_NEWS)) {
+			return -1;
+		}
 		return DATABASE_VERSION;
 	}
 	

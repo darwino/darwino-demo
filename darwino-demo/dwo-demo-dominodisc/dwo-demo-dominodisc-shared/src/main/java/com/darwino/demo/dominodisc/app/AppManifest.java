@@ -69,16 +69,8 @@ public class AppManifest extends DarwinoManifest {
 	}
 	
 	@Override
-	public DatabaseFactory getDatabaseFactory(String dbName) {
-		String[] databases = getDatabases();
-		if(databases!=null) {
-			for(int i=0; i<databases.length; i++) {
-				if(dbName.equals(databases[i])) { 
-					return new AppDatabaseDef();
-				}
-			}
-		}
-		return null;
+	public DatabaseFactory getDatabaseFactory() {
+		return new AppDatabaseDef();
 	}
 	
 	@Override
