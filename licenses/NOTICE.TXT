@@ -1,0 +1,20 @@
+Darwino Demo Projects
+Copyright (C) 2015 Darwino Inc.
+For license information see the LICENSE.txt file which accompanies this NOTICE.txt file.
+
+The Darwino Demo Projects includes the Darwino Platform and all the related dependencies
+
+------------------------------------------
+Third party Java libraries
+------------------------------------------
+
+The Darwino platform includes code from the JSF 2.0 API, available from https://javaserverfaces.java.net/download.html. It is copyright Oracle Corp and released under the Common Development and Distribution License (CDDL) + GPLv2.
+
+The Darwino platform includes code from the JSF 2.0 Mojarra implementation, available from https://javaserverfaces.java.net/download.html. It is copyright Oracle Corp and released under the Common Development and Distribution License (CDDL) + GPLv2.
+
+The Darwino platform includes code from the JSP standard tag library, available from https://jstl.java.net/download.html. It is copyright Oracle Corp and released under the Common Development and Distribution License (CDDL version 1.1).
+
+The Darwino platform includes code from PrimeFaces, available from http://www.primefaces.org/. It is copyright PrimeFaces org and released under the Apache 2.0 license (http://www.primefaces.org/license)
+
+
+
