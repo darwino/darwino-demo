@@ -102,16 +102,11 @@ public class DemoPreferencesExtension implements PreferencesExtension {
 			return false;
 		}
 		
-		Map<String,Map<String,Object>> userMap = allPreferences.get(user);
-		if(userMap!=null) {
-			if(StringUtil.isEmpty(prefs)) {
-				userMap.remove(user);
-			} else {
-				Map<String,Object> prefsMap = userMap.get(prefs);
-				if(prefsMap!=null) {
-					prefsMap.remove(prefs);
-				}
-			}
+		if(StringUtil.isEmpty(prefs)) {
+			allPreferences.remove(user);
+		} else {
+			Map<String,Map<String,Object>> userMap = allPreferences.get(user);
+			userMap.remove(prefs);
 		}
 		
 		// Whenever it is deleted or not, it is handled
