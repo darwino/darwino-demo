@@ -23,7 +23,6 @@ import com.darwino.commons.platform.PluginIOS;
 import com.darwino.demo.news.robovm.MainViewController;
 import com.darwino.demo.news.robovm.NewsRoboVMNativeApplication;
 import com.darwino.sqlite.IOSInstall;
-import com.darwino.sqlite.SQLiteImpl;
 
 public class IOSNews extends UIApplicationDelegateAdapter {
 
