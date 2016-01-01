@@ -236,21 +236,28 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	
 	// Specific methods
 	entries.getUserDn = function(item) {
-		return item ? item.value.from : null;
+		if(item && item.value && item.value._writers && item.value._writers.from) {
+			var a = item.value._writers.from;
+			if(darwino.Utils.isArray(a)) {
+				return a.length==1 ? a[0] : null;
+			}
+			return a;
+		}
+		return null;
 	}
 	entries.getUser = function(item) {
 		if(item) {
 			if($rootScope.accessUserService) {  
-				return userService.getUser(item.value.from,function(u,n){if(n){$rootScope.apply()}})
+				return userService.getUser(this.getUserDn(item),function(u,n){if(n){$rootScope.apply()}})
 			}
-			return userService.createUser(item.value.from);
+			return userService.createUser(this.getUserDn(item));
 		}
 		return darwino.services.User.ANONYMOUS_USER;
 	}
 	entries.getPhoto =  function(item) {
 		if(item) {
 			if($rootScope.accessUserService) {  
-				return userService.getUserPhotoUrl(item.value.from);
+				return userService.getUserPhotoUrl(this.getUserDn(item));
 			}
 		}
 		return darwino.services.User.ANONYMOUS_PHOTO;
