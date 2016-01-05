@@ -126,6 +126,7 @@ public class DemoPreferencesExtension implements PreferencesExtension {
 					map.remove(k);
 				}
 			}
+			changes = null;
 		}
 	}
 }
