@@ -25,7 +25,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<compiler>1.6</compiler>
 		
-		<robovm.version>1.5.0</robovm.version>
+		<robovm.version>1.12.0</robovm.version>
 		
 		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
