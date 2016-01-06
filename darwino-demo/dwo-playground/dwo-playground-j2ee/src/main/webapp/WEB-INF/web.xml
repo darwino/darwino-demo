@@ -145,7 +145,7 @@
 <!-- 	
 	<filter>
     	<filter-name>Cors</filter-name>
-    	<filter-class>com.darwino.j2ee.servlet.cors.CorsFilter</filter-class>
+    	<filter-class>com.darwino.j2ee.servlet.cors.CORSFilter</filter-class>
 	</filter>
 	<filter-mapping>
     	<filter-name>Cors</filter-name>
