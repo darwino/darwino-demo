@@ -20,6 +20,7 @@ import com.darwino.commons.util.text.HtmlTextUtil;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.extensions.DefaultExtensionRegistry;
 import com.darwino.jsonstore.extensions.DocumentEvents;
+import com.darwino.jsonstore.helpers.SecurityHelper;
 import com.darwino.platform.DarwinoContext;
 
 /**
@@ -44,7 +45,11 @@ public  class AppDBBusinessLogic extends DefaultExtensionRegistry {
 				try {
 					DarwinoContext ctx = DarwinoContext.get();
 					User user = ctx.getUser();
-					json.putStringDef("from",user.getDn());
+					SecurityHelper sec = new SecurityHelper(doc);
+					sec.addWriter("from",user.getDn());
+					sec.addReader("_allReaders","*");
+
+					//json.putArray("from", JsonArray.valueOf(user.getDn()));
 					json.putStringDef("altfrom",(String)user.getAttribute(User.ATTR_EMAIL));
 					json.putStringDef("abbreviatefrom",user.getCn()); // Not sure about this
 					json.putStringDef("abrfrom",user.getCn()); // Not sure about this
