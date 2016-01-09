@@ -55,12 +55,12 @@
 
 		<dependency>
 			<groupId>com.darwino</groupId>
-			<artifactId>dwo-web-darwino</artifactId>
+			<artifactId>dwo-demo-web-darwino</artifactId>
 			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
-			<artifactId>dwo-web-darwino-explorer</artifactId>
+			<artifactId>dwo-demo-web-darwino-explorer</artifactId>
 			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 

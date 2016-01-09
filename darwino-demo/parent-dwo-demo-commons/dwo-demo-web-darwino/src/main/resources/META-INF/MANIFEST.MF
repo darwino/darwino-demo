@@ -1,0 +1,2 @@
+Require-Bundle: com.darwino.commons,
+ com.darwino.platform

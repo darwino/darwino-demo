@@ -24,6 +24,8 @@
         <pattern>java.util.logging.SimpleFormatter</pattern>
 		<!-- Library plugins -->
 		<pattern>com.darwino.platform.web.PluginDarwinoWeb</pattern>
+		<pattern>com.darwino.platform.web.PluginDarwinoDemoWeb</pattern>
+		<pattern>com.darwino.platform.web.tools.PluginDarwinoWebTools</pattern>
     </forceLinkClasses>
     <libs>
         <lib>libs/libJsonstoreUniversal.a</lib>

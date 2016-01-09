@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.darwino</groupId>
+		<artifactId>parent-dwo-web</artifactId>
+		<version>0.8.0-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>dwo-demo-web-darwino-explorer</artifactId>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-platform</artifactId>
+			<version>0.8.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-commons-runtime-debug</artifactId>
+			<version>0.8.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jsonstore-services</artifactId>
+			<version>0.8.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>ro.isdc.wro4j</groupId>
+			<artifactId>wro4j-extensions</artifactId>
+			<version>${wro4j.version}</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		
+<!-- 		
+	<dependency>
+    	<groupId>org.webjars.bower</groupId>
+    	<artifactId>jquery</artifactId>
+    	<version>2.1.3</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.webjars</groupId>
+	    <artifactId>jquery</artifactId>
+	    <version>2.1.4</version>
+	</dependency>
+ -->				
+	</dependencies>
+	
+	<build>
+		<plugins>
+<!-- 		
+			<plugin>
+				<groupId>ro.isdc.wro4j</groupId>
+				<artifactId>wro4j-maven-plugin</artifactId>
+				<version>${wro4j.version}</version>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<destinationFolder>${basedir}/src/main/resources/DARWINO-INF/resources/explorer</destinationFolder>
+					<contextFolder>${basedir}/src/main/resources/DARWINO-INF/resources</contextFolder>
+					<wroFile>${basedir}/wro4j/wro.xml</wroFile>
+					<extraConfigFile>${basedir}/wro4j/wro.properties</extraConfigFile>
+					<ignoreMissingResources>false</ignoreMissingResources>
+					<wroManagerFactory>ro.isdc.wro.extensions.manager.standalone.GoogleStandaloneManagerFactory</wroManagerFactory>
+				</configuration>
+			</plugin>
+ -->			
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>com.darwino.web.darwino.explorer</Bundle-SymbolicName>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
