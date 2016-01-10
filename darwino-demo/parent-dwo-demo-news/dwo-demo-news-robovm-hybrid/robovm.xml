@@ -12,6 +12,7 @@
 
 	<forceLinkClasses>
 		<pattern>com.darwino.platform.web.PluginDarwinoWeb</pattern>
+		<pattern>com.darwino.platform.web.PluginDarwinoDemoWeb</pattern>
 		<pattern>com.darwino.platform.web.tools.PluginDarwinoWebTools</pattern>
 						
 		<!-- URL Connection -->

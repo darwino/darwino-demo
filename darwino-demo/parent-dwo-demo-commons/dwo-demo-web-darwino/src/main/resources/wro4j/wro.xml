@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.isdc.ro/wro wro.xsd">
+  
+  <!-- Darwino Angular Library -->
+  <group name="ng-darwino-bootstrap.min">
+    <js minimize="true">/darwino-ui/angular/darwino.js</js>
+    <js minimize="true">/darwino-ui/angular/util/node.js</js>
+    <js minimize="true">/darwino-ui/angular/components/tree.js</js>
+    <js minimize="true">/darwino-ui/angular/renderkit/bootstrap3/tree/tree.js</js>
+    <js minimize="true">/darwino-ui/angular/renderkit/bootstrap3/tree/tree-chevron.js</js>
+    <js minimize="true">/darwino-ui/angular/renderkit/bootstrap3/tree/tree-composite.js</js>
+    <js minimize="true">/darwino-ui/angular/renderkit/bootstrap3/tree/tree-list.js</js>
+    <css minimize="true">/darwino-ui/angular/renderkit/bootstrap3/tree/css/tree.css</css>
+  </group>
+
+  <group name="ng-darwino-bootstrap">
+    <js minimize="false">/darwino-ui/angular/darwino.js</js>
+    <js minimize="false">/darwino-ui/angular/util/node.js</js>
+    <js minimize="false">/darwino-ui/angular/components/tree.js</js>
+    <js minimize="false">/darwino-ui/angular/renderkit/bootstrap3/tree/tree.js</js>
+    <js minimize="false">/darwino-ui/angular/renderkit/bootstrap3/tree/tree-chevron.js</js>
+    <js minimize="false">/darwino-ui/angular/renderkit/bootstrap3/tree/tree-composite.js</js>
+    <js minimize="false">/darwino-ui/angular/renderkit/bootstrap3/tree/tree-list.js</js>
+    <css minimize="false">/darwino-ui/angular/renderkit/bootstrap3/tree/css/tree.css</css>
+  </group>
+    
+</groups>
