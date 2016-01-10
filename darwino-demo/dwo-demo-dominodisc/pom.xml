@@ -14,7 +14,7 @@
 		<module>dwo-demo-dominodisc-j2ee</module>
 		<module>dwo-demo-dominodisc-android-hybrid</module>
 		<module>dwo-demo-dominodisc-robovm-hybrid</module>
-  </modules>
+	</modules>
 
 	<properties>
 		<DARWINO_VERSION>0.8.0-SNAPSHOT</DARWINO_VERSION>
@@ -28,10 +28,10 @@
 		<manifest-location>META-INF</manifest-location>
 		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
+		
+		<robovm.version>1.12.0</robovm.version>
 
 		<tycho-version>0.22.0</tycho-version>
-		
-		<robovm.version>1.5.0</robovm.version>
 		
 		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
