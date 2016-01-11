@@ -40,9 +40,9 @@ public class DevCursorService extends CursorService {
 
 	@Override
 	public void process(final HttpServiceContext context, Cursor c) throws JsonException, IOException {
-		if(context.getQueryParameterBoolean("_sql")) {
+		if(context.getQueryParameterBoolean("_sql")) { //$NON-NLS-1$
 			processSql(context, c);
-		} else if(context.getQueryParameterBoolean("_explain")) {
+		} else if(context.getQueryParameterBoolean("_explain")) { //$NON-NLS-1$
 			processExplain(context, c);
 		} else {
 			super.process(context, c);

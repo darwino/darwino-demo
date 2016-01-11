@@ -52,14 +52,14 @@ public class DarwinoApplication extends DarwinoDominoApplication {
 	@Override
 	public String[] getResourcesBundleNames() {
 		return new String[] {
-			"com.darwino.playground.domino",
-			"com.darwino.playground.webui",
-			"com.darwino.domino.libs"
+			"com.darwino.playground.domino", //$NON-NLS-1$
+			"com.darwino.playground.webui", //$NON-NLS-1$
+			"com.darwino.domino.libs" //$NON-NLS-1$
 		};
 	}
 	
 	@Override
 	public String[] getConfigurationBeanNames() {
-		return new String[] {"Playground",ManagedBeansService.LOCAL_NAME,ManagedBeansService.DEFAULT_NAME};
+		return new String[] {"Playground",ManagedBeansService.LOCAL_NAME,ManagedBeansService.DEFAULT_NAME}; //$NON-NLS-1$
 	}
 }

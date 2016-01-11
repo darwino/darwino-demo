@@ -40,22 +40,22 @@ public class AppServiceFactory extends RestServiceFactory {
 			if(context.isGet()) {
 				JsonObject o = new JsonObject();
 				try {
-					o.put("name", "Playground");
+					o.put("name", "Playground"); //$NON-NLS-1$ //$NON-NLS-2$
 					
 					// Access to the app manifest
 					AppManifest mf = (AppManifest)DarwinoApplication.get().getManifest();
-					o.put("application", DarwinoApplication.get().toString() );
-					o.put("label", mf.getLabel());
-					o.put("description", mf.getDescription());
+					o.put("application", DarwinoApplication.get().toString() ); //$NON-NLS-1$
+					o.put("label", mf.getLabel()); //$NON-NLS-1$
+					o.put("description", mf.getDescription()); //$NON-NLS-1$
 					
 					// Access to the database session
 					JsonObject jSession = new JsonObject();
 					Session session = DarwinoContext.get().getSession();
-					jSession.put("user", session.getUser().getDn());
-					jSession.put("instanceId", session.getInstanceId());
-					o.put("session", jSession);
+					jSession.put("user", session.getUser().getDn()); //$NON-NLS-1$
+					jSession.put("instanceId", session.getInstanceId()); //$NON-NLS-1$
+					o.put("session", jSession); //$NON-NLS-1$
 				} catch(Exception ex) {
-					o.put("exception", HttpServiceError.exceptionAsJson(ex, false));
+					o.put("exception", HttpServiceError.exceptionAsJson(ex, false)); //$NON-NLS-1$
 				}
 				context.emitJson(o);
 			} else {

@@ -32,17 +32,17 @@ public class UserDirPlayground extends UserDirDomino {
 			// Fix DNs, with Darwino
 			// cn=al mass,o=triloggroup
 			// cn=al mass,o=darwino
-			if(StringUtil.endsWithIgnoreCase(dn, "o=triloggroup")) {
-				return dn.substring(0,dn.length()-"o=triloggroup".length())+"o=darwino";
+			if(StringUtil.endsWithIgnoreCase(dn, "o=triloggroup")) { //$NON-NLS-1$
+				return dn.substring(0,dn.length()-"o=triloggroup".length())+"o=darwino"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			return dn;
 		}
 		
 		// IBM Connections
 		// A darwino email should be transformed to a triloggroup one
-		if(StringUtil.equals(provider,"connections")) {
-			if(StringUtil.endsWithIgnoreCase(dn, "@darwino.com")) {
-				return dn.substring(0,dn.length()-"@darwino.com".length())+"@triloggroup.com";
+		if(StringUtil.equals(provider,"connections")) { //$NON-NLS-1$
+			if(StringUtil.endsWithIgnoreCase(dn, "@darwino.com")) { //$NON-NLS-1$
+				return dn.substring(0,dn.length()-"@darwino.com".length())+"@triloggroup.com"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			return dn;
 		}
