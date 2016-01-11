@@ -9,6 +9,8 @@
 	<artifactId>dwo-playground-domino</artifactId>
 	
 	<name>Playground Domino</name>
+	
+	<packaging>bundle</packaging>
  
 	<dependencies>
 		
@@ -34,6 +36,17 @@
 			<version>0.8.0-SNAPSHOT</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-demo-web-darwino</artifactId>
+			<version>0.8.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-demo-web-darwino-explorer</artifactId>
+			<version>0.8.0-SNAPSHOT</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.darwino.playground</groupId>
 			<artifactId>dwo-playground-shared</artifactId>
@@ -94,6 +107,7 @@
 						</Require-Bundle>
 						<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
 						<Bundle-Activator>com.darwino.playground.domino.Activator</Bundle-Activator>
+						<Embed-Dependency>dwo-demo-web-darwino,dwo-demo-web-darwino-explorer</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
