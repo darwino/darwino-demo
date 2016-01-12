@@ -54,7 +54,9 @@ public class DarwinoApplication extends DarwinoDominoApplication {
 		return new String[] {
 			"com.darwino.playground.domino", //$NON-NLS-1$
 			"com.darwino.playground.webui", //$NON-NLS-1$
-			"com.darwino.domino.libs" //$NON-NLS-1$
+			"com.darwino.domino.libs", //$NON-NLS-1$
+			"com.darwino.demo.web.darwino", //$NON-NLS-1$
+			"com.darwino.demo.web.darwino.explorer" //$NON-NLS-1$
 		};
 	}
 	

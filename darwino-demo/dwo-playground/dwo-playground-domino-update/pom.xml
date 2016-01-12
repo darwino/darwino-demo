@@ -81,6 +81,17 @@
 											<source>false</source>
 										</artifact>
 										<artifact>
+											<id>com.darwino:dwo-demo-web-darwino:${DARWINO_VERSION}</id>
+											<transitive>false</transitive>
+											<source>false</source>
+										</artifact>
+										<artifact>
+											<id>com.darwino:dwo-demo-web-darwino-explorer:${DARWINO_VERSION}</id>
+											<transitive>false</transitive>
+											<source>false</source>
+										</artifact>
+										
+										<artifact>
 											<id>com.darwino.domino:com.darwino.domino.libs:${DARWINO_VERSION}</id>
 											<transitive>false</transitive>
 											<source>false</source>

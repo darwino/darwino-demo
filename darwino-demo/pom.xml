@@ -32,6 +32,12 @@
 		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
 		<android.platform.sdk.version>19</android.platform.sdk.version>
+
+		<!-- The META-INF/MANIFEST.MF file is placed in the root of the project 
+			in order to make OSGi development in Eclipse smoother -->
+		<manifest-location>META-INF</manifest-location>
+		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 	</properties>
 
 	<dependencyManagement>
@@ -165,6 +171,29 @@
 						<androidManifestFile>${basedir}/AndroidManifest.xml</androidManifestFile>
 						<resourceDirectory>${basedir}/res</resourceDirectory>
 						<nativeLibrariesDirectory>${basedir}/libs</nativeLibrariesDirectory>
+					</configuration>
+				</plugin>
+				
+				<!-- Bundle plugin defaults for use in several components -->
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-bundle-plugin</artifactId>
+					<version>2.5.4</version>
+					<extensions>true</extensions>
+
+					<configuration>
+						<manifestLocation>${manifest-location}</manifestLocation>
+						<supportedProjectTypes>
+							<supportedProjectType>jar</supportedProjectType>
+							<supportedProjectType>bundle</supportedProjectType>
+							<supportedProjectType>eclipse-plugin</supportedProjectType>
+						</supportedProjectTypes>
+						<instructions>
+							<Import-Package/>
+							<Private-Package />
+							<_snapshot>${osgi.qualifier}</_snapshot>
+							<_removeheaders>Bnd-LastModified,Built-By,Build-Jdk,Created-By,Tool</_removeheaders>
+						</instructions>
 					</configuration>
 				</plugin>
 				

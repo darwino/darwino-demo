@@ -103,11 +103,13 @@
 							com.darwino.domino.libs,
 							com.darwino.domino.platform,
 							com.darwino.playground.shared;resolution:=optional,
-							com.darwino.playground.webui;resolution:=optional
+							com.darwino.playground.webui;resolution:=optional,
+							com.darwino.demo.web.darwino;resolution:=optional,
+							com.darwino.demo.web.darwino.explorer;resolution:=optional
 						</Require-Bundle>
 						<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
 						<Bundle-Activator>com.darwino.playground.domino.Activator</Bundle-Activator>
-						<Embed-Dependency>dwo-demo-web-darwino,dwo-demo-web-darwino-explorer</Embed-Dependency>
+<!-- 						<Embed-Dependency>dwo-demo-web-darwino,dwo-demo-web-darwino-explorer</Embed-Dependency> -->
 					</instructions>
 				</configuration>
 			</plugin>
