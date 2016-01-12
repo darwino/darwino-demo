@@ -36,9 +36,17 @@
     	<param-name>dwo-sync-platform</param-name>
     	<param-value>domino</param-value>
   	</context-param>
-		<context-param>
+	<context-param>
     	<param-name>dwo-sync-commit-threshold</param-name>
     	<param-value>${discdb.sync-commit-threshold=100}</param-value>
+  	</context-param>
+	<context-param>
+    	<param-name>dwo-sync-multithread-threshold</param-name>
+    	<param-value>${discdb.sync-multithread-threshold}</param-value>
+  	</context-param>
+	<context-param>
+    	<param-name>dwo-sync-threadcount</param-name>
+    	<param-value>${discdb.sync-threadcount}</param-value>
   	</context-param>
 	<context-param>
     	<param-name>dwo-sync-instances</param-name>
