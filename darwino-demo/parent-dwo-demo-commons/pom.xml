@@ -11,6 +11,7 @@
   	<module>dwo-demo-commons</module>
     <module>dwo-demo-commons-j2ee</module>
   	<module>dwo-demo-commons-mobile</module>
+    <module>dwo-demo-domino-libs</module>
     <module>dwo-demo-web-darwino</module>
     <module>dwo-demo-web-darwino-explorer</module>
   </modules>

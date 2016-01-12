@@ -26,8 +26,6 @@ import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.commons.util.io.content.ByteBufferContent;
 import com.darwino.demodata.json.JsonDatabaseGenerator;
 import com.darwino.demodata.json.JsonDatabaseGenerator.JsonContent;
-import com.darwino.demodata.json.pinball.PinballDatabase;
-import com.darwino.demodata.json.pinball.PinballOwnerDatabase;
 import com.darwino.jre.application.DarwinoJreApplication;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Document;
@@ -35,6 +33,8 @@ import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.Store;
 import com.darwino.platform.DarwinoContext;
 import com.darwino.playground.app.AppDatabaseDef;
+import com.darwino.playground.app.services.pinball.PinballDatabase;
+import com.darwino.playground.app.services.pinball.PinballOwnerDatabase;
 
 
 /**
