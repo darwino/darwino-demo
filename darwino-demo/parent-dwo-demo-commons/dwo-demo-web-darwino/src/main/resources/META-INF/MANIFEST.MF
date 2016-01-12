@@ -1,2 +1,2 @@
-Require-Bundle: com.darwino.commons,
- com.darwino.platform
+Require-Bundle: com.darwino.domino.libs,
+ com.darwino.domino.platform

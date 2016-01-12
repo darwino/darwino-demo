@@ -1,15 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: dwo-demo-web-darwino-explorer
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-SymbolicName: com.darwino.web.darwino.explorer
-Bundle-Version: 0.8.0.201601092057
-Export-Package: DARWINO-INF.resources.explorer;version="0.8.0",DARWINO-I
- NF.resources.explorer.css;version="0.8.0",DARWINO-INF.resources.explore
- r.js;version="0.8.0",DARWINO-INF.resources.explorer.templates;version="
- 0.8.0",com.darwino.platform.web.tools;version="0.8.0",com.darwino.platf
- orm.web.tools.services;version="0.8.0",com.darwino.platform.web.tools.s
- ervices.grid;version="0.8.0"
+Bundle-SymbolicName: com.darwino.demo.web.darwino.explorer
+Bundle-Version: 0.8.0.201601121628
+Export-Package: com.darwino.platform.web.tools;version="0.8.0",com.darwi
+ no.platform.web.tools.services.grid;version="0.8.0",com.darwino.platfor
+ m.web.tools.services;version="0.8.0"
 Include-Resource: DARWINO-INF/resources/explorer/css/style.css=src/main/
  resources/DARWINO-INF/resources/explorer/css/style.css,DARWINO-INF/reso
  urces/explorer/index.html=src/main/resources/DARWINO-INF/resources/expl
@@ -26,5 +22,9 @@ Include-Resource: DARWINO-INF/resources/explorer/css/style.css=src/main/
  /templates/store.html,META-INF/services/com.darwino.commons.platform.Pl
  ugin=src/main/resources/META-INF/services/com.darwino.commons.platform.
  Plugin
-Originally-Created-By: Maven Integration for Eclipse
+Private-Package: DARWINO-INF.resources.explorer.css,DARWINO-INF.resource
+ s.explorer,DARWINO-INF.resources.explorer.js,DARWINO-INF.resources.expl
+ orer.templates
+Require-Bundle: com.darwino.domino.libs,
+ com.darwino.domino.platform
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
