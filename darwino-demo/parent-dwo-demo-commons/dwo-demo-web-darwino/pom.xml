@@ -77,7 +77,6 @@
 						<Bundle-SymbolicName>com.darwino.demo.web.darwino</Bundle-SymbolicName>
 						<Export-Package>com.darwino.*</Export-Package>
 						<Require-Bundle>com.darwino.domino.libs,com.darwino.domino.platform</Require-Bundle>
-						<_include>src/main/resources/META-INF/MANIFEST.MF</_include>
 					</instructions>
 				</configuration>
 					

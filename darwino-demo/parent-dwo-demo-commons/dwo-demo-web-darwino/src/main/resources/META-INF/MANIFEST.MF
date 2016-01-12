@@ -1,2 +1,0 @@
-Require-Bundle: com.darwino.domino.libs,
- com.darwino.domino.platform
