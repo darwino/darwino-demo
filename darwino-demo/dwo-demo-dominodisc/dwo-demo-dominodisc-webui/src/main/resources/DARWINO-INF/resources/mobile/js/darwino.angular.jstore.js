@@ -214,13 +214,24 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				}
 			}
 			
-			// Convert attachment URLs to display format
-			for(var i = 0; i < data.length; i++) {
-				for(var field in data[i].value) {
-					if(darwino.Utils.isString(data[i].value[field])) {
-						data[i].value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, data[i].storeId, _this.instanceId, data[i].unid, data[i].value[field]);
+			var rtToDisplay = function(doc) {
+				for(var field in doc.value) {
+					if(darwino.Utils.isString(doc.value[field])) {
+						doc.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, doc.storeId, _this.instanceId, doc.unid, doc.value[field]);
 					}
 				}
+				
+				if(doc.children) {
+					for(var childIndex = 0; childIndex < doc.children.length; childIndex++) {
+						rtToDisplay(doc.children[childIndex]);
+					}
+				}
+			}
+			
+			
+			// Convert attachment URLs to display format
+			for(var i = 0; i < data.length; i++) {
+				rtToDisplay(data[i]);
 			}
 			if(cb) cb(data);
 		}, function(data) {
