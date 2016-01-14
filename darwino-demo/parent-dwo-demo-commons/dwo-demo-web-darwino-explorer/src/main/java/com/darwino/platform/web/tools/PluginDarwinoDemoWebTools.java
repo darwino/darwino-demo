@@ -22,9 +22,9 @@ import com.darwino.platform.web.tools.services.JsonStoreServiceExtension;
 /**
  * Plug-in implementation.
  */
-public final class PluginDarwinoWebTools extends PluginImpl {
+public final class PluginDarwinoDemoWebTools extends PluginImpl {
 	
-	public PluginDarwinoWebTools() {
+	public PluginDarwinoDemoWebTools() {
 		super("DarwinoWebTools");
 	}
 

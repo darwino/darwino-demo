@@ -25,7 +25,7 @@
 		<!-- Library plugins -->
 		<pattern>com.darwino.platform.web.PluginDarwinoWeb</pattern>
 		<pattern>com.darwino.platform.web.PluginDarwinoDemoWeb</pattern>
-		<pattern>com.darwino.platform.web.tools.PluginDarwinoWebTools</pattern>
+		<pattern>com.darwino.platform.web.tools.PluginDarwinoDemoWebTools</pattern>
     </forceLinkClasses>
     <libs>
         <lib>libs/libJsonstoreUniversal.a</lib>
