@@ -100,6 +100,8 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			$rootScope.nsfdata = database.getStore(STORE_NAME);
 			$rootScope.apply();
 		});
+		$rootScope.database = null;
+		$rootScope.nsfdata = null;
 	}
 
 	$rootScope.isDualPane = function() {
@@ -117,8 +119,8 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				inst = instances[0];
 			}
 			$rootScope.context.instance = inst;
+			$rootScope.instanceChanged();
 		}
-		$rootScope.instanceChanged();
 	});
 	
 	
@@ -131,6 +133,20 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	$rootScope.isAnonymous = function() {
 		var u = userService.getCurrentUser();
 		return !u || u.isAnonymous();
+	};
+	$rootScope.getUser = function(id) {
+		var u = userService.getUser(id,function(u,loaded) {
+			if(loaded) $rootScope.apply();
+		});
+		return u || darwino.services.User.ANONYMOUS_USER;
+	};
+	$rootScope.getPhoto = function(id) {
+		if(id) {
+			if($rootScope.accessUserService) {  
+				return userService.getUserPhotoUrl(id);
+			}
+		}
+		return darwino.services.User.ANONYMOUS_PHOTO;
 	};
 	$rootScope.isReadOnly = function() {
 		return this.isAnonymous();
@@ -363,9 +379,6 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	var id = $stateParams.id;
 	$scope.doc = null;
 	$scope.json = null;
-	if($scope.database) {
-		
-	}
 	$scope.dbPromise.then(function() {
 		if(id && darwino.Utils.startsWith(id,'id:')) {
 			return $scope.nsfdata.loadDocument(id.substring(3));

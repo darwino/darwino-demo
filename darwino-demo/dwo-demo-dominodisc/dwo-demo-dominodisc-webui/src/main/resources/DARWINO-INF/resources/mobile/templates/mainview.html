@@ -5,7 +5,7 @@
 	</button>
 	
 	<ion-nav-buttons side="right">
-		<div class="item-input-inset" ng-show="searchMode==1">
+		<div class="item-input-inset" ng-show="isFtEnabled() && searchMode==1">
 	 			<label class="item-input-wrapper">
 	 				<i class="icon ion-android-search placeholder-icon"></i>
 				<input type="text" placeholder="Search..." ng-model="entries.ftSearch" class="search-bar-input" ng-change="executeSearch()">
@@ -13,7 +13,7 @@
 			<button class="button-clear button-icon ion-close" ng-click="cancelSearch()">
 			</button>
 		</div>
-		<button ng-show="searchMode==0" class="button button-icon button-clear ion-search" ng-click="startSearch()">
+		<button ng-show="isFtEnabled() && searchMode==0" class="button button-icon button-clear ion-search" ng-click="startSearch()">
 		</button>
 			
 		<button ng-show="isReadOnly() && !darwino.hybrid.isHybrid()" class="button button-icon button-clear ion-log-in" onclick="window.location='auth/login.html'">
