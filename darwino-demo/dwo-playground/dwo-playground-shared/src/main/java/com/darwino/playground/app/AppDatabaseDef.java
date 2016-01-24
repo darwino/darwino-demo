@@ -17,7 +17,9 @@ import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.impl.DatabaseFactoryImpl;
 import com.darwino.jsonstore.meta._Database;
 import com.darwino.jsonstore.meta._FtSearch;
+import com.darwino.jsonstore.meta._Index;
 import com.darwino.jsonstore.meta._Store;
+import com.darwino.jsonstore.query.nodes.SpecialFieldNode;
 
 /**
  * Database Definition.
@@ -30,6 +32,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 	public static final int DATABASE_VERSION	= 1;
 	
 	public static final String STORE_PINBALLS = "pinball";
+	public static final String STORE_FORUM = "forum";
 	public static final String STORE_PINBALLOWNER = "owners";
 	public static final String STORE_PINBALLOWNERB = "owners-big";
 	public static final String STORE_PINBALLOWNERBG = "owners-bigger";
@@ -115,6 +118,36 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 				.addQueryField("city", JsonUtil.TYPE_STRING, false)
 				.addQueryField("firstName", JsonUtil.TYPE_STRING, false)
 				.addQueryField("lastName", JsonUtil.TYPE_STRING, false);
+		}
+		
+
+		// Store: FORUM
+		{
+			_Store store = db.addStore(STORE_FORUM);
+			store.setLabel("Forum");
+			store.setReadMarkEnabled(true);
+			store.setFtSearchEnabled(true);
+			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
+			ft.setFields("title");
+
+			store.addQueryField("title", JsonUtil.TYPE_STRING, false)
+				.addQueryField("author", JsonUtil.TYPE_STRING, false)
+				.addQueryField("category", JsonUtil.TYPE_STRING, false);
+
+			_Index i1 = store.addIndex("byDate");
+			i1.setLabel("News by date");
+			i1.keys(SpecialFieldNode.LASTMODDATE);
+			i1.valuesExtract("{title: 'title', category: 'category', author: 'author', content: {$abstract:{$path:'content'}}}");
+
+			_Index i2 = store.addIndex("byCategory");
+			i2.setLabel("categorize");
+			i2.keys("category", SpecialFieldNode.LASTMODDATE);
+			i2.valuesExtract("{title: 'title', category: 'category', author: 'author', content: {$abstract:{$path:'content'}}}");
+
+			_Index i3 = store.addIndex("byAuthor");
+			i3.setLabel("author");
+			i3.keys("author", SpecialFieldNode.LASTMODDATE);
+			i3.valuesExtract("{title: 'title', category: 'category', author: 'author', content: {$abstract:{$path:'content'}}}");
 		}
 		
 

@@ -54,6 +54,8 @@ public class PinballOwnerDatabase extends JsonDatabaseGenerator {
 			}
 			owner.putString("lastName", lName.randomValue());
 			
+			owner.putString("email", owner.getString("firstName").substring(0,1).toLowerCase() + owner.getString("lastName").toLowerCase()+"@dwopinball.demo");
+			
 			// City and state
 			String[] c = (String[])cities.randomValues();
 			owner.putString("city", c[0] );
@@ -73,12 +75,5 @@ public class PinballOwnerDatabase extends JsonDatabaseGenerator {
 			
 			cb.success(new BaseJsonContent(owner));
 		}
-	}
-
-/*	
-	public static void main(String[] args) {
-		PinballOwnerDatabase gen = new PinballOwnerDatabase();
-		gen.generate(new Console(), 10, 8);
-	}
-*/	
+	}	
 }

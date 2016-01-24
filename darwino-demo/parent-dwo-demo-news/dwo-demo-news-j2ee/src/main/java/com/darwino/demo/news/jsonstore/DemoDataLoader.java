@@ -26,6 +26,7 @@ import com.darwino.commons.buffers.ByteBuffer;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.util.io.Content;
 import com.darwino.commons.util.io.StreamUtil;
+import com.darwino.demodata.generators.NonsenseGenerator;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.Store;
