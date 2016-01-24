@@ -68,9 +68,6 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		{
 			_Store store = db.addStore(STORE_PINBALLS);
 			store.setLabel("Pinball list");
-			store.setFtSearchEnabled(true);
-			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
-			ft.setFields("$");
 
 			store.addQueryField("manufacturer", JsonUtil.TYPE_STRING, false)
 			 	 .addQueryField("released", JsonUtil.TYPE_NUMBER, false)
@@ -81,9 +78,6 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		{
 			_Store store = db.addStore(STORE_PINBALLOWNER);
 			store.setLabel("Pinball owners");
-			store.setFtSearchEnabled(true);
-			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
-			ft.setFields("$");
 
 			store.addQueryField("state", JsonUtil.TYPE_STRING, false)
 		 	 	.addQueryField("city", JsonUtil.TYPE_STRING, false)
@@ -95,9 +89,6 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		{
 			_Store store = db.addStore(STORE_PINBALLOWNERB);
 			store.setLabel("Pinball owners - big");
-			store.setFtSearchEnabled(true);
-			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
-			ft.setFields("$");
 
 			store.addQueryField("state", JsonUtil.TYPE_STRING, false)
 		 	 	.addQueryField("city", JsonUtil.TYPE_STRING, false)
@@ -110,9 +101,6 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		{
 			_Store store = db.addStore(STORE_PINBALLOWNERBG);
 			store.setLabel("Pinball owners - bigger");
-			store.setFtSearchEnabled(true);
-			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
-			ft.setFields("$");
 
 			store.addQueryField("state", JsonUtil.TYPE_STRING, false)
 				.addQueryField("city", JsonUtil.TYPE_STRING, false)
@@ -125,6 +113,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		{
 			_Store store = db.addStore(STORE_FORUM);
 			store.setLabel("Forum");
+			store.setTaggingEnabled(true);
 			store.setReadMarkEnabled(true);
 			store.setFtSearchEnabled(true);
 			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());

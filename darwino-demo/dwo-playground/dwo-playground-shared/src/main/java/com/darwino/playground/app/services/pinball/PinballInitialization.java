@@ -9,7 +9,7 @@
  * deposited with the U.S. Copyright Office.     
  */
 
-package com.darwino.playground.app.services;
+package com.darwino.playground.app.services.pinball;
 
 import java.io.InputStream;
 
@@ -17,9 +17,6 @@ import com.darwino.commons.Platform;
 import com.darwino.commons.httpclnt.HttpBase;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonObject;
-import com.darwino.commons.services.HttpService;
-import com.darwino.commons.services.HttpServiceContext;
-import com.darwino.commons.services.HttpServiceError;
 import com.darwino.commons.util.CallbackImpl;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.commons.util.io.StreamUtil;
@@ -31,45 +28,31 @@ import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.Store;
-import com.darwino.platform.DarwinoContext;
 import com.darwino.playground.app.AppDatabaseDef;
-import com.darwino.playground.app.services.pinball.PinballDatabase;
-import com.darwino.playground.app.services.pinball.PinballForum;
-import com.darwino.playground.app.services.pinball.PinballOwnerDatabase;
 
 
 /**
- * Reset DB Service.
+ * Pinbal Initialization.
  * 
  * @author Philippe Riand
  */
-public class ResetDBService extends HttpService {
+public class PinballInitialization {
 
-	public ResetDBService() {
+	public PinballInitialization() {
 	}
 	
-	@Override
-	public void service(HttpServiceContext context) {
-		if(context.isGet()) {
-	    	try {
-	        	final Session jsonSession = DarwinoContext.get().getSession();
-				recreatePinballDatabase(jsonSession);
+	public JsonObject init(final Session jsonSession) throws JsonException {
+		recreatePinballDatabase(jsonSession);
 
-				JsonObject o = new JsonObject();
-				Database db =jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME);
-				o.put("result", "Database Reset");
-				o.put("pinballCount", db.getStore(AppDatabaseDef.STORE_PINBALLS).documentCount());
-				o.put("forumCount", db.getStore(AppDatabaseDef.STORE_FORUM).documentCount());
-				o.put("ownersCount", db.getStore(AppDatabaseDef.STORE_PINBALLOWNER).documentCount());
-				o.put("ownersBCount", db.getStore(AppDatabaseDef.STORE_PINBALLOWNERB).documentCount());
-				o.put("ownersBGCount", db.getStore(AppDatabaseDef.STORE_PINBALLOWNERBG).documentCount());
-				context.emitJson(o);
-			} catch (Exception e) {
-				HttpServiceError.error500(e);
-			}
-		} else {
-			throw HttpServiceError.errorUnsupportedMethod(context.getMethod());
-		}
+		JsonObject o = new JsonObject();
+		Database db =jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME);
+		o.put("result", "Pinball Database Reset");
+		o.put("pinballCount", db.getStore(AppDatabaseDef.STORE_PINBALLS).documentCount());
+		o.put("forumCount", db.getStore(AppDatabaseDef.STORE_FORUM).documentCount());
+		o.put("ownersCount", db.getStore(AppDatabaseDef.STORE_PINBALLOWNER).documentCount());
+		o.put("ownersBCount", db.getStore(AppDatabaseDef.STORE_PINBALLOWNERB).documentCount());
+		o.put("ownersBGCount", db.getStore(AppDatabaseDef.STORE_PINBALLOWNERBG).documentCount());
+		return o;
 	}
 	
     public void recreatePinballDatabase(final Session jsonSession) throws JsonException {
@@ -81,8 +64,10 @@ public class ResetDBService extends HttpService {
     	fillPinballForums(jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_FORUM));
 
     	fillPinballOwners(jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_PINBALLOWNER), 45, 4);
-    	fillPinballOwners(jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_PINBALLOWNERB), 10000, 16);
-    	fillPinballOwners(jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_PINBALLOWNERBG), 100000, 16);
+    	fillPinballOwners(jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_PINBALLOWNERB), 100, 4);
+    	fillPinballOwners(jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_PINBALLOWNERBG), 500, 4);
+    	//fillPinballOwners(jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_PINBALLOWNERB), 10000, 16);
+    	//fillPinballOwners(jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_PINBALLOWNERBG), 100000, 16);
 	}
     
     private void fillPinball(final Store store) throws JsonException {
@@ -121,7 +106,7 @@ public class ResetDBService extends HttpService {
     
     private void fillPinballForums(final Store store) throws JsonException {
     	PinballForum pfo = new PinballForum();
-    	pfo.createDocuments(store, 500);
+    	pfo.generate(store, 20);
     }
     
     private void fillPinballOwners(final Store store, int nOwners, int maxPinball) {

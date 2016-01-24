@@ -19,7 +19,7 @@ import com.darwino.demodata.DemoDataLoader;
 
 
 /**
- * Data collection of Pinbal.
+ * Data collection of Pinball.
  */
 public class Pinball extends DemoDataLoader {
 

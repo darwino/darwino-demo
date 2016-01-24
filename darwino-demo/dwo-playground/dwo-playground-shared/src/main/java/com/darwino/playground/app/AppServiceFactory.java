@@ -23,6 +23,7 @@ import com.darwino.jsonstore.Session;
 import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.DarwinoContext;
 import com.darwino.platform.DarwinoHttpConstants;
+import com.darwino.playground.app.services.ResetDBService;
 
 
 /**
@@ -76,6 +77,15 @@ public class AppServiceFactory extends RestServiceFactory {
 			@Override
 			public HttpService createService(HttpServiceContext context, String[] parts) {
 				return new AppInformation();
+			}
+		});
+
+		/////////////////////////////////////////////////////////////////////////////////
+		// RESET DATABASE
+		binders.add(new RestServiceBinder("resetdb") {
+			@Override
+			public HttpService createService(HttpServiceContext context, String[] parts) {
+				return new ResetDBService();
 			}
 		});
 	}	
