@@ -123,20 +123,37 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 				.addQueryField("author", JsonUtil.TYPE_STRING, false)
 				.addQueryField("category", JsonUtil.TYPE_STRING, false);
 
-			_Index i1 = store.addIndex("byDate");
-			i1.setLabel("News by date");
-			i1.keys(SpecialFieldNode.LASTMODDATE);
-			i1.valuesExtract("{title: 'title', category: 'category', author: 'author', content: {$abstract:{$path:'content'}}}");
+			_Index i1 = store.addIndex("byCategory");
+			i1.setLabel("By Category");
+			i1.keys("category");
+			i1.valuesExtract("{title: 'title', category: 'category', author: 'author'}");
+			i1.addQueryField("title", JsonUtil.TYPE_STRING, false)
+			  .addQueryField("author", JsonUtil.TYPE_STRING, false)
+			  .addQueryField("category", JsonUtil.TYPE_STRING, false);
 
-			_Index i2 = store.addIndex("byCategory");
-			i2.setLabel("categorize");
-			i2.keys("category", SpecialFieldNode.LASTMODDATE);
-			i2.valuesExtract("{title: 'title', category: 'category', author: 'author', content: {$abstract:{$path:'content'}}}");
+			_Index i2 = store.addIndex("byCategoryDate");
+			i2.setLabel("By Category And Creation Date");
+			i2.keys("category", SpecialFieldNode.CREATEDATE);
+			i2.valuesExtract("{title: 'title', category: 'category', author: 'author'}");
+			i2.addQueryField("title", JsonUtil.TYPE_STRING, false)
+			  .addQueryField("author", JsonUtil.TYPE_STRING, false)
+			  .addQueryField("category", JsonUtil.TYPE_STRING, false);
 
-			_Index i3 = store.addIndex("byAuthor");
-			i3.setLabel("author");
-			i3.keys("author", SpecialFieldNode.LASTMODDATE);
+			_Index i3 = store.addIndex("byCategoryContent");
+			i3.setLabel("By Category with Content");
+			i3.keys("category");
 			i3.valuesExtract("{title: 'title', category: 'category', author: 'author', content: {$abstract:{$path:'content'}}}");
+			i3.addQueryField("title", JsonUtil.TYPE_STRING, false)
+			  .addQueryField("author", JsonUtil.TYPE_STRING, false)
+			  .addQueryField("category", JsonUtil.TYPE_STRING, false);
+
+			_Index i4 = store.addIndex("byCategoryAuthorDate");
+			i4.setLabel("By Category, Author, CreationDate");
+			i4.keys("category", "author", SpecialFieldNode.CREATEDATE);
+			i4.valuesExtract("{title: 'title', category: 'category', author: 'author'}");
+			i4.addQueryField("title", JsonUtil.TYPE_STRING, false)
+			  .addQueryField("author", JsonUtil.TYPE_STRING, false)
+			  .addQueryField("category", JsonUtil.TYPE_STRING, false);
 		}
 		
 
