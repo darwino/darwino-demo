@@ -18,32 +18,32 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-sql</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-pool-bonecp</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-pool-hikaricp</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jsonstore-jdbc</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-j2ee-platform</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 	</dependencies>	
 </project>

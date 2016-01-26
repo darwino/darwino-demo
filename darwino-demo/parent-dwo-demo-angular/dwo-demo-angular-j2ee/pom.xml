@@ -18,13 +18,13 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-project-j2ee</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-j2ee-platform</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 	    
 	    <dependency>

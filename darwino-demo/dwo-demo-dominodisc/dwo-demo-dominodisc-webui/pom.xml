@@ -13,12 +13,12 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino-explorer</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino.demo.dominodisc</groupId>

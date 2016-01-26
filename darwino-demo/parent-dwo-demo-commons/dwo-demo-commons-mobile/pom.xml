@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-mobile-platform</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>

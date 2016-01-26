@@ -21,46 +21,46 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-commons-runtime</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-j2ee-platform</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-postgresql</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-db2</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-h2</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-pool-bonecp</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 
 <!-- For desktop SQLite tests 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-sqlite</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jsonstore-jdbc-sqlite</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
  -->
 <!-- For enabling debug services a profiler basic UI
@@ -68,21 +68,21 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-commons-runtime-debug</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
  -->
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		
 		<!--  Social plug-ins, like Gravatar -->
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-social</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		
 		<dependency>

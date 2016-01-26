@@ -13,12 +13,12 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-commons</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-commons-runtime</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 	</dependencies>	
 </project>

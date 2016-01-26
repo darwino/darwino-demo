@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-ios-robovm-platform-hybrid</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
@@ -83,7 +83,7 @@
 								<artifactItem>
 									<groupId>com.darwino</groupId>
 									<artifactId>dwo-native-sqlite</artifactId>
-									<version>0.8.0-SNAPSHOT</version>
+									<version>${DARWINO_VERSION}</version>
 									<type>a</type>
 									<classifier>ios-universal</classifier>
 									<outputDirectory>libs</outputDirectory>

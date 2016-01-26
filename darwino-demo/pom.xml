@@ -21,6 +21,8 @@
 
 
 	<properties>
+		<DARWINO_VERSION>1.0.0</DARWINO_VERSION>
+	
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<compiler>1.6</compiler>

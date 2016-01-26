@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-project-j2ee</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 			<type>pom</type>
 		</dependency>
 		
@@ -41,28 +41,28 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-j2ee-platform</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-postgresql</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-db2</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-h2</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-pool-bonecp</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 
 		<dependency>
@@ -90,7 +90,7 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-ibm-connections</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>

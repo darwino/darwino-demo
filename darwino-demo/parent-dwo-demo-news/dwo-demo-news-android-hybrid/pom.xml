@@ -14,12 +14,12 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-android-platform-hybrid</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-android-platform-cordova</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		
 		<dependency>
@@ -84,7 +84,7 @@
 								<artifactItem>
 									<groupId>com.darwino</groupId>
 									<artifactId>dwo-native-sqlite</artifactId>
-									<version>0.8.0-SNAPSHOT</version>
+									<version>${DARWINO_VERSION}</version>
 									<type>so</type>
 									<classifier>android-armeabi</classifier>
 									<outputDirectory>libs/armeabi</outputDirectory>
@@ -93,7 +93,7 @@
 								<artifactItem>
 									<groupId>com.darwino</groupId>
 									<artifactId>dwo-native-sqlite</artifactId>
-									<version>0.8.0-SNAPSHOT</version>
+									<version>${DARWINO_VERSION}</version>
 									<type>so</type>
 									<classifier>android-armeabi-v7a</classifier>
 									<outputDirectory>libs/armeabi-v7a</outputDirectory>
@@ -102,7 +102,7 @@
 								<artifactItem>
 									<groupId>com.darwino</groupId>
 									<artifactId>dwo-native-sqlite</artifactId>
-									<version>0.8.0-SNAPSHOT</version>
+									<version>${DARWINO_VERSION}</version>
 									<type>so</type>
 									<classifier>android-mips</classifier>
 									<outputDirectory>libs/mips</outputDirectory>
@@ -111,7 +111,7 @@
 								<artifactItem>
 									<groupId>com.darwino</groupId>
 									<artifactId>dwo-native-sqlite</artifactId>
-									<version>0.8.0-SNAPSHOT</version>
+									<version>${DARWINO_VERSION}</version>
 									<type>so</type>
 									<classifier>android-x86</classifier>
 									<outputDirectory>libs/x86</outputDirectory>
