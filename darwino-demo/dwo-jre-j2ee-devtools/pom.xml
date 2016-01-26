@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.darwino</groupId>
 		<artifactId>darwino-demo</artifactId>
-		<version>0.8.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>dwo-jre-j2ee-devtools</artifactId>
@@ -24,50 +24,50 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-j2ee-platform</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jsonstore-jdbc</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-postgresql</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-db2</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-drivers-h2</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-pool-bonecp</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino-explorer</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-commons</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 

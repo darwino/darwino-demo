@@ -13,13 +13,13 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-ios-robovm-platform-hybrid</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>

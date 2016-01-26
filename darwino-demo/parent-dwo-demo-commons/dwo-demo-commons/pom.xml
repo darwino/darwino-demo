@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.darwino</groupId>
 		<artifactId>parent-dwo-demo-commons</artifactId>
-		<version>0.8.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	
 	<artifactId>dwo-demo-commons</artifactId>
@@ -13,12 +13,12 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-commons</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-commons-runtime</artifactId>
-			<version>0.8.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>	
 </project>
