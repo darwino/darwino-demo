@@ -115,6 +115,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 			store.setLabel("Forum");
 			store.setTaggingEnabled(true);
 			store.setReadMarkEnabled(true);
+			store.setAnonymousSocial(true);
 			store.setFtSearchEnabled(true);
 			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
 			ft.setFields("title");
