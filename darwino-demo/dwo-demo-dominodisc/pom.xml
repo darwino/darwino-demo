@@ -79,6 +79,14 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>maven.darwino.com</id>
+			<name>maven.darwino.com-releases</name>
+			<url>https://maven.darwino.com/darwino-enterprise-edition-release</url>
+		</repository>
+	</distributionManagement>
 	
 	<build>
 		<pluginManagement>
@@ -153,6 +161,7 @@
 						<resourceDirectory>${basedir}/res</resourceDirectory>
 						<nativeLibrariesDirectory>${basedir}/libs</nativeLibrariesDirectory>
 						<assetsDirectory>${basedir}/assets</assetsDirectory>
+						<extractDuplicates>true</extractDuplicates>
 					</configuration>
 				</plugin>
 				

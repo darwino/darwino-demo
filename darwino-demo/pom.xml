@@ -126,6 +126,14 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<distributionManagement>
+		<repository>
+			<id>maven.darwino.com</id>
+			<name>maven.darwino.com-releases</name>
+			<url>https://maven.darwino.com/darwino-enterprise-edition-release</url>
+		</repository>
+	</distributionManagement>
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -173,6 +181,7 @@
 						<androidManifestFile>${basedir}/AndroidManifest.xml</androidManifestFile>
 						<resourceDirectory>${basedir}/res</resourceDirectory>
 						<nativeLibrariesDirectory>${basedir}/libs</nativeLibrariesDirectory>
+						<extractDuplicates>true</extractDuplicates>
 					</configuration>
 				</plugin>
 				
