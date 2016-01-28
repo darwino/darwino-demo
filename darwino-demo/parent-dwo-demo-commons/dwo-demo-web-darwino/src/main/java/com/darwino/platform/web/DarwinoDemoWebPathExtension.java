@@ -13,6 +13,7 @@ package com.darwino.platform.web;
 
 import java.util.List;
 
+import com.darwino.commons.services.HttpServerContext;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.platform.resources.DarwinoWebLibrary;
 import com.darwino.platform.resources.DarwinoWebLibrary.Module;
@@ -30,8 +31,13 @@ public class DarwinoDemoWebPathExtension implements DarwinoWebLibraryExtension {
 	public static final String SOURCE_BUNDLE = "com.darwino.demo.web.darwino";
 	
 	@Override
-	public void contributeLibraries(List<DarwinoWebLibrary> libraries, String context) {
+	public void contributeLibraries(HttpServerContext applicationContext, List<DarwinoWebLibrary> libraries, String context) {
 		if(StringUtil.equals(context, CTX_WEBLIBRARIES)) {
+			// The library must be available from the application context
+			if(applicationContext!=null && !applicationContext.resourceExists("/dwo-demo-web-darwino")) {
+				return;
+			}
+			
 			libraries.add(new DarwinoWebLibrary(SOURCE_BUNDLE, "Darwino", 
 					"/darwino-ui/", 
 					new Module("1.0.0", "/libs/darwino-ui/"))
