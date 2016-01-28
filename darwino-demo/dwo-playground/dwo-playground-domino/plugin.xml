@@ -14,15 +14,4 @@
 		<service class="com.darwino.playground.domino.AppPlugin" />
 	</extension>
 
-	<!-- Demo web resources Plugins -->
-	<extension point="darwino.eclipse.darwinoPlugin">
-		<service class="com.darwino.platform.web.PluginDarwinoWeb" />
-	</extension>
-	<extension point="darwino.eclipse.darwinoPlugin">
-		<service class="com.darwino.platform.web.PluginDarwinoDemoWeb" />
-	</extension>
-	<extension point="darwino.eclipse.darwinoPlugin">
-		<service class="com.darwino.platform.web.tools.PluginDarwinoDemoWebTools" />
-	</extension>
-
 </plugin>
