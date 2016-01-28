@@ -32,7 +32,7 @@
 		<robovm.version>1.12.0</robovm.version>
 
 		<android.plugin.version>4.3.0</android.plugin.version>
-		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
+		<android.platform.maven.version>4.4.2_r4</android.platform.maven.version>
 		<android.platform.sdk.version>19</android.platform.sdk.version>
 
 		<!-- The META-INF/MANIFEST.MF file is placed in the root of the project 

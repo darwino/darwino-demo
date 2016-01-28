@@ -34,11 +34,23 @@
 			<artifactId>android</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- 
+			This compat library is in the maven central repo and is sufficient to run the sample
+			The following one needs to be installed, so we avoid this step.
+		-->
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>support-v4</artifactId>
+			<version>r6</version>
+		</dependency>
+<!-- 		
 		<dependency>
 			<groupId>android.support</groupId>
 			<artifactId>compatibility-v4</artifactId>
 			<version>21.0.3</version>
 		</dependency>
+ -->		
 	</dependencies>
 
 	<build>
