@@ -181,7 +181,6 @@
 						<androidManifestFile>${basedir}/AndroidManifest.xml</androidManifestFile>
 						<resourceDirectory>${basedir}/res</resourceDirectory>
 						<nativeLibrariesDirectory>${basedir}/libs</nativeLibrariesDirectory>
-						<extractDuplicates>true</extractDuplicates>
 					</configuration>
 				</plugin>
 				
