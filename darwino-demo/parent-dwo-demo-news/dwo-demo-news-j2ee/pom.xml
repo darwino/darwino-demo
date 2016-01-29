@@ -131,21 +131,39 @@
 			<artifactId>javax.servlet.jsp.jstl</artifactId>
 			<version>1.2.1</version>
 		</dependency>
--->
 		<dependency>
 	    	<groupId>com.darwino.demonews</groupId>
 	    	<artifactId>javax.faces</artifactId>
 	    	<version>2.1.24</version>
 	    	<scope>system</scope>
-	    	<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/javax.faces-2.1.24.jar</systemPath>
+	    	<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/javax.faces-2.1.24.jar</systemPath>
 		</dependency>
 		<dependency>
 	    	<groupId>com.darwino.demonews</groupId>
 	    	<artifactId>primefaces</artifactId>
 	    	<version>4.0</version>
 	    	<scope>system</scope>
-	    	<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/primefaces-4.0.jar</systemPath>
+	    	<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/primefaces-4.0.jar</systemPath>
 		</dependency>
+-->
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<version>2.1.29</version>
+	    	<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<version>2.1.29</version>
+	    	<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>4.0</version>
+	    	<scope>provided</scope>
+		</dependency>		
 	</dependencies>
 
 	<build>
