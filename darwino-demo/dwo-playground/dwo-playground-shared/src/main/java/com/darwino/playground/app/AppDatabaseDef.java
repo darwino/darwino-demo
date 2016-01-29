@@ -73,7 +73,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 
 		db.setReplicationEnabled(true);
 		//db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
-		db.setInstanceEnabled(false);
+		db.setInstanceEnabled(true);
 
 		// Store: PINBALLS
 		{
