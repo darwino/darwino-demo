@@ -24,8 +24,11 @@ package com.darwino.playground.domino;
 
 import java.util.List;
 
+import com.darwino.commons.Platform;
 import com.darwino.commons.platform.impl.PluginImpl;
 import com.darwino.commons.preferences.impl.PreferencesExtension;
+import com.darwino.platform.web.PluginDarwinoDemoWeb;
+import com.darwino.platform.web.tools.PluginDarwinoDemoWebTools;
 
 
 
@@ -36,6 +39,9 @@ public class AppPlugin extends PluginImpl {
 	
 	public AppPlugin() {
 		super("Domino Application");
+		
+		Platform.registerPlugin(PluginDarwinoDemoWeb.class);
+		Platform.registerPlugin(PluginDarwinoDemoWebTools.class);
 	}
 
 	@Override
