@@ -25,11 +25,11 @@ package com.darwino.demo.dominodisc.app;
 
 import com.darwino.commons.services.HttpServerContext;
 import com.darwino.commons.services.HttpServiceFactories;
-import com.darwino.mobile.hybrid.platform.DarwinoHttpServer;
+import com.darwino.mobile.hybrid.platform.NanoHttpdDarwinoHttpServer;
 import com.darwino.mobile.hybrid.services.MobileDelegateRestFactory;
 
 
-public class AppServiceDispatcher extends DarwinoHttpServer {
+public class AppServiceDispatcher extends NanoHttpdDarwinoHttpServer {
 	
 	public AppServiceDispatcher(HttpServerContext context) {
 		super(context);

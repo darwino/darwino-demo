@@ -25,7 +25,7 @@ package com.darwino.demo.dominodisc.app;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.log.Logger;
 import com.darwino.commons.services.HttpServerContext;
-import com.darwino.mobile.hybrid.platform.DarwinoHttpServer;
+import com.darwino.mobile.hybrid.platform.DarwinoMobileHttpServer;
 import com.darwino.mobile.platform.DarwinoMobileApplication;
 import com.darwino.mobile.platform.MobileLogger;
 import com.darwino.platform.DarwinoManifest;
@@ -55,7 +55,7 @@ public class AppHybridApplication extends DarwinoSwtHybridApplication {
 	}
 
 	@Override
-	protected DarwinoHttpServer createHttpServer(HttpServerContext context) {
+	protected DarwinoMobileHttpServer createHttpServer(HttpServerContext context) {
     	return new AppServiceDispatcher(context);
 	}
 }
