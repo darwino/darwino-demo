@@ -20,7 +20,7 @@
 			<artifactId>dwo-android-platform-hybrid</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
-		<!-- In case we want to use a different mobile web servers 
+		<!-- In case we want to use a different mobile web server
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-mobile-platform-hybrid-tjws</artifactId>
@@ -31,7 +31,7 @@
 			<artifactId>dwo-mobile-platform-hybrid-jetty</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
- 		 -->
+		-->
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino</artifactId>
