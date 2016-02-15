@@ -19,7 +19,7 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demodata</artifactId>
-			<version>1.0.0</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 	</dependencies>
 	

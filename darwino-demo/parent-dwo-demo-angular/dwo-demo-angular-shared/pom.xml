@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.darwino</groupId>
     <artifactId>parent-dwo-demo-angular</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>dwo-demo-angular-shared</artifactId>
 </project>
