@@ -81,7 +81,7 @@ public abstract class GridCursorService extends AbstractJsonDBService {
 				o.put("mdate",JsonUtil.dateToString(entry.getLastModificationDate(),TimeZone.getDefault()));
 				o.put("muser",entry.getLastModificationUser());
 				if(t!=null) {
-					QueryContext qc = new CursorRecordQueryContext(entry);
+					QueryContext qc = new CursorRecordQueryContext(entry.getCursor(),null,entry);
 					Object r = t.evaluate(qc, o);
 					o.put("value",r);
 				} else {
