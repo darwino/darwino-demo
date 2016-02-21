@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.darwino</groupId>
 		<artifactId>parent-dwo-demo-news</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>dwo-demo-news-robovm-native</artifactId>
@@ -18,13 +18,13 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-news-shared</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-commons-mobile</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
