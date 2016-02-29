@@ -24,7 +24,6 @@ package com.darwino.demo.dominodisc.app;
 
 import java.util.List;
 
-import com.darwino.commons.platform.impl.PluginImpl;
 import com.darwino.mobile.platform.commands.CommandsExtension;
 
 
@@ -33,7 +32,7 @@ import com.darwino.mobile.platform.commands.CommandsExtension;
  * IOS Plugin for registering the services.
  * 
  */
-public class AppPlugin extends PluginImpl {
+public class AppPlugin extends AppMobilePlugin {
 	
 	public AppPlugin() {
 		super("IOS Application");
@@ -44,5 +43,6 @@ public class AppPlugin extends PluginImpl {
 		if(serviceClass==CommandsExtension.class) {
 			extensions.add(new AppHybridActions());
 		}
+		super.findExtensions(serviceClass, extensions);
 	}
 }

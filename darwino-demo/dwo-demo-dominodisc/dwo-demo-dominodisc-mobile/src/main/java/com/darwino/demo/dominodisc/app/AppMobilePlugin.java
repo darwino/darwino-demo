@@ -22,38 +22,35 @@
 
 package com.darwino.demo.dominodisc.app;
 
+import java.util.List;
 
-import com.darwino.commons.json.JsonException;
-import com.darwino.commons.services.HttpServerContext;
-import com.darwino.ios.platform.hybrid.DarwinoIOSHybridApplication;
-import com.darwino.mobile.hybrid.platform.DarwinoMobileHttpServer;
-import com.darwino.mobile.platform.DarwinoMobileApplication;
-import com.darwino.platform.DarwinoManifest;
+import com.darwino.commons.httpclnt.SSLCertificateExtension;
 
 
-public class AppHybridApplication extends DarwinoIOSHybridApplication {
+
+/**
+ * Application Plugin.
+ */
+public abstract class AppMobilePlugin extends AppBasePlugin {
 	
-	static {
-		// Make sure that some classes are referenced and thus loaded
-		@SuppressWarnings("unused")
-		Class<?> c = AppMobilePlugin.class;
-	}
-	
-	public static AppHybridApplication create() throws JsonException {
-		if(!DarwinoMobileApplication.isInitialized()) {
-			AppHybridApplication app = new AppHybridApplication(
-					new AppManifest(new AppMobileManifest(AppManifest.MOBILE_PATHINFO)));
-			app.init();
-		}
-		return (AppHybridApplication)AppHybridApplication.get();
-	}
-	
-	public AppHybridApplication(DarwinoManifest manifest) {
-		super(manifest);
+	public AppMobilePlugin(String name) {
+		super(name);
 	}
 
 	@Override
-	protected DarwinoMobileHttpServer createHttpServer(HttpServerContext context) {
-    	return new AppServiceDispatcher(context);
+	public void findExtensions(Class<?> serviceClass, List<Object> extensions) {
+		if(serviceClass==SSLCertificateExtension.class) {
+			extensions.add(new SSLCertificateExtension() {
+				@Override
+				public boolean shouldTrust(String url) {
+					// Trust local servers
+					if(url.startsWith("https://192.168.")) {
+						return true;
+					}
+					return false;
+				}
+			});
+		}
+		super.findExtensions(serviceClass, extensions);
 	}
 }

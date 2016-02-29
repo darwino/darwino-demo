@@ -15,7 +15,8 @@
     	<param-name>dwo-profiler</param-name>
     	<param-value>${discdb.profiler=false}</param-value>
     </context-param>
-		
+	
+<!-- 		
 	<context-param>
     	<param-name>dwo-sync-trace</param-name>
     	<param-value>${discdb.sync-trace=false}</param-value>
@@ -64,7 +65,8 @@
     	<param-name>dwo-sync-mode</param-name>
     	<param-value>${discdb.sync-mode=pull+push}</param-value>
   	</context-param>
-
+ -->
+ 
 	<!-- Application initialization -->
 	<listener>
 	    <listener-class>
