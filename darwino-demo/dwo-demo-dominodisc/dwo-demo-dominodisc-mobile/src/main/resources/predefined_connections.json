@@ -3,8 +3,38 @@
 		{
 			"enabled": true,
 			"local": true,
-			"name": "Local Server",
+			"name": "Local Server 75.79",
 			"url": "http://192.168.75.79:8080",
+			"userId": "amass",
+			"password": "floflo",
+			"dn": "cn=al mass,o=triloggroup",
+			"cn": "Al Mass"
+		},
+		{
+			"enabled": true,
+			"local": true,
+			"name": "Local Server https 75.79",
+			"url": "https://192.168.75.79:8443",
+			"userId": "amass",
+			"password": "floflo",
+			"dn": "cn=al mass,o=triloggroup",
+			"cn": "Al Mass"
+		},
+		{
+			"enabled": true,
+			"local": true,
+			"name": "Local Server 1.20",
+			"url": "http://192.168.1.20:8080",
+			"userId": "amass",
+			"password": "floflo",
+			"dn": "cn=al mass,o=triloggroup",
+			"cn": "Al Mass"
+		},
+		{
+			"enabled": true,
+			"local": true,
+			"name": "Local Server https 1.20",
+			"url": "https://192.168.1.20:8443",
 			"userId": "amass",
 			"password": "floflo",
 			"dn": "cn=al mass,o=triloggroup",
