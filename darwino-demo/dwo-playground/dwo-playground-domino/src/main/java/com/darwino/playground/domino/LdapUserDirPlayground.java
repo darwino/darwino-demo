@@ -26,8 +26,8 @@ import com.darwino.commons.security.acl.User;
 import com.darwino.commons.security.acl.UserException;
 import com.darwino.commons.security.acl.impl.UserImpl;
 import com.darwino.commons.security.acl.impl.UserProviderImpl;
+import com.darwino.commons.util.StringUtil;
 import com.darwino.config.user.UserDirLdap;
-import com.ibm.commons.util.StringUtil;
 
 
 /**
