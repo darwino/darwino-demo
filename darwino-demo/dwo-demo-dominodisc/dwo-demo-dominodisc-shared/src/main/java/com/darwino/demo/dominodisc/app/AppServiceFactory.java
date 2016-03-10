@@ -24,6 +24,7 @@ package com.darwino.demo.dominodisc.app;
 
 import java.util.List;
 
+import com.darwino.commons.json.JsonArray;
 import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.services.HttpService;
 import com.darwino.commons.services.HttpServiceContext;
@@ -75,6 +76,18 @@ public class AppServiceFactory extends RestServiceFactory {
 		}
 	}
 	
+	public class DatabaseInstances extends HttpService {
+		@Override
+		public void service(HttpServiceContext context) {
+			if(context.isGet()) {
+				JsonArray a = new JsonArray(AppDatabaseDef.getDiscDBInstances());
+				context.emitJson(a);
+			} else {
+				throw HttpServiceError.errorUnsupportedMethod(context.getMethod());
+			}
+		}
+	}
+	
 	public AppServiceFactory() {
 		super(DarwinoHttpConstants.APPSERVICES_PATH);
 	}
@@ -87,6 +100,15 @@ public class AppServiceFactory extends RestServiceFactory {
 			@Override
 			public HttpService createService(HttpServiceContext context, String[] parts) {
 				return new AppInformation();
+			}
+		});
+		
+		/////////////////////////////////////////////////////////////////////////////////
+		// DATABASE INSTANCES
+		binders.add(new RestServiceBinder("instances") {
+			@Override
+			public HttpService createService(HttpServiceContext context, String[] parts) {
+				return new DatabaseInstances();
 			}
 		});
 	}	

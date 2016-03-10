@@ -22,6 +22,7 @@
 
 package com.darwino.demo.dominodisc.app;
 
+import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonUtil;
 import com.darwino.commons.util.StringUtil;
@@ -47,6 +48,15 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 
 	public static final String DATABASE_NAME       = "domdisc"; //$NON-NLS-1$
 
+	// The list  of instances is defined through a property for the disc DBs
+	public static String[] getDiscDBInstances() {
+		String inst = Platform.getProperty("discdb.instances");
+		if(StringUtil.isNotEmpty(inst)) {
+			return StringUtil.splitString(inst, ',', true);
+		}
+		return null;
+	}
+	
 	
 	@Override
 	public int getDatabaseVersion(String databaseName) throws JsonException {

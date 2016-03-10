@@ -23,6 +23,7 @@
 var jstore = darwino.jstore;
 var services = darwino.services;
 
+var app_baseUrl = "$darwino-app";
 var jstore_baseUrl = "$darwino-jstore";
 var social_baseUrl = "$darwino-social";
 
@@ -121,8 +122,9 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		}
 		return false
 	}
-	
-	session.getDatabaseInstances(DATABASE_NAME).then(function(instances) {
+
+	$http.get(app_baseUrl+"/instances").then(function(response) {
+		var instances = response.data;
 		$rootScope.instances = instances;
 		if(instances && instances.length>0) {
 			var inst = storage ? storage.getItem(INSTANCE_PROP) : null;
@@ -132,7 +134,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			$rootScope.context.instance = inst;
 			$rootScope.instanceChanged();
 		}
-	});
+	})
 	
 	
 //	localStorage.setItem('someName', 'savedData');
