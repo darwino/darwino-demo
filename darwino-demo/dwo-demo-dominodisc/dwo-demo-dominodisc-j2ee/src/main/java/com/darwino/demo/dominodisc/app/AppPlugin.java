@@ -25,7 +25,6 @@ package com.darwino.demo.dominodisc.app;
 import java.util.List;
 
 import com.darwino.commons.platform.beans.ManagedBeansExtension;
-import com.darwino.commons.platform.impl.PluginImpl;
 import com.darwino.commons.platform.properties.PropertiesExtension;
 import com.darwino.commons.security.acl.UserService;
 import com.darwino.j2ee.platform.DefaultWebBeanExtension;
