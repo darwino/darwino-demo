@@ -31,6 +31,7 @@ import com.darwino.commons.services.HttpServiceContext;
 import com.darwino.commons.services.HttpServiceError;
 import com.darwino.commons.services.rest.RestServiceBinder;
 import com.darwino.commons.services.rest.RestServiceFactory;
+import com.darwino.commons.util.Lic;
 import com.darwino.jsonstore.Session;
 import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.DarwinoContext;
@@ -80,8 +81,14 @@ public class AppServiceFactory extends RestServiceFactory {
 		@Override
 		public void service(HttpServiceContext context) {
 			if(context.isGet()) {
-				JsonArray a = new JsonArray(AppDatabaseDef.getDiscDBInstances());
-				context.emitJson(a);
+				// Instances are only supported with the Enterprise edition
+				if(Lic.isEnterpriseEdition()) {
+					JsonArray a = new JsonArray(AppDatabaseDef.getDiscDBInstances());
+					context.emitJson(a);
+				} else {
+					JsonArray a = new JsonArray();
+					context.emitJson(a);
+				}
 			} else {
 				throw HttpServiceError.errorUnsupportedMethod(context.getMethod());
 			}
