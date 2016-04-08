@@ -23,8 +23,11 @@
 package com.darwino.demo.dominodisc.app;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.darwino.commons.json.JsonException;
+import com.darwino.commons.security.acl.User;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.platform.DarwinoManifest;
 
@@ -48,5 +51,15 @@ public class AppJ2EEApplication extends DarwinoJ2EEApplication {
 	
 	protected AppJ2EEApplication(ServletContext context, DarwinoManifest manifest) {
 		super(context,manifest);
+	}
+
+	@Override
+	public String getInstanceName(HttpServletRequest request, HttpServletResponse response, User user) {
+		// In case of one instance, use it as the default
+		String[] inst = AppDatabaseDef.getDiscDBInstances();
+		if(inst!=null && inst.length==1) {
+			return inst[0];
+		}
+		return null;
 	}
 }

@@ -93,7 +93,6 @@
 	<!--  Bellow is the list of the available classes  -->
 	<!--  <filter-class>com.darwino.j2ee.servlet.authentication.BasicAuthenticationFilter</filter-class> -->
    	<!--  <filter-class>com.darwino.j2ee.servlet.authentication.FormAuthenticationFilter</filter-class> -->
-<!--    	
 	<filter>
     	<filter-name>DarwinoAuthentication</filter-name>
    		<filter-class>com.darwino.j2ee.servlet.authentication.FormAuthenticationFilter</filter-class>
@@ -104,7 +103,6 @@
 		<dispatcher>REQUEST</dispatcher>
     	<dispatcher>FORWARD</dispatcher>
    </filter-mapping>
- -->
 
 	<!--  Filter for creating the Darwino Application, Context and DB session -->
 	<filter>
@@ -180,6 +178,7 @@
   	</welcome-file-list>
 
 <!-- Enable this to use the J2EE CONTAINER security -->
+<!-- 
 	<security-role>
 		<role-name>user</role-name>
 	</security-role>
@@ -197,5 +196,6 @@
 		<auth-method>BASIC</auth-method>
 		<realm-name>discdb</realm-name>
 	</login-config>
-  	  	
+ -->
+   	  	
 </web-app>

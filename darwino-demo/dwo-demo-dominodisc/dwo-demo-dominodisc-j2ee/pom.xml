@@ -49,7 +49,7 @@
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-pool-bonecp</artifactId>
 			<version>${DARWINO_VERSION}</version>
-		</dependency>
+		</dependency>		
 
 <!-- For desktop SQLite tests 
 		<dependency>
