@@ -46,7 +46,7 @@ if(USE_INSTANCES) {
 
 angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
-.run(['$rootScope','$location','$state','$http','$window',function($rootScope,$location,$state,$http,$window) {
+.run(['$rootScope','$location','$state','$http','$window','views',function($rootScope,$location,$state,$http,$window,views) {
 	// Storage utilities
 	function storage() {
 		try {
@@ -90,9 +90,9 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	// http://stackoverflow.com/questions/15305900/angularjs-ng-model-input-type-number-to-rootscope-not-updating
 	if(USE_INSTANCES) {
 		$rootScope.data.instance = ""; // default instance
-		$rootScope.instances = [];
+		$rootScope.data.instances = [];
 		$rootScope.hasInstances = function() {
-			return $rootScope.instances.length>1;  
+			return $rootScope.data.instances.length>1;  
 		}
 		$rootScope.instanceChanged = function() {
 			var inst = $rootScope.data.instance;
@@ -107,6 +107,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		if(USE_INSTANCES) {
 			inst = $rootScope.data.instance;
 		}
+		views.reset();
 		$rootScope.dbPromise = session.getDatabase(DATABASE_NAME,inst);
 		$rootScope.dbPromise.then(function(database) {
 			$rootScope.database = database;
@@ -130,16 +131,18 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		return !u || u.isAnonymous();
 	};
 	$rootScope.getUser = function(id) {
-		var u = userService.getUser(id,function(u,loaded) {
-			if(loaded) $rootScope.apply();
-		});
-		return u || darwino.services.User.ANONYMOUS_USER;
+		if(id && $rootScope.accessUserService) {  
+			var u =null
+			var u = userService.getUser(id,function(u,loaded) {
+				if(loaded) $rootScope.apply();
+			});
+			return u || darwino.services.User.ANONYMOUS_USER;
+		}
+		return userService.createUser(id);
 	};
 	$rootScope.getPhoto = function(id) {
-		if(id) {
-			if($rootScope.accessUserService) {  
-				return userService.getUserPhotoUrl(id);
-			}
+		if(id && $rootScope.accessUserService) {  
+			return userService.getUserPhotoUrl(id);
 		}
 		return darwino.services.User.ANONYMOUS_PHOTO;
 	};
@@ -181,7 +184,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	if(USE_INSTANCES) {
 		$http.get(app_baseUrl+"/instances").then(function(response) {
 			var instances = response.data;
-			$rootScope.instances = instances;
+			$rootScope.data.instances = instances;
 			if(instances && instances.length>0) {
 				var inst = storage ? storage.getItem(INSTANCE_PROP) : null;
 				if(!inst || arrayIndexOf(instances,inst)<0) {
@@ -264,9 +267,16 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 //
 // Service to access the documents
 //
-.service('discDocs', ['$rootScope','$state','$jstore','$ionicPopup',function($rootScope,$state,$jstore,$ionicPopup) {
+.service('views', ['$rootScope','$state','$jstore','$ionicPopup',function($rootScope,$state,$jstore,$ionicPopup) {
 	// We cache the entries share the list in memory
 	var allEntries = {};
+	this.reset = function() {
+		for(var k in allEntries) {
+			var e = allEntries[k];
+			e.setInstance($rootScope.data.instance);
+			e.resetCursor();
+		}
+	}
 	this.getEntries = function(view) {
 		var v = allEntries[view]
 		if(v) return v;
@@ -278,15 +288,19 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			entries.initCursor({
 				database: DATABASE_NAME,
 				store: STORE_NAME,
-				orderBy: "_cdate desc"
+				orderBy: "_cdate desc",
+				jsonTree: true,
+				hierarchical: 99,
+				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK
 			});
 			$rootScope.data.bydate = entries;
 		} else if(view=='byauthor') {
 			entries.initCursor({
 				database: DATABASE_NAME,
 				store: STORE_NAME,
-				orderBy: "_cuser",
-				categoryCount: 1
+				orderBy: "_cuser, _cdate desc",
+				categoryCount: 1,
+				options: jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_CATONLY
 			});
 			$rootScope.data.byauthor = entries;
 		}
@@ -308,18 +322,13 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		}
 		entries.getUser = function(item) {
 			if(item) {
-				if($rootScope.accessUserService) {  
-					return userService.getUser(this.getUserDn(item),function(u,n){if(n){$rootScope.apply()}})
-				}
-				return userService.createUser(this.getUserDn(item));
+				return $rootScope.getUser(this.getUserDn(item));
 			}
 			return darwino.services.User.ANONYMOUS_USER;
 		}
 		entries.getPhoto =  function(item) {
 			if(item) {
-				if($rootScope.accessUserService) {  
-					return userService.getUserPhotoUrl(this.getUserDn(item));
-				}
+				return $rootScope.getPhoto(this.getUserDn(item));
 			}
 			return darwino.services.User.ANONYMOUS_PHOTO;
 		}
@@ -371,19 +380,20 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			});
 		}
 		
-		entries.hasMore = function() {
-			return entries.hasMore();
-		}
 		entries.hasMoreButton = function() {
-			return !$rootScope.infiniteScroll && entries.hasMore() && !entries.isLoading();
+			return !$rootScope.infiniteScroll && this.hasMore() && !this.isLoading();
 		}
+		
+		var oldLoadMore = entries.loadMore; 
 		entries.loadMore = function() {
-			entries.loadMore( function() {
+			oldLoadMore.call(this,function() {
 				$rootScope.$broadcast('scroll.infiniteScrollComplete');
 			});
 		}
-		entries.refresh = function(delay) {
-			entries.reload( delay, function() {
+
+		var oldReload = entries.reload; 
+		entries.reload = function(delay) {
+			oldReload.call( this, delay, function() {
 				darwino.hybrid.setDirty(false);
 				$rootScope.$broadcast('scroll.refreshComplete');
 			});
@@ -401,16 +411,16 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		//
 		entries.searchMode = 0;
 		entries.startSearch = function() {
-			entries.searchMode = 1;
+			this.searchMode = 1;
 		};
 		entries.executeSearch = function() {
-			entries.refresh(500);
+			this.reload(500);
 		};
 		entries.cancelSearch = function() {
-			entries.searchMode = 0;
-			if(entries.ftSearch) {
-				entries.ftSearch = "";
-				entries.refresh();
+			this.searchMode = 0;
+			if(this.ftSearch) {
+				this.ftSearch = "";
+				this.reload();
 			}
 		};
 		
@@ -430,28 +440,26 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 //
 //	Views
 //
-.controller('DocsCtrl', ['$rootScope','$scope','$state','$stateParams','discDocs', function($rootScope,$scope,$state,$stateParams,discDocs) {
+.controller('DocsCtrl', ['$rootScope','$scope','$state','$stateParams','views', function($rootScope,$scope,$state,$stateParams,views) {
 	var view = $stateParams.view;
-	var entries = $scope.entries = discDocs.getEntries(view);
+	var entries = $scope.entries = views.getEntries(view);
 	entries.view = view;
-	
-	entries.refresh();	
 }])
 
 
 //
 //	Reader
 //
-.controller('ReadCtrl', ['$scope', '$rootScope','discDocs','view', function($scope,$rootScope,discDocs,view) {
-	$scope.entries = discDocs.getEntries(view);
+.controller('ReadCtrl', ['$scope', '$rootScope','views','view', function($scope,$rootScope,views,view) {
+	$scope.entries = views.getEntries(view);
 }])
 
 
 //
 //	Editor
 //
-.controller('EditCtrl', ['$scope', '$rootScope','$state','$stateParams','$ionicHistory','discDocs','view', function($scope,$rootScope,$state,$stateParams,$ionicHistory,discDocs,view) {
-	var entries = $scope.entries = discDocs.getEntries(view);
+.controller('EditCtrl', ['$scope', '$rootScope','$state','$stateParams','$ionicHistory','views','view', function($scope,$rootScope,$state,$stateParams,$ionicHistory,views,view) {
+	var entries = $scope.entries = views.getEntries(view);
 	
 	var id = $stateParams.id;
 	$scope.doc = null;

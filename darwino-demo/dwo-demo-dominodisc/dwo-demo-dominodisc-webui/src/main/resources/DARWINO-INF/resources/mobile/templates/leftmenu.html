@@ -34,7 +34,7 @@
 					<span class='count'>&nbsp;&nbsp;{{isState('app.docs',{view:'bydate'})?data.bydate.getEntriesCount():''}}</span>
 				</a>
 			</ul>
-			<ul class="list animate-rip" ng-controller="DocsCtrl">
+			<ul class="list animate-rip" ng-controller="DocsCtrl" ng-hide="true">
 				<a href="#/app/docs/byauthor" class="item item-icon-left {{isState('app.docs',{view:'byauthor'})?'item-selected':''}}" menu-close>
 					<i class="icon ion-calendar"></i>
 					By Author
@@ -88,9 +88,8 @@
 				</a>
 				<div class="list item item-input item-select" ng-show="hasInstances()">
 					&nbsp;
-			    	<!-- <select ng-model="instance" ng-change="instanceChanged()" ng-options="inst in instances">  -->
-			    	<select ng-model="context.instance" ng-change="instanceChanged()" style="max-width: 100%">
-						<option ng-repeat="inst in instances" >{{inst}}</option>
+			    	<select ng-model="data.instance" ng-change="instanceChanged()" style="max-width: 100%">
+						<option ng-repeat="inst in data.instances" >{{inst}}</option>
 					</select>
 				</div>
        		</ul>

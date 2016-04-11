@@ -85,12 +85,13 @@ public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 		
 		if(existingVersion<3) {
 			statements.add(StringUtil.format(
-				"CREATE INDEX {0} ON {1} ({2},{3},{4})",
+				"CREATE INDEX {0} ON {1} ({2},{3},{4},{5} DESC)",
 					getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 3),
 					SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
 					DBSchema.FDOC_INSTID,
 					DBSchema.FDOC_STOREID,
-					DBSchema.FDOC_CUSER
+					DBSchema.FDOC_CUSER,
+					DBSchema.FDOC_CDATE
 				)
 			);
 		}

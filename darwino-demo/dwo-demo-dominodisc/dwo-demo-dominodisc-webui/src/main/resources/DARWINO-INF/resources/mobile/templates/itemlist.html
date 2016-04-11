@@ -1,5 +1,5 @@
 <ion-list class='list-entries'>
-	<ion-item ng-repeat="item in entries.all" class="list-item item-list-entries" ng-click="entries.selectItem(item); entries.readEntry()">
+	<ion-item ng-repeat="item in entries.getEntries()" class="list-item item-list-entries" ng-click="entries.selectItem(item); entries.readEntry()">
 		<div class="{{item==entries.selectedItem?'selected':''}}">
 			<div ng-switch on="entries.isCategory(item)">
 				<div ng-switch-when="false">
@@ -27,9 +27,9 @@
 			</div>
 		</div>
 	</ion-item>
-	<ion-item ng-if="hasMoreButton()">
-		<button class="button button-clear button-block button-positive" ng-click="loadMore()">Load More...</button>
+	<ion-item ng-if="entries.hasMoreButton()">
+		<button class="button button-clear button-block button-positive" ng-click="entries.loadMore()">Load More...</button>
 	</ion-item>
 </ion-list>
 
-<ion-infinite-scroll ng-if="infiniteScroll && hasMore()" on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>
+<ion-infinite-scroll ng-if="infiniteScroll && entries.hasMore()" on-infinite="entries.loadMore()" distance="5%"></ion-infinite-scroll>

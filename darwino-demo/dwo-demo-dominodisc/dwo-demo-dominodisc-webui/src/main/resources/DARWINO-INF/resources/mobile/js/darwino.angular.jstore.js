@@ -51,15 +51,22 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.orderBy = params.orderBy;
 		this.categoryStart = params.categoryStart;
 		this.categoryCount = params.categoryCount;
+		this.key = params.key;
 		this.ftSearch = params.ftSearch;
+		this.hierarchical = params.hierarchical;
+		this.jsonTree = params.jsonTree;
+		this.options = params.options;
 		
+		this.resetCursor();
+	}
+
+	ItemList.prototype.resetCursor = function() {
 		this.state = 0;
 		this.all = [];
 		this.count = -1;
 		this.eof = false;
 		this.selectedItem = null;
 		this.detailItem = null;
-		this.detailDocument = null;
 		this.showResponses = {};
 
 		this.refreshTimeout = null;
@@ -114,6 +121,13 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}
 		return false;
 	}
+	
+	ItemList.prototype.getEntries = function() {
+		if(this.all.length==0 && !this.eof) {
+			this.reload();
+		}
+		return this.all;
+	}
 	ItemList.prototype.getEntriesCount = function() {
 		// Performance on larger dataset
 		// A count can be very time consuming, so we disable it
@@ -123,8 +137,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		if(this.count<-1) {
 			this.count = -1;
 			var url = this._storeUrl()+"/count";
-			var options = jstore.Cursor.RANGE_ROOT;
-			url += "?options="+options;
+			url += "?options="+this.options;
 			if(this.ftSearch) {
 				url += "&ftsearch="+encodeURIComponent(this.ftSearch);
 				url += '&orderby=_ftRank'
@@ -136,6 +149,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				if(this.categoryStart) {
 					url += "&categorystart="+this.categoryStart;
 				}
+			}
+			if(this.key) {
+				url += "&key="+this.key;
 			}
 			if(this.instanceId) {
 				url += '&instance=' + encodeURIComponent(this.instanceId);
@@ -152,7 +168,6 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	}
 	ItemList.prototype.selectItem = function(selectedItem) {
 		this.detailItem = selectedItem;
-		this.detailDocument = null;
 		if(!selectedItem.parentUnid) {
 			this.selectedItem = selectedItem;
 		}	
@@ -210,10 +225,16 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		var _this = this;
 		var url = this._storeUrl()+'/entries'
 				+'?skip='+skip
-				+'&limit='+count
-				+'&hierarchical=99'
-				+'&jsontree=documents'
-				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+				+'&limit='+count;
+		if(this.options) {
+			url += '&options='+this.options;
+		}
+		if(this.jsonTree) {
+			url += '&jsontree=true'
+		}
+		if(this.hierarchical>0) {
+			url += '&hierarchical='+this.hierarchical
+		}
 		if(this.ftSearch) {
 			url += "&ftsearch="+encodeURIComponent(this.ftSearch);
 			url += '&orderby=_ftRank'
@@ -225,6 +246,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			if(this.categoryStart) {
 				url += "&categorystart="+this.categoryStart;
 			}
+		}
+		if(this.key) {
+			url += "&key="+this.key;
 		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
@@ -277,9 +301,15 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		var _this = this;
 		var url = this._storeUrl()+'/entries'
 				+'?unid='+unid
-				+'&hierarchical=99'
-				+'&jsontree=documents'
-				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+		if(this.options) {
+			url += '&options='+this.options;
+		}
+		if(this.jsonTree) {
+			url += '&jsontree=true'
+		}
+		if(this.hierarchical>0) {
+			url += '&hierarchical='+this.hierarchical
+		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
 		}
@@ -304,9 +334,15 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		var _this = this;
 		var url = this._storeUrl()+'/entries'
 				+'?unid='+item.unid
-				+'&hierarchical=99'
-				+'&jsontree=documents'
-				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
+		if(this.options) {
+			url += '&options='+this.options;
+		}
+		if(this.jsonTree) {
+			url += '&jsontree=true'
+		}
+		if(this.hierarchical>0) {
+			url += '&hierarchical='+this.hierarchical
+		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
 		}
@@ -379,7 +415,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 
 	ItemList.prototype.getAttachments = function(item) {
 		var _this = this;
-		if(!item) return null;
+		if(!item || item.category) return null;
 		if(!item.attachments) {
 			item.attachments = [];
 			var jsonfields = jstore.Document.JSON_ALLATTACHMENTS;
