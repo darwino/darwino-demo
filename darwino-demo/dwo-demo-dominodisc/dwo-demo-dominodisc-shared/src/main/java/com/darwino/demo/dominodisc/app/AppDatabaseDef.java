@@ -86,6 +86,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 			ft.setFields("$"); //$NON-NLS-1$
 
 			store.addQueryField("form", JsonUtil.TYPE_STRING, false); //$NON-NLS-1$
+			//store.addQueryField("author", JsonUtil.TYPE_STRING, false, "_writers.from"); //$NON-NLS-1$
 		}
 		
 		// Store: Configuration

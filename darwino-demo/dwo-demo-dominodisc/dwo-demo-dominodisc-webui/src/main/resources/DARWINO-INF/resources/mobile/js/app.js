@@ -20,6 +20,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+(function() {
+	
 var jstore = darwino.jstore;
 var services = darwino.services;
 
@@ -36,34 +38,15 @@ darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
 var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
-var INSTANCE_PROP = "dwo.domdisc.instance";
+var USE_INSTANCES = true;
 
-//
-// Handling attachment
-//
-// Desktop browsers will use the link normally, but hybrid mobile
-// apps should use special handling.
-// This method is used twice below
-//
-var openAttachmentFunc = function(thisEvent, att, $rootScope, entries) {
-	if(darwino.hybrid.isHybrid()) {
-		thisEvent.preventDefault();
-		
-		darwino.hybrid.exec("OpenAttachment",{
-			database:DATABASE_NAME, 
-			store:STORE_NAME,
-			instance:$rootScope.context.instance,
-			unid:entries.detailItem.unid, 
-			name:att.name,
-			file:att.display,
-			mimeType:att.mimeType
-		});
-	}
+if(USE_INSTANCES) {
+	var INSTANCE_PROP = "dwo.domdisc.instance";
 }
 
 angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
-.run(function($rootScope,$location,$state,$http,$window,entries) {
+.run(['$rootScope','$location','$state','$http','$window',function($rootScope,$location,$state,$http,$window) {
 	// Storage utilities
 	function storage() {
 		try {
@@ -92,20 +75,38 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	$rootScope.session = session;
 	$rootScope.userService = userService;
 
-	$rootScope.instances = [];
-	$rootScope.hasInstances = function() {
-		return $rootScope.instances.length>1;  
+	// Make the data models globally available so the navigator can access them
+	// Could also be provided as a service to avoid the pollution of $rooScope
+	$rootScope.data = {
+		// Global information maintained
+		instance: null,
+		// Data as loaded by the controllers
+		bydate: {},
+		byauthor: {}
 	}
-	$rootScope.instanceChanged = function() {
-		var inst = $rootScope.context.instance;
-		if(storage) {
-			storage.setItem(INSTANCE_PROP,inst);
+	
+	// Should this me moved to an initialization service?
+	// Use an object because of prototypical inheritance
+	// http://stackoverflow.com/questions/15305900/angularjs-ng-model-input-type-number-to-rootscope-not-updating
+	if(USE_INSTANCES) {
+		$rootScope.data.instance = ""; // default instance
+		$rootScope.instances = [];
+		$rootScope.hasInstances = function() {
+			return $rootScope.instances.length>1;  
 		}
-		$rootScope.reset();
+		$rootScope.instanceChanged = function() {
+			var inst = $rootScope.data.instance;
+			if(storage) {
+				storage.setItem(INSTANCE_PROP,inst);
+			}
+			$rootScope.reset();
+		}
 	}
 	$rootScope.reset = function() {
-		var inst = $rootScope.context.instance;
-		entries.setInstance(inst);
+		var inst = null;
+		if(USE_INSTANCES) {
+			inst = $rootScope.data.instance;
+		}
 		$rootScope.dbPromise = session.getDatabase(DATABASE_NAME,inst);
 		$rootScope.dbPromise.then(function(database) {
 			$rootScope.database = database;
@@ -122,26 +123,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		}
 		return false
 	}
-
-	$http.get(app_baseUrl+"/instances").then(function(response) {
-		var instances = response.data;
-		$rootScope.instances = instances;
-		if(instances && instances.length>0) {
-			var inst = storage ? storage.getItem(INSTANCE_PROP) : null;
-			if(!inst || arrayIndexOf(instances,inst)<0) {
-				inst = instances[0];
-			}
-			$rootScope.context.instance = inst;
-			$rootScope.instanceChanged();
-		}
-	})
 	
-	
-//	localStorage.setItem('someName', 'savedData');
-//	When you have to retrieve it later you just use:
-//	var data = localStorage.getItem('someName');
-
-	$rootScope.entries = entries;
 	
 	$rootScope.isAnonymous = function() {
 		var u = userService.getCurrentUser();
@@ -161,19 +143,13 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		}
 		return darwino.services.User.ANONYMOUS_PHOTO;
 	};
-	$rootScope.isReadOnly = function() {
-		return this.isAnonymous();
-	};
-	$rootScope.isFtEnabled = function() {
-		return $rootScope.nsfdata && $rootScope.nsfdata.isFtSearchEnabled();
-	};
 	$rootScope.go = function(path,monoPaneOnly) {
 		if(monoPaneOnly) {
 			if($rootScope.isDualPane()) {
 				return;
 			}
 		}
-		$location.path(path);
+		$state.go(path)
 	};
 	$rootScope.apply = function() {
 		setTimeout(function(){$rootScope.$apply()});
@@ -183,14 +159,42 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
         $state.go('app.user',{userdn:dn});
     }	
 	
-	$rootScope.isState = function(state) {
-        return $state.is(state);
+	$rootScope.isState = function(state,params) {
+        if($state.includes(state)) {
+        	if(params) {
+        		for(var p in params) {
+        			if($state.params[p]!=params[p]) {
+        				return false;
+        			}
+        		}
+        	}
+        	return true;
+        }
+        return false;
     }	
 	
 	darwino.hybrid.addSettingsListener(function(){
 		$rootScope.apply();
 	});
-})
+	
+	// Initialization
+	if(USE_INSTANCES) {
+		$http.get(app_baseUrl+"/instances").then(function(response) {
+			var instances = response.data;
+			$rootScope.instances = instances;
+			if(instances && instances.length>0) {
+				var inst = storage ? storage.getItem(INSTANCE_PROP) : null;
+				if(!inst || arrayIndexOf(instances,inst)<0) {
+					inst = instances[0];
+				}
+				$rootScope.data.instance = inst;
+				$rootScope.instanceChanged();
+			}
+		})
+	} else {
+		setTimeout(function(){$rootScope.reset()});
+	}	
+}])
 
 .filter('formattedDate', function() {
 	return function(d) {
@@ -198,7 +202,11 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	}
 })
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+//
+// State provider
+//
+.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 	$stateProvider.state('app', {
 		url : "/app",
 		abstract : true,
@@ -210,185 +218,241 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				templateUrl : "templates/home.html"
 			}
 		}
-	}).state('app.mainview', {
-		url : "/mainview",
+	}).state('app.docs', {
+		url : "/docs/:view",
 		views : {
 			'menuContent' : {
 				templateUrl : "templates/mainview.html",
-				controller : "MainViewCtrl"
+				controller : "DocsCtrl",
+			}
+		},
+		resolve:{
+			view: ['$stateParams', function($stateParams){
+				return $stateParams.view;
+		    }]
+		}	
+	}).state('app.docs.read', {
+		url : "/read",
+		views : {
+			'menuContent@app' : {
+				templateUrl : "templates/readitem.html",
+				controller : "ReadCtrl",
 			}
 		}
-	}).state('app.readpost', {
-		url : "/readpost",
+	}).state('app.docs.edit', {
+		url : "/edit/:id",
 		views : {
-			'menuContent' : {
-				templateUrl : "templates/readpost.html",
-				controller : "ReadCtrl"
-			}
-		}
-	}).state('app.editpost', {
-		url : "/editpost/:id",
-		views : {
-			'menuContent' : {
-				templateUrl : "templates/editpost.html",
+			'menuContent@app' : {
+				templateUrl : "templates/edititem.html",
 				controller : "EditCtrl"
 			}
 		}
 	}).state('app.user', {
 		url : "/user/:userdn",
 		views : {
-			'menuContent' : {
+			'menuContent@app' : {
 				templateUrl : "templates/user.html",
 				controller : "UserCtrl"
 			}
 		}
 	});
 
-	$urlRouterProvider.otherwise("/app/mainview");
-})
+	$urlRouterProvider.otherwise("/app/docs/bydate");
+}])
 
-.controller('MainCtrl', function($scope) {
-})
-
-// This is currently a service as the left menu needs access to the count
-.service('entries', function($rootScope,$http,$timeout,$jstore,$ionicPopup) {
-	// Should this me moved to an initialization service?
-	// Use an object because of prototypical inheritance
-	// http://stackoverflow.com/questions/15305900/angularjs-ng-model-input-type-number-to-rootscope-not-updating
-	$rootScope.context = {
-		instance: 	"", 		// default instance
-		view:     	"MainView"  // View
-	}
-	
-	var entries = $jstore.createItemList(session,DATABASE_NAME,STORE_NAME,$rootScope.context.instance)
-	entries.orderBy = "_cdate desc";
-	
-	// Specific methods
-	entries.getUserDn = function(item) {
-		if(item && item.value && item.value._writers && item.value._writers.from) {
-			var a = item.value._writers.from;
-			if(darwino.Utils.isArray(a)) {
-				return a.length==1 ? a[0] : null;
-			}
-			return a;
-		}
-		return null;
-	}
-	entries.getUser = function(item) {
-		if(item) {
-			if($rootScope.accessUserService) {  
-				return userService.getUser(this.getUserDn(item),function(u,n){if(n){$rootScope.apply()}})
-			}
-			return userService.createUser(this.getUserDn(item));
-		}
-		return darwino.services.User.ANONYMOUS_USER;
-	}
-	entries.getPhoto =  function(item) {
-		if(item) {
-			if($rootScope.accessUserService) {  
-				return userService.getUserPhotoUrl(this.getUserDn(item));
-			}
-		}
-		return darwino.services.User.ANONYMOUS_PHOTO;
-	}
-	entries.newPost = function() {
-		$rootScope.go('/app/editpost/new');
-	}
-	entries.editEntry = function(item) {
-		var item = item || entries.detailItem;
-		if(!item) return;
-		$rootScope.go('/app/editpost/id:'+item.unid);
-	}
-	entries.newResponse = function(item) {
-		var item = item || entries.detailItem;
-		if(!item) return;
-		$rootScope.go('/app/editpost/pid:'+item.unid);
-	}
-	entries.deleteEntry = function(item) {
-		var item = item || entries.detailItem;
-		if(!item) return;
-		var confirmPopup = $ionicPopup.confirm({
-			title: 'Delete entry',
-			template: 'Are you sure you want to delete this document?'
-		});
-		confirmPopup.then(function(res) {
-			if(res) {
-				entries.deleteItem(item);
-			}
-		});
-	}
-	return entries;
-})
 
 //
-//	Main View
+// Service to access the documents
 //
-.controller('MainViewCtrl', ['$scope','$rootScope','$http','$ionicModal','entries', function($scope,$rootScope,$http,$ionicModal,entries) {
-	//
-	//
-	//
-	$scope.hasMore = function() {
-		return entries.hasMore();
-	}
-	$scope.hasMoreButton = function() {
-		return !$rootScope.infiniteScroll && entries.hasMore() && !entries.isLoading();
-	}
-	$scope.loadMore = function() {
-		entries.loadMore( function() {
-			$scope.$broadcast('scroll.infiniteScrollComplete');
-		});
-	}
-	$scope.refresh = function() {
-		entries.refresh( 0, function() {
-			darwino.hybrid.setDirty(false);
-			$scope.$broadcast('scroll.refreshComplete');
-		});
-	}
-	
-	//
-	// Handling attachment
-	//
-	$scope.openAttachment = function(thisEvent, att) {
-		openAttachmentFunc(thisEvent, att, $rootScope, entries);
-	};
+.service('discDocs', ['$rootScope','$state','$jstore','$ionicPopup',function($rootScope,$state,$jstore,$ionicPopup) {
+	// We cache the entries share the list in memory
+	var allEntries = {};
+	this.getEntries = function(view) {
+		var v = allEntries[view]
+		if(v) return v;
 
-	//
-	// Search Bar
-	//
-	$scope.searchMode = 0;
-	$scope.startSearch = function() {
-		$scope.searchMode = 1;
-	};
-	$scope.executeSearch = function() {
-		entries.refresh(500);
-	};
-	$scope.cancelSearch = function() {
-		$scope.searchMode = 0;
-		if(entries.ftSearch) {
-			entries.ftSearch = "";
-			entries.refresh();
+		var entries = allEntries[view] = $jstore.createItemList(session)
+		entries.view = view;
+
+		if(view=='bydate') {
+			entries.initCursor({
+				database: DATABASE_NAME,
+				store: STORE_NAME,
+				orderBy: "_cdate desc"
+			});
+			$rootScope.data.bydate = entries;
+		} else if(view=='byauthor') {
+			entries.initCursor({
+				database: DATABASE_NAME,
+				store: STORE_NAME,
+				orderBy: "_cuser",
+				categoryCount: 1
+			});
+			$rootScope.data.byauthor = entries;
 		}
-	};
+		
+		if(USE_INSTANCES) {
+			entries.setInstance($rootScope.data.instance);
+		}
+		
+		// Specific methods
+		entries.getUserDn = function(item) {
+			if(item && item.value && item.value._writers && item.value._writers.from) {
+				var a = item.value._writers.from;
+				if(darwino.Utils.isArray(a)) {
+					return a.length==1 ? a[0] : null;
+				}
+				return a;
+			}
+			return null;
+		}
+		entries.getUser = function(item) {
+			if(item) {
+				if($rootScope.accessUserService) {  
+					return userService.getUser(this.getUserDn(item),function(u,n){if(n){$rootScope.apply()}})
+				}
+				return userService.createUser(this.getUserDn(item));
+			}
+			return darwino.services.User.ANONYMOUS_USER;
+		}
+		entries.getPhoto =  function(item) {
+			if(item) {
+				if($rootScope.accessUserService) {  
+					return userService.getUserPhotoUrl(this.getUserDn(item));
+				}
+			}
+			return darwino.services.User.ANONYMOUS_PHOTO;
+		}
+		entries.isReadOnly = function() {
+			return $rootScope.isAnonymous();
+		};
+		entries.isFtEnabled = function() {
+			return $rootScope.nsfdata && $rootScope.nsfdata.isFtSearchEnabled();
+		};
+		entries.isCategory = function(item) {
+			var item = item || entries.detailItem;
+			if(!item) return;
+			return item.category==true;
+		}
+		entries.newEntry = function() {
+			$state.go("app.docs.edit",{view:entries.view});
+		}
+		entries.readEntry = function(item) {
+			var item = item || entries.detailItem;
+			if(!item) return;
+			if(item.category) {
+				var dn = entries.getUserDn(item);
+				$rootScope.go('app.user',true,{userdn:dn});
+			} else {
+				$rootScope.go("app.docs.read",true);
+			}
+		}
+		entries.editEntry = function(item) {
+			var item = item || entries.detailItem;
+			if(!item) return;
+			$state.go("app.docs.edit",{view:entries.view,id:"id:"+item.unid});
+		}
+		entries.newResponse = function(item) {
+			var item = item || entries.detailItem;
+			if(!item) return;
+			$state.go("app.docs.edit",{view:entries.view,id:"pid:"+item.unid});
+		}
+		entries.deleteEntry = function(item) {
+			var item = item || entries.detailItem;
+			if(!item) return;
+			$ionicPopup.confirm({
+				title: 'Delete entry',
+				template: 'Are you sure you want to delete this document?'
+			}).then(function(res) {
+				if(res) {
+					entries.deleteItem(item);
+				}
+				$state.go("app.docs",{view:entries.view});
+			});
+		}
+		
+		entries.hasMore = function() {
+			return entries.hasMore();
+		}
+		entries.hasMoreButton = function() {
+			return !$rootScope.infiniteScroll && entries.hasMore() && !entries.isLoading();
+		}
+		entries.loadMore = function() {
+			entries.loadMore( function() {
+				$rootScope.$broadcast('scroll.infiniteScrollComplete');
+			});
+		}
+		entries.refresh = function(delay) {
+			entries.reload( delay, function() {
+				darwino.hybrid.setDirty(false);
+				$rootScope.$broadcast('scroll.refreshComplete');
+			});
+		}
+		
+		//
+		// Handling attachments
+		//
+		entries.openAttachment = function(thisEvent, att) {
+			entries.openAttachmentFunc(thisEvent, att);
+		};
+	
+		//
+		// Search Bar
+		//
+		entries.searchMode = 0;
+		entries.startSearch = function() {
+			entries.searchMode = 1;
+		};
+		entries.executeSearch = function() {
+			entries.refresh(500);
+		};
+		entries.cancelSearch = function() {
+			entries.searchMode = 0;
+			if(entries.ftSearch) {
+				entries.ftSearch = "";
+				entries.refresh();
+			}
+		};
+		
+		return entries;
+	}
+}])
+
+
+//
+//	Main controller for the whole page
+//
+.controller('MainCtrl', [function() {
+}])
+	
+
+
+//
+//	Views
+//
+.controller('DocsCtrl', ['$rootScope','$scope','$state','$stateParams','discDocs', function($rootScope,$scope,$state,$stateParams,discDocs) {
+	var view = $stateParams.view;
+	var entries = $scope.entries = discDocs.getEntries(view);
+	entries.view = view;
+	
+	entries.refresh();	
 }])
 
 
 //
 //	Reader
 //
-.controller('ReadCtrl', ['$scope','$rootScope','$stateParams','$ionicHistory','entries', function($scope,$rootScope,$stateParams,$ionicHistory,entries) {
-	//
-	// Handling attachment
-	//
-	$scope.openAttachment = function(thisEvent, att) {
-		openAttachmentFunc(thisEvent, att, $rootScope, entries);
-	};
+.controller('ReadCtrl', ['$scope', '$rootScope','discDocs','view', function($scope,$rootScope,discDocs,view) {
+	$scope.entries = discDocs.getEntries(view);
 }])
 
 
 //
 //	Editor
 //
-.controller('EditCtrl', ['$scope','$stateParams','$ionicHistory','entries', function($scope,$stateParams,$ionicHistory,entries) {
+.controller('EditCtrl', ['$scope', '$rootScope','$state','$stateParams','$ionicHistory','discDocs','view', function($scope,$rootScope,$state,$stateParams,$ionicHistory,discDocs,view) {
+	var entries = $scope.entries = discDocs.getEntries(view);
+	
 	var id = $stateParams.id;
 	$scope.doc = null;
 	$scope.json = null;
@@ -414,8 +478,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			doc.convertAttachmentUrlsForStorage();
 			
 			var isNew = doc.isNewDocument();
-			var p = doc.save();
-			p.then(function() {
+			doc.save().then(function() {
 				doc.convertAttachmentUrlsForDisplay();
 				
 				if(isNew && !doc.getParentUnid()) {
@@ -428,21 +491,19 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				}
 			})
 			$ionicHistory.goBack();
+			//$state.go("^");
 		}
 	}
 
 	$scope.cancel = function() {
 		$ionicHistory.goBack();
+		//$state.go("^");
 	}
 	
 	$scope.getTitle = function() {
 		var doc = $scope.doc;
 		if(doc) {
-			if(doc.getParentUnid()) {
-				return doc.isNewDocument() ? "New Comment" : "Edit Comment";
-			} else {
-				return doc.isNewDocument() ? "New Post" : "Edit Post";
-			}
+			return doc.isNewDocument() ? "New Entry" : "Edit Entry";
 		}
 		return "";
 	}
@@ -452,7 +513,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 //
 //	User
 //
-.controller('UserCtrl', ['$scope','$stateParams','entries', function($scope,$stateParams,entries) {
+.controller('UserCtrl', ['$scope','$stateParams', function($scope,$stateParams) {
 	$scope.userAttr = "";
 	$scope.userPayload = "";
 	$scope.userConnAttrs = "";
@@ -464,4 +525,6 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			$scope.apply();
 		}
 	});
-}]);
+}])
+
+}());

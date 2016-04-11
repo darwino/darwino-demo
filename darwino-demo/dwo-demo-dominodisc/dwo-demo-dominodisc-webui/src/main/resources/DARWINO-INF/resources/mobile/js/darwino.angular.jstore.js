@@ -35,15 +35,24 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	
 	var jstore = darwino.jstore;
 	
-	function ItemList(session,databaseId,storeId,instanceId) {
-		//darwino.log.d(LOG_GROUP,"Create ItemList for database {0}, store {1}",databaseId,storeId);
+	function ItemList(session) {
 		this.session = session;
 		this.baseUrl = session.getHttpStoreClient().getHttpClient().getBaseUrl();
-		this.databaseId = databaseId;
-		this.storeId = storeId;
-		this.indexId = null;
-		this.instanceId = instanceId;
-		this.orderBy = null;
+		this.refreshCount = REFRESHCOUNT;
+		this.moreCount = MORECOUNT;
+	}
+
+	ItemList.prototype.initCursor = function(params) {
+		//darwino.log.d(LOG_GROUP,"Create ItemList for database {0}, store {1}",databaseId,storeId);
+		this.databaseId = params.database;
+		this.storeId = params.store;
+		this.indexId = params.index;
+		this.instanceId = params.instance;
+		this.orderBy = params.orderBy;
+		this.categoryStart = params.categoryStart;
+		this.categoryCount = params.categoryCount;
+		this.ftSearch = params.ftSearch;
+		
 		this.state = 0;
 		this.all = [];
 		this.count = -1;
@@ -51,10 +60,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.selectedItem = null;
 		this.detailItem = null;
 		this.detailDocument = null;
-		this.ftSearch = "";
 		this.showResponses = {};
-		this.refreshCount = REFRESHCOUNT;
-		this.moreCount = MORECOUNT;
 
 		this.refreshTimeout = null;
 		this.loading = false;
@@ -65,7 +71,6 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	}
 	ItemList.prototype.setInstance = function(id,cb) {
 		this.instanceId = id;
-		this.refresh(0,cb);
 	}
 	
 	ItemList.prototype._databaseUrl = function() {
@@ -122,6 +127,15 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			url += "?options="+options;
 			if(this.ftSearch) {
 				url += "&ftsearch="+encodeURIComponent(this.ftSearch);
+				url += '&orderby=_ftRank'
+			} else if(this.orderBy) {
+				url += '&orderby='+encodeURIComponent(this.orderBy);
+				if(this.categoryCount) {
+					url += "&categorycount="+this.categoryCount;
+				}
+				if(this.categoryStart) {
+					url += "&categorystart="+this.categoryStart;
+				}
 			}
 			if(this.instanceId) {
 				url += '&instance=' + encodeURIComponent(this.instanceId);
@@ -144,9 +158,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}	
 	}
 
-	ItemList.prototype.refresh = function(delay,cb) {
+	ItemList.prototype.reload = function(delay,cb) {
 		var _this = this;
-		function doRefresh() {
+		function doReload() {
 			// If there is already an ongoing request, then ignore the new one
 			if(_this.loading) {
 				return;
@@ -165,9 +179,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			_this.refreshTimeout = null;
 		}
 		if(delay) {
-			_this.refreshTimeout = ngTimeout(doRefresh,delay);
+			_this.refreshTimeout = ngTimeout(doReload,delay);
 		} else {
-			doRefresh();
+			doReload();
 		}
 	}
 	ItemList.prototype.isShowResponses = function(item) {
@@ -198,13 +212,19 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				+'?skip='+skip
 				+'&limit='+count
 				+'&hierarchical=99'
-				+'&jsontree=true'
+				+'&jsontree=documents'
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
 		if(this.ftSearch) {
 			url += "&ftsearch="+encodeURIComponent(this.ftSearch);
 			url += '&orderby=_ftRank'
 		} else if(this.orderBy) {
 			url += '&orderby='+encodeURIComponent(this.orderBy);
+			if(this.categoryCount) {
+				url += "&categorycount="+this.categoryCount;
+			}
+			if(this.categoryStart) {
+				url += "&categorystart="+this.categoryStart;
+			}
 		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
@@ -258,11 +278,8 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		var url = this._storeUrl()+'/entries'
 				+'?unid='+unid
 				+'&hierarchical=99'
-				+'&jsontree=true'
+				+'&jsontree=documents'
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
-		if(this.orderBy) {
-			url += '&orderby=' + encodeURIComponent(this.orderBy);
-		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
 		}
@@ -288,11 +305,8 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		var url = this._storeUrl()+'/entries'
 				+'?unid='+item.unid
 				+'&hierarchical=99'
-				+'&jsontree=true'
+				+'&jsontree=documents'
 				+'&options='+(jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK);
-		if(this.orderBy) {
-			url += '&orderby=' + encodeURIComponent(this.orderBy);
-		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
 		}
@@ -398,7 +412,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 							display: display,
 							length: att.length,
 							mimeType: att.mimeType,
-							url: session.getUrlBuilder().getAttachmentUrl(_this.databaseId, _this.storeId, response.data.unid, att.name)
+							url: _this.session.getUrlBuilder().getAttachmentUrl(_this.databaseId, _this.storeId, response.data.unid, att.name)
 						})
 					});
 				}
@@ -407,12 +421,33 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		return item.attachments;
 	}
 
+	//
+	// Handling attachment
+	//
+	// Desktop browsers will use the link normally, but hybrid mobile
+	// apps should use special handling.
+	//
+	ItemList.prototype.openAttachment = function(thisEvent, att) {
+		if(darwino.hybrid.isHybrid()) {
+			thisEvent.preventDefault();
+			darwino.hybrid.exec("OpenAttachment",{
+				database:this.databaseId, 
+				store:this.databaseId,
+				instance:this.instanceId,
+				unid:this.detailItem.unid, 
+				name:att.name,
+				file:att.display,
+				mimeType:att.mimeType
+			});
+		}
+	}
+
 	mod.service('$jstore', function($http,$timeout) {
 		ngHttp = $http;
 		ngTimeout = $timeout;
 		return {
-			createItemList: function(session,databaseId,storeId) {
-				return new ItemList(session,databaseId,storeId);
+			createItemList: function(session) {
+				return new ItemList(session);
 			}
 		}
 	});

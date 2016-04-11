@@ -1,14 +1,28 @@
 <ion-list class='list-entries'>
-	<ion-item ng-repeat="item in entries.all" class="list-item item-list-entries" ng-click="entries.selectItem(item); go('/app/readpost',true)">
+	<ion-item ng-repeat="item in entries.all" class="list-item item-list-entries" ng-click="entries.selectItem(item); entries.readEntry()">
 		<div class="{{item==entries.selectedItem?'selected':''}}">
-			<div class="item-avatar item-icon-right item-list-header {{item.read?'item-read':'item-unread'}}">
-				<img ng-src="{{entries.getPhoto(item)}}" alt="Photo" 
-					ng-click="go('/app/user/'+entries.getUserDn(item))" 
-					onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
-				<div style="width:100%">
-					<h2 ng-bind="item.value.subject"></h2>
-					<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
-					<h4 ng-bind="item.value.abstract"></h4>
+			<div ng-switch on="entries.isCategory(item)">
+				<div ng-switch-when="false">
+					<div class="item-avatar item-icon-right item-list-header {{item.read?'item-read':'item-unread'}}">
+						<img ng-src="{{entries.getPhoto(item)}}" alt="Photo" 
+							ng-click="go('/app/user/'+entries.getUserDn(item))" 
+							onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
+						<div style="width:100%">
+							<h2 ng-bind="item.value.subject"></h2>
+							<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
+							<h4 ng-bind="item.value.abstract"></h4>
+						</div>
+					</div>
+				</div>
+				<div ng-switch-when="true">
+					<div class="item-avatar item-icon-right item-list-header {{item.read?'item-read':'item-unread'}}">
+						<img ng-src="{{getPhoto(item.key)}}" alt="Photo" 
+							ng-click="go('/app/user/'+item.key)" 
+							onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
+						<div style="width:100%;">
+							<h1 ng-bind="getUser(item.key).getCn()"></h1>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

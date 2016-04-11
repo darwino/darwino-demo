@@ -27,11 +27,18 @@
 					Home
 				</a>
 			</ul>
-			<ul class="list animate-rip">
-				<a href="#/app/mainview" class="item item-icon-left {{isState('app.mainview')?'item-selected':''}}" menu-close>
+			<ul class="list animate-rip" ng-controller="DocsCtrl">
+				<a href="#/app/docs/bydate" class="item item-icon-left {{isState('app.docs',{view:'bydate'})?'item-selected':''}}" menu-close>
 					<i class="icon ion-calendar"></i>
 					By Date
-					<span class='count'>&nbsp;&nbsp;{{entries.getEntriesCount()}}</span>
+					<span class='count'>&nbsp;&nbsp;{{isState('app.docs',{view:'bydate'})?data.bydate.getEntriesCount():''}}</span>
+				</a>
+			</ul>
+			<ul class="list animate-rip" ng-controller="DocsCtrl">
+				<a href="#/app/docs/byauthor" class="item item-icon-left {{isState('app.docs',{view:'byauthor'})?'item-selected':''}}" menu-close>
+					<i class="icon ion-calendar"></i>
+					By Author
+					<span class='count'>&nbsp;&nbsp;{{isState('app.docs',{view:'byauthor'})?data.byauthor.getEntriesCount():''}}</span>
 				</a>
 			</ul>
 	

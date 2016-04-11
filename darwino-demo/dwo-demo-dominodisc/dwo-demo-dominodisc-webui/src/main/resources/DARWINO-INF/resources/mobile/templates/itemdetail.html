@@ -1,4 +1,4 @@
-<div class="item-body" ng-hide="!entries.detailItem">
+<div class="item-body" ng-hide="!entries.detailItem || entries.detailItem.category">
 	<div ng-click="entries.selectItem(entries.detailItem)">
 		<h2 ng-bind="entries.detailItem.value.subject"></h2>
 	</div>
