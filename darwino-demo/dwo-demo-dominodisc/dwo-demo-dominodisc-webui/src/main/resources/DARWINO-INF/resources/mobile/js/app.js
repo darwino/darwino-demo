@@ -70,7 +70,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	$rootScope.infiniteScroll = false;
 	$rootScope.accessUserService = true;
 	
-	// Make some global var visible
+	// Make some global variables visible
 	$rootScope.darwino = darwino;
 	$rootScope.session = session;
 	$rootScope.userService = userService;
