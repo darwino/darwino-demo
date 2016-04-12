@@ -52,6 +52,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.categoryStart = params.categoryStart;
 		this.categoryCount = params.categoryCount;
 		this.key = params.key;
+		this.query = params.query;
 		this.ftSearch = params.ftSearch;
 		this.hierarchical = params.hierarchical;
 		this.jsonTree = params.jsonTree;
@@ -151,7 +152,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				}
 			}
 			if(this.key) {
-				url += "&key="+this.key;
+				url += "&key=\""+encodeURIComponent(this.key)+"\"";
+			}
+			if(this.query) {
+				url += "&query="+encodeURIComponent(this.query);
 			}
 			if(this.instanceId) {
 				url += '&instance=' + encodeURIComponent(this.instanceId);
@@ -249,7 +253,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			}
 		}
 		if(this.key) {
-			url += "&key="+this.key;
+			url += "&key=\""+encodeURIComponent(this.key)+"\"";
+		}
+		if(this.query) {
+			url += "&query="+encodeURIComponent(this.query);
 		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);

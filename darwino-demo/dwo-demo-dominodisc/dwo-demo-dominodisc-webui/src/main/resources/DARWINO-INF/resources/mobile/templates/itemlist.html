@@ -20,7 +20,8 @@
 							ng-click="go('/app/user/'+item.key)" 
 							onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
 						<div style="width:100%;">
-							<h1 ng-bind="getUser(item.key).getCn()"></h1>
+							<h2 ng-bind="getUser(item.key).getCn()" style="font-weight:800"></h2>
+							<h3 ng-bind="getUser(item.key).getDn()"></h3>
 						</div>
 					</div>
 				</div>

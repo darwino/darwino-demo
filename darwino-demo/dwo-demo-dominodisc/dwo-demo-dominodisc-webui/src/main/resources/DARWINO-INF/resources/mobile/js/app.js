@@ -79,18 +79,14 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	// Could also be provided as a service to avoid the pollution of $rooScope
 	$rootScope.data = {
 		// Global information maintained
-		instance: null,
-		// Data as loaded by the controllers
-		bydate: {},
-		byauthor: {}
+		instances: [],
+		instance: "",
 	}
 	
 	// Should this me moved to an initialization service?
 	// Use an object because of prototypical inheritance
 	// http://stackoverflow.com/questions/15305900/angularjs-ng-model-input-type-number-to-rootscope-not-updating
 	if(USE_INSTANCES) {
-		$rootScope.data.instance = ""; // default instance
-		$rootScope.data.instances = [];
 		$rootScope.hasInstances = function() {
 			return $rootScope.data.instances.length>1;  
 		}
@@ -179,6 +175,16 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	darwino.hybrid.addSettingsListener(function(){
 		$rootScope.apply();
 	});
+
+	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+		if(toState.name=="app.docs") {
+			var view = toParams.view;
+			views.select(view);
+		} else if(toState.name=="app.author") {		
+			var author = toParams.author;
+			views.select('author',{author:author});
+		}
+	})
 	
 	// Initialization
 	if(USE_INSTANCES) {
@@ -234,6 +240,19 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				return $stateParams.view;
 		    }]
 		}	
+	}).state('app.author', {
+		url : "/author/:author",
+		views : {
+			'menuContent' : {
+				templateUrl : "templates/mainview.html",
+				controller : "DocsAuthor",
+			}
+		},
+		resolve:{
+			view: ['$stateParams', function($stateParams){
+				return $stateParams.view;
+		    }]
+		}	
 	}).state('app.docs.read', {
 		url : "/read",
 		views : {
@@ -277,33 +296,57 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			e.resetCursor();
 		}
 	}
-	this.getEntries = function(view) {
-		var v = allEntries[view]
-		if(v) return v;
-
-		var entries = allEntries[view] = $jstore.createItemList(session)
+	this.select = function(view,params) {
+		if(params) {
+			return $rootScope.entries = this.createEntries(view,params);
+		}
+		return $rootScope.entries = this.getEntries(view,params);
+	}
+	this.getEntries = function(view,params) {
+		if(!params) {
+			var v = allEntries[view]
+			if(v) return v;
+		}
+		return allEntries[view] = this.createEntries(view)
+	}
+	this.createEntries = function(view,params) {
+		var entries = $jstore.createItemList(session)
 		entries.view = view;
 
+		var p;
 		if(view=='bydate') {
-			entries.initCursor({
+			p = {
 				database: DATABASE_NAME,
 				store: STORE_NAME,
 				orderBy: "_cdate desc",
 				jsonTree: true,
 				hierarchical: 99,
 				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK
-			});
-			$rootScope.data.bydate = entries;
+			};
 		} else if(view=='byauthor') {
-			entries.initCursor({
+			p = {
 				database: DATABASE_NAME,
 				store: STORE_NAME,
 				orderBy: "_cuser, _cdate desc",
 				categoryCount: 1,
 				options: jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_CATONLY
-			});
-			$rootScope.data.byauthor = entries;
+			};
+		} else if(view=='author') {
+			p = {
+				database: DATABASE_NAME,
+				store: STORE_NAME,
+				orderBy: "_cuser, _cdate desc",
+				query: "{'_cuser':\""+params.author+"\"}",
+				options: jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK
+			};
+		} else {
+			// Unknown...
+			return;
 		}
+		if(params) {
+			angular.merge(p,params);
+		}
+		entries.initCursor(p);
 		
 		if(USE_INSTANCES) {
 			entries.setInstance($rootScope.data.instance);
@@ -350,8 +393,8 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			var item = item || entries.detailItem;
 			if(!item) return;
 			if(item.category) {
-				var dn = entries.getUserDn(item);
-				$rootScope.go('app.user',true,{userdn:dn});
+				var dn = item.key;
+				$state.go('app.author',{author:dn});
 			} else {
 				$rootScope.go("app.docs.read",true);
 			}
@@ -439,14 +482,13 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 }])
 	
 
-
 //
 //	Views
 //
 .controller('DocsCtrl', ['$rootScope','$scope','$state','$stateParams','views', function($rootScope,$scope,$state,$stateParams,views) {
-	var view = $stateParams.view;
-	var entries = $scope.entries = views.getEntries(view);
-	entries.view = view;
+}])
+
+.controller('DocsAuthor', ['$rootScope','$scope','$state','$stateParams','views', function($rootScope,$scope,$state,$stateParams,views) {
 }])
 
 
@@ -454,7 +496,6 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 //	Reader
 //
 .controller('ReadCtrl', ['$scope', '$rootScope','views','view', function($scope,$rootScope,views,view) {
-	$scope.entries = views.getEntries(view);
 }])
 
 
