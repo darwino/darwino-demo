@@ -28,7 +28,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	var mod = angular.module('darwino.angular.jstore',[]);
 
 	var REFRESHCOUNT = 15;
-	var MORECOUNT = 10;
+	var MORECOUNT = 15;
 
 	var ngHttp;
 	var ngTimeout;
@@ -215,10 +215,11 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	ItemList.prototype.loadMore = function(cb,err) {
 		// If there is already an ongoing request, then ignore the new one
 		if(!this.hasMore() || this.loading) {
-			return;
+			return false;
 		}
 		darwino.log.d(LOG_GROUP,"Load more entries, count={0}",this.all.length);
 		this.loadItems(this.all.length,this.moreCount,cb,err);
+		return true;
 	}
 	
 	ItemList.prototype.loadItems = function(skip,count,cb,err) {

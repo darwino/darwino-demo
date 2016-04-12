@@ -21,12 +21,13 @@
 	</ion-nav-buttons>
 
  	<div class="row" ng-if="isDualPane()">
+ 		<!-- The list should be last, at least with ionic 1.2.4 - See: https://forum.ionicframework.com/t/issue-with-ion-infinite-scroll/49060  -->
+		<ion-content class="col col-offset-33 col-67">
+			<ng-include src="'templates/itemdetail.html'"></ng-include>
+     	</ion-content>
 		<ion-content class="list-content col col-33">
 			<ion-refresher pulling-text="Pull to refresh..." on-refresh="entries.reload()"></ion-refresher>
 			<ng-include src="'templates/itemlist.html'"></ng-include>
-     	</ion-content>
-		<ion-content class="col col-offset-33 col-67">
-			<ng-include src="'templates/itemdetail.html'"></ng-include>
      	</ion-content>
 	</div>
 

@@ -67,7 +67,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	var storage = storage(); 
 	
 	// Some options
-	$rootScope.infiniteScroll = false;
+	$rootScope.infiniteScroll = true;
 	$rootScope.accessUserService = true;
 	
 	// Make some global variables visible
@@ -386,9 +386,12 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		
 		var oldLoadMore = entries.loadMore; 
 		entries.loadMore = function() {
-			oldLoadMore.call(this,function() {
+			function broadcast() {
 				$rootScope.$broadcast('scroll.infiniteScrollComplete');
-			});
+			}
+			if(!oldLoadMore.call(this,broadcast)) {
+				broadcast();
+			};
 		}
 
 		var oldReload = entries.reload; 
