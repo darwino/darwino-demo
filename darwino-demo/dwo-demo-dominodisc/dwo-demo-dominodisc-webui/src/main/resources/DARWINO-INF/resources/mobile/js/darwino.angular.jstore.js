@@ -386,43 +386,45 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			url += '?instance=' + encodeURIComponent(this.instanceId);
 		}
 		ngHttp.delete(url).then(function(response) {
-			var rootItem = _this.findRoot(item.unid);
-			if(rootItem && rootItem!=item) { 
-				_this.reloadItem(rootItem);
-				_this.detailItem = _this.findRoot(item.parentUnid);
-			} else {
-				var idx = _this.all.indexOf(item);
-				if(idx>=0) {
-					_this.all.splice(idx,1);
-					_this.selectedItem = _this.all.length ? _this.all[Math.max(idx-1,0)] : null;
-				}
-			}
+//			var rootItem = _this.findRoot(item.unid);
+//			if(rootItem && rootItem!=item) { 
+//				_this.reloadItem(rootItem);
+//				_this.detailItem = _this.findRoot(item.parentUnid);
+//			} else {
+//				var idx = _this.all.indexOf(item);
+//				if(idx>=0) {
+//					_this.all.splice(idx,1);
+//					_this.selectedItem = _this.all.length ? _this.all[Math.max(idx-1,0)] : null;
+//				}
+//			}
 			_this._removeItem(item)
 			if(cb) cb();
 		});
 	}
 	ItemList.prototype._removeItem = function(item) {
 		var _this = this;
-		function remove(items) {
-			for(var i=0; i<items.length; i++) {
-				var it = items[i]; 
-				if(it===item) {
-					items.splice(i, 1);
-					if(_this.detailItem==it) {
-						_this.detailItem=items.length>0 ? items[Math.min(i,items.length-1)] : null;
+		function remove(parent) {
+			var items = parent?parent.children:_this.all;
+			if(items) {
+				for(var i=0; i<items.length; i++) {
+					var it = items[i]; 
+					if(it===item) {
+						items.splice(i, 1);
+						if(_this.selectedItem==it) {
+							_this.selectedItem=_this.detailItem=items.length>0 ? items[Math.min(i,items.length-1)] : null;
+						} else if(_this.detailItem==it) {
+							_this.detailItem=parent;
+						}
+						return true;
 					}
-					if(_this.selectedItem==it) {
-						_this.selectedItem=items.length>0 ? items[Math.min(i,items.length-1)] : null;
+					if(remove(it)) {
+						return true;
 					}
-					return true;
-				}
-				if(it.children && remove(it.children)) {
-					return true;
 				}
 			}
 			return false;
 		}
-		return this.all ? remove(this.all) : false;
+		return remove(null);
 	}
 	
 	ItemList.prototype._loadItems = function(url,cb,cberr) {
