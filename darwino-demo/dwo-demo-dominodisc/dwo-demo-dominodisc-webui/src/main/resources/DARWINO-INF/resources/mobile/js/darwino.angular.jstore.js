@@ -238,7 +238,10 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.loadItems(this.all.length,this.moreCount,cb,err);
 		return true;
 	}
-	
+
+	/**
+	 * Load a set of items from the database.
+	 */
 	ItemList.prototype.loadItems = function(skip,count,cb,err) {
 		var _this = this;
 		var url = this._storeUrl()+'/entries'
@@ -304,38 +307,19 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		});
 	}
 
-	ItemList.prototype.loadOneItem = function(unid,cb) {
+	/**
+	 * Load a new item from the database.
+	 */
+	ItemList.prototype.addItem = function(unid,cb,err) {
+		this.addOrReplaceItem(unid,true,cb,err);
+	}
+	ItemList.prototype.replaceItem = function(unid,cb,err) {
+		this.addOrReplaceItem(unid,false,cb,err);
+	}
+	ItemList.prototype.addOrReplaceItem = function(unid,isnew,cb,err) {
 		var _this = this;
 		var url = this._storeUrl()+'/entries'
 				+'?unid='+unid
-		if(this.options) {
-			url += '&options='+this.options;
-		}
-		if(this.jsonTree) {
-			url += '&jsontree=true'
-		}
-		if(this.hierarchical>0) {
-			url += '&hierarchical='+this.hierarchical
-		}
-		if(this.instanceId) {
-			url += '&instance=' + encodeURIComponent(this.instanceId);
-		}
-		this._loadItems(url,function(data) {
-			if(data.length>0) {
-				var entry = data[0]
-				
-				_this.all.unshift(entry);				
-				_this.selectItem(entry);
-				
-				if(cb) cb(data);
-			}
-		});
-	}
-	
-	ItemList.prototype.reloadItem = function(item,cb) {
-		var _this = this;
-		var url = this._storeUrl()+'/entries'
-				+'?unid='+item.unid
 		if(this.options) {
 			url += '&options='+this.options;
 		}
@@ -350,55 +334,78 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}
 		this._loadItems(url,function(data) {
 			if(data.length>0) {
-				_this._replaceItem(item,data[0]);
-				if(cb) cb(data);
+				_this._addOrReplaceItem(data[0],isnew); 
 			}
+			if(cb) cb(data);
+		}, function(data) {
+			if(err) err(data);
 		});
 	}
-	ItemList.prototype._replaceItem = function(item,data) {
+	ItemList.prototype._addOrReplaceItem = function(item,isnew) {
 		var _this = this;
-		function replace(items) {
-			for(var i=0; i<items.length; i++) {
-				var it = items[i]; 
-				if(it===item) {
-					items[i] = data;
-					if(_this.detailItem==it) {
-						_this.detailItem=data;
+		function addReplace(parent) {
+			// Look in the list of children if it can be replaced, when not new
+			var items = parent ? parent.children : _this.all;
+			if(items!=null) {
+				for(var i=0; i<items.length; i++) {
+					var it = items[i]; 
+					if(!isnew) {
+						if(it.unid==item.unid) {
+							items[i] = item;
+							if(_this.detailItem===it) {
+								_this.detailItem=parent||item;
+							}
+							if(_this.selectedItem===it) {
+								_this.selectedItem=item;
+							}
+							return true;
+						}
 					}
-					if(_this.selectedItem==it) {
-						_this.selectedItem=data;
+					
+					// Do the same recursively
+					if(addReplace(it)) {
+						return true;
 					}
-					return true;
 				}
-				if(it.children && replace(it.children)) {
+			}
+			
+			// If not, then look if it belongs to the parent, or the main array
+			// So it can be added as a new document
+			if(parent!=null) {
+				if(parent.unid==item.parentUnid) {
+					if(!parent.children) {
+						parent.children = [];
+					}
+					parent.children.unshift(item);				
+					_this.detailItem=parent;
 					return true;
-				}
+				} 
+			} else {
+				_this.all.unshift(item);				
+				_this.selectedItem=_this.detailItem=item;
+				return true;
 			}
 			return false;
 		}
-		return this.all ? replace(this.all) : false;
+		// Try to add or replace the item in the current list.
+		addReplace(null);
 	}
-	
-	ItemList.prototype.deleteItem = function(item,cb) {
+
+	/**
+	 * Delete an item from the database and remove it from the in memory tree.
+	 */
+	ItemList.prototype.deleteItem = function(item,cb,err) {
 		var _this = this;
 		var url = this._storeUrl()+"/documents/"+encodeURIComponent(item.unid);
+		url += '?options=' + jstore.Store.DELETE_CHILDREN;
 		if(this.instanceId) {
-			url += '?instance=' + encodeURIComponent(this.instanceId);
+			url += '&instance=' + encodeURIComponent(this.instanceId);
 		}
-		ngHttp.delete(url).then(function(response) {
-//			var rootItem = _this.findRoot(item.unid);
-//			if(rootItem && rootItem!=item) { 
-//				_this.reloadItem(rootItem);
-//				_this.detailItem = _this.findRoot(item.parentUnid);
-//			} else {
-//				var idx = _this.all.indexOf(item);
-//				if(idx>=0) {
-//					_this.all.splice(idx,1);
-//					_this.selectedItem = _this.all.length ? _this.all[Math.max(idx-1,0)] : null;
-//				}
-//			}
+		ngHttp.delete(url).then(function(data) {
 			_this._removeItem(item)
-			if(cb) cb();
+			if(cb) cb(data);
+		}, function(data) {
+			if(err) err(data);
 		});
 	}
 	ItemList.prototype._removeItem = function(item) {
@@ -427,6 +434,13 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		return remove(null);
 	}
 	
+	
+	/**
+	 * Internal implementation of a server call that load items.
+	 * The loaded items are processed for the richtext content, and gives the implementation a chance
+	 * to also process the entries. For example, one can sort the children collection in a different
+	 * order.
+	 */
 	ItemList.prototype._loadItems = function(url,cb,cberr) {
 		var _this = this;
 		function absoluteURL(url) {

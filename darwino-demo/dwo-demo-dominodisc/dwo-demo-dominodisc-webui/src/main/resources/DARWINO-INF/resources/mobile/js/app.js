@@ -337,7 +337,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				orderBy: "_cuser, _cdate desc",
 				categoryCount: 1,
 				aggregate: "{ Count: {$count: '$'} }",
-				options: jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_CATONLY
+				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_CATONLY
 			};
 		} else if(view=='author') {
 			p = {
@@ -348,7 +348,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				parentId: '*',
 				jsonTree: true,
 				hierarchical: 99,
-				options: jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK
+				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK
 			};
 		} else {
 			// Unknown view...
@@ -553,16 +553,11 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				
 				// We should go back to the previous once the item are reloaded
 				// Else it will display the old data
-				if(isNew && !doc.getParentUnid()) {
-					entries.loadOneItem(doc.getUnid(),function(){$ionicHistory.goBack()});
+				function back() {$ionicHistory.goBack()}
+				if(isNew) {
+					entries.addItem(doc.getUnid(),back);
 				} else {
-					// We either refresh the parent, when it exists, or the doc itself
-					var root = entries.findRoot(doc.getParentUnid()) || entries.findRoot(doc.getUnid());
-					if(root) {
-						entries.reloadItem(root,function(){$ionicHistory.goBack()});
-					} else {
-						$ionicHistory.goBack();					
-					}
+					entries.replaceItem(doc.getUnid(),back);
 				}
 			})
 		}
