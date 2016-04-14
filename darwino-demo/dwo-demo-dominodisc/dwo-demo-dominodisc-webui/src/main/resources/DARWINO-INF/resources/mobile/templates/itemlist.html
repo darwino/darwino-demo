@@ -21,7 +21,13 @@
 							onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
 						<div style="width:100%;">
 							<h2 ng-bind="getUser(item.key).getCn()" style="font-weight:800"></h2>
-							<h3 ng-bind="getUser(item.key).getDn()"></h3>
+							<h3>
+								<ng-pluralize count="{{item.value.Count}}"
+                 					when="{'1': '1 post.',
+                     				       'other': '{} posts.'}">
+								</ng-pluralize>
+							</h3>
+							<h4 style="font-style: italic; text-align: right;" ng-bind-template="dn: {{getUser(item.key).getDn()}}"></h4>
 						</div>
 					</div>
 				</div>

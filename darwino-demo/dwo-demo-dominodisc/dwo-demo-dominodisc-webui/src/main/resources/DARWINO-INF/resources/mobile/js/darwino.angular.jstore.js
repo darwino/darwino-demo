@@ -40,6 +40,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.baseUrl = session.getHttpStoreClient().getHttpClient().getBaseUrl();
 		this.refreshCount = REFRESHCOUNT;
 		this.moreCount = MORECOUNT;
+		this.onItemLoaded = null;
 	}
 
 	ItemList.prototype.initCursor = function(params) {
@@ -53,6 +54,8 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.categoryCount = params.categoryCount;
 		this.key = params.key;
 		this.query = params.query;
+		this.aggregate = params.aggregate;
+		this.parentId = params.parentId;
 		this.ftSearch = params.ftSearch;
 		this.hierarchical = params.hierarchical;
 		this.jsonTree = params.jsonTree;
@@ -109,6 +112,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}
 		return null;
 	}
+	
 	ItemList.prototype._hasItem = function(root,unid) {
 		if(root.children) {
 			for(var i=0; i<root.children.length; i++) {
@@ -154,6 +158,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			if(this.key) {
 				url += "&key=\""+encodeURIComponent(this.key)+"\"";
 			}
+			if(this.parentId) {
+				url += "&parentid="+encodeURIComponent(this.parentId);
+			}
 			if(this.query) {
 				url += "&query="+encodeURIComponent(this.query);
 			}
@@ -172,9 +179,15 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	}
 	ItemList.prototype.selectItem = function(selectedItem) {
 		this.detailItem = selectedItem;
-		if(!selectedItem.parentUnid) {
-			this.selectedItem = selectedItem;
-		}	
+		// The item is selected if it is in the list
+		if(this.all) {
+			for(var i=0; i<this.all.length; i++) {
+				if(this.all[i]===selectedItem) {
+					this.selectedItem = selectedItem;
+					break;
+				}
+			}
+		}
 	}
 
 	ItemList.prototype.reload = function(delay,cb) {
@@ -252,11 +265,17 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				url += "&categorystart="+this.categoryStart;
 			}
 		}
+		if(this.parentId) {
+			url += "&parentid="+encodeURIComponent(this.parentId);
+		}
 		if(this.key) {
 			url += "&key=\""+encodeURIComponent(this.key)+"\"";
 		}
 		if(this.query) {
 			url += "&query="+encodeURIComponent(this.query);
+		}
+		if(this.aggregate) {
+			url += "&aggregate="+encodeURIComponent(this.aggregate);
 		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
@@ -276,26 +295,6 @@ darwino.provide("darwino/angular/jstore",null,function() {
 					_this.selectItem(_this.all[0]);
 				}
 			}
-			
-			var rtToDisplay = function(doc) {
-				for(var field in doc.value) {
-					if(darwino.Utils.isString(doc.value[field])) {
-						doc.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, doc.storeId, _this.instanceId, doc.unid, doc.value[field]);
-					}
-				}
-				
-				if(doc.children) {
-					for(var childIndex = 0; childIndex < doc.children.length; childIndex++) {
-						rtToDisplay(doc.children[childIndex]);
-					}
-				}
-			}
-			
-			
-			// Convert attachment URLs to display format
-			for(var i = 0; i < data.length; i++) {
-				rtToDisplay(data[i]);
-			}
 			if(cb) cb(data);
 		}, function(data) {
 			// In case of error, all the items are considered loaded...
@@ -305,7 +304,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		});
 	}
 
-	ItemList.prototype.loadOneItem = function(unid) {
+	ItemList.prototype.loadOneItem = function(unid,cb) {
 		var _this = this;
 		var url = this._storeUrl()+'/entries'
 				+'?unid='+unid
@@ -325,20 +324,15 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			if(data.length>0) {
 				var entry = data[0]
 				
-				// Convert attachment URLs to display format
-				for(var field in entry.value) {
-					if(darwino.Utils.isString(entry.value[field])) {
-						entry.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, entry.storeId, _this.instanceId, entry.unid, entry.value[field]);
-					}
-				}
-				
 				_this.all.unshift(entry);				
 				_this.selectItem(entry);
+				
+				if(cb) cb(data);
 			}
 		});
 	}
 	
-	ItemList.prototype.reloadItem = function(item) {
+	ItemList.prototype.reloadItem = function(item,cb) {
 		var _this = this;
 		var url = this._storeUrl()+'/entries'
 				+'?unid='+item.unid
@@ -349,35 +343,43 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			url += '&jsontree=true'
 		}
 		if(this.hierarchical>0) {
-			url += '&hierarchical='+this.hierarchical
+			url += '&hierarchical='+this.hierarchical+"&parentid=*" // The unid can have a parent...
 		}
 		if(this.instanceId) {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
 		}
 		this._loadItems(url,function(data) {
 			if(data.length>0) {
-				var entry = data[0]
-				
-				// Convert attachment URLs to display format
-				for(var field in entry.value) {
-					if(darwino.Utils.isString(entry.value[field])) {
-						entry.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, entry.storeId, _this.instanceId, entry.unid, entry.value[field]);
-					}
-				}
-				
-				for(var i=0; i<_this.all.length; i++) {
-					darwino.log.d(LOG_GROUP,"Check DB entry="+_this.all[i].unid+", "+entry.unid);
-					if(_this.all[i].unid==entry.unid) {
-						_this.all[i] = entry;
-						_this.selectItem(entry);
-						break;
-					}
-				}
+				_this._replaceItem(item,data[0]);
+				if(cb) cb(data);
 			}
 		});
 	}
+	ItemList.prototype._replaceItem = function(item,data) {
+		var _this = this;
+		function replace(items) {
+			for(var i=0; i<items.length; i++) {
+				var it = items[i]; 
+				if(it===item) {
+					items[i] = data;
+					if(_this.detailItem==it) {
+						_this.detailItem=data;
+					}
+					if(_this.selectedItem==it) {
+						_this.selectedItem=data;
+					}
+					return true;
+				}
+				if(it.children && replace(it.children)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return this.all ? replace(this.all) : false;
+	}
 	
-	ItemList.prototype.deleteItem = function(item) {
+	ItemList.prototype.deleteItem = function(item,cb) {
 		var _this = this;
 		var url = this._storeUrl()+"/documents/"+encodeURIComponent(item.unid);
 		if(this.instanceId) {
@@ -395,7 +397,32 @@ darwino.provide("darwino/angular/jstore",null,function() {
 					_this.selectedItem = _this.all.length ? _this.all[Math.max(idx-1,0)] : null;
 				}
 			}
+			_this._removeItem(item)
+			if(cb) cb();
 		});
+	}
+	ItemList.prototype._removeItem = function(item) {
+		var _this = this;
+		function remove(items) {
+			for(var i=0; i<items.length; i++) {
+				var it = items[i]; 
+				if(it===item) {
+					items.splice(i, 1);
+					if(_this.detailItem==it) {
+						_this.detailItem=items.length>0 ? items[Math.min(i,items.length-1)] : null;
+					}
+					if(_this.selectedItem==it) {
+						_this.selectedItem=items.length>0 ? items[Math.min(i,items.length-1)] : null;
+					}
+					return true;
+				}
+				if(it.children && remove(it.children)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		return this.all ? remove(this.all) : false;
 	}
 	
 	ItemList.prototype._loadItems = function(url,cb,cberr) {
@@ -407,8 +434,27 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}
 		url = absoluteURL(url); 
 		var successCallback = function(response) {
+			function loaded(item) {
+				for(var field in item.value) {
+					if(darwino.Utils.isString(item.value[field])) {
+						item.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, item.storeId, _this.instanceId, item.unid, item.value[field]);
+					}
+				}
+				if(item.children) {
+					for(var i=0; i<item.children.length; i++) {
+						loaded(item.children[i]);
+					}
+				}
+				if(_this.onItemLoaded) {
+					_this.onItemLoaded(item);
+				}
+			}
+			var data = response.data;
+			for(var i = 0; i < data.length; i++) {
+				loaded(data[i]);
+			}
 			if(cb) {
-				cb(response.data);
+				cb(data);
 			}
 			darwino.log.d(LOG_GROUP,'Entries loaded from server: '+url+', #', _this.all.length);
 		};

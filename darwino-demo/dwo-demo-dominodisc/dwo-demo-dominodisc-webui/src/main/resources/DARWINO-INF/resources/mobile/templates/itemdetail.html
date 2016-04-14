@@ -48,7 +48,7 @@
 					onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
 			<div ng-click="entries.selectItem(comment)" style="width:100%">
 				<h2 ng-bind="comment.value.subject"></h2>
-				<h3 ng-bind-template="{{entries.getUser(comment).getCn()}}, {{item.cdate|formattedDate}}"></h3>
+				<h3 ng-bind-template="{{entries.getUser(comment).getCn()}}, {{comment.cdate|formattedDate}}"></h3>
 				<h4 ng-bind-html="comment.value.abstract"></h4>
 			</div>
 		</div>
