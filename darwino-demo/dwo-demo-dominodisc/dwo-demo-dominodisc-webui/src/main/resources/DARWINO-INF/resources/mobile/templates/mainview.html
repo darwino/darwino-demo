@@ -1,6 +1,6 @@
 <ion-view view-title="Documents">
 
-	<button ng-hide="entries.isReadOnly()" class="button button-positive button-fab button-fab-bottom-right" id="fab" ng-click="entries.newEntry()">
+	<button ng-show="entries.canCreateDocument()" class="button button-positive button-fab button-fab-bottom-right" id="fab" ng-click="entries.newEntry()">
 	    <i class="icon ion-android-create"></i>
 	</button>
 	

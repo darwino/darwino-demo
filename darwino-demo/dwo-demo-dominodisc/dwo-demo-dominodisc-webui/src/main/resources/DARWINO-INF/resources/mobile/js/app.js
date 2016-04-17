@@ -124,7 +124,10 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		return false
 	}
 	
-	
+
+	//
+	// Global user related functions
+	//
 	$rootScope.isAnonymous = function() {
 		var u = userService.getCurrentUser();
 		return !u || u.isAnonymous();
@@ -145,6 +148,10 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		}
 		return darwino.services.User.ANONYMOUS_PHOTO;
 	};
+	
+	//
+	// State change helpers
+	//
 	$rootScope.go = function(path,monoPaneOnly) {
 		if(monoPaneOnly) {
 			if($rootScope.isDualPane()) {
@@ -153,14 +160,9 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		}
 		$state.go(path)
 	};
-	$rootScope.apply = function() {
-		setTimeout(function(){$rootScope.$apply()});
-	};
-	
 	$rootScope.displayUser = function(dn) {
         $state.go('app.user',{userdn:dn});
     }	
-	
 	$rootScope.isState = function(state,params) {
         if($state.includes(state)) {
         	if(params) {
@@ -175,9 +177,15 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
         return false;
     }	
 	
-	darwino.hybrid.addSettingsListener(function(){
-		$rootScope.apply();
-	});
+	//
+	// Simp
+	//
+	$rootScope.apply = function() {
+		setTimeout(function(){$rootScope.$apply()});
+	};
+	
+	
+	
 
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
 		if(toState.name=="app.read" || toState.name=="app.edit") {
@@ -189,14 +197,24 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 		if(toState.name=="app.views") {
 			var view = toParams.view;
-			views.select(view);
+			views.selectEntries(view);
 		} else if(toState.name=="app.author") {		
 			var author = toParams.author;
-			views.select('author',{author:author});
+			views.selectEntries('author',{author:author});
 		}
 	})
+
+	//
+	// Darwino hybrid notification
+	// Register for a change in settings so the page gets repaint. This is how, for example,
+	// the refresh ison is displayed
+	darwino.hybrid.addSettingsListener(function(){
+		$rootScope.apply();
+	});
 	
+	//
 	// Initialization
+	//
 	if(USE_INSTANCES) {
 		$http.get(app_baseUrl+"/instances").then(function(response) {
 			var instances = response.data;
@@ -215,6 +233,9 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	}	
 }])
 
+//
+// Basic date formatter using moment JS
+//
 .filter('formattedDate', function() {
 	return function(d) {
 		return d ? moment(d).fromNow() : '';
@@ -226,10 +247,12 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 // State provider
 //
 .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+	// Abstract state used to provide the main layout
 	$stateProvider.state('app', {
 		url : "/app",
 		abstract : true,
 		templateUrl : "templates/leftmenu.html"
+	// Home page describing the application
 	}).state('app.home', {
 		url : "/home",
 		views : {
@@ -237,6 +260,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				templateUrl : "templates/home.html"
 			}
 		}
+	// Views - queries.
 	}).state('app.views', {
 		url : "/views/:view",
 		views : {
@@ -250,6 +274,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				return $stateParams.view;
 		    }]
 		}	
+	// View categorized by authors
 	}).state('app.author', {
 		url : "/author/:author",
 		views : {
@@ -258,6 +283,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				controller : "DocsAuthor",
 			}
 		}	
+	// Document read state, used in mono pane UI only
 	}).state('app.read', {
 		url : "/read",
 		views : {
@@ -266,6 +292,8 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				controller : "ReadCtrl",
 			}
 		}
+	// Document edit (new or existing)
+	// The id can be of the for id:xxx for an existing document, pid:xxx for a new document belonging to a parent 
 	}).state('app.edit', {
 		url : "/edit/:id",
 		views : {
@@ -274,6 +302,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				controller : "EditCtrl"
 			}
 		}
+	// Display user related information
 	}).state('app.user', {
 		url : "/user/:userdn",
 		views : {
@@ -290,9 +319,11 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 
 //
 // Service to access the documents
+// Each collection is here called a 'view' and is identified by its name
 //
 .service('views', ['$rootScope','$state','$jstore','$ionicPopup',function($rootScope,$state,$jstore,$ionicPopup) {
 	// We cache the entries share the list in memory
+	// We a
 	var allEntries = {};
 	this.reset = function() {
 		for(var k in allEntries) {
@@ -301,7 +332,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			e.resetCursor();
 		}
 	}
-	this.select = function(view,params) {
+	this.selectEntries = function(view,params) {
 		return $rootScope.entries = this.getEntries(view,params);
 	}
 	this.getEntries = function(view,params) {
@@ -328,7 +359,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				orderBy: "_cdate desc",
 				jsonTree: true,
 				hierarchical: 99,
-				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK
+				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK+jstore.Cursor.DATA_WRITEACC
 			};
 		} else if(view=='byauthor') {
 			p = {
@@ -353,9 +384,6 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		} else {
 			// Unknown view...
 			return;
-		}
-		if(params) {
-			angular.merge(p,params);
 		}
 		entries.initCursor(p);
 		
@@ -386,12 +414,25 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			}
 			return darwino.services.User.ANONYMOUS_PHOTO;
 		}
-		entries.isReadOnly = function() {
-			return $rootScope.isAnonymous();
-		};
 		entries.isFtEnabled = function() {
 			return $rootScope.nsfdata && $rootScope.nsfdata.isFtSearchEnabled();
-		};
+		}
+		
+		entries.canCreateDocument = function() {
+			var db = $rootScope.database;
+			return db && db.canCreateDocument();
+		}
+		entries.canUpdateDocument = function(item) {
+			var db = $rootScope.database;
+			var item = item || entries.detailItem;
+			return db && db.canUpdateDocument() && item && !item.readOnly;
+		}
+		entries.canDeleteDocument = function(item) {
+			var db = $rootScope.database;
+			var item = item || entries.detailItem;
+			return db && db.canDeleteDocument() && item && !item.readOnly;
+		}
+		
 		entries.isCategory = function(item) {
 			var item = item || entries.detailItem;
 			if(!item) return;
@@ -451,17 +492,18 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			function broadcast() {
 				$rootScope.$broadcast('scroll.infiniteScrollComplete');
 			}
-			if(!oldLoadMore.call(this,broadcast)) {
-				broadcast();
-			};
+			oldLoadMore.call(this,broadcast,broadcast);
 		}
 
 		var oldReload = entries.reload; 
 		entries.reload = function(delay) {
+			function broadcast() {
+				$rootScope.$broadcast('scroll.refreshComplete');
+			}
 			oldReload.call( this, delay, function() {
 				darwino.hybrid.setDirty(false);
-				$rootScope.$broadcast('scroll.refreshComplete');
-			});
+				broadcast();
+			},broadcast);
 		}
 		
 		//

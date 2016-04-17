@@ -20,6 +20,9 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/**
+ * JSON store AngularJS 1.x utilities.
+ */
 darwino.provide("darwino/angular/jstore",null,function() {
 
 	var LOG_GROUP = "darwino.angular.jstore";
@@ -232,6 +235,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	ItemList.prototype.loadMore = function(cb,err) {
 		// If there is already an ongoing request, then ignore the new one
 		if(!this.hasMore() || this.loading) {
+			if(cb) cb({});
 			return false;
 		}
 		darwino.log.d(LOG_GROUP,"Load more entries, count={0}",this.all.length);
