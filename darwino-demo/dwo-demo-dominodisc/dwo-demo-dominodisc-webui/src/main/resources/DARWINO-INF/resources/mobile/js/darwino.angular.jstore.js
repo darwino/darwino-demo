@@ -522,7 +522,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 							display: display,
 							length: att.length,
 							mimeType: att.mimeType,
-							url: _this.session.getUrlBuilder().getAttachmentUrl(_this.databaseId, _this.storeId, response.data.unid, att.name)
+							url: _this.session.getUrlBuilder().getAttachmentUrl(_this.databaseId, _this.storeId, response.data.unid, att.name,_this.instanceId)
 						})
 					});
 				}

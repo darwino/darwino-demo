@@ -588,7 +588,6 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		var doc = $scope.doc;
 		if(doc) {
 			doc.convertAttachmentUrlsForStorage();
-			
 			var isNew = doc.isNewDocument();
 			doc.save().then(function() {
 				doc.convertAttachmentUrlsForDisplay();
