@@ -368,7 +368,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				orderBy: "_cuser, _cdate desc",
 				categoryCount: 1,
 				aggregate: "{ Count: {$count: '$'} }",
-				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_CATONLY
+				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_CATONLY+jstore.Cursor.DATA_WRITEACC
 			};
 		} else if(view=='author') {
 			p = {
@@ -379,7 +379,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				parentId: '*',
 				jsonTree: true,
 				hierarchical: 99,
-				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK
+				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK+jstore.Cursor.DATA_WRITEACC
 			};
 		} else {
 			// Unknown view...
