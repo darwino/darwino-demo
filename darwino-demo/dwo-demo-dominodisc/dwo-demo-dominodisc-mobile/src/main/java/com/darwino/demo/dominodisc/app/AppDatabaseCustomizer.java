@@ -37,7 +37,7 @@ import com.darwino.jsonstore.sql.impl.sqlite.SqliteDatabaseCustomizer;
  */
 public class AppDatabaseCustomizer extends SqliteDatabaseCustomizer {
 	
-	public static final int VERSION = 2;
+	public static final int VERSION = 3;
 	
 	public AppDatabaseCustomizer() {
 	}
@@ -48,6 +48,9 @@ public class AppDatabaseCustomizer extends SqliteDatabaseCustomizer {
 		//		- Added an index to the sort by cdate desc
 		// 2-
 		//		- Made the index non null first for all the drivers
+		// 3-
+		//		- Added index on the creation user
+		//		- Added an index on the JSON expression for the author
 		return VERSION;
 	}
 
@@ -58,15 +61,39 @@ public class AppDatabaseCustomizer extends SqliteDatabaseCustomizer {
 			return;
 		}
 		
-		statements.add(StringUtil.format(
-			"CREATE INDEX {0} ON {1} ({2},{3},{4} DESC,{5} ASC)",
-				getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 2),
-				SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
-				DBSchema.FDOC_INSTID,
-				DBSchema.FDOC_STOREID,
-				DBSchema.FDOC_CDATE,
-				DBSchema.FDOC_UNID
-			)
-		);
+		if(existingVersion==1) {
+			statements.add(StringUtil.format(
+				"CREATE INDEX {0} ON {1} ({2},{3},{4} DESC,{5} ASC)",
+					getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 2),
+					SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+					DBSchema.FDOC_INSTID,
+					DBSchema.FDOC_STOREID,
+					DBSchema.FDOC_CDATE,
+					DBSchema.FDOC_UNID
+				)
+			);
+		}
+
+		if(existingVersion<3) {
+			statements.add(StringUtil.format(
+					"CREATE INDEX {0} ON {1} ({2},{3},{4},{5} DESC)",
+						getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 3),
+						SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+						DBSchema.FDOC_INSTID,
+						DBSchema.FDOC_STOREID,
+						DBSchema.FDOC_CUSER,
+						DBSchema.FDOC_CDATE
+					)
+				);
+			statements.add(StringUtil.format(
+				"CREATE INDEX {0} ON {1} ({2},{3},{4})",
+					getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 4),
+					SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+					DBSchema.FDOC_INSTID,
+					DBSchema.FDOC_STOREID,
+					"json_extract(JSON,'$._writers.from[0]')"	
+				)
+			);
+		}
 	}
 }

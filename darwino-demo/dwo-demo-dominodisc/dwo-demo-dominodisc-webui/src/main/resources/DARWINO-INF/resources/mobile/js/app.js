@@ -344,13 +344,16 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				return v;
 			}
 		}
-		return allEntries[view] = this.createEntries(view,params)
+		return allEntries[view] = this.createEntries(view,params);
 	}
 	this.createEntries = function(view,params) {
 		var entries = $jstore.createItemList(session)
 		entries.view = view;
 		entries.params = params;
 
+		//var authField = '_cuser'; 
+		var jsonSupported = true; //$rootScope.database.isJsonQuerySupported()
+		var authField = jsonSupported ? '$._writers.from[0]' : '@author'; 
 		var p;
 		if(view=='bydate') {
 			p = {
@@ -365,17 +368,18 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			p = {
 				database: DATABASE_NAME,
 				store: STORE_NAME,
-				orderBy: "_cuser, _cdate desc",
+				orderBy: authField+", _cdate desc",
 				categoryCount: 1,
 				aggregate: "{ Count: {$count: '$'} }",
 				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_CATONLY+jstore.Cursor.DATA_WRITEACC
 			};
 		} else if(view=='author') {
+			var ap = params.author ? ('\"'+params.author+'\"') : "null"
 			p = {
 				database: DATABASE_NAME,
 				store: STORE_NAME,
-				orderBy: "_cuser, _cdate desc",
-				query: "{'_cuser':\""+params.author+"\"}",
+				orderBy: authField+", _cdate desc",
+				query: "{'"+authField+"':"+ap+"}",
 				parentId: '*',
 				jsonTree: true,
 				hierarchical: 99,

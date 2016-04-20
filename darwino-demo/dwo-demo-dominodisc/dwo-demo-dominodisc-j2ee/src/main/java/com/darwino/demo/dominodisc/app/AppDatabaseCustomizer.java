@@ -38,7 +38,7 @@ import com.darwino.sql.drivers.DBDriver;
  */
 public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 	
-	public static final int VERSION = 3;
+	public static final int VERSION = 4;
 	
 	public AppDatabaseCustomizer(DBDriver driver) {
 		super(driver,null);
@@ -52,6 +52,8 @@ public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 		//		- Made the index non null first for all the drivers
 		// 3-
 		//		- Added index on the creation user
+		// 4-
+		//		- Added an index on the JSON expression for the author
 		return VERSION ;
 	}
 
@@ -94,6 +96,20 @@ public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 					DBSchema.FDOC_CDATE
 				)
 			);
+		}
+		
+		if(existingVersion<4) {
+			if(getDBDriver().getDatabaseType()==DBDriver.DbType.POSTGRESQL) {
+				statements.add(StringUtil.format(
+					"CREATE INDEX {0} ON {1} ({2},{3},{4})",
+						getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 4),
+						SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+						DBSchema.FDOC_INSTID,
+						DBSchema.FDOC_STOREID,
+						"(jsonb_extract_path(JSON,'_writers','from','0')) NULLS FIRST"	
+					)
+				);
+			}
 		}
 	}
 }
