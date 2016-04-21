@@ -48,7 +48,7 @@ var DEFAULT_STATE_URL = "/app/views/bydate";
 
 angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
 
-.run(['$rootScope','$location','$state','$http','$window','views',function($rootScope,$location,$state,$http,$window,views) {
+.run(['$rootScope','$location','$state','$http','$window','$timeout','views',function($rootScope,$location,$state,$http,$window,$timeout,views) {
 	// Storage utilities
 	function storage() {
 		try {
@@ -133,10 +133,15 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		return !u || u.isAnonymous();
 	};
 	$rootScope.getUser = function(id) {
-		if(id && $rootScope.accessUserService) {  
-			var u =null
+		if(id && $rootScope.accessUserService) {
+			// Ensure that we get the load notification only once (the users has not been requested yet)
+			// Not that the cache can be filled from a multiple user requests as well
+			var u = userService.getUserFromCache(id);
+			if(u) {
+				return u;
+			}
 			var u = userService.getUser(id,function(u,loaded) {
-				if(loaded) $rootScope.apply();
+				$rootScope.apply(); 
 			});
 			return u || darwino.services.User.ANONYMOUS_USER;
 		}
@@ -178,13 +183,15 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
     }	
 	
 	//
-	// Simp
+	// Apply the changes later, when it comes idle
+	// Make sure that this is only executed once
 	//
+	var pendingApply = null;
 	$rootScope.apply = function() {
-		setTimeout(function(){$rootScope.$apply()});
+		if(!pendingApply) {
+			pendingApply = $timeout(function(){pendingApply=null});
+		}
 	};
-	
-	
 	
 
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
@@ -207,7 +214,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	//
 	// Darwino hybrid notification
 	// Register for a change in settings so the page gets repaint. This is how, for example,
-	// the refresh ison is displayed
+	// the refresh icon is displayed
 	darwino.hybrid.addSettingsListener(function(){
 		$rootScope.apply();
 	});
@@ -482,14 +489,54 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			return !$rootScope.infiniteScroll && this.hasMore() && !this.isLoading();
 		}
 
-		entries.onItemLoaded = function(item) {
-			// Sort the children by date
-			if(item.children) {
-				item.children.sort(function(i1,i2) {
-					return i2.cdate-i1.cdate;
-				})
+		entries.onItemsLoaded = function(items) {
+			var userDns =  [];
+			// Act on each item
+			for(var i=0; i<items.length; i++) {
+				var item = items[i];
+				// Sort the children by date
+				if(item.children) {
+					item.children.sort(function(i1,i2) {
+						return i2.cdate-i1.cdate;
+					})
+				}
+				if($rootScope.accessUserService) {
+					// Get the DN for the document or the category
+					var dn = null;
+					if(item.category) {
+						if(this.view=="byauthor") {
+							dn = item.key;
+						}
+					} else {
+						dn = this.getUserDn(item);
+					}
+					if(dn && !userService.getUserFromCache(dn)) {
+						userDns.push(dn);
+					}
+				}
+			}
+			// Get all the missing users at once from the server
+			if(userDns.length) {
+				userService.preloadUsers(userDns,false,function() {
+					$rootScope.apply();
+				});
 			}
 		}
+		$rootScope.getUser = function(id) {
+			if(id && $rootScope.accessUserService) {
+				// Ensure that we get the load notification only once (the users has not been requested yet)
+				// Not that the cache can be filled from a multiple user requests as well
+				var u = userService.getUserFromCache(id);
+				if(u) {
+					return u;
+				}
+				var u = userService.getUser(id,function(u,loaded) {
+					$rootScope.apply();
+				});
+				return u || darwino.services.User.ANONYMOUS_USER;
+			}
+			return userService.createUser(id);
+		};
 		
 		var oldLoadMore = entries.loadMore; 
 		entries.loadMore = function() {

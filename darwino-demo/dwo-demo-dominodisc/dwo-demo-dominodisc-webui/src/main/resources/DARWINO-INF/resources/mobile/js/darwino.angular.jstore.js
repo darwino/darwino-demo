@@ -43,7 +43,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.baseUrl = session.getHttpStoreClient().getHttpClient().getBaseUrl();
 		this.refreshCount = REFRESHCOUNT;
 		this.moreCount = MORECOUNT;
-		this.onItemLoaded = null;
+		this.onItemsLoaded = null;
 	}
 
 	ItemList.prototype.initCursor = function(params) {
@@ -454,6 +454,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}
 		url = absoluteURL(url); 
 		var successCallback = function(response) {
+			var items = [];
 			function loaded(item) {
 				for(var field in item.value) {
 					if(darwino.Utils.isString(item.value[field])) {
@@ -465,13 +466,14 @@ darwino.provide("darwino/angular/jstore",null,function() {
 						loaded(item.children[i]);
 					}
 				}
-				if(_this.onItemLoaded) {
-					_this.onItemLoaded(item);
-				}
+				if(_this.onItemsLoaded) items.push(item);
 			}
 			var data = response.data;
 			for(var i = 0; i < data.length; i++) {
 				loaded(data[i]);
+			}
+			if(_this.onItemsLoaded && items.length) {
+				_this.onItemsLoaded(items);
 			}
 			if(cb) {
 				cb(data);
