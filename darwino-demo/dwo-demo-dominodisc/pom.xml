@@ -29,7 +29,7 @@
 		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 		
-		<robovm.version>1.12.0</robovm.version>
+		<robovm.version>1.8.0</robovm.version>
 
 		<tycho-version>0.22.0</tycho-version>
 		
