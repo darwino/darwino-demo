@@ -28,6 +28,7 @@ import java.util.Map;
 
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.services.HttpServiceContext;
+import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.Cursor;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Index;
@@ -40,7 +41,6 @@ import com.darwino.sql.drivers.DBDriver;
 import com.darwino.sql.drivers.db2.DB2Driver;
 import com.darwino.sql.drivers.postgresql.PostgreSQLDriver;
 import com.darwino.sql.drivers.sqlite.SQLiteDriver;
-import com.ibm.commons.util.StringUtil;
 
 
 /**
