@@ -590,7 +590,17 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 //
 //	Main controller for the whole page
 //
-.controller('MainCtrl', [function() {
+.controller('MainCtrl', ['$scope','$http', function($scope,$http) {
+	var _appInfo = null;
+	if(!_appInfo) {
+		_appInfo = "<Fetching Application Information>"
+		var successCallback = function(data, status, headers, config) {
+			_appInfo = darwino.Utils.toJson(data,false);
+		};
+		var url = "$darwino-app"
+		$http.get(url).success(successCallback);
+	}
+	return _appInfo;
 }])
 	
 
