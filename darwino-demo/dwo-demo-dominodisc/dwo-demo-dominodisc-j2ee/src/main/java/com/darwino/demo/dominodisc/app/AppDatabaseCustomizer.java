@@ -111,7 +111,15 @@ public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 				);
 			}
 			if(getDBDriver().getDatabaseType()==DBDriver.DbType.DB2) {
-				// DB2 indexes
+				statements.add(StringUtil.format(
+						"CREATE INDEX {0} ON {1} ({2},{3},{4})",
+							getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 4),
+							SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+							DBSchema.FDOC_INSTID,
+							DBSchema.FDOC_STOREID,
+							 "JSON_VAL(JSON,'_writers.from.0','s:512')"
+						)
+					);
 			}
 		}
 	}

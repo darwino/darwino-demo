@@ -74,7 +74,9 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		_Database db = new _Database(DATABASE_NAME, "Domino Discussion", DATABASE_VERSION);
 
 		db.setReplicationEnabled(true);
-		db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
+		// We need security for writing the documents but not for reading
+		// Adding DOCSEC_NOREADER makes the queries faster.
+		db.setDocumentSecurity(Database.DOCSEC_INCLUDE|Database.DOCSEC_NOREADER);
 		db.setInstanceEnabled(true);
 
 		// Store: NSF data
