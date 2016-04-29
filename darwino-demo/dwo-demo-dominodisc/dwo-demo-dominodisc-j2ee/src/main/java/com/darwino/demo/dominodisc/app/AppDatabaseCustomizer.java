@@ -106,9 +106,12 @@ public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 						SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
 						DBSchema.FDOC_INSTID,
 						DBSchema.FDOC_STOREID,
-						"(jsonb_extract_path(JSON,'_writers','from','0')) NULLS FIRST"	
+						"(jsonb_extract_path_text(JSON,'_writers','from','0')::text) NULLS FIRST"	
 					)
 				);
+			}
+			if(getDBDriver().getDatabaseType()==DBDriver.DbType.DB2) {
+				// DB2 indexes
 			}
 		}
 	}
