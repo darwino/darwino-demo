@@ -41,6 +41,7 @@ import com.darwino.sql.drivers.DBDriver;
 import com.darwino.sql.drivers.db2.DB2Driver;
 import com.darwino.sql.drivers.postgresql.PostgreSQLDriver;
 import com.darwino.sql.drivers.sqlite.SQLiteDriver;
+import com.darwino.sql.drivers.sqlserver.SqlServerDriver;
 
 
 /**
@@ -81,6 +82,9 @@ public class DevCursorService extends CursorService {
 			} else if(StringUtil.equalsIgnoreCase(db,"postgresql")) {
 				Map<String, Object> p = new HashMap<String, Object>();
 				driver = new PostgreSQLDriver(PostgreSQLDriver.CURRENT_VERSION,p);
+			} else if(StringUtil.equalsIgnoreCase(db,"sqlserver")) {
+				Map<String, Object> p = new HashMap<String, Object>();
+				driver = new SqlServerDriver(SqlServerDriver.CURRENT_VERSION,p);
 			} else if(StringUtil.equalsIgnoreCase(db,"sqlite")) {
 				Map<String, Object> p = new HashMap<String, Object>();
 				driver = new SQLiteDriver(SQLiteDriver.CURRENT_VERSION,p);
