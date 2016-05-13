@@ -117,7 +117,28 @@ public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 							SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
 							DBSchema.FDOC_INSTID,
 							DBSchema.FDOC_STOREID,
-							 "JSON_VAL(JSON,'_writers.from.0','s:512')"
+							"JSON_VAL(JSON,'_writers.from.0','s:512')"
+						)
+					);
+			}
+			
+			// SQL Server
+			// See: https://msdn.microsoft.com/en-us/library/mt612798.aspx
+			if(getDBDriver().getDatabaseType()==DBDriver.DbType.SQLSERVER) {
+				statements.add(StringUtil.format(
+						"ALTER TABLE {0} ADD {1} AS {2}",
+							SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+							"jwriter",
+							"JSON_VALUE(JSON, '$._writers.from[0]')"
+						)
+					);
+				statements.add(StringUtil.format(
+						"CREATE INDEX {0} ON {1} ({2},{3},{4})",
+							getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 4),
+							SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+							DBSchema.FDOC_INSTID,
+							DBSchema.FDOC_STOREID,
+							"jwriter"
 						)
 					);
 			}
