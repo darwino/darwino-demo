@@ -68,6 +68,16 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	}
 	var storage = storage(); 
 	
+	// Make the data models globally available so the navigator can access them
+	// Could also be provided as a service to avoid the pollution of $rooScope
+	$rootScope.data = {
+		jsonQuery: false,
+		// Global information maintained
+		instances: [],
+		instance: "",
+	}
+	
+	
 	// Some options
 	$rootScope.infiniteScroll = true;
 	$rootScope.accessUserService = true;
@@ -77,13 +87,6 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	$rootScope.session = session;
 	$rootScope.userService = userService;
 
-	// Make the data models globally available so the navigator can access them
-	// Could also be provided as a service to avoid the pollution of $rooScope
-	$rootScope.data = {
-		// Global information maintained
-		instances: [],
-		instance: "",
-	}
 	
 	// Should this me moved to an initialization service?
 	// Use an object because of prototypical inheritance
@@ -222,10 +225,12 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	//
 	// Initialization
 	//
-	if(USE_INSTANCES) {
-		$http.get(app_baseUrl+"/instances").then(function(response) {
-			var instances = response.data;
-			$rootScope.data.instances = instances;
+	$http.get(app_baseUrl+"/properties").then(function(response) {
+		var properties = response.data;
+		$rootScope.data.jsonQuery = properties.jsonQuery;
+		$rootScope.data.instances = properties.instances;
+		if(USE_INSTANCES) {
+			var instances = properties.instances;
 			if(instances && instances.length>0) {
 				var inst = storage ? storage.getItem(INSTANCE_PROP) : null;
 				if(!inst || arrayIndexOf(instances,inst)<0) {
@@ -234,10 +239,10 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				$rootScope.data.instance = inst;
 				$rootScope.instanceChanged();
 			}
-		})
-	} else {
-		setTimeout(function(){$rootScope.reset()});
-	}	
+		} else {
+			$rootScope.reset();
+		}
+	})
 }])
 
 //
@@ -318,6 +323,14 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				controller : "UserCtrl"
 			}
 		}
+	// About
+	}).state('app.about', {
+		url : "/about",
+		views : {
+			'menuContent' : {
+				templateUrl : "templates/about.html"
+			}
+		}
 	});
 
 	$urlRouterProvider.otherwise(DEFAULT_STATE_URL);
@@ -359,7 +372,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		entries.params = params;
 
 		//var authField = '_cuser'; 
-		var jsonSupported = true; //$rootScope.database.isJsonQuerySupported()
+		var jsonSupported = $rootScope.data.jsonQuery;
 		var authField = jsonSupported ? '$._writers.from[0]' : '@author'; 
 		var p;
 		if(view=='bydate') {
@@ -592,15 +605,17 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 //
 .controller('MainCtrl', ['$scope','$http', function($scope,$http) {
 	var _appInfo = null;
-	if(!_appInfo) {
-		_appInfo = "<Fetching Application Information>"
-		var successCallback = function(data, status, headers, config) {
-			_appInfo = darwino.Utils.toJson(data,false);
-		};
-		var url = "$darwino-app"
-		$http.get(url).success(successCallback);
-	}
-	return _appInfo;
+	$scope.getAppInformation = function() {
+		if(!_appInfo) {
+			_appInfo = "<Fetching Application Information>"
+			var successCallback = function(data, status, headers, config) {
+				_appInfo = darwino.Utils.toJson(data,false);
+			};
+			var url = "$darwino-app"
+			$http.get(url).success(successCallback);
+		}
+		return _appInfo;
+	};	
 }])
 	
 

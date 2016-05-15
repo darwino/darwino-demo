@@ -22,8 +22,12 @@
 
 package com.darwino.demo.dominodisc.app;
 
+import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.services.HttpServiceFactories;
+import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.j2ee.application.DarwinoJ2EEServiceDispatcherFilter;
+import com.darwino.jsonstore.sql.impl.full.LocalFullJsonDBServerImpl;
+import com.darwino.platforms.ApplicationEnvironment;
 
 /**
  * J2EE application.
@@ -82,6 +86,29 @@ public class AppServiceDispatcher extends DarwinoJ2EEServiceDispatcherFilter {
 	@Override
 	protected void addApplicationServiceFactories(HttpServiceFactories factories) {
 		// The service should always executed locally when running on a server
-		factories.add(new AppServiceFactory());
+		factories.add(new AppServiceFactory() {
+			@Override
+			protected void addAppInfo(JsonObject o) {
+				// Application environment
+				{
+					ApplicationEnvironment appenv = DarwinoJ2EEApplication.get().getApplicationEnvironment();
+					JsonObject env = new JsonObject();
+					env.put("cloud", appenv.isCloud());
+					env.put("runtime", appenv.toString());
+					o.put("environment", env);
+				}
+				
+				// Database type
+				{
+					LocalFullJsonDBServerImpl srv = DarwinoJ2EEApplication.get().getLocalJsonDBServer();
+					JsonObject db = new JsonObject();
+					db.put("driver", srv.getSqlContext().getDbDriver().getDatabaseType().toString());
+					db.put("path", srv.getSqlContext().getConnectionId());
+					o.put("database", db);
+				}
+			}
+		});
 	}
+	
+	
 }

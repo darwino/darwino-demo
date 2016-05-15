@@ -67,6 +67,8 @@ public class AppServiceFactory extends RestServiceFactory {
 					jSession.put("user", session.getUser().getDn());
 					jSession.put("instanceId", session.getInstanceId());
 					o.put("session", jSession);
+					
+					addAppInfo(o);
 				} catch(Exception ex) {
 					o.put("exception", HttpServiceError.exceptionAsJson(ex, false));
 				}
@@ -77,18 +79,27 @@ public class AppServiceFactory extends RestServiceFactory {
 		}
 	}
 	
-	public class DatabaseInstances extends HttpService {
+	public class Properties extends HttpService {
 		@Override
 		public void service(HttpServiceContext context) {
 			if(context.isGet()) {
-				// Instances are only supported with the Enterprise edition
-				if(Lic.isEnterpriseEdition()) {
-					JsonArray a = new JsonArray(AppDatabaseDef.getDiscDBInstances());
-					context.emitJson(a);
-				} else {
-					JsonArray a = new JsonArray();
-					context.emitJson(a);
+				JsonObject o = new JsonObject();
+				try {
+					// Check if JSON query is supported by this DB driver
+					o.put("jsonQuery", DarwinoApplication.get().getLocalJsonDBServer().isJsonQuerySupported());
+					
+					// Instances are only supported with the Enterprise edition
+					JsonArray a;;
+					if(Lic.isEnterpriseEdition()) {
+						a = new JsonArray(AppDatabaseDef.getDiscDBInstances());
+					} else {
+						a = new JsonArray();
+					}
+					o.put("instances", a);
+				} catch(Exception ex) {
+					o.put("exception", HttpServiceError.exceptionAsJson(ex, false));
 				}
+				context.emitJson(o);
 			} else {
 				throw HttpServiceError.errorUnsupportedMethod(context.getMethod());
 			}
@@ -97,6 +108,10 @@ public class AppServiceFactory extends RestServiceFactory {
 	
 	public AppServiceFactory() {
 		super(DarwinoHttpConstants.APPSERVICES_PATH);
+	}
+	
+	protected void addAppInfo(JsonObject o) {
+		// Add specific app information here..
 	}
 	
 	@Override
@@ -111,11 +126,11 @@ public class AppServiceFactory extends RestServiceFactory {
 		});
 		
 		/////////////////////////////////////////////////////////////////////////////////
-		// DATABASE INSTANCES
-		binders.add(new RestServiceBinder("instances") {
+		// APPLICATION PROPERTIES
+		binders.add(new RestServiceBinder("properties") {
 			@Override
 			public HttpService createService(HttpServiceContext context, String[] parts) {
-				return new DatabaseInstances();
+				return new Properties();
 			}
 		});
 	}	
