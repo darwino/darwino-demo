@@ -406,6 +406,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			url += '&instance=' + encodeURIComponent(this.instanceId);
 		}
 		ngHttp.delete(url).then(function(data) {
+			_this.count = -2; // Ask for the count
 			_this._removeItem(item)
 			if(cb) cb(data);
 		}, function(data) {
@@ -554,6 +555,24 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}
 	}
 
+	mod.factory('sessionRecoverer', ['$q', '$injector', function($q, $injector) {  
+	    var sessionRecoverer = {
+	        responseError: function(response) {
+	            // Session has expired
+	            if (response.status==419 || response.headers('x-dwo-auth-msg')=='authrequired' ){
+	            	location.reload();
+		            return $q.reject(response);
+	            }
+				return response;
+	        }
+	    };
+	    return sessionRecoverer;
+	}]);
+	mod.config(['$httpProvider', function($httpProvider) {  
+	    $httpProvider.interceptors.push('sessionRecoverer');
+	}]);
+	
+	
 	mod.service('$jstore', function($http,$timeout) {
 		ngHttp = $http;
 		ngTimeout = $timeout;

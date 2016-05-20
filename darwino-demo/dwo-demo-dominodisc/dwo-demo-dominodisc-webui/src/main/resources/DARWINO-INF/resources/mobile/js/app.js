@@ -36,9 +36,11 @@ var userService = services.createUserService(social_baseUrl+"/users");
 var LOG_GROUP = "app.web";
 darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 
+// Main database and store names
 var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
 
+// Enable this flag if your application uses instances
 var USE_INSTANCES = true;
 if(USE_INSTANCES) {
 	var INSTANCE_PROP = "dwo.domdisc.instance";
@@ -238,10 +240,10 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				}
 				$rootScope.data.instance = inst;
 				$rootScope.instanceChanged();
+				return;
 			}
-		} else {
-			$rootScope.reset();
 		}
+		$rootScope.reset();
 	})
 }])
 
@@ -253,7 +255,6 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		return d ? moment(d).fromNow() : '';
 	}
 })
-
 
 //
 // State provider
@@ -461,6 +462,9 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			var item = item || entries.detailItem;
 			if(!item) return;
 			return item.category==true;
+		}
+		entries.getFormattedJson = function(item) {
+			return item ? darwino.Utils.toJson(item.value,false) : null;
 		}
 		entries.newEntry = function() {
 			$state.go("app.edit",{view:entries.view});
