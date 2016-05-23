@@ -41,10 +41,7 @@ var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
 
 // Enable this flag if your application uses instances
-var USE_INSTANCES = true;
-if(USE_INSTANCES) {
-	var INSTANCE_PROP = "dwo.domdisc.instance";
-}
+var INSTANCE_PROP = "dwo.domdisc.instance";
 
 var DEFAULT_STATE_URL = "/app/views/bydate";
 
@@ -72,9 +69,12 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	
 	// Make the data models globally available so the navigator can access them
 	// Could also be provided as a service to avoid the pollution of $rooScope
+	// Use an object because of prototypical inheritance
+	// http://stackoverflow.com/questions/15305900/angularjs-ng-model-input-type-number-to-rootscope-not-updating
 	$rootScope.data = {
 		jsonQuery: false,
 		// Global information maintained
+		useInstances: false,
 		instances: [],
 		instance: "",
 	}
@@ -91,13 +91,11 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 
 	
 	// Should this me moved to an initialization service?
-	// Use an object because of prototypical inheritance
-	// http://stackoverflow.com/questions/15305900/angularjs-ng-model-input-type-number-to-rootscope-not-updating
-	if(USE_INSTANCES) {
-		$rootScope.hasInstances = function() {
-			return $rootScope.data.instances.length>1;  
-		}
-		$rootScope.instanceChanged = function() {
+	$rootScope.hasInstances = function() {
+		return $rootScope.data.useInstances && $rootScope.data.instances.length>1;  
+	}
+	$rootScope.instanceChanged = function() {
+		if($rootScope.data.useInstances) {
 			var inst = $rootScope.data.instance;
 			if(storage) {
 				storage.setItem(INSTANCE_PROP,inst);
@@ -106,9 +104,10 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	        $state.go("app.views",{view:'bydate'});
 		}
 	}
+
 	$rootScope.reset = function() {
 		var inst = null;
-		if(USE_INSTANCES) {
+		if($rootScope.data.useInstances) {
 			inst = $rootScope.data.instance;
 		}
 		views.reset();
@@ -230,8 +229,10 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	$http.get(app_baseUrl+"/properties").then(function(response) {
 		var properties = response.data;
 		$rootScope.data.jsonQuery = properties.jsonQuery;
+		$rootScope.data.useInstances = properties.useInstances;
 		$rootScope.data.instances = properties.instances;
-		if(USE_INSTANCES) {
+		
+		if($rootScope.data.useInstances) {
 			var instances = properties.instances;
 			if(instances && instances.length>0) {
 				var inst = storage ? storage.getItem(INSTANCE_PROP) : null;
@@ -412,7 +413,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		}
 		entries.initCursor(p);
 		
-		if(USE_INSTANCES) {
+		if($rootScope.data.useInstances) {
 			entries.setInstance($rootScope.data.instance);
 		}
 		

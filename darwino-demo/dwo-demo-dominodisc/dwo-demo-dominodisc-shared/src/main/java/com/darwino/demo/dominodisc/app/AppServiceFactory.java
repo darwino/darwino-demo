@@ -32,6 +32,7 @@ import com.darwino.commons.services.HttpServiceError;
 import com.darwino.commons.services.rest.RestServiceBinder;
 import com.darwino.commons.services.rest.RestServiceFactory;
 import com.darwino.commons.util.Lic;
+import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Session;
 import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.DarwinoContext;
@@ -89,13 +90,19 @@ public class AppServiceFactory extends RestServiceFactory {
 					o.put("jsonQuery", DarwinoApplication.get().getLocalJsonDBServer().isJsonQuerySupported());
 					
 					// Instances are only supported with the Enterprise edition
-					JsonArray a;;
+					o.put("useInstances", false);
 					if(Lic.isEnterpriseEdition()) {
-						a = new JsonArray(AppDatabaseDef.getDiscDBInstances());
-					} else {
-						a = new JsonArray();
+						Session session = DarwinoContext.get().getSession();
+						String dbName = DarwinoApplication.get().getManifest().getMainDatabase();
+						Database db = session.getDatabase(dbName);
+						if(db.isInstanceEnabled()) {
+							o.put("useInstances", true);
+							// The instances can be fixed from a property or raed from the database
+							//a = new JsonArray(AppDatabaseDef.getDiscDBInstances());
+							JsonArray a = new JsonArray(session.getDatabaseInstances(dbName));
+							o.put("instances", a);
+						}
 					}
-					o.put("instances", a);
 				} catch(Exception ex) {
 					o.put("exception", HttpServiceError.exceptionAsJson(ex, false));
 				}

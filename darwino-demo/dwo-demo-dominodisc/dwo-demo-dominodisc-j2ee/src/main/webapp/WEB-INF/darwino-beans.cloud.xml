@@ -6,38 +6,9 @@
     <bean type="darwino/userdir" name="static" class="com.darwino.config.user.UserDirStatic" alias="demo,default">
         <property name='allowUnknownUsers'>true</property>
         <list name="providers">
-<!--            
-            <bean class='com.darwino.ibm.services.social.connections.IbmConnectionsUserProvider'></bean>
--->            
             <bean class='com.darwino.social.gravatar.GravatarUserProvider'></bean>
         </list>
         <list name="users">
-            <bean class='${uc}'>
-                <property name='dn'>cn=phil,o=triloggroup</property>
-                <property name='cn'>Phil</property>
-                <property name='uid'>phil</property>
-                <property name='email'>phil@triloggroup.com</property>
-                <property name='password'>darwino</property>
-                <list name='roles'>
-                    <value>admin</value>
-                </list>
-                <list name='groups'>
-                    <value>darwino</value>
-                </list>
-            </bean>    
-            <bean class='${uc}'>
-                <property name='dn'>cn=jesse,o=darwino</property>
-                <property name='cn'>Jesse</property>
-                <property name='uid'>jesse</property>
-                <property name='email'>jesse@darwino.com</property>
-                <property name='password'>darwino</property>
-                <list name='roles'>
-                    <value>admin</value>
-                </list>
-                <list name='groups'>
-                    <value>darwino</value>
-                </list>
-            </bean>    
             <bean class='${uc}'>
                 <property name='dn'>cn=adam tinov,o=triloggroup</property>
                 <property name='cn'>Adam Tinov</property>
