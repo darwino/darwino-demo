@@ -127,8 +127,7 @@ public class DarwinoDemoWebPathExtension implements DarwinoWebLibraryExtension {
 			libraries.add(new DarwinoWebLibrary(SOURCE_BUNDLE, "Ionic", 
 					"/ionic/", 
 					new Module("1.1.1", "/libs/ionic/1.1.1/",true),
-					// 1.2.x has issues with Android browser and pull to refresh + scroll
-					new Module("1.2.4", "/libs/ionic/1.2.4/"))
+					new Module("1.3.1", "/libs/ionic/1.3.1/"))
 			);
 		}
 	}
