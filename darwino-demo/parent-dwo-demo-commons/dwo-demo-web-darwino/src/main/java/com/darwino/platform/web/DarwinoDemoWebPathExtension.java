@@ -126,8 +126,7 @@ public class DarwinoDemoWebPathExtension implements DarwinoWebLibraryExtension {
 			 */
 			libraries.add(new DarwinoWebLibrary(SOURCE_BUNDLE, "Ionic", 
 					"/ionic/", 
-					new Module("1.1.1", "/libs/ionic/1.1.1/",true),
-					new Module("1.3.1", "/libs/ionic/1.3.1/"))
+					new Module("1.3.1", "/libs/ionic/1.3.1/",true))
 			);
 		}
 	}
