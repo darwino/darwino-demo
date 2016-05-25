@@ -98,8 +98,7 @@ public class AppServiceFactory extends RestServiceFactory {
 						if(db.isInstanceEnabled()) {
 							o.put("useInstances", true);
 							// The instances can be fixed from a property or raed from the database
-							//a = new JsonArray(AppDatabaseDef.getDiscDBInstances());
-							JsonArray a = new JsonArray(session.getDatabaseInstances(dbName));
+							JsonArray a = new JsonArray(AppDatabaseDef.getInstances());
 							o.put("instances", a);
 						}
 					}
