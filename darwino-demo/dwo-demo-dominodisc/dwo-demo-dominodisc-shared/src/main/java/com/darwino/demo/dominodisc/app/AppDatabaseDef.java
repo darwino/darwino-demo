@@ -49,7 +49,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 	public static final String DATABASE_NAME       = "domdisc"; //$NON-NLS-1$
 
 	// The list  of instances is defined through a property for the disc DBs
-	public static String[] getDiscDBInstances() {
+	public static String[] getInstances() {
 		String inst = Platform.getProperty("discdb.instances");
 		if(StringUtil.isNotEmpty(inst)) {
 			return StringUtil.splitString(inst, ',', true);

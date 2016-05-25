@@ -57,7 +57,7 @@ public class AppJ2EEApplication extends DarwinoJ2EEApplication {
 		// Only use instances for the main DB
 		if(StringUtil.equals(databaseName, AppDatabaseDef.DATABASE_NAME)) {
 			// In case of one instance, use it as the default
-			String[] inst = AppDatabaseDef.getDiscDBInstances();
+			String[] inst = AppDatabaseDef.getInstances();
 			if(inst!=null && inst.length==1) {
 				return inst[0];
 			}

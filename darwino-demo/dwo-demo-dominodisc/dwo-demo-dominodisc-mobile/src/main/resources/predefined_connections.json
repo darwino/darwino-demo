@@ -6,7 +6,7 @@
 			"name": "Local Server 75.79",
 			"url": "http://192.168.75.79:8080",
 			"userId": "amass",
-			"password": "floflo",
+			"password": "darwino",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"
 		},
@@ -16,7 +16,7 @@
 			"name": "Local Server https 75.79",
 			"url": "https://192.168.75.79:8443",
 			"userId": "amass",
-			"password": "floflo",
+			"password": "darwino",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"
 		},
@@ -26,7 +26,7 @@
 			"name": "Local Server 1.20",
 			"url": "http://192.168.1.20:8080",
 			"userId": "amass",
-			"password": "floflo",
+			"password": "darwino",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"
 		},
@@ -36,7 +36,7 @@
 			"name": "Local Server https 1.20",
 			"url": "https://192.168.1.20:8443",
 			"userId": "amass",
-			"password": "floflo",
+			"password": "darwino",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"
 		}
@@ -47,7 +47,7 @@
 			"name": "IBM Bluemix - http://example.mybluemix.net",
 			"url": "http://example.mybluemix.net",
 			"userId": "amass",
-			"password": "floflo"
+			"password": "darwino"
 		}
 */		
 	]
