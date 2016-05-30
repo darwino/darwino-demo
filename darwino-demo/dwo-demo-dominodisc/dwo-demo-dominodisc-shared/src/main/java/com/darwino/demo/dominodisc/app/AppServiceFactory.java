@@ -24,6 +24,7 @@ package com.darwino.demo.dominodisc.app;
 
 import java.util.List;
 
+import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonArray;
 import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.services.HttpService;
@@ -102,6 +103,10 @@ public class AppServiceFactory extends RestServiceFactory {
 							o.put("instances", a);
 						}
 					}
+					
+					// Watson services
+					o.put("localized", Platform.getProperty("discdb.watson.translate"));
+					o.put("toneanalyzer", Platform.getProperty("discdb.watson.toneanalyzer"));
 				} catch(Exception ex) {
 					o.put("exception", HttpServiceError.exceptionAsJson(ex, false));
 				}

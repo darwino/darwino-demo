@@ -1,6 +1,6 @@
 <div class="item-body" ng-hide="!entries.detailItem || entries.detailItem.category">
 	<div ng-click="entries.selectItem(entries.detailItem)">
-		<h2 ng-bind="entries.detailItem.value.subject"></h2>
+		<h2 ng-bind="entries.getTranslatedField('subject',detailItem)"></h2>
 	</div>
 	
 	<div class="item item-avatar item-icon-right">
@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	
-	<div class="dwo-comment-message" ng-bind-html="entries.detailItem.value.body"></div>
+	<div class="dwo-comment-message" ng-bind-html="entries.getTranslatedField('body',detailItem)"></div>
 
 	<p class="attachments" ng-hide="entries.getAttachments(entries.detailItem).length == 0" ng-cloak>
 		<a class="subdued">Attachments</a>
@@ -47,9 +47,9 @@
 					ng-click="go('/app/user/'+entries.getUserDn(comment))" 
 					onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
 			<div ng-click="entries.selectItem(comment)" style="width:100%">
-				<h2 ng-bind="comment.value.subject"></h2>
+				<h2 ng-bind="entries.getTranslatedField('subject',comment)"></h2>
 				<h3 ng-bind-template="{{entries.getUser(comment).getCn()}}, {{comment.cdate|formattedDate}}"></h3>
-				<h4 ng-bind-html="comment.value.abstract"></h4>
+				<h4 ng-bind-html="entries.getTranslatedField('abstract',comment)"></h4>
 			</div>
 		</div>
 	</div>

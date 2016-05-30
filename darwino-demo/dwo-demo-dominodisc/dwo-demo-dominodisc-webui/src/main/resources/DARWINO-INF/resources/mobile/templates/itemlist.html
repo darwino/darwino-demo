@@ -8,9 +8,9 @@
 							ng-click="go('/app/user/'+entries.getUserDn(item))" 
 							onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
 						<div style="width:100%">
-							<h2 ng-bind="item.value.subject"></h2>
+							<h2 ng-bind="entries.getTranslatedField('subject',item)"></h2>
 							<h3 ng-bind-template="{{entries.getUser(item).getCn()}}, {{item.cdate|formattedDate}}"></h3>
-							<h4 ng-bind="item.value.abstract"></h4>
+							<h4 ng-bind="entries.getTranslatedField('abstract',item)"></h4>
 						</div>
 					</div>
 				</div>

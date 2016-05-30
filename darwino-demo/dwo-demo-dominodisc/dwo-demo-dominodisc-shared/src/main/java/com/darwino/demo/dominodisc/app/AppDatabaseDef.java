@@ -39,9 +39,11 @@ import com.darwino.jsonstore.meta._Store;
  */
 public class AppDatabaseDef extends DatabaseFactoryImpl {
 
-	public static final int DATABASE_VERSION	= 2;
+	public static final int DATABASE_VERSION	= 4;
 
 	public static final String STORE_NSFDATA       = "nsfdata"; //$NON-NLS-1$
+	public static final String STORE_NSFDATA_FR    = "nsfdata_fr"; //$NON-NLS-1$
+	public static final String STORE_NSFDATA_ES    = "nsfdata_es"; //$NON-NLS-1$
 	public static final String STORE_NSFDATA_LABEL = "NSF Data"; //$NON-NLS-1$
 	public static final String STORE_CONFIG        = "config"; //$NON-NLS-1$
 	public static final String STORE_CONFIG_LABEL  = "Configuration"; //$NON-NLS-1$
@@ -89,6 +91,20 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 
 			store.addQueryField("form", JsonUtil.TYPE_STRING, false); //$NON-NLS-1$
 			store.addQueryField("author", JsonUtil.TYPE_STRING, false, "$._writers.from"); //$NON-NLS-1$
+		}
+		
+		// Store: NSF French
+		{
+			// Added in version 4
+			_Store store = db.addStore(STORE_NSFDATA_FR);
+			store.setLabel(STORE_NSFDATA_LABEL);
+		}
+		
+		// Store: NSF Spanish
+		{
+			// Added in version 4
+			_Store store = db.addStore(STORE_NSFDATA_ES);
+			store.setLabel(STORE_NSFDATA_LABEL);
 		}
 		
 		// Store: Configuration

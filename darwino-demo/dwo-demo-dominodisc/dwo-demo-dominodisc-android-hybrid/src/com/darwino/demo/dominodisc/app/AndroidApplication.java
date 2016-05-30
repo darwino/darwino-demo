@@ -22,9 +22,9 @@
 
 package com.darwino.demo.dominodisc.app;
 
-import android.app.Application;
-
 import com.darwino.commons.json.JsonException;
+
+import android.app.Application;
 
 /**
  * Android Application

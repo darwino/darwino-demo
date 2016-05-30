@@ -22,9 +22,9 @@
 
 package com.darwino.demo.dominodisc.app;
 
-import android.os.Bundle;
-
 import com.darwino.android.platform.hybrid.DarwinoHybridActivity;
+
+import android.os.Bundle;
 
 public class MainActivity extends DarwinoHybridActivity {
 	

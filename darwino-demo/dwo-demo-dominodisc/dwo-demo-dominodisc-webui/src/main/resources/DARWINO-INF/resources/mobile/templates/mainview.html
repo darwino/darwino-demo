@@ -13,6 +13,17 @@
 			<button class="button-clear button-icon ion-close" ng-click="entries.cancelSearch()">
 			</button>
 		</div>
+
+		<button ng-show="isLocalized() && entries.searchMode==0" class="button button-clear" ng-click="setLanguage(0)">
+			<img src="img/english24.png"/>
+		</button>
+		<button ng-show="isLocalized() && entries.searchMode==0" class="button button-clear" ng-click="setLanguage(1)">
+			<img src="img/french24.png"/>
+		</button>
+		<button ng-show="isLocalized() && entries.searchMode==0" class="button button-clear" ng-click="setLanguage(2)">
+			<img src="img/spanish24.png"/>
+		</button>
+		
 		<button ng-show="entries.isFtEnabled() && entries.searchMode==0" class="button button-icon button-clear ion-search" ng-click="entries.startSearch()">
 		</button>
 			

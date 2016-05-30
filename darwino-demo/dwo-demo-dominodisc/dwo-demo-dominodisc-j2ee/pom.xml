@@ -90,6 +90,13 @@
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		
+		<!--  Watson services -->
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-ibm-watson</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.darwino.demo.dominodisc</groupId>
 			<artifactId>dwo-demo-dominodisc-shared</artifactId>

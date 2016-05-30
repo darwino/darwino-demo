@@ -59,7 +59,9 @@ public class AppJ2EEManifest extends DarwinoJ2EEManifest {
 	@Override
 	protected String[] getMobilePushedPropertyKeys() {
 		return new String[] {
-			"discdb.instances"
+			"discdb.instances",
+			"discdb.watson.translate",
+			"discdb.watson.toneanalyzer"
 		};
 	}
 }

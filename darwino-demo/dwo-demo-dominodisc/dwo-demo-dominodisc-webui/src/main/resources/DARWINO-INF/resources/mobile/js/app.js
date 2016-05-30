@@ -77,6 +77,9 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		useInstances: false,
 		instances: [],
 		instance: "",
+		// Current language
+		localized: false,
+		language: 0,
 	}
 	
 	
@@ -128,7 +131,16 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		return false
 	}
 	
-
+	//
+	// Localization
+	//
+	$rootScope.isLocalized = function() {
+		return $rootScope.data.localized;  
+	}
+	$rootScope.setLanguage = function(lg) {
+		return $rootScope.data.language = lg;
+	}
+	
 	//
 	// Global user related functions
 	//
@@ -231,6 +243,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		$rootScope.data.jsonQuery = properties.jsonQuery;
 		$rootScope.data.useInstances = properties.useInstances;
 		$rootScope.data.instances = properties.instances;
+		$rootScope.data.localized = properties.localized;
 		
 		if($rootScope.data.useInstances) {
 			var instances = properties.instances;
@@ -377,11 +390,13 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		var jsonSupported = $rootScope.data.jsonQuery;
 		var authField = jsonSupported ? '$._writers.from[0]' : '@author'; 
 		var p;
+		var extract = "{all:{$merge:'$'}, loc_fr:{$store:'nsfdata_fr',key:'_unid'}, loc_es:{$store:'nsfdata_es',key:'_unid'}}";
 		if(view=='bydate') {
 			p = {
 				database: DATABASE_NAME,
 				store: STORE_NAME,
 				orderBy: "_cdate desc",
+				extract: extract,
 				jsonTree: true,
 				hierarchical: 99,
 				options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK+jstore.Cursor.DATA_WRITEACC
@@ -402,6 +417,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				store: STORE_NAME,
 				orderBy: authField+", _cdate desc",
 				query: "{'"+authField+"':"+ap+"}",
+				extract: extract,
 				parentId: '*',
 				jsonTree: true,
 				hierarchical: 99,
@@ -439,6 +455,15 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				return $rootScope.getPhoto(this.getUserDn(item));
 			}
 			return darwino.services.User.ANONYMOUS_PHOTO;
+		}
+		entries.getTranslatedField = function(field,item) {
+			var item = item || entries.detailItem;
+			if(!item) return;
+			if($rootScope.data.localized) {
+				if($rootScope.data.language==1 && item.value.loc_fr && item.value.loc_fr[field]) return item.value.loc_fr[field];
+				if($rootScope.data.language==2 && item.value.loc_es && item.value.loc_es[field]) return item.value.loc_es[field];
+			}
+			return item.value[field];
 		}
 		entries.isFtEnabled = function() {
 			return $rootScope.nsfdata && $rootScope.nsfdata.isFtSearchEnabled();

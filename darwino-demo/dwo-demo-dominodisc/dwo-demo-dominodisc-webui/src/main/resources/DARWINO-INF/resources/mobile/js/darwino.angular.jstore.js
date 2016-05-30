@@ -57,6 +57,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.categoryCount = params.categoryCount;
 		this.key = params.key;
 		this.query = params.query;
+		this.extract = params.extract;
 		this.aggregate = params.aggregate;
 		this.parentId = params.parentId;
 		this.ftSearch = params.ftSearch;
@@ -280,6 +281,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}
 		if(this.query) {
 			url += "&query="+encodeURIComponent(this.query);
+		}
+		if(this.extract) {
+			url += "&extract="+encodeURIComponent(this.extract);
 		}
 		if(this.aggregate) {
 			url += "&aggregate="+encodeURIComponent(this.aggregate);

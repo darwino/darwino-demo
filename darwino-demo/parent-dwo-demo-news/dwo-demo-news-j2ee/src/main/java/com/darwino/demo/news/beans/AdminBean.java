@@ -53,7 +53,7 @@ public class AdminBean implements Serializable {
     
     public void recreateDatabase() {
     	try {
-        	DarwinoJ2EEApplication.get().initDatabase(NewsDatabaseDef.DATABASE_NEWS, true);
+        	DarwinoJ2EEApplication.get().initDatabase(NewsDatabaseDef.DATABASE_NEWS, Session.DEPLOY_FORCE);
 		} catch (JsonException e) {
 			Platform.log(e);
 		}
