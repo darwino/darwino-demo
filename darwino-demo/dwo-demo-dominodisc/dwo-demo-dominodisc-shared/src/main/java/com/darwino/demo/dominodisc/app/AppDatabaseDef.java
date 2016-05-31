@@ -97,14 +97,14 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		{
 			// Added in version 4
 			_Store store = db.addStore(STORE_NSFDATA_FR);
-			store.setLabel(STORE_NSFDATA_LABEL);
+			store.setLabel("French Translation");
 		}
 		
 		// Store: NSF Spanish
 		{
 			// Added in version 4
 			_Store store = db.addStore(STORE_NSFDATA_ES);
-			store.setLabel(STORE_NSFDATA_LABEL);
+			store.setLabel("Spanish Translation");
 		}
 		
 		// Store: Configuration

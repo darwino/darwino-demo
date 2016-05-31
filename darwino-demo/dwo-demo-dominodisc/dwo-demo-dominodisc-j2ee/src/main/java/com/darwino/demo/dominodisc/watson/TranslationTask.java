@@ -52,22 +52,25 @@ import com.ibm.watson.developer_cloud.language_translation.v2.model.Language;
  */
 public class TranslationTask extends Task<Void> {
 
+	private static final boolean RESTART_FROM_SCRATCH = false;
+
 	public static void install(String[] instances) {
-		return;
-//		if(!Platform.getPropertyService().getPropertyBoolean("discdb.watson.translate")) {
-//			return;
-//		}
-//		// A service must exists
-//		LanguageTranslationFactory factory = Platform.findServiceAsBeanUnchecked(LanguageTranslationFactory.BEAN_TYPE, LanguageTranslationFactory.class);
-//		if(factory==null) {
-//			Platform.log("Cannot find a factory for the Watson LanguageTranslation service");
-//			return;
-//		}
-//		TaskScheduler sc = Platform.getService(TaskScheduler.class);
-//		IntervalScheduler scheduler = new IntervalScheduler();
-//		scheduler.setInterval("1m"); // 1 min
-//		scheduler.setInitialDelay("5s"); // 15 secs
-//		sc.scheduleTask(new TranslationTask(factory,instances),scheduler);
+		//return;
+		if(!Platform.getPropertyService().getPropertyBoolean("discdb.watson.translate")) {
+			return;
+		}
+		// A service must exists
+		LanguageTranslationFactory factory = Platform.findServiceAsBeanUnchecked(LanguageTranslationFactory.BEAN_TYPE, LanguageTranslationFactory.class);
+		if(factory==null) {
+			Platform.log("Cannot find a factory for the Watson LanguageTranslation service");
+			return;
+		}
+		Platform.log("Start Watson translation service");
+		TaskScheduler sc = Platform.getService(TaskScheduler.class);
+		IntervalScheduler scheduler = new IntervalScheduler();
+		scheduler.setInterval("1m"); // 1 min
+		scheduler.setInitialDelay("5s"); // 15 secs
+		sc.scheduleTask(new TranslationTask(factory,instances),scheduler);
 	}
 	
 	public static void uninstall() {
@@ -94,10 +97,12 @@ public class TranslationTask extends Task<Void> {
 	}
 
 	protected void init(Database db, Document statusDoc) throws JsonException {
-		// To restart from scratch		
-		db.getStore(AppDatabaseDef.STORE_NSFDATA_FR).deleteAllDocuments();
-		db.getStore(AppDatabaseDef.STORE_NSFDATA_ES).deleteAllDocuments();
-		statusDoc.remove("lastTranslate");
+		// To restart from scratch
+		if(RESTART_FROM_SCRATCH) {
+			db.getStore(AppDatabaseDef.STORE_NSFDATA_FR).deleteAllDocuments();
+			db.getStore(AppDatabaseDef.STORE_NSFDATA_ES).deleteAllDocuments();
+			statusDoc.remove("lastTranslate");
+		}
 	}
 	
 	public synchronized void translate() throws JsonException {
@@ -146,6 +151,7 @@ public class TranslationTask extends Task<Void> {
 			// So if the translation fails, then the previous documents are still saved
 			final Session updateSession = db.getSession().clone();
 			try {
+				final int[] count = new int[1];
 				c.findDocuments(new DocumentHandler() {
 					@Override
 					public boolean handle(Document document) throws JsonException {
@@ -154,6 +160,7 @@ public class TranslationTask extends Task<Void> {
 						String bodyText = HtmlTextUtil.fromHTML(document.getString("body")); // Watson does not translate HTML!
 						{
 							Document translated = updateSession.getDatabase(db.getId(),db.getInstance().getId()).getStore(AppDatabaseDef.STORE_NSFDATA_FR).loadDocument(document.getUnid(),Store.DOCUMENT_CREATE);
+							translated.setSyncMaster(document);
 							String newSubject = translate(tr, subject, Language.ENGLISH, Language.FRENCH);
 							String newBody = translate(tr, bodyText, Language.ENGLISH, Language.FRENCH);
 							//String newSubject = "FRENCH "+subject;
@@ -166,6 +173,7 @@ public class TranslationTask extends Task<Void> {
 						}
 						{
 							Document translated = updateSession.getDatabase(db.getId(),db.getInstance().getId()).getStore(AppDatabaseDef.STORE_NSFDATA_ES).loadDocument(document.getUnid(),Store.DOCUMENT_CREATE);
+							translated.setSyncMaster(document);
 							String newSubject = translate(tr, subject, Language.ENGLISH, Language.SPANISH);
 							String newBody = translate(tr, bodyText, Language.ENGLISH, Language.SPANISH);
 							//String newSubject = "SPANISH "+subject;
@@ -176,9 +184,13 @@ public class TranslationTask extends Task<Void> {
 							translated.set("abstract", newBody.substring(0,Math.min(newBody.length(),200)));
 							translated.save();
 						}
+						count[0]++;
 						return true;
 					}
 				});
+				if(count[0]>0) {
+					Platform.log("Translated {0} documents");
+				}
 			} finally {
 				StreamUtil.close(updateSession);
 			}
