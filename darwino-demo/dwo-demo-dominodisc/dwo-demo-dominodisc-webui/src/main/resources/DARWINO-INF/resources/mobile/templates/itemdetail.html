@@ -11,9 +11,9 @@
 			<h3 ng-bind-template="{{entries.getUser(entries.detailItem).getCn()}}, {{entries.detailItem.mdate|formattedDate}}"></h3>
 		</div>
 		<div class="icon">
-			<a class="button button-clear ion-reply icon-action" ng-show="entries.canCreateDocument()" ng-click="entries.newResponse()"></a>
-			<a class="button button-clear ion-android-create icon-action" ng-show="entries.canUpdateDocument()" ng-click="entries.editEntry()"></a>
-			<a class="button button-clear ion-trash-a icon-action" ng-show="entries.canDeleteDocument()" ng-click="entries.deleteEntry()"></a>
+			<a class="button button-clear button-stable ion-reply icon-action" ng-show="entries.canCreateDocument()" ng-click="entries.newResponse()"></a>
+			<a class="button button-clear button-stable ion-android-create icon-action" ng-show="entries.canUpdateDocument()" ng-click="entries.editEntry()"></a>
+			<a class="button button-clear button-stable ion-trash-a icon-action" ng-show="entries.canDeleteDocument()" ng-click="entries.deleteEntry()"></a>
 		</div>
 	</div>
 	
