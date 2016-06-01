@@ -68,7 +68,7 @@ public class TranslationTask extends Task<Void> {
 		Platform.log("Start Watson translation service");
 		TaskScheduler sc = Platform.getService(TaskScheduler.class);
 		IntervalScheduler scheduler = new IntervalScheduler();
-		scheduler.setInterval("1m"); // 1 min
+		scheduler.setInterval("15s"); // 1 min
 		scheduler.setInitialDelay("5s"); // 15 secs
 		sc.scheduleTask(new TranslationTask(factory,instances),scheduler);
 	}
