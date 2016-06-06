@@ -39,13 +39,14 @@ darwino.log.enable(LOG_GROUP,darwino.log.DEBUG)
 // Main database and store names
 var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
+var STORE_TONE_NAME = "analyze";
 
 // Enable this flag if your application uses instances
 var INSTANCE_PROP = "dwo.domdisc.instance";
 
 var DEFAULT_STATE_URL = "/app/views/bydate";
 
-angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill' ])
+angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.jstore', 'ngQuill', "chart.js" ])
 
 .run(['$rootScope','$location','$state','$http','$window','$timeout','views',function($rootScope,$location,$state,$http,$window,$timeout,views) {
 	// Storage utilities
@@ -329,6 +330,15 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				controller : "EditCtrl"
 			}
 		}
+	// Display the tones analyzed for a document
+	}).state('app.tone', {
+		url : "/tone/:id",
+		views : {
+			'menuContent@app' : {
+				templateUrl : "templates/tone.html",
+				controller : "ToneCtrl"
+			}
+		}
 	// Display user related information
 	}).state('app.user', {
 		url : "/user/:userdn",
@@ -527,6 +537,12 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				}
 			});
 		}
+
+		entries.showTone = function(item) {
+			var item = item || entries.detailItem;
+			if(!item) return;
+			$state.go("app.tone",{id:item.unid});
+		}
 		
 		entries.hasMoreButton = function() {
 			return !$rootScope.infiniteScroll && this.hasMore() && !this.isLoading();
@@ -724,6 +740,50 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 }])
 
 
+
+//
+//	Tone
+//
+.controller('ToneCtrl', ['$scope', '$rootScope','$stateParams', function($scope,$rootScope,$stateParams) {
+	var id = $stateParams.id;
+	$scope.json = null;
+	$scope.tonetab = 0;
+	$scope.options = {
+		scaleOverride: true,
+		scaleStartValue: 0,
+		scaleSteps: 10,
+		scaleStepWidth: 0.1
+	}
+	$scope.dbPromise.then(function() {
+		return $scope.database.getStore(STORE_TONE_NAME).loadDocument(id);
+	}).then(function (doc) {
+		var json = $scope.json = doc.getJson();
+
+		$scope.setCurrentCat = function(idx) {
+			$scope.currentCat = idx;
+			var cat = json['document_tone']['tone_categories'][idx];
+			
+			var labels = [];
+			for(var i=0; i<cat.tones.length; i++) {
+				labels.push(cat.tones[i]['tone_name']);
+			}
+			$scope.labels = labels;
+
+			var data = [];
+			for(var i=0; i<cat.tones.length; i++) {
+				data.push(cat.tones[i].score);
+			}
+			$scope.data = [data];
+
+			$scope.series = ['Serie 1'];
+		}
+		$scope.setCurrentCat(0);
+		
+		$scope.apply();
+	});
+}])
+
+
 //
 //	User
 //
@@ -740,5 +800,6 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		}
 	});
 }])
+
 
 }());

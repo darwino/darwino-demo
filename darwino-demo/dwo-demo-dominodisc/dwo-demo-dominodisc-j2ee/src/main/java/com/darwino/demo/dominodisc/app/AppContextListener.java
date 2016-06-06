@@ -26,6 +26,7 @@ import javax.servlet.ServletContext;
 
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.tasks.TaskProgress;
+import com.darwino.demo.dominodisc.watson.AnalyzeTask;
 import com.darwino.demo.dominodisc.watson.TranslationTask;
 import com.darwino.j2ee.application.AbstractDarwinoContextListener;
 import com.darwino.j2ee.application.BackgroundServletSynchronizationExecutor;
@@ -70,8 +71,9 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 		syncExecutor.start();
 		
 		// Install the Watson translator
-		//LocalizationTask.install(AppDatabaseDef.getInstances());
-		TranslationTask.install(new String[]{"discdb/xpagesforum.nsf"});
+		String[] instances = new String[]{"discdb/xpagesforum.nsf"}; // AppDatabaseDef.getInstances()
+		TranslationTask.install(instances);
+		AnalyzeTask.install(instances);
 	}
 
 	@Override

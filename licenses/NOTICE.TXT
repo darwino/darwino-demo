@@ -16,5 +16,6 @@ The Darwino platform includes code from the JSP standard tag library, available 
 
 The Darwino platform includes code from PrimeFaces, available from http://www.primefaces.org/. It is copyright PrimeFaces org and released under the Apache 2.0 license (http://www.primefaces.org/license)
 
+The Darwino platform includes code from Chart.js, available from https://github.com/chartjs/Chart.js. It is copyright Nick Downie and released under the MIT license (https://github.com/chartjs/Chart.js/blob/master/LICENSE.md)
 
-
+The Darwino platform includes code from Angular-Chart.js, available from http://jtblin.github.io/angular-chart.js/. It is copyright Jerome Touffe-Blin and released under the BSD license (https://github.com/jtblin/angular-chart.js/blob/master/LICENSE)

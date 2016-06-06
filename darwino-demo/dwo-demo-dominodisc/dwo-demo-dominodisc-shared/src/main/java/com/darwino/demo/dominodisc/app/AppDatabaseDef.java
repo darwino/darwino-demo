@@ -39,14 +39,13 @@ import com.darwino.jsonstore.meta._Store;
  */
 public class AppDatabaseDef extends DatabaseFactoryImpl {
 
-	public static final int DATABASE_VERSION	= 4;
+	public static final int DATABASE_VERSION	= 5;
 
 	public static final String STORE_NSFDATA       = "nsfdata"; //$NON-NLS-1$
 	public static final String STORE_NSFDATA_FR    = "nsfdata_fr"; //$NON-NLS-1$
 	public static final String STORE_NSFDATA_ES    = "nsfdata_es"; //$NON-NLS-1$
-	public static final String STORE_NSFDATA_LABEL = "NSF Data"; //$NON-NLS-1$
+	public static final String STORE_ANALYZE 	   = "analyze"; //$NON-NLS-1$
 	public static final String STORE_CONFIG        = "config"; //$NON-NLS-1$
-	public static final String STORE_CONFIG_LABEL  = "Configuration"; //$NON-NLS-1$
 
 	public static final String DATABASE_NAME       = "domdisc"; //$NON-NLS-1$
 
@@ -84,7 +83,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		// Store: NSF data
 		{
 			_Store store = db.addStore(STORE_NSFDATA);
-			store.setLabel(STORE_NSFDATA_LABEL);
+			store.setLabel("NSF Data");
 			store.setFtSearchEnabled(true);
 			_FtSearch ft = store.setFTSearch(new _FtSearch());
 			ft.setFields("$"); //$NON-NLS-1$
@@ -107,10 +106,17 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 			store.setLabel("Spanish Translation");
 		}
 		
+		// Store: Content Analyzer
+		{
+			// Added in version 5
+			_Store store = db.addStore(STORE_ANALYZE);
+			store.setLabel("Analyzed Content");
+		}
+		
 		// Store: Configuration
 		{
 			_Store store = db.addStore(STORE_CONFIG);
-			store.setLabel(STORE_CONFIG_LABEL);
+			store.setLabel("Configuration");
 			store.setFtSearchEnabled(true);
 			
 			store.addQueryField("form", JsonUtil.TYPE_STRING, false); //$NON-NLS-1$
