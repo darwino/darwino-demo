@@ -72,7 +72,9 @@ public abstract class BatchDocumentProcessor implements DocumentHandler {
 	}
 	
 	public String getConfigStore() {
-		return Database.STORE_DEFAULT;
+		// We do not want the config doc to be replicated to the mobile device
+		//return Database.STORE_DEFAULT;
+		return Database.STORE_LOCAL;
 	}
 
 	public Session createSession() throws JsonException {
@@ -219,9 +221,9 @@ public abstract class BatchDocumentProcessor implements DocumentHandler {
 	//
 	public Document loadTargetDocument(Document sourceDocument, Store targetStore) throws JsonException {
 		if(sourceDocument!=null) {
-			Date sd = sourceDocument.getLastModificationDate();
+			Date sd = sourceDocument.getUpdateDate();
 			Document targetDocument = targetStore.loadDocument(sourceDocument.getUnid(),Store.DOCUMENT_CREATE);
-			if(targetDocument.isNewDocument() || targetDocument.getLastModificationDate().getTime()<sd.getTime()) {
+			if(targetDocument.isNewDocument() || targetDocument.getUpdateDate().getTime()<sd.getTime()) {
 				return targetDocument;
 			}
 		}
@@ -235,7 +237,7 @@ public abstract class BatchDocumentProcessor implements DocumentHandler {
 	protected DocumentCollection createDocumentCollection(Database db, Date lastRun, Date runDate) throws JsonException {
 		// Use cdate instead of mdate as it has an index
 		Cursor c = db.getStore(getStoreName()).openCursor()
-				.orderBy("_cdate desc")
+				.orderBy("_udate desc")
 				//.hierarchical(99)
 				.options(Cursor.RANGE_ROOT);
 		int max = maxEntries();
@@ -243,7 +245,7 @@ public abstract class BatchDocumentProcessor implements DocumentHandler {
 			c.range(0, max);
 		}
 		if(lastRun!=null) {
-			c.query("{_cdate: {$gte: '${p1}', $lt: '${p2}'}}").param("p1", lastRun).param("p2", runDate);
+			c.query("{_udate: {$gte: '${p1}', $lt: '${p2}'}}").param("p1", lastRun).param("p2", runDate);
 		}
 		return c;
 	}

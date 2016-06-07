@@ -166,6 +166,14 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 			i4.addQueryField("title", JsonUtil.TYPE_STRING, false)
 			  .addQueryField("author", JsonUtil.TYPE_STRING, false)
 			  .addQueryField("category", JsonUtil.TYPE_STRING, false);
+
+			_Index i5 = store.addIndex("byCategoryUpdateDate");
+			i5.setLabel("By Category, Author, UpdateDate");
+			i5.keys("category", "author", SpecialFieldNode.UPDATEDDATE);
+			i5.valuesExtract("{title: 'title', category: 'category', author: 'author'}");
+			i5.addQueryField("title", JsonUtil.TYPE_STRING, false)
+			  .addQueryField("author", JsonUtil.TYPE_STRING, false)
+			  .addQueryField("category", JsonUtil.TYPE_STRING, false);
 		}
 		
 

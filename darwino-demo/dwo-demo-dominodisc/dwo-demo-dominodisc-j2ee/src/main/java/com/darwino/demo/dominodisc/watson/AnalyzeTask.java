@@ -102,7 +102,7 @@ public class AnalyzeTask extends BatchDocumentProcessor {
 			if(!FAKE) {
 				Document analyze = loadTargetDocument(document, getUpdateSession().getDatabase(db.getId(),db.getInstance().getId()).getStore(AppDatabaseDef.STORE_ANALYZE));
 				if(analyze!=null) {
-					Platform.log("Analyzing: {0}, date {1}, inst {2}",document.getUnid(),document.getLastModificationDate(),document.getStore().getDatabase().getInstance().getId());
+					Platform.log("Analyzing: {0}, date {1}, inst {2}",document.getUnid(),document.getUpdateDate(),document.getStore().getDatabase().getInstance().getId());
 					ToneAnalysis tone = ta.getTone(bodyText).execute();
 					JsonObject json = transform(JsonObject.fromJson(tone.toString())); 
 					//System.out.println(tone);
@@ -110,7 +110,7 @@ public class AnalyzeTask extends BatchDocumentProcessor {
 					analyze.setJson(json);
 					analyze.save();
 				} else {
-					Platform.log("** Skip analyzing: {0}, date {1}, inst {2}",document.getUnid(),document.getLastModificationDate(),document.getStore().getDatabase().getInstance().getId());
+					Platform.log("** Skip analyzing: {0}, date {1}, inst {2}",document.getUnid(),document.getUpdateDate(),document.getStore().getDatabase().getInstance().getId());
 				}
 			}
 		}

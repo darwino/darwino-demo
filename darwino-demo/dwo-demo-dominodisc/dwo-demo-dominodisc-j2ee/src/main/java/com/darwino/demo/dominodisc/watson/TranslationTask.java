@@ -98,33 +98,33 @@ public class TranslationTask extends BatchDocumentProcessor {
 		{
 			Document translated = loadTargetDocument(document,getUpdateSession().getDatabase(db.getId(),db.getInstance().getId()).getStore(AppDatabaseDef.STORE_NSFDATA_FR));
 			if(translated!=null) {
-				Platform.log("Translating to French: {0}, date {1}, inst {2}",document.getUnid(),document.getLastModificationDate(),document.getStore().getDatabase().getInstance().getId());
+				Platform.log("Translating to French: {0}, date {1}, inst {2}",document.getUnid(),document.getUpdateDate(),document.getStore().getDatabase().getInstance().getId());
 				translated.setSyncMaster(document);
-				String newSubject = FAKE ? translate(tr, subject, Language.ENGLISH, Language.FRENCH) : "FRENCH "+subject;
-				String newBody = FAKE ? translate(tr, bodyText, Language.ENGLISH, Language.FRENCH) : "FRENCH\n"+bodyText;
+				String newSubject = translate(tr, subject, Language.ENGLISH, Language.FRENCH);
+				String newBody = translate(tr, bodyText, Language.ENGLISH, Language.FRENCH);
 				
 				translated.set("subject", newSubject);
 				translated.set("body", HtmlTextUtil.toHTMLContentString(newBody,true));
 				translated.set("abstract", newBody.substring(0,Math.min(newBody.length(),200)));
 				translated.save();
 			} else {
-				Platform.log("Skip translating to French: {0}, date {1}, inst {2}",document.getUnid(),document.getLastModificationDate(),document.getStore().getDatabase().getInstance().getId());
+				Platform.log("Skip translating to French: {0}, date {1}, inst {2}",document.getUnid(),document.getUpdateDate(),document.getStore().getDatabase().getInstance().getId());
 			}
 		}
 		{
 			Document translated = loadTargetDocument(document,getUpdateSession().getDatabase(db.getId(),db.getInstance().getId()).getStore(AppDatabaseDef.STORE_NSFDATA_ES));
 			if(translated!=null) {
-				Platform.log("Translate to Spanish: {0}, date {1}, inst {2}",document.getUnid(),document.getLastModificationDate(),document.getStore().getDatabase().getInstance().getId());
+				Platform.log("Translating to Spanish: {0}, date {1}, inst {2}",document.getUnid(),document.getUpdateDate(),document.getStore().getDatabase().getInstance().getId());
 				translated.setSyncMaster(document);
-				String newSubject = FAKE ? translate(tr, subject, Language.ENGLISH, Language.SPANISH) : "SPANISH "+subject;
-				String newBody = FAKE ? translate(tr, bodyText, Language.ENGLISH, Language.SPANISH) : "SPANISH\n"+bodyText;
+				String newSubject = translate(tr, subject, Language.ENGLISH, Language.SPANISH);
+				String newBody = translate(tr, bodyText, Language.ENGLISH, Language.SPANISH);
 				
 				translated.set("subject", newSubject);
 				translated.set("body", HtmlTextUtil.toHTMLContentString(newBody,true));
 				translated.set("abstract", newBody.substring(0,Math.min(newBody.length(),200)));
 				translated.save();
 			} else {
-				Platform.log("Skip translating to Spanish: {0}, date {1}, inst {2}",document.getUnid(),document.getLastModificationDate(),document.getStore().getDatabase().getInstance().getId());
+				Platform.log("Skip translating to Spanish: {0}, date {1}, inst {2}",document.getUnid(),document.getUpdateDate(),document.getStore().getDatabase().getInstance().getId());
 			}
 		}
 		return true; // continue
@@ -133,7 +133,10 @@ public class TranslationTask extends BatchDocumentProcessor {
 	private String translate(LanguageTranslation tr, String text, Language source, Language target) {
 		// In case the translation fails, then keeps the original string...
 		try {
-			return tr.translate(text, source, target).execute().getFirstTranslation();
+			if(!FAKE) {
+				return tr.translate(text, source, target).execute().getFirstTranslation();
+			}
+			return target.toString() + ": " + text; 
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			return text;
