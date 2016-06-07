@@ -51,7 +51,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.databaseId = params.database;
 		this.storeId = params.store;
 		this.indexId = params.index;
-		this.instanceId = params.instance;
+		this.instanceId = params.instanceId;
 		this.orderBy = params.orderBy;
 		this.categoryStart = params.categoryStart;
 		this.categoryCount = params.categoryCount;
