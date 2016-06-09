@@ -22,11 +22,24 @@
 
 package com.darwino.demo.dominodisc.app;
 
+import java.util.List;
+
+import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonObject;
+import com.darwino.commons.services.HttpService;
+import com.darwino.commons.services.HttpServiceContext;
+import com.darwino.commons.services.HttpServiceError;
 import com.darwino.commons.services.HttpServiceFactories;
+import com.darwino.commons.services.rest.RestServiceBinder;
+import com.darwino.commons.util.io.StreamUtil;
+import com.darwino.demo.dominodisc.demodata.ForumDataReader;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.j2ee.application.DarwinoJ2EEServiceDispatcherFilter;
+import com.darwino.jsonstore.Database;
+import com.darwino.jsonstore.Session;
+import com.darwino.jsonstore.Store;
 import com.darwino.jsonstore.sql.impl.full.LocalFullJsonDBServerImpl;
+import com.darwino.platform.DarwinoApplication;
 import com.darwino.platforms.ApplicationEnvironment;
 
 /**
@@ -107,8 +120,42 @@ public class AppServiceDispatcher extends DarwinoJ2EEServiceDispatcherFilter {
 					o.put("database", db);
 				}
 			}
+			@Override
+			protected void createServicesBinders(List<RestServiceBinder> binders) {
+				super.createServicesBinders(binders);
+
+				binders.add(new RestServiceBinder(".reset") {
+					@Override
+					public HttpService createService(HttpServiceContext context, String[] parts) {
+						return new ResetForum();
+					}
+				});
+			}
 		});
 	}
 	
+	public class ResetForum extends HttpService {
+		@Override
+		public void service(HttpServiceContext context) {
+			if(context.isGet()) {
+				try {
+					// We must run a system session to be able to delete the document with author fields
+					Session session = DarwinoApplication.get().getLocalJsonDBServer().createSystemSession("DarwinoDiscussion.nsf");
+					try {
+						ForumDataReader dr = new ForumDataReader(ForumDataReader.PINBALL_FORUM);
+						Database db = session.getDatabase(AppDatabaseDef.DATABASE_NAME);
+						Store st = db.getStore(AppDatabaseDef.STORE_NSFDATA);
+						dr.extract(st, 32);
+					} finally {
+						StreamUtil.close(session);
+					}
+				} catch(JsonException ex) {
+					throw HttpServiceError.error500(ex);
+				}
+			} else {
+				throw HttpServiceError.errorUnsupportedMethod(context.getMethod());
+			}
+		}
+	}
 	
 }

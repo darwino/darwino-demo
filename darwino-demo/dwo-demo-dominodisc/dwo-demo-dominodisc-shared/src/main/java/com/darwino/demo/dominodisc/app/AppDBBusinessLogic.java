@@ -59,8 +59,12 @@ public  class AppDBBusinessLogic extends DefaultExtensionRegistry {
 					if(doc.isNewDocument()) {
 						User user = ctx.getUser();
 						SecurityHelper sec = new SecurityHelper(doc);
-						sec.addWriter("from",user.getDn());
-						sec.addReader("_allReaders","*");
+						if(sec.getWritersCount()==0) { // in case it was already added (import forums)
+							sec.addWriter("from",user.getDn());
+						}
+						if(sec.getReadersCount()==0) { // in case it was already added (import forums)
+							sec.addReader("_allReaders","*");
+						}
 	
 						//json.putArray("from", JsonArray.valueOf(user.getDn()));
 						json.putStringDef("altfrom",(String)user.getAttribute(User.ATTR_EMAIL));
