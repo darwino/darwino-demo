@@ -89,6 +89,11 @@
 			<artifactId>dwo-jre-social</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-ibm-connections</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
 		
 		<!--  Watson services -->
 		<dependency>
