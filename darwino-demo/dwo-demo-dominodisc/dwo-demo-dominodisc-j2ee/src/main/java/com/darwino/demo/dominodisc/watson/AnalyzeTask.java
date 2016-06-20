@@ -292,19 +292,19 @@ public class AnalyzeTask extends BatchDocumentProcessor {
 			@Override
 			public void handle(JsonNav nav) throws JsonException {
 				JsonObject category = new JsonObject();
-				category.put("category_name", nav.getString("category_name"));
+				category.put("category_name", nav.get("category_name").stringValue());
 				final JsonObject tones = new JsonObject();
 				category.put("tones",tones);
 				nav.get("tones").flatten().forEach(new JsonNav.Handler() {
 					@Override
 					public void handle(JsonNav nav) throws JsonException {
 						JsonObject tone = new JsonObject();
-						tone.put("tone_name", nav.getString("tone_name"));
-						tone.put("score", nav.getNumber("score"));
-						tones.put(nav.getString("tone_id"), tone);
+						tone.put("tone_name", nav.get("tone_name").stringValue());
+						tone.put("score", nav.get("score").doubleValue());
+						tones.put(nav.get("tone_id").stringValue(), tone);
 					}
 				});
-				path.put(nav.getString("category_id"), category);
+				path.put(nav.get("category_id").stringValue(), category);
 			}
 		});
 		

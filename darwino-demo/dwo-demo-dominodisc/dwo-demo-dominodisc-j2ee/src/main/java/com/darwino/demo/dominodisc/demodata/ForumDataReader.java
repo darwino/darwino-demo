@@ -80,8 +80,8 @@ public class ForumDataReader {
 					
 					store.getSession().startTransaction();
 					try {
-						final String threadTitle = nav.getString("title");
-						final String threadId = Integer.toString(nav.getInt("id"));
+						final String threadTitle = nav.get("title").stringValue();
+						final String threadId = Integer.toString(nav.get("id").intValue());
 						
 						// When we read a page, some item might have been pushed down to the next page as well
 						// -> we avoid duplicate here!
@@ -104,15 +104,15 @@ public class ForumDataReader {
 									Platform.log("Creating main forum doc id:{0}",threadId);
 								} else {
 									punid = mainId[0];
-									title = HtmlTextUtil.fromHTML(nav.getString("cooked"),30);
+									title = HtmlTextUtil.fromHTML(nav.get("cooked").stringValue(),30);
 								}
 	
 								Map<String,String> att = new HashMap<String,String>();
 								
-								String username = processUsername(nav.getString("username"));
-								Date created = DateTimeISO8601.asISO8601Date(nav.getString("created_at"));
-								Date updated = DateTimeISO8601.asISO8601Date(nav.getString("updated_at"));
-								String body = processBody(nav.getString("cooked"),att);
+								String username = processUsername(nav.get("username").stringValue());
+								Date created = DateTimeISO8601.asISO8601Date(nav.get("created_at").stringValue());
+								Date updated = DateTimeISO8601.asISO8601Date(nav.get("updated_at").stringValue());
+								String body = processBody(nav.get("cooked").stringValue(),att);
 	
 								DocumentImpl doc = (DocumentImpl)store.newDocument();
 								if(mainId[0]==null) {
