@@ -140,10 +140,11 @@ public class ForumDataReader {
 	
 	protected void addDates(Document doc, Date created, Date updated, String username) throws JsonException {
 		JsonObject jo = (JsonObject)doc.getJson();
-		jo.put(Document.SYSTEM_META_CDATE, DateTimeISO8601.formatISO8601(created.getTime()));
-		jo.put(Document.SYSTEM_META_CUSER, username);
-		jo.put(Document.SYSTEM_META_MDATE, DateTimeISO8601.formatISO8601(updated.getTime()));
-		jo.put(Document.SYSTEM_META_MUSER, username);
+		JsonObject meta = jo.getOrCreateObject(Document.SYSTEM_META_FIELD);
+		meta.put(Document.SYSTEM_META_CDATE, DateTimeISO8601.formatISO8601(created.getTime()));
+		meta.put(Document.SYSTEM_META_CUSER, username);
+		meta.put(Document.SYSTEM_META_MDATE, DateTimeISO8601.formatISO8601(updated.getTime()));
+		meta.put(Document.SYSTEM_META_MUSER, username);
 	}
 
 	protected void addReadersWriters(Document doc, String username) throws JsonException {
