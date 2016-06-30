@@ -38,7 +38,13 @@ public class AppHybridApplication extends DarwinoSwtHybridApplication {
 	public static AppHybridApplication create(Application application) throws JsonException {
 		if(!DarwinoMobileApplication.isInitialized()) {
 			AppHybridApplication app = new AppHybridApplication(
-					new AppManifest(new AppMobileManifest(AppManifest.MOBILE_PATHINFO)), 
+					new AppManifest(new AppMobileManifest(AppManifest.MOBILE_PATHINFO) {
+						// Disable encryption as it is not available on SWT yet
+						@Override
+						public boolean isDataEncryptedByDefault() {
+							return false;
+						}
+					}), 
 					application);
 			app.init();
 		}
