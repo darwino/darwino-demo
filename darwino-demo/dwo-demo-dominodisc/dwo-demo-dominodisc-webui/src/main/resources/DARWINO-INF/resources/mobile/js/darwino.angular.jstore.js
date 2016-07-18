@@ -457,8 +457,20 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			a.href = url;
 			return a.href;
 		}
-		url = absoluteURL(url); 
+		url = absoluteURL(url);
+		
+		var errorCallback = function(response) {
+			if(cberr) {
+				cberr();
+			}
+			darwino.log.d(LOG_GROUP,'Error while loading entries from server: '+url+', Err:'+response.status);
+		};
 		var successCallback = function(response) {
+			if(response.status < 200 || response.status > 299) {
+				errorCallback(response);
+				return;
+			}
+			console.log("Success callback somehow", response, new Error().stack);
 			var items = [];
 			function loaded(item) {
 				for(var field in item.value) {
@@ -484,12 +496,6 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				cb(data);
 			}
 			darwino.log.d(LOG_GROUP,'Entries loaded from server: '+url+', #', _this.all.length);
-		};
-		var errorCallback = function(response) {
-			if(cberr) {
-				cberr();
-			}
-			darwino.log.d(LOG_GROUP,'Error while loading entries from server: '+url+', Err:'+response.status);
 		};
 		ngHttp.get(url).then(successCallback,errorCallback);
 	}
