@@ -22,7 +22,13 @@
 
 package com.darwino.demo.dominodisc.app;
 
+import java.io.InputStream;
+
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
+
 import com.darwino.commons.json.JsonException;
+import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.swt.platform.hybrid.SwtMain;
 
 /**
@@ -47,6 +53,22 @@ public class SwtMainClass extends SwtMain {
 		}
 	}
 	
+	@Override
+	public Image[] getIcons() {
+		Display display = Display.getDefault();
+		
+		String[] iconNames = { "/icon/Icon-72.png", "/icon/Icon-72@2x.png" }; //$NON-NLS-1$ //$NON-NLS-2$
+		Image[] result = new Image[iconNames.length];
+		for(int i = 0; i < iconNames.length; i++) {
+			@SuppressWarnings("resource")
+			InputStream is = SwtMainClass.class.getResourceAsStream(iconNames[i]);
+			Image icon = new Image(display, is);
+			StreamUtil.close(is);
+			result[i] = icon;
+		}
+		
+		return result;
+	}
 	
 	public static void main(String[] args) {
 		SwtMainClass main = new SwtMainClass();
