@@ -142,6 +142,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		// A count can be very time consuming, so we disable it
 		// -> https://wiki.postgresql.org/wiki/FAQ#Why_is_.22SELECT_count.28.2A.29_FROM_bigtable.3B.22_slow.3F
 		// We postpone the count to a bit later, so the data query is executed before...
+		// Moreover, failing to connect to the server will avoid the call.
 		var _this = this;
 		if(this.count<-1) {
 			this.count = -1;
@@ -172,10 +173,15 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				url += '&instance=' + encodeURIComponent(this.instanceId);
 			}
 			setTimeout(function() {
-				ngHttp.get(url).then(function(response) {
-					_this.count = response.data['count'];
-					darwino.log.d(LOG_GROUP,"Calculated store entries count {0}",_this.count);
-				})
+				if(count==-1) {
+					ngHttp.get(url).then(function(response) {
+						_this.count = response.data['count'];
+						darwino.log.d(LOG_GROUP,"Calculated store entries count {0}",_this.count);
+					},function(response) {
+						_this.count = 0;
+						darwino.log.d(LOG_GROUP,"Failing to calculate store entries count {0}",_this.count);
+					});
+				}
 			},
 			200);
 		}
@@ -311,6 +317,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			// In case of error, all the items are considered loaded...
 			_this.loading = false;
 			_this.eof = true;
+			if(skip==0) {
+				_this.count = 0;
+			}
 			if(err) err(data);
 		});
 	}
@@ -458,19 +467,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			return a.href;
 		}
 		url = absoluteURL(url);
-		
-		var errorCallback = function(response) {
-			if(cberr) {
-				cberr();
-			}
-			darwino.log.d(LOG_GROUP,'Error while loading entries from server: '+url+', Err:'+response.status);
-		};
 		var successCallback = function(response) {
-			if(response.status < 200 || response.status > 299) {
-				errorCallback(response);
-				return;
-			}
-			console.log("Success callback somehow", response, new Error().stack);
 			var items = [];
 			function loaded(item) {
 				for(var field in item.value) {
@@ -496,6 +493,12 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				cb(data);
 			}
 			darwino.log.d(LOG_GROUP,'Entries loaded from server: '+url+', #', _this.all.length);
+		};
+		var errorCallback = function(response) {
+			if(cberr) {
+				cberr();
+			}
+			darwino.log.d(LOG_GROUP,'Error while loading entries from server: '+url+', Err:'+response.status);
 		};
 		ngHttp.get(url).then(successCallback,errorCallback);
 	}
@@ -568,9 +571,12 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	mod.factory('sessionRecoverer', ['$q', '$injector', function($q, $injector) {  
 	    var sessionRecoverer = {
 	        responseError: function(response) {
+	        	var status = response.status; 
 	            // Session has expired
-	            if (response.status==419 || response.headers('x-dwo-auth-msg')=='authrequired' ){
+	            if (status==419 || response.headers('x-dwo-auth-msg')=='authrequired' ){
 	            	location.reload();
+	            }
+	            if(status<200 || status>299) {
 		            return $q.reject(response);
 	            }
 				return response;
