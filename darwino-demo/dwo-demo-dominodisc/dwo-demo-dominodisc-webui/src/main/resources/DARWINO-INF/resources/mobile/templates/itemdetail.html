@@ -32,7 +32,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="att in entries.getAttachments(entries.detailItem)">
-					<td><a href="{{att.url}}" ng-click="openAttachment($event, att)"><span ng-bind="att.display"></span></a></td>
+					<td><a href="{{att.url}}" ng-click="entries.openAttachment($event, att)"><span ng-bind="att.display"></span></a></td>
 					<td><span ng-bind="att.mimeType"></span></td>
 					<td><span ng-bind="att.length"></span></td>
 				</tr>
