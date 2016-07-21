@@ -615,13 +615,6 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 				broadcast();
 			},broadcast);
 		}
-		
-		//
-		// Handling attachments
-		//
-		entries.openAttachment = function(thisEvent, att) {
-			entries.openAttachmentFunc(thisEvent, att);
-		};
 	
 		//
 		// Search Bar
