@@ -558,7 +558,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 			thisEvent.preventDefault();
 			darwino.hybrid.exec("OpenAttachment",{
 				database:this.databaseId, 
-				store:this.databaseId,
+				store:this.storeId,
 				instance:this.instanceId,
 				unid:this.detailItem.unid, 
 				name:att.name,
