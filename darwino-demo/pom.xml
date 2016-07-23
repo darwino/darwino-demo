@@ -15,6 +15,7 @@
 		<module>parent-dwo-demo-news</module>
 		<module>parent-dwo-demo-angular</module>
 		<module>dwo-playground</module>
+		<module>parent-dwo-apps</module>
 		<!--<module>angular-social</module>-->
 		<module>dwo-demo-dist</module>
 	</modules>
