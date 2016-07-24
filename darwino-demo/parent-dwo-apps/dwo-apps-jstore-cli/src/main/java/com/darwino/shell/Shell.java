@@ -23,6 +23,7 @@ import com.darwino.command.Context;
 import com.darwino.command.Environment;
 import com.darwino.commons.Platform;
 import com.darwino.commons.util.StringUtil;
+import com.darwino.commons.util.cmd.CommandException;
 import com.darwino.commons.util.cmd.CommandLineParameters;
 import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.jsonstore.command.JstoreCommandFactory;
@@ -35,7 +36,9 @@ import com.darwino.shell.commands.CliCommandFactory;
 public class Shell {
 
 	// Initialization example:
-	//    -i c:\phildev\init-console.dsh
+	//    -i myinitfile.dsh
+	// Executing a file
+	//    -f myfile.dsh
 	public static void main(String[] args) {
 		try {
 			Environment env = new Environment() {
@@ -52,14 +55,9 @@ public class Shell {
 				
 				CommandLineParameters p = new CommandLineParameters(args,new String[]{"f","i"});
 				
-				String init = p.getOption("i");
-				
-				// 1- Execute the initialization file
-				if(StringUtil.isNotEmpty(init)) {
-					System.out.println(StringUtil.format("Initializing file {0}",init));
-					ctx.execute(new File(init),true);
-					System.out.println("");
-				}
+				// 1- Execute the initialization files
+				execDefaultInitFile(ctx);
+				execParamInitFile(ctx,p);
 				
 				// 2- Either execute the file or ask the user
 				String file = p.getOption("f");
@@ -96,6 +94,29 @@ public class Shell {
 			}
 		} catch(Throwable t) {
 			Platform.log(t);
+		}
+	}
+	
+	protected static void execDefaultInitFile(Context context) throws CommandException {
+		String h = System.getProperty("user.home");
+		if(StringUtil.isNotEmpty(h)) {
+			File darwinoDir = new File(h, ".darwino");
+			execInitFile(context, new File(darwinoDir,"console-init.dsh"));
+		}
+	}
+	
+	protected static void execParamInitFile(Context context, CommandLineParameters p) throws CommandException {
+		String init = p.getOption("i");
+		if(StringUtil.isNotEmpty(init)) {
+			execInitFile(context, new File(init));
+		}
+	}
+	
+	protected static void execInitFile(Context context, File initFile) throws CommandException {
+		if(initFile.exists()) {
+			System.out.println(StringUtil.format("Initializing with file {0}",initFile.getPath()));
+			context.execute(initFile,true);
+			System.out.println("");
 		}
 	}
 }
