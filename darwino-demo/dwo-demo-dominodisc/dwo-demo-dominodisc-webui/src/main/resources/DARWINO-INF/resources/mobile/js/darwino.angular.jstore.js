@@ -173,7 +173,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 				url += '&instance=' + encodeURIComponent(this.instanceId);
 			}
 			setTimeout(function() {
-				if(count==-1) {
+				if(_this.count==-1) {
 					ngHttp.get(url).then(function(response) {
 						_this.count = response.data['count'];
 						darwino.log.d(LOG_GROUP,"Calculated store entries count {0}",_this.count);
