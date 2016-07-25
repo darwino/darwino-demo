@@ -96,7 +96,7 @@ public class ForumDataReader {
 						tn.get("post_stream").get("posts").flatten().forEach(new Handler() {
 							@Override
 							public void handle(JsonNav nav) throws JsonException {
-								String unid; String punid; String title; 
+								/*String unid;*/ String punid; String title; 
 								// Check for the first item
 								if(mainId[0]==null) {
 									punid = null;

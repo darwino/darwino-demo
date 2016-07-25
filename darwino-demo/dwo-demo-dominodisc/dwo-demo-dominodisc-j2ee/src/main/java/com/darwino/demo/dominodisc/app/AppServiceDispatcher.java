@@ -139,13 +139,18 @@ public class AppServiceDispatcher extends DarwinoJ2EEServiceDispatcherFilter {
 		public void service(HttpServiceContext context) {
 			if(context.isGet()) {
 				try {
-					// We must run a system session to be able to delete the document with author fields
-					Session session = DarwinoApplication.get().getLocalJsonDBServer().createSystemSession("DarwinoDiscussion.nsf");
+					String instance = context.getQueryParameterString("instance");
+					int count = context.getQueryParameterInt("count");
+					if(count<=0) {
+						count = 32;
+					}
+					// We must run a system session to be able to delete the documents with author fields
+					Session session = DarwinoApplication.get().getLocalJsonDBServer().createSystemSession(instance);
 					try {
 						ForumDataReader dr = new ForumDataReader(ForumDataReader.PINBALL_FORUM);
 						Database db = session.getDatabase(AppDatabaseDef.DATABASE_NAME);
 						Store st = db.getStore(AppDatabaseDef.STORE_NSFDATA);
-						dr.extract(st, 32);
+						dr.extract(st, count);
 					} finally {
 						StreamUtil.close(session);
 					}
