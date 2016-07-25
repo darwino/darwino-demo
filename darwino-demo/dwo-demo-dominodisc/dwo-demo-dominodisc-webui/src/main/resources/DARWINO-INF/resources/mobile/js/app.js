@@ -400,7 +400,10 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		var jsonSupported = $rootScope.data.jsonQuery;
 		var authField = jsonSupported ? '$._writers.from[0]' : '@author'; 
 		var p;
-		var extract = "{all:{$merge:'$'}, loc_fr:{$store:'nsfdata_fr',key:'_unid'}, loc_es:{$store:'nsfdata_es',key:'_unid'}}";
+		var localized = $rootScope.isLocalized();		
+		var extract = localized
+				? "{all:{$merge:'$'}, loc_fr:{$store:'nsfdata_fr',key:'_unid'}, loc_es:{$store:'nsfdata_es',key:'_unid'}}"
+				: "";
 		if(view=='bydate') {
 			p = {
 				database: DATABASE_NAME,
