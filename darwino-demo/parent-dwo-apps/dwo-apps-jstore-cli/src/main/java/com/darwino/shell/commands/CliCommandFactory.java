@@ -23,7 +23,7 @@ public class CliCommandFactory extends CommandFactoryImpl {
 	public static CliCommandFactory instance = new CliCommandFactory();
 	
 	private CliCommandFactory() {
-		super("Cli commands");
+		super("CLI commands");
 		putCommand(new LoadConfigCommand());
 	}
 }
