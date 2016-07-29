@@ -1,38 +1,53 @@
 <ion-view view-title="Documents">
 
-	<button ng-hide="isReadOnly()" class="button button-positive button-fab button-fab-bottom-right" id="fab" ng-click="entries.newPost()">
+	<button ng-show="entries.canCreateDocument()" class="button button-positive button-fab button-fab-bottom-right" id="fab" ng-click="entries.newEntry()">
 	    <i class="icon ion-android-create"></i>
 	</button>
 	
 	<ion-nav-buttons side="right">
-		<div class="item-input-inset" ng-show="isFtEnabled() && searchMode==1">
+		<div class="item-input-inset" ng-show="entries.isFtEnabled() && entries.searchMode==1">
 	 			<label class="item-input-wrapper">
 	 				<i class="icon ion-android-search placeholder-icon"></i>
-				<input type="text" placeholder="Search..." ng-model="entries.ftSearch" class="search-bar-input" ng-change="executeSearch()">
+				<input type="text" placeholder="Search..." ng-model="entries.ftSearch" class="search-bar-input" ng-change="entries.executeSearch()">
 	 			</label>
-			<button class="button-clear button-icon ion-close" ng-click="cancelSearch()">
+			<button class="button-clear button-icon ion-close" ng-click="entries.cancelSearch()">
 			</button>
 		</div>
-		<button ng-show="isFtEnabled() && searchMode==0" class="button button-icon button-clear ion-search" ng-click="startSearch()">
+
+		<button ng-show="isLocalized() && entries.searchMode==0" class="button button-clear" ng-click="setLanguage(0)">
+			<img src="img/english24.png"/>
+		</button>
+		<button ng-show="isLocalized() && entries.searchMode==0" class="button button-clear" ng-click="setLanguage(1)">
+			<img src="img/french24.png"/>
+		</button>
+		<button ng-show="isLocalized() && entries.searchMode==0" class="button button-clear" ng-click="setLanguage(2)">
+			<img src="img/spanish24.png"/>
+		</button>
+		
+		<button ng-show="entries.isFtEnabled() && entries.searchMode==0" class="button button-icon button-clear ion-search" ng-click="entries.startSearch()">
 		</button>
 			
-		<button ng-show="isReadOnly() && !darwino.hybrid.isHybrid()" class="button button-icon button-clear ion-log-in" onclick="window.location='auth/login.html'">
+		<button ng-show="entries.isReadOnly() && !darwino.hybrid.isHybrid()" class="button button-icon button-clear ion-log-in" onclick="window.location='auth/login.html'">
 		</button>	
 	</ion-nav-buttons>
 
  	<div class="row" ng-if="isDualPane()">
-		<ion-content class="list-content col col-33">
-			<ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
-			<ng-include src="'templates/itemlist.html'"></ng-include>
-     	</ion-content>
-		<ion-content class="col col-offset-33 col-67">
-			<ng-include src="'templates/itemdetail.html'"></ng-include>
-     	</ion-content>
+ 		<div>
+			<ion-content class="list-content col col-33">
+				<ion-refresher pulling-text="Pull to refresh..." on-refresh="entries.reload()"></ion-refresher>
+				<ng-include src="'templates/itemlist.html'"></ng-include>
+	     	</ion-content>
+     	</div>
+     	<div>
+			<ion-content class="col col-offset-33 col-67">
+				<ng-include src="'templates/itemdetail.html'"></ng-include>
+	     	</ion-content>
+		</div>
 	</div>
 
  	<div ng-if="!isDualPane()">
 		<ion-content class="list-content">
-			<ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+			<ion-refresher pulling-text="Pull to refresh..." on-refresh="entries.reload()"></ion-refresher>
 			<ng-include src="'templates/itemlist.html'"></ng-include>
    		</ion-content>
 	</div>

@@ -334,3 +334,12 @@ i, em {
     font-size: 24px;
     vertical-align: top;
 }
+
+
+/*
+ * Ionic fix
+ */
+ /* https://forum.ionicframework.com/t/content-overlap-with-ion-refresher/52968 */
+.overflow-scroll > .scroll.overscroll {
+	position: static;
+}

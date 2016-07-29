@@ -17,7 +17,7 @@
 	</modules>
 
 	<properties>
-		<DARWINO_VERSION>1.0.0</DARWINO_VERSION>
+		<DARWINO_VERSION>1.1.0</DARWINO_VERSION>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -29,7 +29,7 @@
 		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 		
-		<robovm.version>1.12.0</robovm.version>
+		<robovm.version>1.8.0</robovm.version>
 
 		<tycho-version>0.22.0</tycho-version>
 		

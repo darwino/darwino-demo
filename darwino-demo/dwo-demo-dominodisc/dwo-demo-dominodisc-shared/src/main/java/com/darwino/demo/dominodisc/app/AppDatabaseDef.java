@@ -22,6 +22,7 @@
 
 package com.darwino.demo.dominodisc.app;
 
+import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonUtil;
 import com.darwino.commons.util.StringUtil;
@@ -38,15 +39,25 @@ import com.darwino.jsonstore.meta._Store;
  */
 public class AppDatabaseDef extends DatabaseFactoryImpl {
 
-	public static final int DATABASE_VERSION	= 2;
+	public static final int DATABASE_VERSION	= 5;
 
 	public static final String STORE_NSFDATA       = "nsfdata"; //$NON-NLS-1$
-	public static final String STORE_NSFDATA_LABEL = "NSF Data"; //$NON-NLS-1$
+	public static final String STORE_NSFDATA_FR    = "nsfdata_fr"; //$NON-NLS-1$
+	public static final String STORE_NSFDATA_ES    = "nsfdata_es"; //$NON-NLS-1$
+	public static final String STORE_ANALYZE 	   = "analyze"; //$NON-NLS-1$
 	public static final String STORE_CONFIG        = "config"; //$NON-NLS-1$
-	public static final String STORE_CONFIG_LABEL  = "Configuration"; //$NON-NLS-1$
 
 	public static final String DATABASE_NAME       = "domdisc"; //$NON-NLS-1$
 
+	// The list  of instances is defined through a property for the DB
+	public static String[] getInstances() {
+		//JsonArray a = new JsonArray(session.getDatabaseInstances(dbName));
+		String inst = Platform.getProperty("discdb.instances");
+		if(StringUtil.isNotEmpty(inst)) {
+			return StringUtil.splitString(inst, ',', true);
+		}
+		return null;
+	}	
 	
 	@Override
 	public int getDatabaseVersion(String databaseName) throws JsonException {
@@ -64,24 +75,48 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		_Database db = new _Database(DATABASE_NAME, "Domino Discussion", DATABASE_VERSION);
 
 		db.setReplicationEnabled(true);
-		db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
+		// We need security for writing the documents but not for reading
+		// Adding DOCSEC_NOREADER makes the queries faster.
+		db.setDocumentSecurity(Database.DOCSEC_INCLUDE|Database.DOCSEC_NOREADER);
 		db.setInstanceEnabled(true);
 
 		// Store: NSF data
 		{
 			_Store store = db.addStore(STORE_NSFDATA);
-			store.setLabel(STORE_NSFDATA_LABEL);
+			store.setLabel("NSF Data");
 			store.setFtSearchEnabled(true);
 			_FtSearch ft = store.setFTSearch(new _FtSearch());
 			ft.setFields("$"); //$NON-NLS-1$
 
 			store.addQueryField("form", JsonUtil.TYPE_STRING, false); //$NON-NLS-1$
+			store.addQueryField("author", JsonUtil.TYPE_STRING, false, "$._writers.from"); //$NON-NLS-1$
+		}
+		
+		// Store: NSF French
+		{
+			// Added in version 4
+			_Store store = db.addStore(STORE_NSFDATA_FR);
+			store.setLabel("French Translation");
+		}
+		
+		// Store: NSF Spanish
+		{
+			// Added in version 4
+			_Store store = db.addStore(STORE_NSFDATA_ES);
+			store.setLabel("Spanish Translation");
+		}
+		
+		// Store: Content Analyzer
+		{
+			// Added in version 5
+			_Store store = db.addStore(STORE_ANALYZE);
+			store.setLabel("Analyzed Content");
 		}
 		
 		// Store: Configuration
 		{
 			_Store store = db.addStore(STORE_CONFIG);
-			store.setLabel(STORE_CONFIG_LABEL);
+			store.setLabel("Configuration");
 			store.setFtSearchEnabled(true);
 			
 			store.addQueryField("form", JsonUtil.TYPE_STRING, false); //$NON-NLS-1$

@@ -1,6 +1,6 @@
-<div class="item-body" ng-hide="!entries.detailItem">
+<div class="item-body" ng-hide="!entries.detailItem || entries.detailItem.category">
 	<div ng-click="entries.selectItem(entries.detailItem)">
-		<h2 ng-bind="entries.detailItem.value.subject"></h2>
+		<h2 ng-bind="entries.getTranslatedField('subject',detailItem)"></h2>
 	</div>
 	
 	<div class="item item-avatar item-icon-right">
@@ -10,14 +10,15 @@
 		<div ng-click="entries.selectItem(entries.detailItem)" style="width:100%">
 			<h3 ng-bind-template="{{entries.getUser(entries.detailItem).getCn()}}, {{entries.detailItem.mdate|formattedDate}}"></h3>
 		</div>
-		<div ng-hide="isReadOnly()" class="icon">
-			<a class="button button-clear ion-reply icon-action" ng-click="entries.newResponse()"></a>
-			<a class="button button-clear ion-android-create icon-action" ng-click="entries.editEntry()"></a>
-			<a class="button button-clear ion-trash-a icon-action" ng-click="entries.deleteEntry()"></a>
+		<div class="icon">
+			<a class="button button-clear button-stable ion-reply icon-action" ng-show="entries.canCreateDocument()" ng-click="entries.newResponse()"></a>
+			<a class="button button-clear button-stable ion-android-create icon-action" ng-show="entries.canUpdateDocument()" ng-click="entries.editEntry()"></a>
+			<a class="button button-clear button-stable ion-trash-a icon-action" ng-show="entries.canDeleteDocument()" ng-click="entries.deleteEntry()"></a>
+			<a class="button button-clear button-stable ion-ios-analytics icon-action" ng-click="entries.showTone()"></a>
 		</div>
 	</div>
 	
-	<div class="dwo-comment-message" ng-bind-html="entries.detailItem.value.body"></div>
+	<div class="dwo-comment-message" ng-bind-html="entries.getTranslatedField('body',detailItem)"></div>
 
 	<p class="attachments" ng-hide="entries.getAttachments(entries.detailItem).length == 0" ng-cloak>
 		<a class="subdued">Attachments</a>
@@ -31,7 +32,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="att in entries.getAttachments(entries.detailItem)">
-					<td><a href="{{att.url}}?instance={{context.instance}}" ng-click="openAttachment($event, att)"><span ng-bind="att.display"></span></a></td>
+					<td><a href="{{att.url}}" ng-click="entries.openAttachment($event, att)"><span ng-bind="att.display"></span></a></td>
 					<td><span ng-bind="att.mimeType"></span></td>
 					<td><span ng-bind="att.length"></span></td>
 				</tr>
@@ -47,9 +48,9 @@
 					ng-click="go('/app/user/'+entries.getUserDn(comment))" 
 					onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
 			<div ng-click="entries.selectItem(comment)" style="width:100%">
-				<h2 ng-bind="comment.value.subject"></h2>
-				<h3 ng-bind-template="{{entries.getUser(comment).getCn()}}, {{item.cdate|formattedDate}}"></h3>
-				<h4 ng-bind-html="comment.value.abstract"></h4>
+				<h2 ng-bind="entries.getTranslatedField('subject',comment)"></h2>
+				<h3 ng-bind-template="{{entries.getUser(comment).getCn()}}, {{comment.cdate|formattedDate}}"></h3>
+				<h4 ng-bind-html="entries.getTranslatedField('abstract',comment)"></h4>
 			</div>
 		</div>
 	</div>

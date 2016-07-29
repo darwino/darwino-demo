@@ -68,7 +68,7 @@ public class PinballInitialization {
 	
     public void recreatePinballDatabase(final Session jsonSession) throws JsonException {
 		// Create the database
-    	DarwinoJreApplication.get().initDatabase(AppDatabaseDef.DATABASE_NAME, true, new AppDatabaseDef(), null);
+    	DarwinoJreApplication.get().initDatabase(AppDatabaseDef.DATABASE_NAME, Session.DEPLOY_FORCE, new AppDatabaseDef(), null);
     	
     	// And fill the documents
     	fillPinball(jsonSession.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_PINBALLS));

@@ -1,0 +1,41 @@
+<ion-view view-title="{{getTitle()}}">
+
+	<ion-nav-buttons side="right">
+		<button class="button button-icon button-clear ion-android-send" ng-click="submit()"></button>
+	</ion-nav-buttons>
+
+	<ion-content>
+	
+		<div class="button-bar">
+  			<a class="button" ng-click="tonetab=0" ng-class="{'active': tonetab==0}">Graph</a>
+  			<a class="button" ng-click="tonetab=1" ng-class="{'active': tonetab==1}">Summary</a>
+		</div>
+			
+		<div ng-switch on="tonetab">
+			<div ng-switch-when="0">
+				<div class="button-bar">
+		  			<a class="button" ng-repeat="cat in json.document_tone.tone_categories" ng-click="setCurrentCat($index)" ng-bind="cat.category_name" ng-class="{'active': currentCat==$index}"></a>
+				</div>
+				<canvas id="bar" class="chart chart-bar"
+				  chart-data="data" chart-labels="labels" chart-series="series" chart-options="options">
+				</canvas>			
+			</div>
+			<div ng-switch-when="1">
+				<div class="list">
+					<ng-repeat ng-repeat="cat in json.document_tone.tone_categories">
+						<div class="item item-divider" ng-bind="cat.category_name"></div>
+						<ng-repeat ng-repeat="tone in cat.tones">
+							<div class="item">
+								<span ng-bind="tone.tone_name" class="item-left"></span>
+								<span ng-bind="tone.score" class="item-right"></span>
+							</div>
+						</ng-repeat>
+					</ng-repeat>
+				</div>
+			</div>
+		</div>
+			
+		
+	</ion-content>
+	
+</ion-view>

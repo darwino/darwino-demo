@@ -25,7 +25,6 @@ package com.darwino.demo.dominodisc.app;
 import java.util.List;
 
 import com.darwino.commons.platform.beans.ManagedBeansExtension;
-import com.darwino.commons.platform.impl.PluginImpl;
 import com.darwino.commons.platform.properties.PropertiesExtension;
 import com.darwino.commons.security.acl.UserService;
 import com.darwino.j2ee.platform.DefaultWebBeanExtension;
@@ -37,7 +36,7 @@ import com.darwino.j2ee.servlet.authentication.AuthenticationService;
 /**
  * J2EE Plugin for registering the services.
  */
-public class AppPlugin extends PluginImpl {
+public class AppPlugin extends AppBasePlugin {
 	
 	public AppPlugin() {
 		super("J2EE Application");
@@ -70,5 +69,7 @@ public class AppPlugin extends PluginImpl {
 			// Ok, default web entries - can be replaced by something more accurate
 			extensions.add(new DefaultWebPropertiesExtension());
 		}
+		
+		super.findExtensions(serviceClass, extensions);
 	}
 }

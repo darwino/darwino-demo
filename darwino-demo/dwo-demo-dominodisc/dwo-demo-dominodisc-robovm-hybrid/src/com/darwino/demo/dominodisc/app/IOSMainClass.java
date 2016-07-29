@@ -78,7 +78,8 @@ public class IOSMainClass extends UIApplicationDelegateAdapter {
 	public static void main(String[] args) {
 		// Make sure that these plugin are registered
     	Class<?> c1 = PluginIOS.class;
-    	Class<?> c2 = AppPlugin.class;
+    	Class<?> c2 = AppMobilePlugin.class;
+    	Class<?> c3 = AppPlugin.class;
 		
         NSAutoreleasePool pool = new NSAutoreleasePool();
         UIApplication.main(args, null, IOSMainClass.class);

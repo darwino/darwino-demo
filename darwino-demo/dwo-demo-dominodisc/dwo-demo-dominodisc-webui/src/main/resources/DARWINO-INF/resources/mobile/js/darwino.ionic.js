@@ -23,6 +23,22 @@
 (function() {
 	var mod = angular.module('darwino.ionic', ['ionic']);
 
+	// Debug data binding
+	mod.directive('jsonModel', function() {
+		return {
+			restrict : 'A',
+			require : 'ngModel',
+			link : function(scope, elem, attr, ctrl) {
+				ctrl.$parsers.push(function(value) {
+					return darwino.Utils.fromJson(value);
+				});
+				ctrl.$formatters.push(function(modelValue) {
+					return darwino.Utils.toJson(modelValue, false);
+				});
+			}
+		};
+	});	
+	
 	// ShowWhen and HideWhen
 	// Inpired from https://github.com/andrewmcgivery/ionic-ion-showWhen, MIT license
 	function showhide($window,show) {

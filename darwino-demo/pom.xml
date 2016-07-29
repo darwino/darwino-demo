@@ -5,7 +5,7 @@
 
 	<groupId>com.darwino</groupId>
 	<artifactId>darwino-demo</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -15,13 +15,14 @@
 		<module>parent-dwo-demo-news</module>
 		<module>parent-dwo-demo-angular</module>
 		<module>dwo-playground</module>
+		<module>parent-dwo-apps</module>
 		<!--<module>angular-social</module>-->
 		<module>dwo-demo-dist</module>
 	</modules>
 
 
 	<properties>
-		<DARWINO_VERSION>1.0.0</DARWINO_VERSION>
+		<DARWINO_VERSION>${project.version}</DARWINO_VERSION>
 	
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -29,7 +30,7 @@
 
 		<wro4j.version>1.7.8</wro4j.version>
 		
-		<robovm.version>1.12.0</robovm.version>
+		<robovm.version>1.8.0</robovm.version>
 
 		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.platform.maven.version>4.4.2_r4</android.platform.maven.version>
@@ -125,6 +126,15 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>annotations</artifactId>
+			<version>2.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 
 	<distributionManagement>
 		<repository>

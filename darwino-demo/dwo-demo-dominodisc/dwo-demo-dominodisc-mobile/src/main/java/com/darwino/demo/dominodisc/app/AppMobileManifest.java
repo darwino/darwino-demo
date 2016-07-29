@@ -22,9 +22,7 @@
 
 package com.darwino.demo.dominodisc.app;
 
-import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
-import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.sql.impl.sqlite.SqliteDatabaseCustomizer;
 import com.darwino.mobile.platform.DarwinoMobileManifest;
 import com.darwino.mobile.platform.DarwinoMobileSettings;
@@ -53,11 +51,6 @@ public class AppMobileManifest extends DarwinoMobileManifest {
 
 	@Override
 	public String[] getReplicationInstances() {
-		// Read the instances to replicate from the server
-		String inst = Platform.getProperty("discdb.instances");
-		if(StringUtil.isNotEmpty(inst)) {
-			return StringUtil.splitString(inst, ',', true);
-		}
-		return null;
+		return AppDatabaseDef.getInstances();
 	}
 }

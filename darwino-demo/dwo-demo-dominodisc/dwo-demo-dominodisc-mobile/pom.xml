@@ -15,11 +15,16 @@
 			<artifactId>dwo-platform</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-mobile-platform</artifactId>
 			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.darwino.demo.dominodisc</groupId>
+			<artifactId>dwo-demo-dominodisc-shared</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	

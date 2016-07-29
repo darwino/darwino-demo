@@ -6,7 +6,7 @@
 			"name": "Local TOMCAT Server - {0}",
 			"url": "{0}",
 			"userId": "amass",
-			"password": "floflo",
+			"password": "darwino",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"
 		},
@@ -16,7 +16,7 @@
 			"name": "Phil's VM",
 			"url": "http://192.168.75.79:8080",
 			"userId": "amass",
-			"password": "floflo",
+			"password": "darwino",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"
 		},
@@ -26,7 +26,7 @@
 			"name": "Darwino Playground - http://playground.darwino.com:8080/dominodisc",
 			"url": "http://playground.darwino.com:8080/dominodisc",
 			"userId": "amass",
-			"password": "floflo",
+			"password": "darwino",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"
 		},
@@ -35,7 +35,7 @@
 			"local": false,
 			"name": "IBM Bluemix - http://dominodisc.mybluemix.net",
 			"url": "http://dominodisc.mybluemix.net/",
-			"password": "floflo",
+			"password": "darwino",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"
 		},
@@ -44,7 +44,7 @@
 			"local": false,
 			"name": "Heroku - http://priand-demo-news.herokuapp.com",
 			"url": "http://priand-demo-news.herokuapp.com",
-			"password": "floflo",
+			"password": "darwino",
 			"dn": "cn=al mass,o=triloggroup",
 			"cn": "Al Mass"
 		}

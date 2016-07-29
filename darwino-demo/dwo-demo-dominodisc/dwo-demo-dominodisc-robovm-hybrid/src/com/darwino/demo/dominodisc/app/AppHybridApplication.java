@@ -36,7 +36,7 @@ public class AppHybridApplication extends DarwinoIOSHybridApplication {
 	static {
 		// Make sure that some classes are referenced and thus loaded
 		@SuppressWarnings("unused")
-		Class<?> c = AppPlugin.class;
+		Class<?> c = AppMobilePlugin.class;
 	}
 	
 	public static AppHybridApplication create() throws JsonException {

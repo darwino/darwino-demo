@@ -36,7 +36,7 @@ import com.darwino.mobile.platform.commands.CommandsExtension;
 public class AppPlugin extends PluginImpl {
 	
 	public AppPlugin() {
-		super("Android Application");
+		super("SWT Application");
 	}
 
 	@Override

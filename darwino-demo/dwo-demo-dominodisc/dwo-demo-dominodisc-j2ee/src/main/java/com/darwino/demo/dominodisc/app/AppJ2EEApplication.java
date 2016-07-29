@@ -25,6 +25,8 @@ package com.darwino.demo.dominodisc.app;
 import javax.servlet.ServletContext;
 
 import com.darwino.commons.json.JsonException;
+import com.darwino.commons.services.HttpServiceContext;
+import com.darwino.commons.util.StringUtil;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.platform.DarwinoManifest;
 
@@ -48,5 +50,18 @@ public class AppJ2EEApplication extends DarwinoJ2EEApplication {
 	
 	protected AppJ2EEApplication(ServletContext context, DarwinoManifest manifest) {
 		super(context,manifest);
+	}
+
+	@Override
+	public String getDefaultInstanceName(HttpServiceContext context, String databaseName) {
+		// Only use instances for the main DB
+		if(StringUtil.equals(databaseName, AppDatabaseDef.DATABASE_NAME)) {
+			// In case of one instance, use it as the default
+			String[] inst = AppDatabaseDef.getInstances();
+			if(inst!=null && inst.length==1) {
+				return inst[0];
+			}
+		}
+		return null;
 	}
 }

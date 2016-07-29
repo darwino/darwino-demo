@@ -28,10 +28,17 @@
 				</a>
 			</ul>
 			<ul class="list animate-rip">
-				<a href="#/app/mainview" class="item item-icon-left {{isState('app.mainview')?'item-selected':''}}" menu-close>
+				<a href="#/app/views/bydate" class="item item-icon-left {{isState('app.views',{view:'bydate'})?'item-selected':''}}" menu-close>
 					<i class="icon ion-calendar"></i>
 					By Date
-					<span class='count'>&nbsp;&nbsp;{{entries.getEntriesCount()}}</span>
+					<span class='count'>&nbsp;&nbsp;{{isState('app.views',{view:'bydate'})?entries.getEntriesCount():''}}</span>
+				</a>
+			</ul>
+			<ul class="list animate-rip">
+				<a href="#/app/views/byauthor" class="item item-icon-left {{isState('app.views',{view:'byauthor'})||isState('app.author')?'item-selected':''}}" menu-close>
+					<i class="icon ion-calendar"></i>
+					By Author
+					<span class='count'>&nbsp;&nbsp;{{isState('app.views',{view:'byauthor'})||isState('app.author')?entries.getEntriesCount():''}}</span>
 				</a>
 			</ul>
 	
@@ -75,15 +82,18 @@
 					<i class="icon ion-gear-a"></i>
 					General Settings...
 				</a>
+				<a href="#/app/about" class="item item-icon-left {{isState('app.about')?'item-selected':''}}" menu-close>
+					<i class="icon ion-information-circled"></i>
+					About
+				</a>
           		<a class="item item-icon-left" href="../explorer/index.html">
 					<i class="icon ion-settings"></i>
 					Local DB Explorer
 				</a>
 				<div class="list item item-input item-select" ng-show="hasInstances()">
 					&nbsp;
-			    	<!-- <select ng-model="instance" ng-change="instanceChanged()" ng-options="inst in instances">  -->
-			    	<select ng-model="context.instance" ng-change="instanceChanged()" style="max-width: 100%">
-						<option ng-repeat="inst in instances" >{{inst}}</option>
+			    	<select ng-model="data.instance" ng-change="instanceChanged()" style="max-width: 100%">
+						<option ng-repeat="inst in data.instances" >{{inst}}</option>
 					</select>
 				</div>
        		</ul>

@@ -153,8 +153,7 @@ public class MainViewController extends UITableViewController {
 				Platform.log("INIT");
 				try {
 					DarwinoMobileApplication app = DarwinoMobileApplication.get();
-					app.deleteLocalSqlLiteFile();
-					app.createLocalDatabases(false);
+					app.deleteLocalSqlLiteFile(true);
 				} catch(Exception t) {
 					Platform.log(t);
 				}

@@ -23,9 +23,12 @@
 package com.darwino.playground.domino;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.services.HttpServiceContext;
+import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.Cursor;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Index;
@@ -33,6 +36,12 @@ import com.darwino.jsonstore.Store;
 import com.darwino.jsonstore.services.cursor.CursorContentFilter;
 import com.darwino.jsonstore.services.cursor.CursorService;
 import com.darwino.jsonstore.sql.impl.full.CursorImpl;
+import com.darwino.jsonstore.sql.impl.full._SqlCursor;
+import com.darwino.sql.drivers.DBDriver;
+import com.darwino.sql.drivers.db2.DB2Driver;
+import com.darwino.sql.drivers.postgresql.PostgreSQLDriver;
+import com.darwino.sql.drivers.sqlite.SQLiteDriver;
+import com.darwino.sql.drivers.sqlserver.SqlServerDriver;
 
 
 /**
@@ -52,7 +61,8 @@ public class DevCursorService extends CursorService {
 	@Override
 	public void process(final HttpServiceContext context, Cursor c) throws JsonException, IOException {
 		if(context.getQueryParameterBoolean("_sql")) { //$NON-NLS-1$
-			processSql(context, c);
+			String db = context.getQueryParameterString("_db");
+			processSql(context, c, db);
 		} else if(context.getQueryParameterBoolean("_explain")) { //$NON-NLS-1$
 			processExplain(context, c);
 		} else {
@@ -60,11 +70,29 @@ public class DevCursorService extends CursorService {
 		}
 	}
 	
-	protected void processSql(final HttpServiceContext context, Cursor c) throws JsonException, IOException {
+	protected void processSql(final HttpServiceContext context, Cursor c, String db) throws JsonException, IOException {
 		if(c instanceof CursorImpl) {
 			CursorImpl ci = (CursorImpl)c;
-			boolean count = getMethod()==METHOD_COUNT; 
-			String sql = ci.generateMainSQL(count);
+			DBDriver driver;
+			if(StringUtil.equalsIgnoreCase(db,"db2")) {
+				Map<String, Object> p = new HashMap<String, Object>();
+			    p.put("fullTextSearch",true);
+			    p.put("nativeJson",true);
+				driver = new DB2Driver(DB2Driver.CURRENT_VERSION,p);
+			} else if(StringUtil.equalsIgnoreCase(db,"postgresql")) {
+				Map<String, Object> p = new HashMap<String, Object>();
+				driver = new PostgreSQLDriver(PostgreSQLDriver.CURRENT_VERSION,p);
+			} else if(StringUtil.equalsIgnoreCase(db,"sqlserver")) {
+				Map<String, Object> p = new HashMap<String, Object>();
+				driver = new SqlServerDriver(SqlServerDriver.CURRENT_VERSION,p);
+			} else if(StringUtil.equalsIgnoreCase(db,"sqlite")) {
+				Map<String, Object> p = new HashMap<String, Object>();
+				driver = new SQLiteDriver(SQLiteDriver.CURRENT_VERSION,p);
+			} else {
+				driver = ci.getSession().getSqlContext().getDbDriver();
+			}
+			boolean countOnly = getMethod()==METHOD_COUNT; 
+			String sql = _SqlCursor.sqlCursorStoreSql(driver, ci, countOnly);
 			context.emitText(sql);
 		} else {
 			throw new JsonException(null,"Cannot retrieve the SQL statement for this cursor");

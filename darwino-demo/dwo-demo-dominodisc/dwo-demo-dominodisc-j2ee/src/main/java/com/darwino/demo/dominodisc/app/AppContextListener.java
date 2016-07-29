@@ -26,9 +26,13 @@ import javax.servlet.ServletContext;
 
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.tasks.TaskProgress;
+import com.darwino.demo.dominodisc.watson.AnalyzeTask;
+import com.darwino.demo.dominodisc.watson.TranslationTask;
 import com.darwino.j2ee.application.AbstractDarwinoContextListener;
 import com.darwino.j2ee.application.BackgroundServletSynchronizationExecutor;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
+import com.darwino.jsonstore.replication.ReplicationProfile;
+import com.darwino.jsonstore.replication.background.BackgroundInstanceReplicationTask;
 
 /**
  * Servlet listener for initializing the application.
@@ -50,10 +54,26 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 	@Override
 	public void initSync(ServletContext servletContext) throws Exception {
 		super.initSync(servletContext);
-		
-		syncExecutor = new BackgroundServletSynchronizationExecutor(servletContext);
+	
+		// Install the synchronization mechanism
+		syncExecutor = new BackgroundServletSynchronizationExecutor(servletContext) {
+			@Override
+			protected BackgroundInstanceReplicationTask createTask(String database) {
+				// Ignore the translation stores when replicating with Domino
+				BackgroundInstanceReplicationTask task = super.createTask(database);
+				ReplicationProfile profile = new ReplicationProfile();
+				profile.setSelectStores(new String[]{AppDatabaseDef.STORE_NSFDATA,AppDatabaseDef.STORE_CONFIG});
+				task.setProfile(profile);
+				return task;
+			}
+		};
 		syncExecutor.putPropertyValue("dwo-sync-database",AppDatabaseDef.DATABASE_NAME);
 		syncExecutor.start();
+		
+		// Install the Watson translator
+		String[] instances = new String[]{"discdb/xpagesforum.nsf"}; // AppDatabaseDef.getInstances()
+		TranslationTask.install(instances);
+		AnalyzeTask.install(instances);
 	}
 
 	@Override

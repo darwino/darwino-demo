@@ -38,7 +38,7 @@ import com.darwino.sql.drivers.DBDriver;
  */
 public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 	
-	public static final int VERSION = 2;
+	public static final int VERSION = 4;
 	
 	public AppDatabaseCustomizer(DBDriver driver) {
 		super(driver,null);
@@ -50,6 +50,10 @@ public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 		//		- Added an index to the sort by cdate desc
 		// 2-
 		//		- Made the index non null first for all the drivers
+		// 3-
+		//		- Added index on the creation user
+		// 4-
+		//		- Added an index on the JSON expression for the author
 		return VERSION ;
 	}
 
@@ -68,15 +72,80 @@ public class AppDatabaseCustomizer extends JdbcDatabaseCustomizer {
 			}
 		}
 		
-		statements.add(StringUtil.format(
-			"CREATE INDEX {0} ON {1} ({2},{3},{4} DESC,{5} ASC)",
-				getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 2),
-				SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
-				DBSchema.FDOC_INSTID,
-				DBSchema.FDOC_STOREID,
-				DBSchema.FDOC_CDATE,
-				DBSchema.FDOC_UNID
-			)
-		);
+		if(existingVersion<2) {
+			statements.add(StringUtil.format(
+				"CREATE INDEX {0} ON {1} ({2},{3},{4} DESC,{5} ASC)",
+					getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 2),
+					SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+					DBSchema.FDOC_INSTID,
+					DBSchema.FDOC_STOREID,
+					DBSchema.FDOC_CDATE,
+					DBSchema.FDOC_UNID
+				)
+			);
+		}
+		
+		if(existingVersion<3) {
+			statements.add(StringUtil.format(
+				"CREATE INDEX {0} ON {1} ({2},{3},{4},{5} DESC)",
+					getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 3),
+					SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+					DBSchema.FDOC_INSTID,
+					DBSchema.FDOC_STOREID,
+					DBSchema.FDOC_CUSER,
+					DBSchema.FDOC_CDATE
+				)
+			);
+		}
+		
+		if(existingVersion<4) {
+			if(getDBDriver().getDatabaseType()==DBDriver.DbType.POSTGRESQL) {
+				statements.add(StringUtil.format(
+					"CREATE INDEX {0} ON {1} ({2},{3},{4})",
+						getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 4),
+						SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+						DBSchema.FDOC_INSTID,
+						DBSchema.FDOC_STOREID,
+						"(jsonb_extract_path_text(JSON,'_writers','from','0')::text) NULLS FIRST"	
+					)
+				);
+			}
+			
+			if(getDBDriver().getDatabaseType()==DBDriver.DbType.DB2) {
+				// DB2 bluemix does not support JSON...
+				if(getDBDriver().supportsNativeJSON()) {
+					statements.add(StringUtil.format(
+							"CREATE INDEX {0} ON {1} ({2},{3},{4})",
+								getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 4),
+								SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+								DBSchema.FDOC_INSTID,
+								DBSchema.FDOC_STOREID,
+								"JSON_VAL(JSON,'_writers.from.0','s:512')"
+							)
+						);
+				}
+			}
+			
+			// SQL Server
+			// See: https://msdn.microsoft.com/en-us/library/mt612798.aspx
+			if(getDBDriver().getDatabaseType()==DBDriver.DbType.SQLSERVER) {
+				statements.add(StringUtil.format(
+						"ALTER TABLE {0} ADD {1} AS {2}",
+							SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+							"jwriter",
+							"JSON_VALUE(JSON, '$._writers.from[0]')"
+						)
+					);
+				statements.add(StringUtil.format(
+						"CREATE INDEX {0} ON {1} ({2},{3},{4})",
+							getCustomIndexName(schema, databaseName, SqlUtils.SUFFIX_DOCUMENT, 4),
+							SqlUtils.sqlTableName(schema,databaseName,SqlUtils.SUFFIX_DOCUMENT),
+							DBSchema.FDOC_INSTID,
+							DBSchema.FDOC_STOREID,
+							"jwriter"
+						)
+					);
+			}
+		}
 	}
 }
