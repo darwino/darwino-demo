@@ -124,7 +124,7 @@ public class AppServiceDispatcher extends DarwinoJ2EEServiceDispatcherFilter {
 			protected void createServicesBinders(List<RestServiceBinder> binders) {
 				super.createServicesBinders(binders);
 
-				binders.add(new RestServiceBinder(".reset") {
+				binders.add(new RestServiceBinder(".reset-forum") {
 					@Override
 					public HttpService createService(HttpServiceContext context, String[] parts) {
 						return new ResetForum();
@@ -139,7 +139,15 @@ public class AppServiceDispatcher extends DarwinoJ2EEServiceDispatcherFilter {
 		public void service(HttpServiceContext context) {
 			if(context.isGet()) {
 				try {
-					String instance = context.getQueryParameterString("instance");
+					String instance=null;
+					if(context.hasQueryParameter("instance")) {
+						instance = context.getQueryParameterString("instance");
+					} else {
+						String[] inst = AppDatabaseDef.getInstances();
+						if(inst!=null && inst.length>0) {
+							instance = inst[0];
+						}
+					}
 					int count = context.getQueryParameterInt("count");
 					if(count<=0) {
 						count = 32;
