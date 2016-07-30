@@ -32,7 +32,6 @@ import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.extensions.DefaultExtensionRegistry;
 import com.darwino.jsonstore.extensions.DocumentEvents;
 import com.darwino.jsonstore.helpers.SecurityHelper;
-import com.darwino.platform.DarwinoContext;
 
 /**
  * Database Business logic - event handlers.
@@ -54,10 +53,8 @@ public  class AppDBBusinessLogic extends DefaultExtensionRegistry {
 				// Add the user who created the entry
 				// we use the email as the ID here, as this is the one understood by Connections profiles
 				try {
-					DarwinoContext ctx = DarwinoContext.get();
-					
 					if(doc.isNewDocument()) {
-						User user = ctx.getUser();
+						User user = doc.getSession().getUser();
 						SecurityHelper sec = new SecurityHelper(doc);
 						if(sec.getWritersCount()==0) { // in case it was already added (import forums)
 							sec.addWriter("from",user.getDn());

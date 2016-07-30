@@ -71,70 +71,75 @@ public class ForumDataReader {
 			JsonObject o = (JsonObject)httpClient.getAsJson(new String[]{"latest.json"},params);
 
 			JsonNav n = JsonNav.create(o);
-			n.get("topic_list").get("topics").flatten().forEach(new Handler() {
-				@Override
-				public void handle(JsonNav nav) throws JsonException {
-					if(count[0]++>=MAX_ITEMS) {
-						return;
-					}
-					
-					store.getSession().startTransaction();
-					try {
-						final String threadTitle = nav.get("title").stringValue();
-						final String threadId = Integer.toString(nav.get("id").intValue());
-						
-						// When we read a page, some item might have been pushed down to the next page as well
-						// -> we avoid duplicate here!
-						if(store.documentExists(threadId)) {
+			store.getSession().startTransaction();
+			try {
+				n.get("topic_list").get("topics").flatten().forEach(new Handler() {
+					@Override
+					public void handle(JsonNav nav) throws JsonException {
+						if(count[0]++>=MAX_ITEMS) {
 							return;
 						}
-	
-						JsonObject thread = (JsonObject)httpClient.getAsJson(new String[]{"t",threadId+".json"});
-						
-						final String[] mainId = new String[1];
-						JsonNav tn = JsonNav.create(thread);
-						tn.get("post_stream").get("posts").flatten().forEach(new Handler() {
-							@Override
-							public void handle(JsonNav nav) throws JsonException {
-								/*String unid;*/ String punid; String title; 
-								// Check for the first item
-								if(mainId[0]==null) {
-									punid = null;
-									title = threadTitle;
-									Platform.log("Creating main forum doc id:{0}",threadId);
-								} else {
-									punid = mainId[0];
-									title = HtmlTextUtil.fromHTML(nav.get("cooked").stringValue(),30);
-								}
-	
-								Map<String,String> att = new HashMap<String,String>();
-								
-								String username = processUsername(nav.get("username").stringValue());
-								Date created = DateTimeISO8601.asISO8601Date(nav.get("created_at").stringValue());
-								Date updated = DateTimeISO8601.asISO8601Date(nav.get("updated_at").stringValue());
-								String body = processBody(nav.get("cooked").stringValue(),att);
-	
-								DocumentImpl doc = (DocumentImpl)store.newDocument();
-								if(mainId[0]==null) {
-									mainId[0] = doc.getUnid();
-								}
-								
-								doc.setParentUnid(punid);
-								addDates(doc, created, updated, username);
-								addReadersWriters(doc, username);
-								addContent(doc, title, body);
-								addAttachments(doc, att);
-								
-								beforeSavingDocument(doc);
-								doc.save(Document.SAVE_FORCEMETA);
+						try {
+							final String threadTitle = nav.get("title").stringValue();
+							final String threadId = Integer.toString(nav.get("id").intValue());
+							
+							// When we read a page, some item might have been pushed down to the next page as well
+							// -> we avoid duplicate here!
+							if(store.documentExists(threadId)) {
+								return;
 							}
-						});
-						store.getSession().commitTransaction();
-					} finally {
-						store.getSession().endTransaction();
+		
+							JsonObject thread = (JsonObject)httpClient.getAsJson(new String[]{"t",threadId+".json"});
+							
+							final String[] mainId = new String[1];
+							JsonNav tn = JsonNav.create(thread);
+							tn.get("post_stream").get("posts").flatten().forEach(new Handler() {
+								@Override
+								public void handle(JsonNav nav) throws JsonException {
+									/*String unid;*/ String punid; String title; 
+									// Check for the first item
+									if(mainId[0]==null) {
+										punid = null;
+										title = threadTitle;
+										Platform.log("Creating main forum #{0}, doc id:{1}",count[0],threadId);
+									} else {
+										punid = mainId[0];
+										title = HtmlTextUtil.fromHTML(nav.get("cooked").stringValue(),30);
+									}
+		
+									Map<String,String> att = new HashMap<String,String>();
+									
+									String username = processUsername(nav.get("username").stringValue());
+									Date created = DateTimeISO8601.asISO8601Date(nav.get("created_at").stringValue());
+									Date updated = DateTimeISO8601.asISO8601Date(nav.get("updated_at").stringValue());
+									String body = processBody(nav.get("cooked").stringValue(),att);
+		
+									DocumentImpl doc = (DocumentImpl)store.newDocument();
+									if(mainId[0]==null) {
+										mainId[0] = doc.getUnid();
+									}
+									
+									doc.setParentUnid(punid);
+									addDates(doc, created, updated, username);
+									addReadersWriters(doc, username);
+									addContent(doc, title, body);
+									addAttachments(doc, att);
+									
+									beforeSavingDocument(doc);
+									doc.save(Document.SAVE_FORCEMETA);
+								}
+							});
+						} catch(JsonException ex) {
+							// Ignore and go to the next entry
+							Platform.log(ex.getLocalizedMessage());
+						}
 					}
-				}
-			});
+				});
+				store.getSession().commitTransaction();
+			} finally {
+				store.getSession().endTransaction();
+			}
+			Platform.log("Forum import finished");
 		}
 	}
 	
