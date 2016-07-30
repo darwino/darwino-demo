@@ -30,13 +30,13 @@
 	    <dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino</artifactId>
-			<version>1.1.0</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-angular-shared</artifactId>
-			<version>1.1.0</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
