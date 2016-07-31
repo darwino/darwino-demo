@@ -30,26 +30,11 @@
 		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 		
 		<robovm.version>1.8.0</robovm.version>
-
-		<tycho-version>0.22.0</tycho-version>
 		
 		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
 		<android.platform.sdk.version>19</android.platform.sdk.version>
 	</properties>
-
-	<repositories>
-		<repository>
-			<id>notes</id>
-			<layout>p2</layout>
-			<url>${notes-platform}</url>
-		</repository>
-		<repository>
-			<id>kepler</id>
-			<url>http://download.eclipse.org/releases/kepler/</url>
-			<layout>p2</layout>
-		</repository>
-	</repositories>
 
 	<dependencyManagement>
 		<dependencies>
