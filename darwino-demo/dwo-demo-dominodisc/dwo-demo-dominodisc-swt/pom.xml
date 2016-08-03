@@ -9,6 +9,24 @@
 	
 	<artifactId>dwo-demo-dominodisc-swt</artifactId>
 	
+	
+<!-- 
+	SWT Maven Repo: https://github.com/maven-eclipse/maven-eclipse.github.io
+ -->
+	<repositories>
+		<!-- Clean SWT repository -->
+    	<repository>
+        	<id>maven-eclipse-repo</id>
+        	<url>http://maven-eclipse.github.io/maven</url>
+    	</repository>
+    	
+    	<!-- JFace repository -->
+    	<repository>
+			<id>545ch4</id>
+			<url>https://raw.githubusercontent.com/545ch4/maven-eclipse.github.io/master/maven</url>
+		</repository>
+	</repositories>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.darwino</groupId>
