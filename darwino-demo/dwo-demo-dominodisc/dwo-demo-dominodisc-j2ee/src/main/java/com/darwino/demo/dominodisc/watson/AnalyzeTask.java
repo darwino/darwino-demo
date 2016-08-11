@@ -49,7 +49,7 @@ public class AnalyzeTask extends BatchDocumentProcessor {
 			return;
 		}
 		// A service must exists
-		ToneAnalyzerFactory factory = Platform.findServiceAsBeanUnchecked(ToneAnalyzerFactory.BEAN_TYPE, ToneAnalyzerFactory.class);
+		ToneAnalyzerFactory factory = Platform.getManagedBeanUnchecked(ToneAnalyzerFactory.BEAN_TYPE);
 		if(factory==null) {
 			Platform.log("Cannot find a factory for the Watson ToneAnalyzer service");
 			return;

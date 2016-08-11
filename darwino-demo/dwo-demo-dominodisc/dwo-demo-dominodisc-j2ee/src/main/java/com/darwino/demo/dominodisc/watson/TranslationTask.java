@@ -47,7 +47,7 @@ public class TranslationTask extends BatchDocumentProcessor {
 			return;
 		}
 		// A service must exists
-		LanguageTranslationFactory factory = Platform.findServiceAsBeanUnchecked(LanguageTranslationFactory.BEAN_TYPE, LanguageTranslationFactory.class);
+		LanguageTranslationFactory factory = Platform.getManagedBeanUnchecked(LanguageTranslationFactory.BEAN_TYPE);
 		if(factory==null) {
 			Platform.log("Cannot find a factory for the Watson LanguageTranslation service");
 			return;
