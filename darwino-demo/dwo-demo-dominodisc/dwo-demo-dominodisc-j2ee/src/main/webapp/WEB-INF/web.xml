@@ -101,7 +101,7 @@
 <!--         	
         <init-param>
         	<param-name>modes</param-name>
-        	<param-value>com.darwino.ibm.connections.auth.IBMConnectionsCloudOAuth20Handler</param-value>
+        	<param-value>com.darwino.ibm.connections.auth.IbmConnectionsOauth20Handler</param-value>
         </init-param>                    
         <init-param>
         	<param-name>keepCredentials</param-name>
@@ -111,10 +111,6 @@
         	<param-name>sessionToken</param-name>
             <param-value>false</param-value>
         </init-param>
-        <init-param>
-        	<param-name>connections-bean</param-name>
-        	<param-value>discdb-c1-auth</param-value>
-       </init-param>                    
 -->            
     </filter>
 	<filter-mapping>

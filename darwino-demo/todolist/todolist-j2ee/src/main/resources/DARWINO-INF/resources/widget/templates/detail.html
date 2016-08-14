@@ -1,0 +1,9 @@
+<div ng-controller="DetailCtrl">
+	<h3 class="lead">{{currEntry.title}}</h3>
+
+	<div class="well well-small">
+		<p ng-bind-html="currEntry.content"></p>
+
+		<p class="muted">Posted: {{currEntry.publishedDate}} - <a href="{{currEntry.link}}" target="_blank" class="text-info" ng-click="videoStop()">view at {{feed_result.viewAt}}</a></p>
+	</div>
+</div>

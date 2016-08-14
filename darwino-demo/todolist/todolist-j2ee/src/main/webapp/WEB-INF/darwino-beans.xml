@@ -1,0 +1,44 @@
+<beans>
+    
+<!-- Define your J2EE specific beans here, and register a WebInf provider in AppPlugin -->
+
+<!-- HTTP Security constraints -->
+<!-- 
+    <property name="c">com.darwino.config.http.HttpConstraintsStatic</property>
+    <property name="ce">com.darwino.config.http.HttpConstraintsStatic$Constraint</property>
+    <bean type="darwino/httpconstraint" name="c2" class="${c}" alias="local,default">
+        <list name="constraints">
+            <bean class='${ce}'>
+                <property name='urlPattern'>/mobile/*</property>
+                <list name="groups">
+                    <value>darwino</value>
+                </list>
+            </bean>    
+        </list>
+    </bean>
+ -->
+
+    
+    <!--
+    	IBM Connections is cloud/c1 .
+    	The credentials must be defined in a properties file outside
+     -->
+    <bean type="darwino/ibmconnections" name="cloudc1-trilog" class="com.darwino.ibm.connections.IbmConnections" alias="local">
+        <property name="url">https://apps.collabservnext.com/</property>    
+        <property name="trustAllSSLCertificates">true</property>    
+        <bean name="basicCredentials">
+            <!-- Basic credentials are not specific to an application -->
+            <property name="user">${connections.c1.basic.user}</property>    
+            <property name="password">${connections.c1.basic.password}</property>    
+        </bean>
+        <bean name="oauthCredentials">
+            <!-- OAuth credentials are specific to an application (with a specific callback url) -->
+            <property name="consumerKey">${connections.c1.todolist.oauth2.clientid}</property>    
+            <property name="consumerSecret">${connections.c1.todolist.oauth2.clientSecret}</property>    
+        </bean>
+    </bean>
+        
+    <bean type="darwino/userdir" name="connections" class="com.darwino.ibm.connections.IbmConnectionsUserDir" alias="todolist">
+    </bean>
+     
+</beans>

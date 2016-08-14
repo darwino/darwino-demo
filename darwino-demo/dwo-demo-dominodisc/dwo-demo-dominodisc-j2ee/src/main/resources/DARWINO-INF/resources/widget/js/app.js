@@ -33,157 +33,198 @@ var userService = services.createUserService(social_baseUrl+"/users");
 var DATABASE_NAME = "domdisc";
 var STORE_NAME = "nsfdata";
 var STORE_TONE_NAME = "analyze";
+var INSTANCE_ID = "discdb/xpagesforum.nsf";
 
 // http://jsfiddle.net/BkXyQ/6/
 angular.module('app', ['ngSanitize','ngRoute','darwino.angular.jstore'])
 
-	.run(function($rootScope) {
-		$rootScope.isAnonymous = function() {
-			var u = userService.getCurrentUser();
-			return !u || u.isAnonymous();
-		};
-		$rootScope.getUser = function(id) {
-			if(id && $rootScope.accessUserService) {
-				// Ensure that we get the load notification only once (the users has not been requested yet)
-				// Not that the cache can be filled from a multiple user requests as well
-				var u = userService.getUserFromCache(id);
-				if(u) {
-					return u;
-				}
-				var u = userService.getUser(id,function(u,loaded) {
-					$rootScope.apply(); 
-				});
-				return u || darwino.services.User.ANONYMOUS_USER;
+.run(function($rootScope) {
+	$rootScope.isAnonymous = function() {
+		var u = userService.getCurrentUser();
+		return !u || u.isAnonymous();
+	};
+	$rootScope.getUser = function(id) {
+		if(id && $rootScope.accessUserService) {
+			// Ensure that we get the load notification only once (the users has not been requested yet)
+			// Not that the cache can be filled from a multiple user requests as well
+			var u = userService.getUserFromCache(id);
+			if(u) {
+				return u;
 			}
-			return userService.createUser(id);
-		};
-		$rootScope.getPhoto = function(id) {
-			if(id) {  
-				return userService.getUserPhotoUrl(id);
+			var u = userService.getUser(id,function(u,loaded) {
+				$rootScope.apply(); 
+			});
+			return u || darwino.services.User.ANONYMOUS_USER;
+		}
+		return userService.createUser(id);
+	};
+	$rootScope.getPhoto = function(id) {
+		if(id) {  
+			return userService.getUserPhotoUrl(id);
+		}
+		return darwino.services.User.ANONYMOUS_PHOTO;
+	};
+})
+
+.config(function($routeProvider) {
+	$routeProvider
+		.when('/', { templateUrl: "templates/list.html"} )
+		.when('/detail/:id', { templateUrl: "templates/detail.html"} )
+		.when('/info', { templateUrl: "templates/info.html"} )
+		.otherwise({redirectTo: '/'})
+})
+
+.directive('listDone', function() {
+	return function(scope, element, attrs) {
+		if (scope.$last) { // all are rendered
+			scope.$eval(attrs.listDone);
+		}
+	}
+})
+
+.directive('onEnter', function() {
+	return function(scope, element, attrs) {
+		element.on('keydown', function(event) {
+			if (event.which === 13) {
+				scope.$apply(attrs.onEnter);
 			}
-			return darwino.services.User.ANONYMOUS_PHOTO;
-		};
-	})
+		})
+	}
+})
+
+.service('viewEntries', ['$q', '$rootScope', '$jstore', function($q, $rootScope, $jstore) {
+	var entries = $jstore.createItemList(session)
+	var authField = '$._writers.from[0]'; 
+	var extract = "{all:{$merge:'$'}, loc_fr:{$store:'nsfdata_fr',key:'_unid'}, loc_es:{$store:'nsfdata_es',key:'_unid'}}";
+	p = {
+		database: DATABASE_NAME,
+		store: STORE_NAME,
+		instanceId: INSTANCE_ID,
+		orderBy: "_cdate desc",
+		//extract: extract,
+		jsonTree: true,
+		hierarchical: 99,
+		options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK+jstore.Cursor.DATA_WRITEACC
+	};
+	entries.initCursor(p);
+	entries.getUserDn = function(item) {
+		if(item && item.value && item.value._writers && item.value._writers.from) {
+			var a = item.value._writers.from;
+			if(darwino.Utils.isArray(a)) {
+				return a.length==1 ? a[0] : null;
+			}
+			return a;
+		}
+		return null;
+	}
+	entries.getUser = function(item) {
+		if(item) {
+			return $rootScope.getUser(this.getUserDn(item));
+		}
+		return darwino.services.User.ANONYMOUS_USER;
+	}
+	entries.getPhoto = function(item) {
+		if(item) {
+			return $rootScope.getPhoto(this.getUserDn(item));
+		}
+		return darwino.services.User.ANONYMOUS_PHOTO;
+	}
+	return entries;
+}])
+
+.filter('formattedDate', function() {
+	return function(d) {
+		return d ? moment(d).fromNow() : '';
+	}
+})
+.filter('abstractText', function() {
+	return function(d) {
+		return d && d.length>60 ? d.substring(0,60) : d;
+	}
+})
+
+.controller('AppCtrl', ['$scope', '$location', '$timeout', 'viewEntries', function($scope, $location, $timeout, viewEntries) {
+	$scope.entries = viewEntries;
 	
-	.config(function($routeProvider) {
-		$routeProvider
-			.when('/', { templateUrl: "templates/list.html"} )
-			.when('/detail', { templateUrl: "templates/detail.html"} )
-			.otherwise({redirectTo: '/'})
-	})
+	$scope.scrollPos = {}; // scroll position of each view
 
-	.directive('listDone', function() {
-		return function(scope, element, attrs) {
-			if (scope.$last) { // all are rendered
-				scope.$eval(attrs.listDone);
-			}
+	$(window).on('scroll', function() {
+		if ($scope.okSaveScroll) { // false between $routeChangeStart and $routeChangeSuccess
+			$scope.scrollPos[$location.path()] = $(window).scrollTop();
+			//console.log($scope.scrollPos);
 		}
-	})
+	});
 
-	.directive('onEnter', function() {
-		return function(scope, element, attrs) {
-			element.on('keydown', function(event) {
-				if (event.which === 13) {
-					scope.$apply(attrs.onEnter);
-				}
-			})
+	$scope.scrollClear = function(path) {
+		$scope.scrollPos[path] = 0;
+	}
+
+	$scope.$on('$routeChangeStart', function() {
+		$scope.okSaveScroll = false;
+	});
+
+	$scope.$on('$routeChangeSuccess', function() {
+		$timeout(function() { // wait for DOM, then restore scroll position
+			$(window).scrollTop($scope.scrollPos[$location.path()] ? $scope.scrollPos[$location.path()] : 0);
+			$scope.okSaveScroll = true;
+		}, 100);
+	});
+
+	$scope.ifPathNot = function(path) {
+		return $location.path() != path;
+	}
+
+	$scope.setCurrEntry = function(entry) {
+		$scope.currEntry = entry;
+	}
+}])
+
+.controller('ListCtrl', ['$scope', '$location', '$timeout',  function($scope, $location, $timeout) {
+	$scope.viewDetail = function(entry) {
+		$scope.setCurrEntry(entry);
+		$location.path('/detail/'+entry.unid);
+	}
+}])
+
+.controller('DetailCtrl', ['$scope','$location','$http','$routeParams', function($scope,$location,$http,$routeParams) {
+	var id = $routeParams.id;
+	$scope.doc = null;
+	$scope.scrollClear($location.path());
+	$http.get('$darwino-jstore/databases/'+DATABASE_NAME+'/stores/'+STORE_NAME+'/documents/'+encodeURIComponent(id)+'?instance='+INSTANCE_ID).success(
+		function successCallback(response) {
+			var doc = response;
+			$scope.doc = doc.json;
+		}	
+	);
+}])
+
+.controller('InfoCtrl', ['$scope', '$location', '$http', function($scope, $location, $http) {
+	var _userInfo = null;
+	$scope.getUserInformation = function() {
+		if(!_userInfo) {
+			_userInfo = "<Fetching User Information>"
+			userService.getCurrentUser(function(u) {
+				_userInfo = darwino.Utils.toJson({
+					dn:	u.getDn(),
+					cn:	u.getCn(),
+					groups:	u.getGroups(),
+					roles:	u.getRoles()
+				},false);
+			});
 		}
-	})
+		return _userInfo;
+	}
 
-	.service('viewEntries', function($q, $rootScope, $jstore) {
-		var entries = $jstore.createItemList(session)
-		var authField = '$._writers.from[0]'; 
-		var extract = "{all:{$merge:'$'}, loc_fr:{$store:'nsfdata_fr',key:'_unid'}, loc_es:{$store:'nsfdata_es',key:'_unid'}}";
-		p = {
-			database: DATABASE_NAME,
-			store: STORE_NAME,
-			instanceId: 'discdb/xpagesforum.nsf',
-			orderBy: "_cdate desc",
-			//extract: extract,
-			jsonTree: true,
-			hierarchical: 99,
-			options: jstore.Cursor.RANGE_ROOT+jstore.Cursor.DATA_MODDATES+jstore.Cursor.DATA_READMARK+jstore.Cursor.DATA_WRITEACC
-		};
-		entries.initCursor(p);
-		entries.getUserDn = function(item) {
-			if(item && item.value && item.value._writers && item.value._writers.from) {
-				var a = item.value._writers.from;
-				if(darwino.Utils.isArray(a)) {
-					return a.length==1 ? a[0] : null;
-				}
-				return a;
-			}
-			return null;
+	var _appInfo = null;
+	$scope.getAppInformation = function() {
+		if(!_appInfo) {
+			_appInfo = "<Fetching Application Information>"
+			var successCallback = function(data, status, headers, config) {
+				_appInfo = darwino.Utils.toJson(data,false);
+			};
+			var url = "$darwino-app"
+			$http.get(url).success(successCallback);
 		}
-		entries.getUser = function(item) {
-			if(item) {
-				return $rootScope.getUser(this.getUserDn(item));
-			}
-			return darwino.services.User.ANONYMOUS_USER;
-		}
-		entries.getPhoto = function(item) {
-			if(item) {
-				return $rootScope.getPhoto(this.getUserDn(item));
-			}
-			return darwino.services.User.ANONYMOUS_PHOTO;
-		}
-		return entries;
-	})
-
-	.filter('formattedDate', function() {
-		return function(d) {
-			return d ? moment(d).fromNow() : '';
-		}
-	})
-	.filter('abstractText', function() {
-		return function(d) {
-			return d && d.length>60 ? d.substring(0,60) : d;
-		}
-	})
-
-	.controller('AppCtrl', function($scope, $location, $timeout, viewEntries) {
-		$scope.entries = viewEntries;
-		
-		$scope.scrollPos = {}; // scroll position of each view
-
-		$(window).on('scroll', function() {
-			if ($scope.okSaveScroll) { // false between $routeChangeStart and $routeChangeSuccess
-				$scope.scrollPos[$location.path()] = $(window).scrollTop();
-				//console.log($scope.scrollPos);
-			}
-		});
-
-		$scope.scrollClear = function(path) {
-			$scope.scrollPos[path] = 0;
-		}
-
-		$scope.$on('$routeChangeStart', function() {
-			$scope.okSaveScroll = false;
-		});
-
-		$scope.$on('$routeChangeSuccess', function() {
-			$timeout(function() { // wait for DOM, then restore scroll position
-				$(window).scrollTop($scope.scrollPos[$location.path()] ? $scope.scrollPos[$location.path()] : 0);
-				$scope.okSaveScroll = true;
-			}, 100);
-		});
-
-		$scope.ifPathNot = function(path) {
-			return $location.path() != path;
-		}
-
-		$scope.setCurrEntry = function(entry) {
-			$scope.currEntry = entry;
-		}
-	})
-
-	.controller('ListCtrl', function($scope, $location, $timeout) {
-		$scope.viewDetail = function(entry) {
-			$scope.setCurrEntry(entry);
-			$location.path('/detail');
-		}
-	})
-
-	.controller('DetailCtrl', function($scope, $location) {
-		$scope.scrollClear($location.path());
-	})
+		return _appInfo;
+	};	
+}])

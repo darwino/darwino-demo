@@ -1,0 +1,29 @@
+{
+	"name": "todolist",
+	"description": "TODO list",
+	"type":"community_widget",
+	"urls":{
+	},
+	"payload": {
+		"defId": "Todo List",
+		"showInPalette": "true",
+		"primaryWidget": "false",
+		"modes": "view",
+		"themes": "wpthemeThin wpthemeNarrow wpthemeWide wpthemeBanner",
+		"url": "https://apps.collabservnext.com/connections/resources/web/com.ibm.social.urliWidget.web.resources/widget/urlWidget.xml",
+		"itemSet": [
+			{
+				"name": "url",
+				"value": "https://localhost:8443/todolist/[[]]/widget/ibm-community-app.html"
+			},
+			{
+				"name": "width",
+				"value": "100%"
+			},
+			{
+				"name": "height",
+				"value": "400px"
+			}
+		]
+	}
+}

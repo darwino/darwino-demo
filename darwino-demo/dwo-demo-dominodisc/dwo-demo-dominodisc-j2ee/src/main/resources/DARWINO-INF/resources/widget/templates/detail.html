@@ -1,16 +1,5 @@
 <div ng-controller="DetailCtrl">
-	<h3 class="lead">{{currEntry.title}}</h3>
+	<h3 class="lead" ng-bind='doc.subject'>}</h3>
 
-	<div id="vidTagAlert" class="alert alert-error">
-		<button type="button" class="close" id="btnTagAlert">&times;</button>
-		<strong>FAIL!</strong> The HTML5 &lt;video&gt; tag does not support .mp4 videos in Chrome and Firefox. Use Internet Explorer or Safari to watch these videos.
-	</div>
-
-	<video id="vPlayer" src="{{mediaOne(currEntry).url}}" controls autoplay ng-show="hasVideo(currEntry)"></video>
-
-	<div class="well well-small">
-		<p ng-bind-html="currEntry.content"></p>
-
-		<p class="muted">Posted: {{currEntry.publishedDate}} - <a href="{{currEntry.link}}" target="_blank" class="text-info" ng-click="videoStop()">view at {{feed_result.viewAt}}</a></p>
-	</div>
+	<p ng-bind-html="doc.body"></p>
 </div>

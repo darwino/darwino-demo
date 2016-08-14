@@ -17,12 +17,5 @@
         </list>
     </bean>
  -->
- 
-<!-- J2EE Application configuration -->
-<!-- 
-    <bean type="darwino/j2eeappconfig" name="appconfig" class="com.darwino.config.jsonstore.http.J2EEApplicationConfig" alias="local,default">
-		<property name='instanceFinder'>com.darwino.j2ee.application.instance.UrlParamInstanceFinder</property>
-    </bean>
- -->
       
 </beans>
