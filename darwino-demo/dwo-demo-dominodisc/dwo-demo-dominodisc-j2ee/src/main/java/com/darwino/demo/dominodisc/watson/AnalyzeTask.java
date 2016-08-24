@@ -33,8 +33,9 @@ import com.darwino.demo.dominodisc.app.AppDatabaseDef;
 import com.darwino.ibm.watson.ToneAnalyzerFactory;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Document;
-import com.ibm.watson.developer_cloud.tone_analyzer.v3_beta.ToneAnalyzer;
-import com.ibm.watson.developer_cloud.tone_analyzer.v3_beta.model.ToneAnalysis;
+import com.ibm.watson.developer_cloud.tone_analyzer.v3.ToneAnalyzer;
+import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneAnalysis;
+import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneOptions;
 
 /**
  * This class is used to analyze the content of the documents.
@@ -103,7 +104,8 @@ public class AnalyzeTask extends BatchDocumentProcessor {
 				Document analyze = loadTargetDocument(document, getUpdateSession().getDatabase(db.getId(),db.getInstance().getId()).getStore(AppDatabaseDef.STORE_ANALYZE));
 				if(analyze!=null) {
 					Platform.log("Analyzing: {0}, date {1}, inst {2}",document.getUnid(),document.getUpdateDate(),document.getStore().getDatabase().getInstance().getId());
-					ToneAnalysis tone = ta.getTone(bodyText).execute();
+					ToneOptions options = null; // TODO
+					ToneAnalysis tone = ta.getTone(bodyText,options).execute();
 					JsonObject json = transform(JsonObject.fromJson(tone.toString())); 
 					//System.out.println(tone);
 					//System.out.println(json);
