@@ -77,7 +77,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		db.setReplicationEnabled(true);
 		// We need security for writing the documents but not for reading
 		// Adding DOCSEC_NOREADER makes the queries faster.
-		db.setDocumentSecurity(Database.DOCSEC_INCLUDE|Database.DOCSEC_NOREADER);
+		db.setDocumentSecurity(Database.DOCSEC_INCLUDE|Database.DOCSEC_NOREADER|Database.DOCSEC_NOTESLIKE);
 		db.setInstanceEnabled(true);
 
 		// Store: NSF data

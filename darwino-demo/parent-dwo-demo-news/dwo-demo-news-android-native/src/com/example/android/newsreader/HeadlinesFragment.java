@@ -38,6 +38,25 @@
 
 package com.example.android.newsreader;
 
+import com.darwino.android.platform.anative.AppAndroidNativeCommandExecutor;
+import com.darwino.android.platform.anative.DarwinoAndroidNativeApplication;
+import com.darwino.android.platform.ui.NativeUtils;
+import com.darwino.android.widget.AbstractAdapter;
+import com.darwino.android.widget.json.store.JsonCursorAdapter;
+import com.darwino.application.jsonstore.NewsManifest;
+import com.darwino.commons.Platform;
+import com.darwino.commons.json.JsonException;
+import com.darwino.commons.tasks.TaskException;
+import com.darwino.commons.tasks.TaskExecutor;
+import com.darwino.commons.tasks.TaskExecutorContext;
+import com.darwino.commons.util.StringUtil;
+import com.darwino.jsonstore.Cursor;
+import com.darwino.jsonstore.Session;
+import com.darwino.jsonstore.callback.CursorEntry;
+import com.darwino.mobile.platform.DarwinoMobileApplication;
+import com.darwino.mobile.platform.DarwinoMobileContext;
+import com.darwino.mobile.platform.commands.AppCommand;
+
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,24 +77,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.darwino.android.platform.anative.AppAndroidNativeCommandExecutor;
-import com.darwino.android.platform.ui.NativeUtils;
-import com.darwino.android.widget.AbstractAdapter;
-import com.darwino.android.widget.json.store.JsonCursorAdapter;
-import com.darwino.application.jsonstore.NewsManifest;
-import com.darwino.commons.Platform;
-import com.darwino.commons.json.JsonException;
-import com.darwino.commons.tasks.TaskException;
-import com.darwino.commons.tasks.TaskExecutor;
-import com.darwino.commons.tasks.TaskExecutorContext;
-import com.darwino.commons.util.StringUtil;
-import com.darwino.jsonstore.Cursor;
-import com.darwino.jsonstore.Session;
-import com.darwino.jsonstore.callback.CursorEntry;
-import com.darwino.mobile.platform.DarwinoMobileApplication;
-import com.darwino.mobile.platform.DarwinoMobileContext;
-import com.darwino.mobile.platform.commands.AppCommand;
-
 /**
  * Fragment that displays the news headlines for a particular news category.
  *
@@ -90,7 +91,18 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
 		}
 		@Override
 		protected void _refreshUi() {
-			HeadlinesFragment.this.refreshData();
+			DarwinoAndroidNativeApplication app = (DarwinoAndroidNativeApplication)DarwinoMobileApplication.get();
+			if(!app.isPaused()) {
+				Activity a = getActivity();
+				if(a!=null) {
+					a.runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							HeadlinesFragment.this.refreshData();
+						}
+					});
+				}
+			}
 	    }
 		public void markAllRead() {
 			execute(new MarkAllRead(true, TaskExecutor.DIALOG_INDETERMINATE), null);
@@ -165,7 +177,6 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
     @Override
     public void onStart() {
         super.onStart();
-        setListAdapter(mListAdapter);
         getListView().setOnItemClickListener(this);
     }
 
@@ -337,18 +348,19 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
 	            	cursor.extract("{source:'source',title:'title',content:'content'}");
 	            }
 	        };
+	        mListAdapter.init("news","news","byCategory").setDefaultBlockSize(10);
+	    	mListAdapter.addAllRows();
+			setListAdapter(mListAdapter);
+
+			// Make sure that no article is left selected
+			if (null != mHeadlineSelectedListener) {
+	        	mHeadlineSelectedListener.onHeadlineSelected(null);
+			}
 		} catch(JsonException ex) {
 			Platform.log(ex);
+			setListAdapter(null);
 		}
 	    
-        mListAdapter.init("news","news","byCategory").setDefaultBlockSize(10);
-    	mListAdapter.addAllRows();
-		setListAdapter(mListAdapter);
-
-		// Make sure that no article is left selected
-		if (null != mHeadlineSelectedListener) {
-        	mHeadlineSelectedListener.onHeadlineSelected(null);
-		}
     }
     protected Cursor initCursor(Cursor cursor) throws JsonException {
 		// Should cumulate with the other!

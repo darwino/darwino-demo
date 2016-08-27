@@ -64,6 +64,11 @@
 			<artifactId>dwo-jre-jdbc-pool-bonecp</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-social</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>

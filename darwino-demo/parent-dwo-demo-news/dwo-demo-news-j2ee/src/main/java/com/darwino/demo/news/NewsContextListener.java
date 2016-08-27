@@ -24,7 +24,6 @@ package com.darwino.demo.news;
 
 import javax.servlet.ServletContext;
 
-import com.darwino.application.jsonstore.NewsManifest;
 import com.darwino.commons.json.JsonException;
 import com.darwino.j2ee.application.AbstractDarwinoContextListener;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
@@ -41,6 +40,6 @@ public class NewsContextListener extends AbstractDarwinoContextListener {
 	
 	@Override
 	protected DarwinoJ2EEApplication createDarwinoApplication(ServletContext context) throws JsonException {
-		return new NewsJ2EEApplication(context,new NewsManifest(null));
+		return NewsJ2EEApplication.create(context);
 	}
 }

@@ -19,6 +19,16 @@
 	    </listener-class>
 	</listener>
 
+	<!-- Filter for Gzip -->
+	<filter>
+		<filter-name>GZipFilter</filter-name>
+		<filter-class>com.darwino.j2ee.servlet.gzip.GZipServletFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>GZipFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!-- Map these files with JSF -->
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
@@ -72,7 +82,7 @@
 	<servlet>
 		<display-name>Social Services Servlet</display-name>
 		<servlet-name>SocialServicesServlet</servlet-name>
-		<servlet-class>com.darwino.social.SocialServicesServlet</servlet-class>
+		<servlet-class>com.darwino.j2ee.servlet.social.SocialServicesServlet</servlet-class>
 	</servlet>
 		
 	<!-- Mapping for the virtual libraries -->
@@ -119,16 +129,6 @@
 	<filter-mapping>
     	<filter-name>DarwinoRewriting</filter-name>
     	<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<!-- Filter for Gzip -->
-	<filter>
-		<filter-name>GZipFilter</filter-name>
-		<filter-class>com.darwino.j2ee.servlet.gzip.GZipServletFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>GZipFilter</filter-name>
-		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
 	<!-- CORS filter for the JsonStore -->

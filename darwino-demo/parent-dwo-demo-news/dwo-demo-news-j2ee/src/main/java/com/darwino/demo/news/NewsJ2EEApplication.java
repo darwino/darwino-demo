@@ -24,6 +24,8 @@ package com.darwino.demo.news;
 
 import javax.servlet.ServletContext;
 
+import com.darwino.application.jsonstore.NewsManifest;
+import com.darwino.commons.json.JsonException;
 import com.darwino.commons.platform.ManagedBeansService;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.platform.DarwinoManifest;
@@ -35,6 +37,17 @@ import com.darwino.platform.DarwinoManifest;
  */
 public class NewsJ2EEApplication extends DarwinoJ2EEApplication {
 	
+	public static DarwinoJ2EEApplication create(ServletContext context) throws JsonException {
+		if(!DarwinoJ2EEApplication.isInitialized()) {
+			NewsJ2EEApplication app = new NewsJ2EEApplication(
+					context,
+					new NewsManifest(new NewsJ2EEManifest())
+			);
+			app.init();
+		}
+		return DarwinoJ2EEApplication.get();
+	}
+		
 	public NewsJ2EEApplication(ServletContext context, DarwinoManifest manifest) {
 		super(context,manifest);
 	}
