@@ -49,7 +49,7 @@ public class Shell {
 					factories.add(CliCommandFactory.instance);
 				}
 			};
-			Context ctx = env.createContext();
+			Context ctx = new Context(env);
 			try {
 				System.out.println(StringUtil.format("Darwino console, version {0}\n",Platform.getDarwinoVersion()));
 				
