@@ -69,14 +69,14 @@
 		</dependency>
  -->
 <!-- For enabling debug services a profiler basic UI
+-->
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-commons-runtime-debug</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
- -->
-
+ 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino</artifactId>
