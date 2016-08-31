@@ -103,15 +103,7 @@
         	<param-name>modes</param-name>
         	<param-value>com.darwino.ibm.connections.auth.IbmConnectionsOauth20Handler</param-value>
         </init-param>                    
-        <init-param>
-        	<param-name>keepCredentials</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        <init-param>
-        	<param-name>sessionToken</param-name>
-            <param-value>false</param-value>
-        </init-param>
--->            
+-->        
     </filter>
 	<filter-mapping>
     	<filter-name>DarwinoAuthentication</filter-name>
