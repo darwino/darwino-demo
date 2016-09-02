@@ -73,6 +73,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	// Use an object because of prototypical inheritance
 	// http://stackoverflow.com/questions/15305900/angularjs-ng-model-input-type-number-to-rootscope-not-updating
 	$rootScope.data = {
+		ready: false,
 		jsonQuery: false,
 		// Global information maintained
 		useInstances: false,
@@ -241,11 +242,11 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	//
 	$http.get(app_baseUrl+"/properties").then(function(response) {
 		var properties = response.data;
+		$rootScope.data.ready = true;
 		$rootScope.data.jsonQuery = properties.jsonQuery;
 		$rootScope.data.useInstances = properties.useInstances;
 		$rootScope.data.instances = properties.instances;
 		$rootScope.data.localized = properties.localized;
-		
 		if($rootScope.data.useInstances) {
 			var instances = properties.instances;
 			if(instances && instances.length>0) {
@@ -367,18 +368,21 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 // Each collection is here called a 'view' and is identified by its name
 //
 .service('views', ['$rootScope','$state','$jstore','$ionicPopup',function($rootScope,$state,$jstore,$ionicPopup) {
+	var _this = this;
+	
 	// We cache the entries share the list in memory
-	// We a
 	var allEntries = {};
 	this.reset = function() {
-		for(var k in allEntries) {
-			var e = allEntries[k];
-			e.setInstance($rootScope.data.instance);
-			e.resetCursor();
-		}
+		allEntries = {};
+		_this.reloadEntries();
 	}
 	this.selectEntries = function(view,params) {
 		return $rootScope.entries = this.getEntries(view,params);
+	}
+	this.reloadEntries = function() {
+		if($rootScope.entries) {
+			this.selectEntries($rootScope.entries.view,$rootScope.entries.params);
+		}
 	}
 	this.getEntries = function(view,params) {
 		// Look for the entries in the cache
@@ -441,6 +445,9 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			return;
 		}
 		entries.initCursor(p);
+		if(!$rootScope.data.ready) {
+			entries.eof = true;
+		}
 		
 		if($rootScope.data.useInstances) {
 			entries.setInstance($rootScope.data.instance);

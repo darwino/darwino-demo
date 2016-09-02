@@ -45,7 +45,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		this.moreCount = MORECOUNT;
 		this.onItemsLoaded = null;
 	}
-
+	
 	ItemList.prototype.initCursor = function(params) {
 		//darwino.log.d(LOG_GROUP,"Create ItemList for database {0}, store {1}",databaseId,storeId);
 		this.databaseId = params.database;
