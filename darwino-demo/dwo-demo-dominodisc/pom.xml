@@ -14,6 +14,7 @@
 		<module>dwo-demo-dominodisc-j2ee</module>
 		<module>dwo-demo-dominodisc-android-hybrid</module>
 		<module>dwo-demo-dominodisc-robovm-hybrid</module>
+		<module>dwo-demo-dominodisc-moe-hybrid</module>
 		<module>dwo-demo-dominodisc-swt</module>
 	</modules>
 
@@ -31,6 +32,8 @@
 		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 		
 		<robovm.version>1.8.0</robovm.version>
+		<migeran.plugin.version>1.0</migeran.plugin.version>
+        <migeran.gradle.version>2.5</migeran.gradle.version>
 		
 		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
