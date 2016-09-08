@@ -168,7 +168,14 @@
 			<artifactId>primefaces</artifactId>
 			<version>4.0</version>
 	    	<scope>provided</scope>
-		</dependency>		
+		</dependency>
+		
+		<!-- DB Drivers -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4-1206-jdbc4</version>
+		</dependency>
 	</dependencies>
 
 	<build>

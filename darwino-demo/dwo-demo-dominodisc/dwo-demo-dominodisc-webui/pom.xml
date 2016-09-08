@@ -15,11 +15,11 @@
 			<artifactId>dwo-demo-web-darwino</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.darwino</groupId> -->
-<!-- 			<artifactId>dwo-demo-web-darwino-explorer</artifactId> -->
-<!-- 			<version>${DARWINO_VERSION}</version> -->
-<!-- 		</dependency> -->
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-demo-web-darwino-explorer</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.darwino.demo.dominodisc</groupId>
 			<artifactId>dwo-demo-dominodisc-shared</artifactId>

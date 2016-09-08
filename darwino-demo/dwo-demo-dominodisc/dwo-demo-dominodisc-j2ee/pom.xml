@@ -83,6 +83,13 @@
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		
+		<!-- DB drivers -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4-1206-jdbc4</version>
+		</dependency>
+		
 		<!--  Social plug-ins, like Gravatar -->
 		<dependency>
 			<groupId>com.darwino</groupId>

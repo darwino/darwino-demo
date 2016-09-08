@@ -38,6 +38,13 @@
 			<artifactId>dwo-demo-angular-shared</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<!-- DB Drivers -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.4-1206-jdbc4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
