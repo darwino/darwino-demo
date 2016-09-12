@@ -47,11 +47,6 @@
 <!--                 <artifactId>moe-maven</artifactId> -->
 <!--                 <version>${migeran.plugin.version}</version> -->
 <!-- 		</dependency> -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>9.4-1206-jdbc4</version>
-		</dependency>
 	</dependencies>
 
 	<build>
