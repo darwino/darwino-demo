@@ -32,7 +32,7 @@
 		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 		
 		<robovm.version>1.8.0</robovm.version>
-		<migeran.plugin.version>1.0</migeran.plugin.version>
+		<migeran.plugin.version>1.0.1</migeran.plugin.version>
         <migeran.gradle.version>2.5</migeran.gradle.version>
 		
 		<android.plugin.version>4.3.0</android.plugin.version>
