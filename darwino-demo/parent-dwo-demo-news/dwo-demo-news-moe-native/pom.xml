@@ -9,7 +9,7 @@
 	<artifactId>dwo-demo-news-moe-native</artifactId>
 	
     <properties>
-        <migeran.plugin.version>1.0</migeran.plugin.version>
+        <migeran.plugin.version>1.0.1</migeran.plugin.version>
         <migeran.gradle.version>2.5</migeran.gradle.version>
     </properties>
 	
@@ -68,7 +68,7 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.moe</groupId>
+                <groupId>org.multi-os-engine</groupId>
                 <artifactId>moe-maven</artifactId>
                 <version>${migeran.plugin.version}</version>
                 <executions>
