@@ -71,7 +71,8 @@ public class NewsDocumentController extends UITableViewController {
     @Selector("alloc")
     public static native NewsDocumentController alloc();
 
-    @Selector("init")
+    @Override
+	@Selector("init")
     public native NewsDocumentController init();
 
     protected NewsDocumentController(Pointer peer) {

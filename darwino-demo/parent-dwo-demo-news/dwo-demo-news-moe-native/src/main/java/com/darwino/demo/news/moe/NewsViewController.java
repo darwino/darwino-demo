@@ -65,7 +65,8 @@ public class NewsViewController extends UITableViewController {
     @Selector("alloc")
     public static native NewsViewController alloc();
 
-    @Selector("init")
+    @Override
+	@Selector("init")
     public native NewsViewController init();
 
     protected NewsViewController(Pointer peer) {

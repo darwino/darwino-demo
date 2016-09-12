@@ -66,7 +66,8 @@ public class MainViewController extends UITableViewController {
     @Selector("alloc")
     public static native MainViewController alloc();
 
-    @Selector("init")
+    @Override
+	@Selector("init")
     public native MainViewController init();
 
     protected MainViewController(Pointer peer) {
