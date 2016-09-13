@@ -76,7 +76,7 @@
 		773958A83ECB78B10AF010E9 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "../src/main/resources/Icon-Small-50.png"; sourceTree = SOURCE_ROOT; };
 		7846B88ADDC3AC8EB2A68EE0 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x~iphone.png"; path = "../src/main/resources/Default@2x~iphone.png"; sourceTree = SOURCE_ROOT; };
 		83D2B125A7EE5BD6CD92A8C5 /* preregister.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = preregister.txt; path = ../build/moe/main/preregister.txt; sourceTree = SOURCE_ROOT; };
-		A3E5A717F5A62C6D1B0468BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../src/main/resources/Info.plist"; sourceTree = SOURCE_ROOT; };
+		A3E5A717F5A62C6D1B0468BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../src/main/resources/Info.plist; sourceTree = SOURCE_ROOT; };
 		A802983C1A118D87B09592DA /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-60.png"; path = "../src/main/resources/Icon-60.png"; sourceTree = SOURCE_ROOT; };
 		B1A2F2E2700993CADDC79C97 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../src/main/resources/Icon.png; sourceTree = SOURCE_ROOT; };
 		C1FED36CFE26B60E886DC03E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = text; name = Settings.bundle; path = ../src/main/resources/Settings.bundle; sourceTree = SOURCE_ROOT; };
@@ -84,8 +84,8 @@
 		D015844005E16A1BE0D438D5 /* LaunchScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = ../src/main/resources/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
 		E37D2A9583E8C63753B9860A /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x~iphone.png"; path = "../src/main/resources/Default-568h@2x~iphone.png"; sourceTree = SOURCE_ROOT; };
 		E61ABA7D353F03C80365E42C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../src/main/resources/Info.plist; sourceTree = SOURCE_ROOT; };
-		EAB78EE46107F4F1968F1E20 /* sample-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sample-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EDDF1D2FC6163D19056A4662 /* sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAB78EE46107F4F1968F1E20 /* Darwino News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Darwino News.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDDF1D2FC6163D19056A4662 /* Darwino News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Darwino News.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA9FB781B16D0E8CD1E7CE11 /* classlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = classlist.txt; path = ../build/moe/test/classlist.txt; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -112,8 +112,8 @@
 		2B95ADFEAAE5A7E17F4DE0CF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EDDF1D2FC6163D19056A4662 /* sample.app */,
-				EAB78EE46107F4F1968F1E20 /* sample-Test.app */,
+				EDDF1D2FC6163D19056A4662 /* Darwino News.app */,
+				EAB78EE46107F4F1968F1E20 /* Darwino News.app */,
 			);
 			path = Products;
 			sourceTree = "<group>";
@@ -193,9 +193,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1EBCE5B9152D01995F1D00F4 /* sample */ = {
+		1EBCE5B9152D01995F1D00F4 /* Darwino News */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B52EBA95224325417ACC12AF /* Build configuration list for PBXNativeTarget "sample" */;
+			buildConfigurationList = B52EBA95224325417ACC12AF /* Build configuration list for PBXNativeTarget "Darwino News" */;
 			buildPhases = (
 				006D2AD1797C4963F40F2194 /* Compile Sources (MOE) */,
 				F159E10B626D447E64BED946 /* Frameworks */,
@@ -205,14 +205,14 @@
 			);
 			buildRules = (
 			);
-			name = sample;
+			name = "Darwino News";
 			productName = sample;
-			productReference = EDDF1D2FC6163D19056A4662 /* sample.app */;
+			productReference = EDDF1D2FC6163D19056A4662 /* Darwino News.app */;
 			productType = "com.apple.product-type.application";
 		};
-		931F3FBEBE04C1E341008D92 /* sample-Test */ = {
+		931F3FBEBE04C1E341008D92 /* Darwino News-Test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A680EED6D2F86C37DCC80B70 /* Build configuration list for PBXNativeTarget "sample-Test" */;
+			buildConfigurationList = A680EED6D2F86C37DCC80B70 /* Build configuration list for PBXNativeTarget "Darwino News-Test" */;
 			buildPhases = (
 				117D4913B9F62798AF053D77 /* Compile Sources (MOE) */,
 				5F4B309685F6E17659475BF4 /* Frameworks */,
@@ -222,9 +222,9 @@
 			);
 			buildRules = (
 			);
-			name = "sample-Test";
+			name = "Darwino News-Test";
 			productName = "sample-Test";
-			productReference = EAB78EE46107F4F1968F1E20 /* sample-Test.app */;
+			productReference = EAB78EE46107F4F1968F1E20 /* Darwino News.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -235,7 +235,7 @@
 			attributes = {
 				ORGANIZATIONNAME = "My Company";
 			};
-			buildConfigurationList = 50EEB780FA56E792B9F41515 /* Build configuration list for PBXProject "sample" */;
+			buildConfigurationList = 50EEB780FA56E792B9F41515 /* Build configuration list for PBXProject "Darwino News" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -248,8 +248,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1EBCE5B9152D01995F1D00F4 /* sample */,
-				931F3FBEBE04C1E341008D92 /* sample-Test */,
+				1EBCE5B9152D01995F1D00F4 /* Darwino News */,
+				931F3FBEBE04C1E341008D92 /* Darwino News-Test */,
 			);
 		};
 /* End PBXProject section */
@@ -440,7 +440,7 @@
 				INFOPLIST_FILE = "sample-Test/Info-Test.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "${MOE_OTHER_LDFLAGS}";
-				PRODUCT_NAME = "sample-Test";
+				PRODUCT_NAME = "Darwino News";
 				STRIP_STYLE = "non-global";
 			};
 			name = Debug;
@@ -455,7 +455,7 @@
 				INFOPLIST_FILE = "sample-Test/Info-Test.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "${MOE_OTHER_LDFLAGS}";
-				PRODUCT_NAME = "sample-Test";
+				PRODUCT_NAME = "Darwino News";
 				STRIP_STYLE = "non-global";
 			};
 			name = Release;
@@ -474,7 +474,7 @@
 					"-force_load",
 					"\"$(SRCROOT)/../libs/libJsonstoreUniversal.a\"",
 				);
-				PRODUCT_NAME = sample;
+				PRODUCT_NAME = "Darwino News";
 				STRIP_STYLE = "non-global";
 			};
 			name = Debug;
@@ -493,7 +493,7 @@
 					"-force_load",
 					"\"$(SRCROOT)/../libs/libJsonstoreUniversal.a\"",
 				);
-				PRODUCT_NAME = sample;
+				PRODUCT_NAME = "Darwino News";
 				STRIP_STYLE = "non-global";
 			};
 			name = Release;
@@ -501,7 +501,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		50EEB780FA56E792B9F41515 /* Build configuration list for PBXProject "sample" */ = {
+		50EEB780FA56E792B9F41515 /* Build configuration list for PBXProject "Darwino News" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				226E71C5E582451B0495C448 /* Debug */,
@@ -510,7 +510,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A680EED6D2F86C37DCC80B70 /* Build configuration list for PBXNativeTarget "sample-Test" */ = {
+		A680EED6D2F86C37DCC80B70 /* Build configuration list for PBXNativeTarget "Darwino News-Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				453ED27F19E253DE34AE4D26 /* Debug */,
@@ -519,7 +519,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B52EBA95224325417ACC12AF /* Build configuration list for PBXNativeTarget "sample" */ = {
+		B52EBA95224325417ACC12AF /* Build configuration list for PBXNativeTarget "Darwino News" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8A752C0D980EFFC5FFA6FF0F /* Debug */,

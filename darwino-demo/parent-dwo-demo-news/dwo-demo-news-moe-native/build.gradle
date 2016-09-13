@@ -33,8 +33,8 @@ test { exclude '**' }
 
 // Setup MOE
 moe {
-    xcode.mainTarget = 'sample'
-    xcode.testTarget = 'sample-Test'
+    xcode.mainTarget = 'Darwino News'
+    xcode.testTarget = 'Darwino News-Test'
     xcode.packageName = 'com.darwino.demo.news.moe'
     xcode.launchScreenFilePath = 'src/main/resources/LaunchScreen.xib'
     xcode.infoPlistPath 'src/main/resources/Info.plist'
