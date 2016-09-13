@@ -9,11 +9,6 @@
 	
 	<artifactId>dwo-demo-dominodisc-moe-hybrid</artifactId>
 	
-    <properties>
-        <migeran.plugin.version>1.0.1</migeran.plugin.version>
-        <migeran.gradle.version>2.5</migeran.gradle.version>
-    </properties>
-	
 	<dependencies>
 		<dependency>
 			<groupId>com.darwino</groupId>
@@ -90,7 +85,7 @@
             <plugin>
                 <groupId>org.multi-os-engine</groupId>
                 <artifactId>moe-maven</artifactId>
-                <version>${migeran.plugin.version}</version>
+                <version>${moe.plugin.version}</version>
                 <executions>
                     <execution>
                         <?m2e execute onConfiguration?>
@@ -144,7 +139,7 @@
         					<pluginExecutions>
         						<pluginExecution>
         							<pluginExecutionFilter>
-        								<groupId>org.moe</groupId>
+        								<groupId>org.multi-os-engine</groupId>
         								<artifactId>
         									moe-maven
         								</artifactId>
