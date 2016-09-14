@@ -70,7 +70,7 @@
 		40CD72C88E43C4805200CF68 /* build.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = build.xcconfig; sourceTree = "<group>"; };
 		47123F57B97CABA54E339332 /* build.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = build.xcconfig; sourceTree = "<group>"; };
 		4B74B45226C81BC1E9D23FC5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		590F2FEB784C6A6A2880937D /* Info-Test.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-Test.plist"; path = "sample-Test/Info-Test.plist"; sourceTree = SOURCE_ROOT; };
+		590F2FEB784C6A6A2880937D /* Info-Test.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-Test.plist"; path = "dwo-demo-dominodisc-moe-hybrid-Test/Info-Test.plist"; sourceTree = SOURCE_ROOT; };
 		644608A29F7BB82783F23E8A /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "../src/main/resources/Icon@2x.png"; sourceTree = SOURCE_ROOT; };
 		6E7C7B05410B11F81BB0E17B /* Default-667h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-667h@2x~iphone.png"; path = "../src/main/resources/Default-667h@2x~iphone.png"; sourceTree = SOURCE_ROOT; };
 		773958A83ECB78B10AF010E9 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "../src/main/resources/Icon-Small-50.png"; sourceTree = SOURCE_ROOT; };
@@ -84,8 +84,8 @@
 		D015844005E16A1BE0D438D5 /* LaunchScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = ../src/main/resources/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
 		E37D2A9583E8C63753B9860A /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x~iphone.png"; path = "../src/main/resources/Default-568h@2x~iphone.png"; sourceTree = SOURCE_ROOT; };
 		E61ABA7D353F03C80365E42C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../src/main/resources/Info.plist; sourceTree = SOURCE_ROOT; };
-		EAB78EE46107F4F1968F1E20 /* sample-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sample-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EDDF1D2FC6163D19056A4662 /* sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAB78EE46107F4F1968F1E20 /* Discussion Database.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Discussion Database.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDDF1D2FC6163D19056A4662 /* Discussion Database.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Discussion Database.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA9FB781B16D0E8CD1E7CE11 /* classlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = classlist.txt; path = ../build/moe/test/classlist.txt; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -112,26 +112,26 @@
 		2B95ADFEAAE5A7E17F4DE0CF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EDDF1D2FC6163D19056A4662 /* sample.app */,
-				EAB78EE46107F4F1968F1E20 /* sample-Test.app */,
+				EDDF1D2FC6163D19056A4662 /* Discussion Database.app */,
+				EAB78EE46107F4F1968F1E20 /* Discussion Database.app */,
 			);
 			path = Products;
 			sourceTree = "<group>";
 		};
-		35301452A54B4BBCA2B2FC58 /* sample-Test */ = {
+		35301452A54B4BBCA2B2FC58 /* dwo-demo-dominodisc-moe-hybrid-Test */ = {
 			isa = PBXGroup;
 			children = (
 				C3654FE597416097B4BBE991 /* Supporting Files */,
 			);
-			path = "sample-Test";
+			path = "dwo-demo-dominodisc-moe-hybrid-Test";
 			sourceTree = "<group>";
 		};
-		474DA6ED2313DA1B7E331B6F /* sample */ = {
+		474DA6ED2313DA1B7E331B6F /* dwo-demo-dominodisc-moe-hybrid */ = {
 			isa = PBXGroup;
 			children = (
 				5422B1F7CD4BC9AF6D9D1F09 /* Supporting Files */,
 			);
-			path = sample;
+			path = "dwo-demo-dominodisc-moe-hybrid";
 			sourceTree = "<group>";
 		};
 		5422B1F7CD4BC9AF6D9D1F09 /* Supporting Files */ = {
@@ -183,8 +183,8 @@
 		D89979809699F4A9C4364347 = {
 			isa = PBXGroup;
 			children = (
-				474DA6ED2313DA1B7E331B6F /* sample */,
-				35301452A54B4BBCA2B2FC58 /* sample-Test */,
+				474DA6ED2313DA1B7E331B6F /* dwo-demo-dominodisc-moe-hybrid */,
+				35301452A54B4BBCA2B2FC58 /* dwo-demo-dominodisc-moe-hybrid-Test */,
 				ABF3F8FA732FD283234FDD58 /* Frameworks */,
 				2B95ADFEAAE5A7E17F4DE0CF /* Products */,
 			);
@@ -193,9 +193,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1EBCE5B9152D01995F1D00F4 /* sample */ = {
+		1EBCE5B9152D01995F1D00F4 /* Discussion Database */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B52EBA95224325417ACC12AF /* Build configuration list for PBXNativeTarget "sample" */;
+			buildConfigurationList = B52EBA95224325417ACC12AF /* Build configuration list for PBXNativeTarget "Discussion Database" */;
 			buildPhases = (
 				006D2AD1797C4963F40F2194 /* Compile Sources (MOE) */,
 				F159E10B626D447E64BED946 /* Frameworks */,
@@ -205,14 +205,14 @@
 			);
 			buildRules = (
 			);
-			name = sample;
-			productName = sample;
-			productReference = EDDF1D2FC6163D19056A4662 /* sample.app */;
+			name = "Discussion Database";
+			productName = "dwo-demo-dominodisc-moe-hybrid";
+			productReference = EDDF1D2FC6163D19056A4662 /* Discussion Database.app */;
 			productType = "com.apple.product-type.application";
 		};
-		931F3FBEBE04C1E341008D92 /* sample-Test */ = {
+		931F3FBEBE04C1E341008D92 /* Discussion Database-Test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A680EED6D2F86C37DCC80B70 /* Build configuration list for PBXNativeTarget "sample-Test" */;
+			buildConfigurationList = A680EED6D2F86C37DCC80B70 /* Build configuration list for PBXNativeTarget "Discussion Database-Test" */;
 			buildPhases = (
 				117D4913B9F62798AF053D77 /* Compile Sources (MOE) */,
 				5F4B309685F6E17659475BF4 /* Frameworks */,
@@ -222,9 +222,9 @@
 			);
 			buildRules = (
 			);
-			name = "sample-Test";
-			productName = "sample-Test";
-			productReference = EAB78EE46107F4F1968F1E20 /* sample-Test.app */;
+			name = "Discussion Database-Test";
+			productName = "dwo-demo-dominodisc-moe-hybrid-Test";
+			productReference = EAB78EE46107F4F1968F1E20 /* Discussion Database.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -235,7 +235,7 @@
 			attributes = {
 				ORGANIZATIONNAME = "My Company";
 			};
-			buildConfigurationList = 50EEB780FA56E792B9F41515 /* Build configuration list for PBXProject "sample" */;
+			buildConfigurationList = 50EEB780FA56E792B9F41515 /* Build configuration list for PBXProject "Discussion Database" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -248,8 +248,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1EBCE5B9152D01995F1D00F4 /* sample */,
-				931F3FBEBE04C1E341008D92 /* sample-Test */,
+				1EBCE5B9152D01995F1D00F4 /* Discussion Database */,
+				931F3FBEBE04C1E341008D92 /* Discussion Database-Test */,
 			);
 		};
 /* End PBXProject section */
@@ -437,10 +437,10 @@
 				DEAD_CODE_STRIPPING = NO;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "sample-Test/Info-Test.plist";
+				INFOPLIST_FILE = "dwo-demo-dominodisc-moe-hybrid-Test/Info-Test.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "${MOE_OTHER_LDFLAGS}";
-				PRODUCT_NAME = "sample-Test";
+				PRODUCT_NAME = "Discussion Database";
 				STRIP_STYLE = "non-global";
 			};
 			name = Debug;
@@ -452,10 +452,10 @@
 				DEAD_CODE_STRIPPING = NO;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "sample-Test/Info-Test.plist";
+				INFOPLIST_FILE = "dwo-demo-dominodisc-moe-hybrid-Test/Info-Test.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "${MOE_OTHER_LDFLAGS}";
-				PRODUCT_NAME = "sample-Test";
+				PRODUCT_NAME = "Discussion Database";
 				STRIP_STYLE = "non-global";
 			};
 			name = Release;
@@ -474,7 +474,7 @@
 					"-force_load",
 					"\"$(SRCROOT)/../libs/libJsonstoreUniversal.a\"",
 				);
-				PRODUCT_NAME = sample;
+				PRODUCT_NAME = "Discussion Database";
 				STRIP_STYLE = "non-global";
 			};
 			name = Debug;
@@ -493,7 +493,7 @@
 					"-force_load",
 					"\"$(SRCROOT)/../libs/libJsonstoreUniversal.a\"",
 				);
-				PRODUCT_NAME = sample;
+				PRODUCT_NAME = "Discussion Database";
 				STRIP_STYLE = "non-global";
 			};
 			name = Release;
@@ -501,7 +501,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		50EEB780FA56E792B9F41515 /* Build configuration list for PBXProject "sample" */ = {
+		50EEB780FA56E792B9F41515 /* Build configuration list for PBXProject "Discussion Database" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				226E71C5E582451B0495C448 /* Debug */,
@@ -510,7 +510,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A680EED6D2F86C37DCC80B70 /* Build configuration list for PBXNativeTarget "sample-Test" */ = {
+		A680EED6D2F86C37DCC80B70 /* Build configuration list for PBXNativeTarget "Discussion Database-Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				453ED27F19E253DE34AE4D26 /* Debug */,
@@ -519,7 +519,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B52EBA95224325417ACC12AF /* Build configuration list for PBXNativeTarget "sample" */ = {
+		B52EBA95224325417ACC12AF /* Build configuration list for PBXNativeTarget "Discussion Database" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8A752C0D980EFFC5FFA6FF0F /* Debug */,
