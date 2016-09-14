@@ -18,6 +18,7 @@ import java.util.List;
 import com.darwino.commons.platform.beans.ManagedBeansExtension;
 import com.darwino.commons.platform.impl.PluginImpl;
 import com.darwino.commons.platform.properties.PropertiesExtension;
+import com.darwino.commons.security.acl.UserService;
 import com.darwino.shell.extensions.ConfigExtension;
 
 
@@ -31,6 +32,15 @@ public class PluginShell extends PluginImpl {
 		super("JSON store shell");
 	}
 
+	@Override
+	public Object findDefaultService(Class<?> serviceClass) {
+		// Unless a user service is explicitly set, we use a bean based one
+		if(serviceClass==UserService.class) {
+			return findServiceAsBean(UserService.BEAN_TYPE);
+		}
+		return null;
+	}
+	
 	@Override
 	public void findExtensions(Class<?> serviceClass, List<Object> extensions) {
 		if(serviceClass==ManagedBeansExtension.class) {

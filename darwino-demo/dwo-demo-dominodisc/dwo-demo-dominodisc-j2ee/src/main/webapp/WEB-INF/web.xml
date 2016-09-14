@@ -94,14 +94,18 @@
 	<filter>
     	<filter-name>DarwinoAuthentication</filter-name>
         <filter-class>com.darwino.j2ee.servlet.authentication.AuthenticationFilter</filter-class>
+<!-- Use the default modes provided by the directory         	
         <init-param>
         	<param-name>modes</param-name>
             <param-value>FORM,BASIC</param-value>
-        </init-param>                    
-<!--         	
+        </init-param>
         <init-param>
         	<param-name>modes</param-name>
         	<param-value>com.darwino.ibm.connections.auth.IbmConnectionsOauth20Handler</param-value>
+        </init-param>                    
+        <init-param>
+        	<param-name>modes</param-name>
+        	<param-value>com.darwino.microsoft.o365.auth.AzureADOauth20Handler</param-value>
         </init-param>                    
 -->        
     </filter>

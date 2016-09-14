@@ -27,6 +27,7 @@ import com.darwino.commons.util.cmd.CommandException;
 import com.darwino.commons.util.cmd.CommandLineParameters;
 import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.jsonstore.command.JstoreCommandFactory;
+import com.darwino.runtime.command.RuntimeCommandFactory;
 import com.darwino.shell.commands.CliCommandFactory;
 
 /**
@@ -45,6 +46,7 @@ public class Shell {
 				@Override
 				protected void initDefaultFactories(List<CommandFactory> factories) {
 					super.initDefaultFactories(factories);
+					factories.add(RuntimeCommandFactory.instance);
 					factories.add(JstoreCommandFactory.instance);
 					factories.add(CliCommandFactory.instance);
 				}

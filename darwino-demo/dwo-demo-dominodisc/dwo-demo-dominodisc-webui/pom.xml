@@ -12,12 +12,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.darwino</groupId>
-			<artifactId>dwo-demo-web-darwino</artifactId>
+			<artifactId>dwo-commons-runtime-debug</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
-			<artifactId>dwo-demo-web-darwino-explorer</artifactId>
+			<artifactId>dwo-demo-web-darwino</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
