@@ -49,6 +49,14 @@
 			<artifactId>dwo-demo-dominodisc-webui</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
+<!-- For enabling debug services a profiler basic UI
+-->
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-commons-runtime-debug</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
 		
 	</dependencies>
 	

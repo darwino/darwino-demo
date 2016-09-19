@@ -31,6 +31,7 @@ import com.darwino.commons.services.HttpService;
 import com.darwino.commons.services.HttpServiceContext;
 import com.darwino.commons.services.HttpServiceError;
 import com.darwino.commons.services.HttpServiceFactories;
+import com.darwino.commons.services.debug.DebugRestFactory;
 import com.darwino.commons.services.rest.RestServiceBinder;
 import com.darwino.commons.tasks.Task;
 import com.darwino.commons.tasks.TaskException;
@@ -104,17 +105,21 @@ public class AppServiceDispatcher extends DarwinoJ2EEServiceDispatcherFilter {
 	 */
 	@Override
 	protected void addApplicationServiceFactories(HttpServiceFactories factories) {
+		// Add the debug service
+		final DebugRestFactory debug = new DebugRestFactory();  
+		factories.add(debug);
+		
 		// The service should always executed locally when running on a server
 		factories.add(new AppServiceFactory() {
 			@Override
-			protected void addAppInfo(JsonObject o) {
+			protected void addAppInfo(HttpServiceContext context, JsonObject info) {
 				// Application environment
 				{
 					ApplicationEnvironment appenv = DarwinoJ2EEApplication.get().getApplicationEnvironment();
 					JsonObject env = new JsonObject();
 					env.put("cloud", appenv.isCloud());
 					env.put("runtime", appenv.toString());
-					o.put("environment", env);
+					info.put("environment", env);
 				}
 				
 				// Database type
@@ -123,8 +128,18 @@ public class AppServiceDispatcher extends DarwinoJ2EEServiceDispatcherFilter {
 					JsonObject db = new JsonObject();
 					db.put("driver", srv.getSqlContext().getDbDriver().getDatabaseType().toString());
 					db.put("path", srv.getSqlContext().getConnectionId());
-					o.put("database", db);
+					info.put("database", db);
 				}
+			}
+			@Override
+			protected void addProperties(HttpServiceContext context, JsonObject props) {
+				// Check if the debug plugin is authorized for this user
+				boolean debugPlugin = false;
+				try {
+					debug.checkAuthorized(context);
+					debugPlugin = true;
+				} catch(HttpServiceError ex) {}
+				props.put("debugPlugin", debugPlugin);
 			}
 			@Override
 			protected void createServicesBinders(List<RestServiceBinder> binders) {

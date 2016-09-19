@@ -70,7 +70,6 @@
  -->
 <!-- For enabling debug services a profiler basic UI
 -->
-
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-commons-runtime-debug</artifactId>

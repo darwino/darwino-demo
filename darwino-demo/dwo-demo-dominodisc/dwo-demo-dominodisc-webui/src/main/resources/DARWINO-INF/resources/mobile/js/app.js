@@ -75,6 +75,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 	$rootScope.data = {
 		ready: false,
 		jsonQuery: false,
+		debugPlugin: false,
 		// Global information maintained
 		useInstances: false,
 		instances: [],
@@ -244,6 +245,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		var properties = response.data;
 		$rootScope.data.ready = true;
 		$rootScope.data.jsonQuery = properties.jsonQuery;
+		$rootScope.data.debugPlugin = properties.debugPlugin;
 		$rootScope.data.useInstances = properties.useInstances;
 		$rootScope.data.instances = properties.instances;
 		$rootScope.data.localized = properties.localized;

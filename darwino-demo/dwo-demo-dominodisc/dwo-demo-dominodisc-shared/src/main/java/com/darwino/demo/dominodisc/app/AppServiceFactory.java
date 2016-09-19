@@ -70,7 +70,8 @@ public class AppServiceFactory extends RestServiceFactory {
 					jSession.put("instanceId", session.getInstanceId());
 					o.put("session", jSession);
 					
-					addAppInfo(o);
+					// Add custom application information
+					addAppInfo(context,o);
 				} catch(Exception ex) {
 					o.put("exception", HttpServiceError.exceptionAsJson(ex, false));
 				}
@@ -90,6 +91,9 @@ public class AppServiceFactory extends RestServiceFactory {
 					// Check if JSON query is supported by this DB driver
 					o.put("jsonQuery", DarwinoApplication.get().getLocalJsonDBServer().isJsonQuerySupported());
 					
+					// Debug plugin is always supported unless the property is overridden by addProperties()
+					o.put("debugPlugin", true);
+										
 					// Instances are only supported with the Enterprise edition
 					o.put("useInstances", false);
 					if(Lic.isEnterpriseEdition()) {
@@ -107,6 +111,9 @@ public class AppServiceFactory extends RestServiceFactory {
 					// Watson services
 					o.put("localized", Platform.getProperty("discdb.watson.translate"));
 					o.put("toneanalyzer", Platform.getProperty("discdb.watson.toneanalyzer"));
+					
+					// Add custom properties
+					addProperties(context,o);
 				} catch(Exception ex) {
 					o.put("exception", HttpServiceError.exceptionAsJson(ex, false));
 				}
@@ -121,8 +128,12 @@ public class AppServiceFactory extends RestServiceFactory {
 		super(DarwinoHttpConstants.APPSERVICES_PATH);
 	}
 	
-	protected void addAppInfo(JsonObject o) {
+	protected void addAppInfo(HttpServiceContext context, JsonObject info) {
 		// Add specific app information here..
+	}
+	
+	protected void addProperties(HttpServiceContext context, JsonObject props) {
+		// Add specific properties here...
 	}
 	
 	@Override

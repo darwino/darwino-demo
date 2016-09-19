@@ -30,7 +30,7 @@ import com.darwino.mobile.platform.commands.CommandsExtension;
 
 
 /**
- * Android Plugin for registering the services.
+ * SWT Plugin for registering the services.
  * 
  */
 public class AppPlugin extends PluginImpl {
