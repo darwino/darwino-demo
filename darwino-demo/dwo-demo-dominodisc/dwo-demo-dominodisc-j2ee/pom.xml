@@ -68,13 +68,6 @@
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
  -->
-<!-- For enabling debug services a profiler basic UI
--->
-		<dependency>
-			<groupId>com.darwino</groupId>
-			<artifactId>dwo-commons-runtime-debug</artifactId>
-			<version>${DARWINO_VERSION}</version>
-		</dependency>
  
 		<dependency>
 			<groupId>com.darwino</groupId>
@@ -122,6 +115,18 @@
 			<groupId>com.darwino.demo.dominodisc</groupId>
 			<artifactId>dwo-demo-dominodisc-webui</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<!-- Debug services -->
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-commons-runtime-debug</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-commons-runtime-debug-script</artifactId>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		
 	</dependencies>
