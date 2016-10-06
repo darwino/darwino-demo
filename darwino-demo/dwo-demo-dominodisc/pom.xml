@@ -32,8 +32,8 @@
 		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 		
 		<robovm.version>1.8.0</robovm.version>
-		<moe.plugin.version>1.0.1</moe.plugin.version>
-        <migeran.gradle.version>2.5</migeran.gradle.version>
+		<moe.plugin.version>1.2.0</moe.plugin.version>
+        <moe.gradle.version>2.5</moe.gradle.version>
 		
 		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>

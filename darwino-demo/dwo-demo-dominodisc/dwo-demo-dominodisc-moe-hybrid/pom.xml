@@ -46,11 +46,6 @@
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		
-<!-- 		<dependency> -->
-<!--                 <groupId>org.moe</groupId> -->
-<!--                 <artifactId>moe-maven</artifactId> -->
-<!--                 <version>${migeran.plugin.version}</version> -->
-<!-- 		</dependency> -->
 	</dependencies>
 
 	<build>
