@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         // MOE plugin
-		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.1.+'
+		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.2.+'
     }
 }
 
@@ -23,8 +23,8 @@ apply plugin: 'eclipse'
 apply plugin: 'moe'
 
 // Set source and target to Java 8
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
 // Set maven repository
 
@@ -54,7 +54,7 @@ dependencies {
 eclipse {
     // Set MOE natures and build commands
     project {
-        natures 'org.moe.natures.project'
+        natures 'org.multi-os-engine.project'
     }
 }
 

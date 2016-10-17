@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         // MOE plugin
-		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.1.+'
+		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.2.+'
     }
 }
 
@@ -54,7 +54,7 @@ dependencies {
 eclipse {
     // Set MOE natures and build commands
     project {
-        natures 'org.moe.natures.project'
+        natures 'org.multi-os-engine.project'
     }
 }
 

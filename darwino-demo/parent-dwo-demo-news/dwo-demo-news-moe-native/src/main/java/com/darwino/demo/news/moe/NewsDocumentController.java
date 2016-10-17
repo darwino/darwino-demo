@@ -34,26 +34,26 @@ import org.moe.natj.objc.SEL;
 import org.moe.natj.objc.ann.ObjCClassName;
 import org.moe.natj.objc.ann.Selector;
 
-import ios.NSObject;
-import ios.coregraphics.c.CoreGraphics;
-import ios.coregraphics.struct.CGRect;
-import ios.foundation.NSMutableAttributedString;
-import ios.foundation.NSNotification;
-import ios.foundation.NSNotificationCenter;
-import ios.foundation.NSNumber;
-import ios.foundation.NSValue;
-import ios.uikit.UIBarButtonItem;
-import ios.uikit.UIColor;
-import ios.uikit.UIFont;
-import ios.uikit.UITableViewController;
-import ios.uikit.UITextView;
-import ios.uikit.UIView;
-import ios.uikit.enums.UIBarButtonSystemItem;
-import ios.uikit.enums.UIInterfaceOrientation;
-import ios.uikit.enums.UIKeyboardType;
-import ios.uikit.enums.UIReturnKeyType;
-import ios.uikit.enums.UITextAutocorrectionType;
-import ios.uikit.protocol.UITextViewDelegate;
+import apple.NSObject;
+import apple.coregraphics.c.CoreGraphics;
+import apple.coregraphics.struct.CGRect;
+import apple.foundation.NSMutableAttributedString;
+import apple.foundation.NSNotification;
+import apple.foundation.NSNotificationCenter;
+import apple.foundation.NSNumber;
+import apple.foundation.NSValue;
+import apple.uikit.UIBarButtonItem;
+import apple.uikit.UIColor;
+import apple.uikit.UIFont;
+import apple.uikit.UITableViewController;
+import apple.uikit.UITextView;
+import apple.uikit.UIView;
+import apple.uikit.enums.UIBarButtonSystemItem;
+import apple.uikit.enums.UIInterfaceOrientation;
+import apple.uikit.enums.UIKeyboardType;
+import apple.uikit.enums.UIReturnKeyType;
+import apple.uikit.enums.UITextAutocorrectionType;
+import apple.uikit.protocol.UITextViewDelegate;
 
 /**
  * The view controller for hosting the UIControls features of this sample.
@@ -147,11 +147,11 @@ public class NewsDocumentController extends UITableViewController {
         super.viewWillAppear(animated);
         NSNotificationCenter.defaultCenter().addObserverSelectorNameObject(this,
                 new SEL("keyboardWillShow:"),
-                ios.uikit.c.UIKit.UIKeyboardWillShowNotification(),
+                apple.uikit.c.UIKit.UIKeyboardWillShowNotification(),
                 null);
         NSNotificationCenter.defaultCenter().addObserverSelectorNameObject(this,
                 new SEL("keyboardWillHide:"),
-                ios.uikit.c.UIKit.UIKeyboardWillHideNotification(),
+                apple.uikit.c.UIKit.UIKeyboardWillHideNotification(),
                 null);
         try {
             Document doc = NewsManifest.getNewsStore().loadDocument(documentId);
@@ -190,9 +190,9 @@ public class NewsDocumentController extends UITableViewController {
      */
     private void adjustViewForKeyboardReveal (boolean showKeyboard, NSNotification notification) {
         // the keyboard is showing so resize the table's height
-        CGRect keyboardRect = ((NSValue) notification.userInfo().get(ios.uikit.c.UIKit
+        CGRect keyboardRect = ((NSValue) notification.userInfo().get(apple.uikit.c.UIKit
                 .UIKeyboardFrameEndUserInfoKey())).CGRectValue();
-        double animationDuration = ((NSNumber) notification.userInfo().get(ios.uikit.c.UIKit
+        double animationDuration = ((NSNumber) notification.userInfo().get(apple.uikit.c.UIKit
                 .UIKeyboardAnimationDurationUserInfoKey())).doubleValue();
         CGRect frame = textView.frame();
         // the keyboard rect's width and height are reversed in landscape

@@ -40,15 +40,15 @@ import org.moe.natj.objc.ann.Selector;
 
 import java.util.LinkedList;
 
-import ios.coregraphics.c.CoreGraphics;
-import ios.coregraphics.struct.CGRect;
-import ios.foundation.NSIndexPath;
-import ios.uikit.UIColor;
-import ios.uikit.UIImageView;
-import ios.uikit.UITableView;
-import ios.uikit.UITableViewCell;
-import ios.uikit.UITableViewController;
-import ios.uikit.enums.UITableViewCellAccessoryType;
+import apple.coregraphics.c.CoreGraphics;
+import apple.coregraphics.struct.CGRect;
+import apple.foundation.NSIndexPath;
+import apple.uikit.UIColor;
+import apple.uikit.UIImageView;
+import apple.uikit.UITableView;
+import apple.uikit.UITableViewCell;
+import apple.uikit.UITableViewController;
+import apple.uikit.enums.UITableViewCellAccessoryType;
 
 /**
  * The view controller for hosting the UIControls features of this sample.

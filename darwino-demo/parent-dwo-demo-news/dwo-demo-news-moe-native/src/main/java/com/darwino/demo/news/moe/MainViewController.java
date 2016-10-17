@@ -37,18 +37,18 @@ import org.moe.natj.objc.ann.Selector;
 
 import java.util.LinkedList;
 
-import ios.coregraphics.c.CoreGraphics;
-import ios.coregraphics.struct.CGRect;
-import ios.foundation.NSArray;
-import ios.foundation.NSIndexPath;
-import ios.uikit.UIBarButtonItem;
-import ios.uikit.UIColor;
-import ios.uikit.UITableView;
-import ios.uikit.UITableViewCell;
-import ios.uikit.UITableViewController;
-import ios.uikit.enums.UIBarButtonItemStyle;
-import ios.uikit.enums.UITableViewCellAccessoryType;
-import ios.uikit.enums.UIViewContentMode;
+import apple.coregraphics.c.CoreGraphics;
+import apple.coregraphics.struct.CGRect;
+import apple.foundation.NSArray;
+import apple.foundation.NSIndexPath;
+import apple.uikit.UIBarButtonItem;
+import apple.uikit.UIColor;
+import apple.uikit.UITableView;
+import apple.uikit.UITableViewCell;
+import apple.uikit.UITableViewController;
+import apple.uikit.enums.UIBarButtonItemStyle;
+import apple.uikit.enums.UITableViewCellAccessoryType;
+import apple.uikit.enums.UIViewContentMode;
 
 /**
  * The application's main view controller (front page)
