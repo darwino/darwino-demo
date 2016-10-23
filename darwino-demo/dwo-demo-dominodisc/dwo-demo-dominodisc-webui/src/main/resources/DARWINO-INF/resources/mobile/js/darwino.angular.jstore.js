@@ -568,26 +568,27 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		}
 	}
 
-	mod.factory('sessionRecoverer', ['$q', '$injector', function($q, $injector) {  
-	    var sessionRecoverer = {
+	mod.factory('httpAuthenticationInterceptor', ['$q', '$injector', '$rootScope', function($q, $injector, $rootScope) {  
+	    var interceptor = {
+	    	unauthorized: function() {
+	    		$rootScope.$broadcast('dwo-unauthorized');
+	    	},
 	        responseError: function(response) {
 	        	var status = response.status; 
-	            // Session has expired
-	            if (status==419 || response.headers('x-dwo-auth-msg')=='authrequired' ){
-	            	location.reload();
-	            }
-	            if(status<200 || status>299) {
+	            // Session requires authentication
+	            if (status==401 || status==419 || response.headers('x-dwo-auth-msg')=='authrequired' ){
+	            	interceptor.unauthorized(response);
+	            } else if(status<200 || status>299) {
 		            return $q.reject(response);
 	            }
 				return response;
 	        }
 	    };
-	    return sessionRecoverer;
+	    return interceptor;
 	}]);
 	mod.config(['$httpProvider', function($httpProvider) {  
-	    $httpProvider.interceptors.push('sessionRecoverer');
-	}]);
-	
+	    $httpProvider.interceptors.push('httpAuthenticationInterceptor');
+	}]);	
 	
 	mod.service('$jstore', function($http,$timeout) {
 		ngHttp = $http;
