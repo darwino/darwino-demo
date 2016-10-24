@@ -10,7 +10,7 @@
 	 				<i class="icon ion-android-search placeholder-icon"></i>
 				<input type="text" placeholder="Search..." ng-model="entries.ftSearch" class="search-bar-input" ng-change="entries.executeSearch()">
 	 			</label>
-			<button class="button-clear button-icon ion-close" ng-click="entries.cancelSearch()">
+			<button class="button button-clear button-icon ion-close" ng-click="entries.cancelSearch()">
 			</button>
 		</div>
 		<button ng-show="entries.isFtEnabled() && entries.searchMode==0" class="button button-icon button-clear ion-search" ng-click="entries.startSearch()">
