@@ -87,6 +87,18 @@
     	<url-pattern>/*</url-pattern>
     </filter-mapping>
 	
+	<!--  Filter for handling requests coming from a proxy -->
+<!-- 	
+	<filter>
+    	<filter-name>ProxyFilter</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.proxy.ProxyServletFilter</filter-class>
+	</filter>
+	<filter-mapping>
+    	<filter-name>ProxyFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+    </filter-mapping>
+ -->	
+		
 	<!--  Filter for custom authentication -->
 	<!--  This should be the first one, before the J2EE filter as the user is required for the session  -->
 	<!--  Note that the server level authentication should be disabled then  -->
@@ -94,13 +106,27 @@
 	<filter>
     	<filter-name>DarwinoAuthentication</filter-name>
         <filter-class>com.darwino.j2ee.servlet.authentication.AuthenticationFilter</filter-class>
+<!--         
+    	<init-param>
+      		<param-name>auth-required</param-name>
+      		<param-value>false</param-value>
+    	</init-param>  	
+    	<init-param>
+      		<param-name>login-param</param-name>
+      		<param-value>login</param-value>
+    	</init-param>  	
+    		<init-param>
+      		<param-name>logout-param</param-name>
+      		<param-value>logout</param-value>
+    	</init-param>
+ -->    	  	
     </filter>
 	<filter-mapping>
     	<filter-name>DarwinoAuthentication</filter-name>
     	<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
     	<dispatcher>FORWARD</dispatcher>
-   </filter-mapping>
+   	</filter-mapping>
 
 	<!--  Filter for creating the Darwino Application, Context and DB session -->
 	<filter>

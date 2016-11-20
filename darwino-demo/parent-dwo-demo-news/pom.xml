@@ -18,7 +18,8 @@
 		<module>dwo-demo-news-webui</module>
 		<module>dwo-demo-news-robovm-hybrid</module>
 		<module>dwo-demo-news-robovm-native</module>
-		<!--<module>dwo-demo-news-moe-native</module>-->
+		<module>dwo-demo-news-moe-hybrid</module>
+		<module>dwo-demo-news-moe-native</module>
 	</modules>
 	
 	<build>
