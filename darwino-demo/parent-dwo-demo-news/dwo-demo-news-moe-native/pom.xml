@@ -8,6 +8,10 @@
 	</parent>
 	<artifactId>dwo-demo-news-moe-native</artifactId>
 	
+	<properties>
+		<compiler>1.8</compiler>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.darwino</groupId>
