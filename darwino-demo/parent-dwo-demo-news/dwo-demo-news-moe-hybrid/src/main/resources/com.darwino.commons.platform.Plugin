@@ -1,2 +1,4 @@
-com.darwino.demo.news.app.AppPlugin
+# Per Android issue, META-INF/services cannot be read
 com.darwino.platform.web.PluginDarwinoWeb
+com.darwino.platform.web.PluginDarwinoDemoWeb
+com.darwino.platform.web.tools.PluginDarwinoDemoWebTools

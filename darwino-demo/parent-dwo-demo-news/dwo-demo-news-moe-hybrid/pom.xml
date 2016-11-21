@@ -21,17 +21,17 @@
 			<artifactId>dwo-web-darwino</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino</artifactId>
-			<version>1.5.0-SNAPSHOT</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino-explorer</artifactId>
-			<version>1.5.0-SNAPSHOT</version>
+			<version>${DARWINO_VERSION}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-news-shared</artifactId>
