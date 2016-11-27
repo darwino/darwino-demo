@@ -15,6 +15,8 @@
 			<excludes>
 				<exclude>**/*.log</exclude>
 				<exclude>**/${project.build.directory}/**</exclude>
+				<!-- MOE build folders -->
+				<exclude>**/build/**</exclude>
 			</excludes>
 		</fileSet>
 	</fileSets>
