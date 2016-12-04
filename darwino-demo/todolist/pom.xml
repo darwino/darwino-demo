@@ -13,7 +13,6 @@
 		<module>todolist-mobile</module>
 		<module>todolist-j2ee</module>
 		<module>todolist-android-hybrid</module>
-		<module>todolist-robovm-hybrid</module>
 		<module>todolist-swt-hybrid</module>
   </modules>
 
@@ -29,9 +28,6 @@
 		<manifest-location>META-INF</manifest-location>
 		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
-
-		
-		<robovm.version>1.8.0</robovm.version>
 		
 		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.platform.maven.version>4.4.2_r4</android.platform.maven.version>
@@ -45,18 +41,6 @@
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
-			</dependency>
-			
-			<!-- iOS Dependencies -->
-			<dependency>
-				<groupId>org.robovm</groupId>
-				<artifactId>robovm-rt</artifactId>
-				<version>${robovm.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.robovm</groupId>
-				<artifactId>robovm-cocoatouch</artifactId>
-				<version>${robovm.version}</version>
 			</dependency>
 			
 			<!-- Android dependencies -->
@@ -110,12 +94,6 @@
 				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>2.6</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.robovm</groupId>
-					<artifactId>robovm-maven-plugin</artifactId>
-					<version>${robovm.version}</version>
 				</plugin>
 				
 				<plugin>

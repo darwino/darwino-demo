@@ -29,7 +29,6 @@
 		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 		
-		<robovm.version>1.8.0</robovm.version>
 		<moe.plugin.version>1.2.0</moe.plugin.version>
         <moe.gradle.version>2.5</moe.gradle.version>
 		
@@ -44,18 +43,6 @@
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
-			</dependency>
-			
-			<!-- iOS Dependencies -->
-			<dependency>
-				<groupId>org.robovm</groupId>
-				<artifactId>robovm-rt</artifactId>
-				<version>${robovm.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.robovm</groupId>
-				<artifactId>robovm-cocoatouch</artifactId>
-				<version>${robovm.version}</version>
 			</dependency>
 			
 			<!-- Android dependencies -->
@@ -138,12 +125,6 @@
 				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>2.6</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.robovm</groupId>
-					<artifactId>robovm-maven-plugin</artifactId>
-					<version>${robovm.version}</version>
 				</plugin>
 				
 				<plugin>

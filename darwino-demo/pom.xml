@@ -31,7 +31,6 @@
 
 		<wro4j.version>1.7.8</wro4j.version>
 		
-		<robovm.version>1.8.0</robovm.version>
 		<moe.plugin.version>1.2.0</moe.plugin.version>
         <moe.gradle.version>2.5</moe.gradle.version>
 
@@ -107,19 +106,6 @@
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
 			</dependency>
-
-
-			<!-- iOS Dependencies -->
-			<dependency>
-				<groupId>org.robovm</groupId>
-				<artifactId>robovm-rt</artifactId>
-				<version>${robovm.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.robovm</groupId>
-				<artifactId>robovm-cocoatouch</artifactId>
-				<version>${robovm.version}</version>
-			</dependency>
 			
 			<!-- Android dependencies -->
 			<dependency>
@@ -173,12 +159,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.5.3</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.robovm</groupId>
-					<artifactId>robovm-maven-plugin</artifactId>
-					<version>${robovm.version}</version>
 				</plugin>
 				
 				<plugin>
