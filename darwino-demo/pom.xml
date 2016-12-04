@@ -9,15 +9,10 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>dwo-jre-j2ee-devtools</module>
 		<module>parent-dwo-demo-commons</module>
 		<module>dwo-demo-dominodisc</module>
 		<module>todolist</module>
 		<module>parent-dwo-demo-news</module>
-		<module>parent-dwo-demo-angular</module>
-		<module>dwo-playground</module>
-		<module>parent-dwo-apps</module>
-		<!--<module>angular-social</module>-->
 	</modules>
 
 
