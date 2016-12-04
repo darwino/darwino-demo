@@ -6,6 +6,10 @@ bin/
 .factorypath
 /apt_generated/
 
+# IDEA
+.idea/
+*.iml
+
 # Mac
 .DS_Store
 
