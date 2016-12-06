@@ -1,0 +1,492 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		151F476D25D81E5EFD342B64 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95FFCF0C1B5ACD272933AEB6 /* LaunchScreen.xib */; };
+		281F05D492FDC17AA563E9B7 /* preregister.txt in Resources */ = {isa = PBXBuildFile; fileRef = 89CC63124376A1F9B9857629 /* preregister.txt */; };
+		370596A740C9A612E5589E64 /* MOE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5328E49BD7CD5A8F4685439C /* MOE.framework */; };
+		3A3E7B70DAA0696B9A39349D /* preregister.txt in Resources */ = {isa = PBXBuildFile; fileRef = D56A0CFA108803361F4B6589 /* preregister.txt */; };
+		4A3EE0F983FCB63DD35EF9CF /* MOE.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5328E49BD7CD5A8F4685439C /* MOE.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4B84857A37FDB0C5F9788557 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7DDF1F702F5379C6BE24E /* main.cpp */; };
+		732A533E01F7CB6B5F9AFD75 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7DDF1F702F5379C6BE24E /* main.cpp */; };
+		89B7372CAB85CA418CA1532D /* MOE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5328E49BD7CD5A8F4685439C /* MOE.framework */; };
+		940D33C8241A24506FFB159F /* application.jar in Resources */ = {isa = PBXBuildFile; fileRef = 44AFB811CA181C110D495AE4 /* application.jar */; };
+		94C42D81E757465B9CC77115 /* classlist.txt in Resources */ = {isa = PBXBuildFile; fileRef = ACB5923564D1A993B6074A33 /* classlist.txt */; };
+		B11E418769E4B547D37CA3FC /* MOE.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5328E49BD7CD5A8F4685439C /* MOE.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C221483848CDD93DD1DCCE42 /* application.jar in Resources */ = {isa = PBXBuildFile; fileRef = 7F0B5C5859CD4CFCC98B47C4 /* application.jar */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		087022A008669274212D5A7E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4A3EE0F983FCB63DD35EF9CF /* MOE.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A82AD5FF6064BBEF8045777E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B11E418769E4B547D37CA3FC /* MOE.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0A2CA62B4444E1B4AA693FBE /* build.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = build.xcconfig; sourceTree = "<group>"; };
+		33A1249AD089E27F6A3EFB4A /* contacts-moe-hybrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = contacts-moe-hybrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		397273574BD9D123208F0694 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = contacts-moe-hybrid/Info.plist; sourceTree = SOURCE_ROOT; };
+		4475708E122CDAFB96C2890F /* build.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = build.xcconfig; sourceTree = "<group>"; };
+		44AFB811CA181C110D495AE4 /* application.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = application.jar; path = ../build/moe/main/application.jar; sourceTree = SOURCE_ROOT; };
+		4BC7DDF1F702F5379C6BE24E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		5328E49BD7CD5A8F4685439C /* MOE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MOE.framework; sourceTree = MOE_FRAMEWORK_PATH; };
+		606AFA73CB31B78A557B37EB /* MainUI.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = MainUI.storyboard; path = ../src/main/resources/MainUI.storyboard; sourceTree = SOURCE_ROOT; };
+		6534D16E0A949F4AB8B67FCA /* Info-Test.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-Test.plist"; path = "contacts-moe-hybrid-Test/Info-Test.plist"; sourceTree = SOURCE_ROOT; };
+		7F0B5C5859CD4CFCC98B47C4 /* application.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = application.jar; path = ../build/moe/test/application.jar; sourceTree = SOURCE_ROOT; };
+		89CC63124376A1F9B9857629 /* preregister.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = preregister.txt; path = ../build/moe/test/preregister.txt; sourceTree = SOURCE_ROOT; };
+		95FFCF0C1B5ACD272933AEB6 /* LaunchScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LaunchScreen.xib; path = ../src/main/resources/LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
+		ACB5923564D1A993B6074A33 /* classlist.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = classlist.txt; path = ../build/moe/test/classlist.txt; sourceTree = SOURCE_ROOT; };
+		D56A0CFA108803361F4B6589 /* preregister.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = preregister.txt; path = ../build/moe/main/preregister.txt; sourceTree = SOURCE_ROOT; };
+		E8414C7C8DDC84BCB952BCB0 /* contacts-moe-hybrid-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "contacts-moe-hybrid-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		329566AA95E2ECBE0B504CAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89B7372CAB85CA418CA1532D /* MOE.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		45B114A2BCE8F29072FA101D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				370596A740C9A612E5589E64 /* MOE.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		474CB2063FA1537A8E49538E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				33A1249AD089E27F6A3EFB4A /* contacts-moe-hybrid.app */,
+				E8414C7C8DDC84BCB952BCB0 /* contacts-moe-hybrid-Test.app */,
+			);
+			path = Products;
+			sourceTree = "<group>";
+		};
+		6F327286FB63ABDF599B437A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4475708E122CDAFB96C2890F /* build.xcconfig */,
+				6534D16E0A949F4AB8B67FCA /* Info-Test.plist */,
+				89CC63124376A1F9B9857629 /* preregister.txt */,
+				7F0B5C5859CD4CFCC98B47C4 /* application.jar */,
+				ACB5923564D1A993B6074A33 /* classlist.txt */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		85DD9C1F8EC2AB3D631D9572 /* contacts-moe-hybrid */ = {
+			isa = PBXGroup;
+			children = (
+				E90EB753067C76641D9133E9 /* Supporting Files */,
+			);
+			path = contacts-moe-hybrid;
+			sourceTree = "<group>";
+		};
+		97D7FA220744FF6DDFF4422C = {
+			isa = PBXGroup;
+			children = (
+				85DD9C1F8EC2AB3D631D9572 /* contacts-moe-hybrid */,
+				A705ED4BED9BA82CD532E352 /* contacts-moe-hybrid-Test */,
+				CFBF1942DCF5129D74FA928A /* Frameworks */,
+				474CB2063FA1537A8E49538E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A705ED4BED9BA82CD532E352 /* contacts-moe-hybrid-Test */ = {
+			isa = PBXGroup;
+			children = (
+				6F327286FB63ABDF599B437A /* Supporting Files */,
+			);
+			path = "contacts-moe-hybrid-Test";
+			sourceTree = "<group>";
+		};
+		CFBF1942DCF5129D74FA928A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5328E49BD7CD5A8F4685439C /* MOE.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		E90EB753067C76641D9133E9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4BC7DDF1F702F5379C6BE24E /* main.cpp */,
+				0A2CA62B4444E1B4AA693FBE /* build.xcconfig */,
+				397273574BD9D123208F0694 /* Info.plist */,
+				D56A0CFA108803361F4B6589 /* preregister.txt */,
+				44AFB811CA181C110D495AE4 /* application.jar */,
+				95FFCF0C1B5ACD272933AEB6 /* LaunchScreen.xib */,
+				606AFA73CB31B78A557B37EB /* MainUI.storyboard */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E132D2EA8CE75FC92DAC631 /* contacts-moe-hybrid-Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1364868F40BC6EE80C28FCEA /* Build configuration list for PBXNativeTarget "contacts-moe-hybrid-Test" */;
+			buildPhases = (
+				06CD7D8EBEC36DC9DF975DDD /* Compile Sources (MOE) */,
+				45B114A2BCE8F29072FA101D /* Frameworks */,
+				E2EAA20BDCA7FD21BA5D354A /* Resources */,
+				D1B6FF478FA2BAD30B35DDF7 /* Sources */,
+				087022A008669274212D5A7E /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			name = "contacts-moe-hybrid-Test";
+			productName = "contacts-moe-hybrid-Test";
+			productReference = E8414C7C8DDC84BCB952BCB0 /* contacts-moe-hybrid-Test.app */;
+			productType = "com.apple.product-type.application";
+		};
+		97E8BFAFBC34D875A322AEED /* contacts-moe-hybrid */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2ED6AE65B68048DF185EB9C /* Build configuration list for PBXNativeTarget "contacts-moe-hybrid" */;
+			buildPhases = (
+				04C27684F6CFBCF83E3400D5 /* Compile Sources (MOE) */,
+				329566AA95E2ECBE0B504CAC /* Frameworks */,
+				2E4442905E123DEBACB90FEB /* Resources */,
+				5AD40B16C9DBF0ED44F0CCD2 /* Sources */,
+				A82AD5FF6064BBEF8045777E /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			name = contacts-moe-hybrid;
+			productName = contacts-moe-hybrid;
+			productReference = 33A1249AD089E27F6A3EFB4A /* contacts-moe-hybrid.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3DD0DB14DBE7AE02C9BDBE3D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "My Company";
+			};
+			buildConfigurationList = D61A257C71589107F575819D /* Build configuration list for PBXProject "contacts-moe-hybrid" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 97D7FA220744FF6DDFF4422C;
+			productRefGroup = 474CB2063FA1537A8E49538E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				97E8BFAFBC34D875A322AEED /* contacts-moe-hybrid */,
+				0E132D2EA8CE75FC92DAC631 /* contacts-moe-hybrid-Test */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2E4442905E123DEBACB90FEB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A3E7B70DAA0696B9A39349D /* preregister.txt in Resources */,
+				940D33C8241A24506FFB159F /* application.jar in Resources */,
+				151F476D25D81E5EFD342B64 /* LaunchScreen.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2EAA20BDCA7FD21BA5D354A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				281F05D492FDC17AA563E9B7 /* preregister.txt in Resources */,
+				C221483848CDD93DD1DCCE42 /* application.jar in Resources */,
+				94C42D81E757465B9CC77115 /* classlist.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		04C27684F6CFBCF83E3400D5 /* Compile Sources (MOE) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Compile Sources (MOE)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "\n# Check directories set by xcconfigs\nif [ ! -d \"$MOE_PROJECT_DIR\" ]; then\n    echo \"$0:$LINENO:1: error: 'MOE_PROJECT_DIR' doesn't point to a directory!\"; exit 1;\nfi\nif [ ! -d \"$MOE_PROJECT_BUILD_DIR\" ]; then\n    echo \"$0:$LINENO:1: error: 'MOE_PROJECT_BUILD_DIR' doesn't point to a directory!\"; exit 1;\nfi\n\ncd \"$MOE_PROJECT_DIR/\"\n\nexport JAVA_HOME=$(/usr/libexec/java_home -v 1.8)\njava -version\n\n########################\n# Find Gradle\n########################\nfunction findGradle {\n\tCD=\"$PWD\"\n\twhile [ \"$CD\" != \"\" ]; do\n\t\techo \"Looking for gradlew in $CD\"\n\t\tif [ -x \"$CD/gradlew\" ]; then\n\t\t\tGRADLE_EXEC=$CD/gradlew\n\t\t\treturn 0\n\t\tfi\n\t\tCD=\"${CD%/*}\"\n\tdone\n\n\techo \"Checking with 'which'\"\n\tGRADLE_EXEC=$(which 'gradle')\n\n\tif [ \"$GRADLE_EXEC\" = \"\" ]; then\n\t\techo \"Failed to locate 'gradle' executable!\"\n\t\texit 1\n\tfi\n}\n########################\n# Execute Gradle build\n########################\nif [ -z \"$MOE_GRADLE_EXTERNAL_BUILD\" ]; then\n    findGradle\n\n#\"$GRADLE_EXEC\" --daemon moeXcodeInternal\nfi\n";
+		};
+		06CD7D8EBEC36DC9DF975DDD /* Compile Sources (MOE) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Compile Sources (MOE)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "\n# Check directories set by xcconfigs\nif [ ! -d \"$MOE_PROJECT_DIR\" ]; then\n    echo \"$0:$LINENO:1: error: 'MOE_PROJECT_DIR' doesn't point to a directory!\"; exit 1;\nfi\nif [ ! -d \"$MOE_PROJECT_BUILD_DIR\" ]; then\n    echo \"$0:$LINENO:1: error: 'MOE_PROJECT_BUILD_DIR' doesn't point to a directory!\"; exit 1;\nfi\n\ncd \"$MOE_PROJECT_DIR/\"\n\nexport JAVA_HOME=$(/usr/libexec/java_home -v 1.8)\njava -version\n\n########################\n# Find Gradle\n########################\nfunction findGradle {\n\tCD=\"$PWD\"\n\twhile [ \"$CD\" != \"\" ]; do\n\t\techo \"Looking for gradlew in $CD\"\n\t\tif [ -x \"$CD/gradlew\" ]; then\n\t\t\tGRADLE_EXEC=$CD/gradlew\n\t\t\treturn 0\n\t\tfi\n\t\tCD=\"${CD%/*}\"\n\tdone\n\n\techo \"Checking with 'which'\"\n\tGRADLE_EXEC=$(which 'gradle')\n\n\tif [ \"$GRADLE_EXEC\" = \"\" ]; then\n\t\techo \"Failed to locate 'gradle' executable!\"\n\t\texit 1\n\tfi\n}\n########################\n# Execute Gradle build\n########################\nif [ -z \"$MOE_GRADLE_EXTERNAL_BUILD\" ]; then\n    findGradle\n\n    export MOE_BUILD_SOURCE_SET=test\n    \"$GRADLE_EXEC\" --daemon moeXcodeInternal\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5AD40B16C9DBF0ED44F0CCD2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				732A533E01F7CB6B5F9AFD75 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1B6FF478FA2BAD30B35DDF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B84857A37FDB0C5F9788557 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		34FBB8F9E8748AC84F869A86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4475708E122CDAFB96C2890F /* build.xcconfig */;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = NO;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "contacts-moe-hybrid-Test/Info-Test.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"${MOE_OTHER_LDFLAGS}",
+					"-force_load",
+					"\"$(SRCROOT)/../libs/libJsonstoreUniversal.a\"",
+				);
+				PRODUCT_NAME = "contacts-moe-hybrid-Test";
+				STRIP_STYLE = "non-global";
+			};
+			name = Release;
+		};
+		651DF3D7E227D54D2BB825DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${MOE_FRAMEWORK_PATH}",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				SDKROOT = iphoneos;
+				SYMROOT = "$(SRCROOT)/../build/moe/xcodebuild/sym";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		977B517697525FE456D28508 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4475708E122CDAFB96C2890F /* build.xcconfig */;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = NO;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "contacts-moe-hybrid-Test/Info-Test.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"${MOE_OTHER_LDFLAGS}",
+					"-force_load",
+					"\"$(SRCROOT)/../libs/libJsonstoreUniversal.a\"",
+				);
+				PRODUCT_NAME = "contacts-moe-hybrid-Test";
+				STRIP_STYLE = "non-global";
+			};
+			name = Debug;
+		};
+		A36962E2D59E53364EB13243 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A2CA62B4444E1B4AA693FBE /* build.xcconfig */;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = NO;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = contacts-moe-hybrid/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"${MOE_OTHER_LDFLAGS}",
+					"-force_load",
+					"\"$(SRCROOT)/../libs/libJsonstoreUniversal.a\"",
+				);
+				PRODUCT_NAME = contacts-moe-hybrid;
+				STRIP_STYLE = "non-global";
+			};
+			name = Release;
+		};
+		A6C6594B68E621103210DEB7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"${MOE_FRAMEWORK_PATH}",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SYMROOT = "$(SRCROOT)/../build/moe/xcodebuild/sym";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D71F9F8AF6C43CF95FB86E1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A2CA62B4444E1B4AA693FBE /* build.xcconfig */;
+			buildSettings = {
+				DEAD_CODE_STRIPPING = NO;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = contacts-moe-hybrid/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"${MOE_OTHER_LDFLAGS}",
+					"-force_load",
+					"\"$(SRCROOT)/../libs/libJsonstoreUniversal.a\"",
+				);
+				PRODUCT_NAME = contacts-moe-hybrid;
+				STRIP_STYLE = "non-global";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1364868F40BC6EE80C28FCEA /* Build configuration list for PBXNativeTarget "contacts-moe-hybrid-Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				977B517697525FE456D28508 /* Debug */,
+				34FBB8F9E8748AC84F869A86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2ED6AE65B68048DF185EB9C /* Build configuration list for PBXNativeTarget "contacts-moe-hybrid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D71F9F8AF6C43CF95FB86E1E /* Debug */,
+				A36962E2D59E53364EB13243 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D61A257C71589107F575819D /* Build configuration list for PBXProject "contacts-moe-hybrid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				651DF3D7E227D54D2BB825DE /* Debug */,
+				A6C6594B68E621103210DEB7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3DD0DB14DBE7AE02C9BDBE3D /* Project object */;
+}

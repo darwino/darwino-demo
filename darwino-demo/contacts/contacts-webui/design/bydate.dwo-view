@@ -1,0 +1,21 @@
+{
+  "aggregate": "",
+  "components": [
+
+  ],
+  "database": "",
+  "detailPage": "detailcontact",
+  "editPage": "editcontact",
+  "ftSearch": true,
+  "hierarchicalLevel": 0,
+  "imageUrl": "_cuser|userPhotoUrl",
+  "line1": "{{firstname}} {{@uppercase(lastname)}}",
+  "line2": "_unid",
+  "line3": "{{_cuser|userCn}}, {{_cdate|dateFromNow}}",
+  "newDocument": true,
+  "orderBy": "_cdate desc",
+  "query": "",
+  "store": "",
+  "title": "By Date",
+  "type": "view-list"
+}

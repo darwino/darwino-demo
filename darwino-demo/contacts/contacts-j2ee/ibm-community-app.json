@@ -1,0 +1,29 @@
+{
+	"name": "contacts",
+	"description": "This is a Darwino auto-generated application",
+	"type":"community_widget",
+	"urls":{
+	},
+	"payload": {
+		"defId": "Contacts",
+		"showInPalette": "true",
+		"primaryWidget": "false",
+		"modes": "view",
+		"themes": "wpthemeThin wpthemeNarrow wpthemeWide wpthemeBanner",
+		"url": "https://apps.collabservnext.com/connections/resources/web/com.ibm.social.urliWidget.web.resources/widget/urlWidget.xml",
+		"itemSet": [
+			{
+				"name": "url",
+				"value": "http://192.168.75.79:8080/contacts/widget/ibm-community-app.html"
+			},
+			{
+				"name": "width",
+				"value": "100%"
+			},
+			{
+				"name": "height",
+				"value": "400px"
+			}
+		]
+	}
+}

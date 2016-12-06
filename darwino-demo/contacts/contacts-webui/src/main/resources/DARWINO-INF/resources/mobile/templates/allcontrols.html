@@ -1,0 +1,48 @@
+<div class="item-body">
+
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">My Label</span>
+        	<div ng-bind='data.value.firstname'></div>
+        </label>	
+        <button class="button" ng-click="button1_onclick()">Submit Button</button>
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">My Image</span>
+        	<div>
+        	</div>
+        </label>	
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">Text field</span>
+        	<div ng-bind='data.value.firstname'></div>
+        </label>	
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">Text area</span>
+        	<div ng-bind='data.value.firstname'></div>
+        </label>	
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">Rich text</span>
+        	<div  ng-bind-html='data.value.firstname'></div>
+        </label>	
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">Check box</span>
+        	<div ng-bind='data.value.lastname'></div>
+        </label>	
+        
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">Select</span>
+        	<div>
+            	<select ng-disabled="true" ng-model="data.value.firstname">
+            		<option value="value1">Value 1</option>
+            		<option value="value2">Value 2</option>
+            	</select>
+            </div>
+        </label>	
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">Radio button</span>
+        	<ion-list>
+          		<ion-radio ng-readonly="true"  ng-model="data.value.firstname" ng-value="jones">Jones</ion-radio>
+          		<ion-radio ng-readonly="true"  ng-model="data.value.firstname" ng-value="smith">Smith</ion-radio>
+          		<ion-radio ng-readonly="true"  ng-model="data.value.firstname" ng-value="robert">Robert</ion-radio>
+        	</ion-list>
+        </label>	
+
+</div>

@@ -1,0 +1,58 @@
+{
+  "components": [
+    {
+      "label": "Picture",
+      "type": "form-image",
+      "value": "picture",
+      "visible": true
+    },
+    {
+      "label": "First Name",
+      "placeholder": "First Name",
+      "readOnly": false,
+      "required": false,
+      "type": "form-textfield",
+      "value": "firstname",
+      "valueType": "",
+      "visible": "{{lastname!=\"Maddox\"}}"
+    },
+    {
+      "label": "Last Name",
+      "placeholder": "Last Name",
+      "readOnly": false,
+      "required": false,
+      "type": "form-textfield",
+      "value": "lastname",
+      "valueType": "",
+      "visible": true
+    },
+    {
+      "label": "E-Mail",
+      "placeholder": "E-Mail",
+      "readOnly": false,
+      "required": false,
+      "type": "form-textfield",
+      "value": "email",
+      "valueType": "",
+      "visible": true
+    },
+    {
+      "label": "Comments",
+      "placeholder": "",
+      "readOnly": false,
+      "required": false,
+      "type": "form-richtext",
+      "value": "comments",
+      "valueType": "",
+      "visible": true
+    }
+  ],
+  "database": "",
+  "deleteDocument": true,
+  "editDocument": true,
+  "editPage": "editcontact",
+  "newResponse": false,
+  "readOnly": true,
+  "store": "",
+  "type": "form-layout-doc"
+}

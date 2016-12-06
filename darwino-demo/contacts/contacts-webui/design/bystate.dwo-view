@@ -1,0 +1,27 @@
+{
+  "aggregate": "{ Count: {$count: '$'} }",
+  "components": [
+    {
+      "imageUrl": "",
+      "line1": "keys[0]",
+      "line2": "{{Count}} document(s)",
+      "line3": "",
+      "type": "view-list-category"
+    }
+  ],
+  "database": "",
+  "detailPage": "",
+  "editPage": "editcontact",
+  "ftSearch": false,
+  "hierarchicalLevel": 0,
+  "imageUrl": "",
+  "line1": "{{firstname}} {{lastname}}",
+  "line2": "_unid",
+  "line3": "",
+  "newDocument": true,
+  "orderBy": "state , firstname, lastname",
+  "query": "",
+  "store": "",
+  "title": "By State",
+  "type": "view-list"
+}

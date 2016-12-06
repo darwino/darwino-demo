@@ -1,0 +1,44 @@
+{
+  "aboutPage": "about",
+  "components": [
+    {
+      "displayCount": true,
+      "icon": "ion-calendar",
+      "id": "link2",
+      "label": "By Date",
+      "page": "bydate",
+      "type": "nav-link"
+    },
+    {
+      "displayCount": true,
+      "icon": "ion-folder",
+      "id": "link3",
+      "label": "By State",
+      "page": "bystate",
+      "type": "nav-link"
+    },
+    {
+      "displayCount": true,
+      "icon": "ion-person-stalker",
+      "id": "link4",
+      "label": "By Author",
+      "page": "byauthor",
+      "type": "nav-link"
+    },
+    {
+      "label": "Demo Pages",
+      "type": "nav-separator"
+    },
+    {
+      "displayCount": false,
+      "icon": "ion-easel",
+      "id": "link5",
+      "label": "All Controls",
+      "page": "allcontrols",
+      "type": "nav-link"
+    }
+  ],
+  "currentUser": true,
+  "homePage": "home",
+  "type": "nav-navigator"
+}

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: contacts-shared
+Bundle-SymbolicName: com.demo.contacts.contacts-shared
+Bundle-Version: 0.0.1.qualifier
+DARWINO_VERSION: 2.0.0-SNAPSHOT
+Export-Package: com.demo.contacts.app;version="0.0.1"
+Require-Bundle: com.darwino.domino.platform;resolution:=optional
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"

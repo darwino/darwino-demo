@@ -1,0 +1,16 @@
+<ion-list class='list-entries'>
+	<ion-item ng-repeat="data in entries()" class="list-item item-list-entries" ng-click="onEntryClick(data)">
+		<div class="{{data==currentEntry()?'selected':'notselected'}}">
+			<!-- Category data #0 -->
+			<div class="item-avatar item-icon-right item-list-header {{data.read?'item-read':'item-unread'}}">
+				<img ng-src="{{data.value.keys[0]|userPhotoUrl}}" alt="Photo" 
+					onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src='$darwino-social/users/images/anonymous-photo.png';">
+				<div style="width:100%;">
+					<h2 ng-bind-template='{{data.value.keys[0]|userCn}}'></h2>
+					<h3 ng-bind-template='{{data.value.Count}} document(s)'></h3>
+				</div>
+			</div>
+		</div>
+	</ion-item>
+</ion-list>
+<ion-infinite-scroll ng-if="hasMore()" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
