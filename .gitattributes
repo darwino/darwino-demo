@@ -1,0 +1,6 @@
+# Set default line-ending behavior
+* text=auto
+
+# Manually specify for Gradle files, as they can be picky
+gradlew text eol=lf
+gradlew.bat text eol=crlf
