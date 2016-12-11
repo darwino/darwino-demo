@@ -131,15 +131,27 @@
 
 	<build>
         <finalName>contacts</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.tomcat.maven</groupId>
-					<artifactId>tomcat7-maven-plugin</artifactId>
-					<version>2.0</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- Introduction: http://tomcat.apache.org/maven-plugin-2.2/ WARN Only TOMCAT 7 for now! -->
+				<!-- Options: http://tomcat.apache.org/maven-plugin-2.1/tomcat7-maven-plugin/run-mojo.html -->
+				<!-- Use the proper TOMCAT command, tomcat7:run, see http://jtuts.com/2015/01/28/tomcat-maven-plugin-does-not-use-the-configured-context-path/ -->
+				<groupId>org.apache.tomcat.maven</groupId>
+    			<artifactId>tomcat7-maven-plugin</artifactId>
+        		<version>2.2</version>
+				<configuration>
+    				<path>/${project.build.finalName}</path>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 	
 </project>
