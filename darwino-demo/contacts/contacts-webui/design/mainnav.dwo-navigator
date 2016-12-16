@@ -24,18 +24,6 @@
       "label": "By Author",
       "page": "byauthor",
       "type": "nav-link"
-    },
-    {
-      "label": "Demo Pages",
-      "type": "nav-separator"
-    },
-    {
-      "displayCount": false,
-      "icon": "ion-easel",
-      "id": "link5",
-      "label": "All Controls",
-      "page": "allcontrols",
-      "type": "nav-link"
     }
   ],
   "currentUser": true,

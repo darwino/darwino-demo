@@ -30,26 +30,6 @@
                 }
             }
         });
-        // Form - allcontrols
-        $stateProvider.state('app.allcontrols', {
-            url: '/allcontrols',
-            // This allows the parameter to be optional without a trailing slash
-            params: {
-                id: {squash:true, value:null}
-            },
-            views: {
-                'menuContent': {
-                    template:
-                       '<ion-view view-title="{{getTitle()}}">'
-                      +'<ion-content>'
-                      +'<div ng-include src="\'templates/allcontrols.html\'"></div>'
-                      +'</ion-content>'
-                      +'</ion-view>'
-                    ,
-                    controller: 'allcontrolsCtrl'
-                }
-            }
-        });
         // View - byauthor
         $stateProvider.state('app.byauthor', {
             url: '/byauthor',
@@ -191,14 +171,14 @@
     		}
     		return false
     	}	
-    
+
     	// Handle authentication error 
     	$rootScope.$on('dwo-unauthorized', function() {
-    		// By default, we reload the page which should trigger the proper authentication
-    		// This can be overridden with custom code, as it depends on the authenticator being used
-        	//window.location.reload(); 
+    		// By default, we reload the page whgich should trigger the proper authentication
+    		// This can be overridden with custom code
+        	window.location.reload(); 
         });
-    
+
     	// Check the current state
     	// Used by the navigator to highlight the current selection
     	$rootScope.isState = function(state,params) {
@@ -225,8 +205,8 @@
     		$state.go(path);
     	};
     }]);
-    
-    
+
+
     //
     // Base controller for a View
     //
@@ -234,18 +214,18 @@
     	$scope.entries = function entries() {
     		return $scope.itemList.getEntries()
     	}
-    
+
     	// Reload the data from the view when it is entered
     	// This ensures that it displays the lastets data
     	// For performance reasons, we only do that after the an edit has been done to the data
     	$scope.$on("$ionicView.beforeEnter", function(event, data){
     		$scope.reload(0,true);
     	});	
-    
+
     	$scope.hasMore = function hasMore() {
     		return $scope.itemList.hasMore()
     	}
-    
+
     	$scope.loadMore = function loadMore() {
     		function broadcast() {
     			$scope.$broadcast('scroll.infiniteScrollComplete');
@@ -253,7 +233,7 @@
     		}
     		$scope.itemList.loadMore(broadcast,broadcast);
     	}
-    
+
     	$scope.reload = function reload(delay,keepSelection) {
     		var selection = keepSelection ? $scope.itemList.selectedItem : null; 
     		function broadcast() {
@@ -336,8 +316,8 @@
     		$scope.itemList.selectItem(entry);
     	}
     }]);
-    
-    
+
+
     //
     // Base controller for a Document form
     //
@@ -407,28 +387,20 @@
     }]);
 
     module.controller('aboutCtrl', ['$scope', function($scope) {
-    
-    }]);
 
-    module.controller('allcontrolsCtrl', ['$scope', function($scope) {
-        $scope.button1_onclick=function() {
-            alert("button clicked");
-        }
-    
-    
     }]);
 
     module.controller('detailcontactCtrl', ['session','notifyDataChange','$controller','$scope', '$state','$stateParams','$ionicHistory', function(session,notifyDataChange,$controller,$scope,$state,$stateParams,$ionicHistory) {
     	// Inherit from a base View controller
     	$controller('AbstractFormDocCtrl', {$scope: $scope});
-    
+
     	var id = $stateParams.id;
-    
+
     	$scope.data = null;
     	$scope.value = null;
     	$scope.database = 'contacts'; 
     	$scope.store = '_default'; 
-    
+
     	session.getDatabase($scope.database).then(function(db) {
     		var store = db.getStore($scope.store); 
     		if(id) {
@@ -458,7 +430,7 @@
     			})
     		}
     	}
-    
+
     	$scope.cancel = function() {
     		$ionicHistory.goBack();
     	}
@@ -467,19 +439,19 @@
     		var doc = $scope.data;
     		return !doc || doc.isNewDocument() ? "New Document" : "Edit Document";
     	}
-    
+
     }])
     module.controller('editcontactCtrl', ['session','notifyDataChange','$controller','$scope', '$state','$stateParams','$ionicHistory', function(session,notifyDataChange,$controller,$scope,$state,$stateParams,$ionicHistory) {
     	// Inherit from a base View controller
     	$controller('AbstractFormDocCtrl', {$scope: $scope});
-    
+
     	var id = $stateParams.id;
-    
+
     	$scope.data = null;
     	$scope.value = null;
     	$scope.database = 'contacts'; 
     	$scope.store = '_default'; 
-    
+
     	session.getDatabase($scope.database).then(function(db) {
     		var store = db.getStore($scope.store); 
     		if(id) {
@@ -509,7 +481,7 @@
     			})
     		}
     	}
-    
+
     	$scope.cancel = function() {
     		$ionicHistory.goBack();
     	}
@@ -518,10 +490,10 @@
     		var doc = $scope.data;
     		return !doc || doc.isNewDocument() ? "New Document" : "Edit Document";
     	}
-    
+
     }])
     module.controller('homeCtrl', ['$scope', function($scope) {
-    
+
     }]);
 
     //
@@ -549,7 +521,7 @@
     		options: Cursor.RANGE_ROOT|Cursor.DATA_CATONLY
     	};
     	itemList.initCursor(p);
-    
+
     	//
     	// Calculate the count
     	//
@@ -593,21 +565,21 @@
     		orderBy: "_cuser , firstname, lastname",
     		options: Cursor.RANGE_ROOT+Cursor.DATA_MODDATES+Cursor.DATA_READMARK+Cursor.DATA_WRITEACC
     	};
-    
+
     	var qcat = {
     		'_cuser':  $state.params["key1"]
     	};
     	p.query = JSON.stringify(qcat);
     	p.parentId='*';
     	itemList.initCursor(p);
-    
+
     	//
     	// Calculate the count
     	//
     	$scope.entryCount = function() {
     		return $scope.itemList.entryCount();
     	}
-    
+
     	//
     	// Event
     	//
@@ -620,8 +592,8 @@
     		}
     	}	
     }]);
-    
-    
+
+
     //
     // This controller is used by the page used to display the item details
     //
@@ -652,16 +624,16 @@
     		orderBy: "_cdate desc",
     		options: Cursor.RANGE_ROOT+Cursor.DATA_MODDATES+Cursor.DATA_READMARK+Cursor.DATA_WRITEACC
     	};
-    
+
     	itemList.initCursor(p);
-    
+
     	//
     	// Calculate the count
     	//
     	$scope.entryCount = function() {
     		return $scope.itemList.entryCount();
     	}
-    
+
     	//
     	// Event
     	//
@@ -674,8 +646,8 @@
     		}
     	}	
     }]);
-    
-    
+
+
     //
     // This controller is used by the page used to display the item details
     //
@@ -710,7 +682,7 @@
     		options: Cursor.RANGE_ROOT|Cursor.DATA_CATONLY
     	};
     	itemList.initCursor(p);
-    
+
     	//
     	// Calculate the count
     	//
@@ -754,21 +726,21 @@
     		orderBy: "state , firstname, lastname",
     		options: Cursor.RANGE_ROOT+Cursor.DATA_MODDATES+Cursor.DATA_READMARK+Cursor.DATA_WRITEACC
     	};
-    
+
     	var qcat = {
     		'state':  $state.params["key1"]
     	};
     	p.query = JSON.stringify(qcat);
     	p.parentId='*';
     	itemList.initCursor(p);
-    
+
     	//
     	// Calculate the count
     	//
     	$scope.entryCount = function() {
     		return $scope.itemList.entryCount();
     	}
-    
+
     	//
     	// Event
     	//
@@ -779,7 +751,7 @@
     		$state.go('app.editcontact',{id:entry.unid},{reload:true});
     	}	
     }]);
-    
-    
+
+
 
 })();
