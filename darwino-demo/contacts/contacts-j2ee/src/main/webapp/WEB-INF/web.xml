@@ -76,7 +76,18 @@
     	<filter-name>GZipFilter</filter-name>
     	<url-pattern>/*</url-pattern>
     </filter-mapping>
-	
+
+	<!-- Filter for $darwino-xxx URLs rewritting -->
+	<!--  This filter must be before the services or resources filters, to make sure that the URL is processed before reaching them -->
+	<filter>
+    	<filter-name>DarwinoRewriting</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.resources.DarwinoGlobalPathRewriterFilter</filter-class>
+   	</filter>
+	<filter-mapping>
+    	<filter-name>DarwinoRewriting</filter-name>
+    	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+		
 		
 	<!--  Filter for custom authentication -->
 	<!--  This should be the first one, before the J2EE filter as the user is required for the session  -->
@@ -100,7 +111,9 @@
 	<filter-mapping>
     	<filter-name>DarwinoApplication</filter-name>
     	<url-pattern>/*</url-pattern>
-	</filter-mapping>
+		<dispatcher>REQUEST</dispatcher>
+    	<dispatcher>FORWARD</dispatcher>
+    		</filter-mapping>
 	
 	<!--  CORS filter for the JsonStore -->
 <!-- 	
@@ -115,39 +128,6 @@
     	<dispatcher>FORWARD</dispatcher>
     </filter-mapping>
 -->    
-
-	<!-- Filter for $darwino-xxx URLs rewritting -->
-	<!--  This filter must be before the services or resources filters, to make sure that the URL is processed before reaching them -->
-	<filter>
-    	<filter-name>DarwinoRewriting</filter-name>
-    	<filter-class>com.darwino.j2ee.servlet.resources.DarwinoGlobalPathRewriterFilter</filter-class>
-   	</filter>
-	<filter-mapping>
-    	<filter-name>DarwinoRewriting</filter-name>
-    	<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<!--  Security Filter -->
-	<!--  This filter allows or diallows requests based on an HttpServiceConstraints bean (uses the names or default app names) -->
-	<!--  anonymous requests can be blocked -->
-<!-- 	
-	<filter>
-    	<filter-name>SecurityFilter</filter-name>
-    	<filter-class>com.darwino.j2ee.servlet.security.SecurityFilter</filter-class>
-	</filter>
-	<filter-mapping>
-    	<filter-name>SecurityFilter</filter-name>
-    	<url-pattern>/*</url-pattern>
-		<init-param>
-			<param-name>anonymous</param-name>
-			<param-value>false</param-value>
-		</init-param>
-		<init-param>
-			<param-name>httpConstraints</param-name>
-			<param-value>bean1,bean2</param-value>
-		</init-param>
-	</filter-mapping>
--->
 
 	<!--  Filter for publishing the Darwino Services -->
 	<filter>
