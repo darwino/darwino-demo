@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Domdisc
+Bundle-SymbolicName: com.darwino.domino.replicator.dbadapter.domdisc;singleton:=true
+Bundle-Version: 2.0.0.qualifier
+Bundle-Activator: com.darwino.domino.replicator.dbadapter.domdisc.Activator
+Bundle-Vendor: DARWINO
+Require-Bundle: org.eclipse.core.runtime,
+ com.ibm.notes.java.api,
+ com.darwino.domino.libs;bundle-version="0.8.0",
+ com.darwino.domino.replicator,
+ com.darwino.domino.replicator.servlet
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: com.darwino.domino.replicator.dbadapter.domdisc

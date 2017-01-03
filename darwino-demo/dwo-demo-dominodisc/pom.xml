@@ -15,6 +15,7 @@
 		<module>dwo-demo-dominodisc-android-hybrid</module>
 		<module>dwo-demo-dominodisc-moe-hybrid</module>
 		<module>dwo-demo-dominodisc-swt</module>
+		<module>dominodisc-eclipse</module>
 	</modules>
 
 	<properties>
