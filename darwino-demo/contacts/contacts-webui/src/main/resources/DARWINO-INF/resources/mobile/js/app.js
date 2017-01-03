@@ -174,9 +174,9 @@
 
     	// Handle authentication error 
     	$rootScope.$on('dwo-unauthorized', function() {
-    		// By default, we reload the page whgich should trigger the proper authentication
-    		// This can be overridden with custom code
-        	window.location.reload(); 
+    		// By default, we reload the page which should trigger the proper authentication
+    		// This can be overridden with custom code, as it depends on the authenticator being used
+        	//window.location.reload(); 
         });
 
     	// Check the current state
