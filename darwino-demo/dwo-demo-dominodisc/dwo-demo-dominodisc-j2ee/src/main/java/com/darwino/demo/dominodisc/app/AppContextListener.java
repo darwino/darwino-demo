@@ -50,11 +50,19 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 	protected DarwinoJ2EEApplication createDarwinoApplication(ServletContext context) throws JsonException {
 		return AppJ2EEApplication.create(context);
 	}
-
-	@Override
-	public void initSync(ServletContext servletContext) throws Exception {
-		super.initSync(servletContext);
 	
+	@Override
+	protected void initAsync(ServletContext servletContext, TaskProgress progress) throws JsonException {
+		super.initAsync(servletContext, progress);
+		
+		// Initialize the replication asynchronously so the database is properly deployed before it starts
+		initReplication(servletContext, progress);
+		
+		// Initialize the Watson services
+		initWatson(servletContext, progress);
+	}
+
+	protected void initReplication(ServletContext servletContext, TaskProgress progress) throws JsonException {
 		// Install the synchronization mechanism
 		syncExecutor = new BackgroundServletSynchronizationExecutor(servletContext) {
 			@Override
@@ -69,12 +77,15 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 		};
 		syncExecutor.putPropertyValue("dwo-sync-database",AppDatabaseDef.DATABASE_NAME);
 		syncExecutor.start();
-		
+	}
+
+	protected void initWatson(ServletContext servletContext, TaskProgress progress) throws JsonException {
 		// Install the Watson translator
 		String[] instances = new String[]{"discdb/xpagesforum.nsf"}; // AppDatabaseDef.getInstances()
 		TranslationTask.install(instances);
 		AnalyzeTask.install(instances);
 	}
+	
 
 	@Override
 	public void destroyApplication(ServletContext servletContext, TaskProgress progress) throws Exception {
