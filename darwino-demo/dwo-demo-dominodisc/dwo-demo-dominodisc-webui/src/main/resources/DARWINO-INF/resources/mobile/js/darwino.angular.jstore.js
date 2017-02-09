@@ -578,6 +578,7 @@ darwino.provide("darwino/angular/jstore",null,function() {
 	            // Session requires authentication
 	            if (status==401 || status==419 || response.headers('x-dwo-auth-msg')=='authrequired' ){
 	            	interceptor.unauthorized(response);
+		            return $q.reject(response);
 	            } else if(status<200 || status>299) {
 		            return $q.reject(response);
 	            }
