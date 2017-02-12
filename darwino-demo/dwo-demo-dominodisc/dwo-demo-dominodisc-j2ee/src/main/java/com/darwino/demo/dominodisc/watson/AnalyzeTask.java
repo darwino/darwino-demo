@@ -33,6 +33,7 @@ import com.darwino.demo.dominodisc.app.AppDatabaseDef;
 import com.darwino.ibm.watson.ToneAnalyzerFactory;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Document;
+import com.darwino.platform.DarwinoApplication;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.ToneAnalyzer;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneAnalysis;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneOptions;
@@ -45,7 +46,7 @@ public class AnalyzeTask extends BatchDocumentProcessor {
 	// For debugging..
 	private static final boolean FAKE = false;
 	
-	public static void install(String[] instances) {
+	public static void install(DarwinoApplication application, String[] instances) {
 		if(!Platform.getPropertyService().getPropertyBoolean("discdb.watson.analyzer")) {
 			return;
 		}
@@ -61,7 +62,7 @@ public class AnalyzeTask extends BatchDocumentProcessor {
 		scheduler.setInterval("15s");
 		scheduler.setInitialDelay("5s");
 		
-		BatchDocumentProcessorTask task = new BatchDocumentProcessorTask(new AnalyzeTask(factory,instances));
+		BatchDocumentProcessorTask task = new BatchDocumentProcessorTask(new AnalyzeTask(application,factory,instances));
 // >>>TEMP		
 //		try {
 //			task.getDocumentProcessor().resetAll();
@@ -75,8 +76,8 @@ public class AnalyzeTask extends BatchDocumentProcessor {
 
 	private ToneAnalyzerFactory factory;
 	
-	public AnalyzeTask(ToneAnalyzerFactory factory, String[] instances) {
-		super(AppDatabaseDef.DATABASE_NAME, AppDatabaseDef.STORE_NSFDATA, instances);
+	public AnalyzeTask(DarwinoApplication application, ToneAnalyzerFactory factory, String[] instances) {
+		super(application, AppDatabaseDef.DATABASE_NAME, AppDatabaseDef.STORE_NSFDATA, instances);
 		this.factory = factory;
 	}
 

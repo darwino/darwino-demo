@@ -44,6 +44,7 @@ import com.darwino.platform.DarwinoApplication;
  */
 public abstract class BatchDocumentProcessor implements DocumentHandler {
 
+	private DarwinoApplication application;
 	private String databaseName;
 	private String storeName;
 	private String[] instances;
@@ -53,10 +54,15 @@ public abstract class BatchDocumentProcessor implements DocumentHandler {
 	private Database database;
 	private Document configDoc;
 	
-	public BatchDocumentProcessor(String databaseName, String storeName, String[] instances) {
+	public BatchDocumentProcessor(DarwinoApplication application, String databaseName, String storeName, String[] instances) {
+		this.application = application;
 		this.databaseName = databaseName;
 		this.storeName = storeName;
 		this.instances = instances;
+	}
+	
+	public DarwinoApplication getApplication() {
+		return application;
 	}
 	
 	public String getDatabaseName() {
@@ -78,7 +84,7 @@ public abstract class BatchDocumentProcessor implements DocumentHandler {
 	}
 
 	public Session createSession() throws JsonException {
-		LocalJsonDBServer srv = DarwinoApplication.get().getLocalJsonDBServer();
+		LocalJsonDBServer srv = application.getLocalJsonDBServer();
 		if(!srv.isAvailable()) {
 			return null;
 		}

@@ -64,7 +64,7 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 
 	protected void initReplication(ServletContext servletContext, TaskProgress progress) throws JsonException {
 		// Install the synchronization mechanism
-		syncExecutor = new BackgroundServletSynchronizationExecutor(servletContext) {
+		syncExecutor = new BackgroundServletSynchronizationExecutor(getApplication(),servletContext) {
 			@Override
 			protected BackgroundInstanceReplicationTask createTask(String database) {
 				// Ignore the translation stores when replicating with Domino
@@ -82,8 +82,8 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 	protected void initWatson(ServletContext servletContext, TaskProgress progress) throws JsonException {
 		// Install the Watson translator
 		String[] instances = new String[]{"discdb/xpagesforum.nsf"}; // AppDatabaseDef.getInstances()
-		TranslationTask.install(instances);
-		AnalyzeTask.install(instances);
+		TranslationTask.install(getApplication(),instances);
+		AnalyzeTask.install(getApplication(),instances);
 	}
 	
 

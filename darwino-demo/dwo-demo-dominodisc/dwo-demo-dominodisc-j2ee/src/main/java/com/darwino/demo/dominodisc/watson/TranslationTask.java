@@ -31,6 +31,7 @@ import com.darwino.demo.dominodisc.app.AppDatabaseDef;
 import com.darwino.ibm.watson.LanguageTranslationFactory;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Document;
+import com.darwino.platform.DarwinoApplication;
 import com.ibm.watson.developer_cloud.language_translation.v2.LanguageTranslation;
 import com.ibm.watson.developer_cloud.language_translation.v2.model.Language;
 
@@ -42,7 +43,7 @@ public class TranslationTask extends BatchDocumentProcessor {
 	// For debugging..
 	private static final boolean FAKE = false;
 	
-	public static void install(String[] instances) {
+	public static void install(DarwinoApplication application, String[] instances) {
 		if(!Platform.getPropertyService().getPropertyBoolean("discdb.watson.translate")) {
 			return;
 		}
@@ -58,7 +59,7 @@ public class TranslationTask extends BatchDocumentProcessor {
 		scheduler.setInterval("15s");
 		scheduler.setInitialDelay("5s");
 		
-		BatchDocumentProcessorTask task = new BatchDocumentProcessorTask(new TranslationTask(factory,instances));
+		BatchDocumentProcessorTask task = new BatchDocumentProcessorTask(new TranslationTask(application,factory,instances));
 // >>>TEMP		
 //		try {
 //			task.getDocumentProcessor().resetAll(AppDatabaseDef.STORE_NSFDATA_FR,AppDatabaseDef.STORE_NSFDATA_ES);
@@ -71,8 +72,8 @@ public class TranslationTask extends BatchDocumentProcessor {
 
 	private LanguageTranslationFactory factory;
 	
-	public TranslationTask(LanguageTranslationFactory factory, String[] instances) {
-		super(AppDatabaseDef.DATABASE_NAME, AppDatabaseDef.STORE_NSFDATA, instances);
+	public TranslationTask(DarwinoApplication application, LanguageTranslationFactory factory, String[] instances) {
+		super(application, AppDatabaseDef.DATABASE_NAME, AppDatabaseDef.STORE_NSFDATA, instances);
 		this.factory = factory;
 	}
 
