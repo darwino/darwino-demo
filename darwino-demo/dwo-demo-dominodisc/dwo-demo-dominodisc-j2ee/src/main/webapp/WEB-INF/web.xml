@@ -63,19 +63,19 @@
   	</context-param>
 	<context-param>
     	<param-name>dwo-sync-mode</param-name>
-    	<param-value>${projexec.sync-mode=pull+push}</param-value>
+    	<param-value>${discdb.sync-mode=pull+push}</param-value>
   	</context-param>
 	<context-param>
     	<param-name>dwo-sync-period</param-name>
-    	<param-value>${projexec.sync-period}</param-value>
+    	<param-value>${discdb.sync-period}</param-value>
     </context-param>
 	<context-param>
     	<param-name>dwo-sync-retry-delay</param-name>
-    	<param-value>${projexec.sync-retry-delay}</param-value>
+    	<param-value>${discdb.sync-retry-delay}</param-value>
     </context-param>
 		<context-param>
     	<param-name>dwo-sync-initial-delay</param-name>
-    	<param-value>${projexec.sync-initial-delay}</param-value>
+    	<param-value>${discdb.sync-initial-delay}</param-value>
     </context-param>
  <!-- -->
  
