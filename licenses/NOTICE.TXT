@@ -1,5 +1,5 @@
 Darwino Demo Projects
-Copyright (C) 2015 Darwino Inc.
+Copyright (C) 2015-2017 Darwino Inc.
 For license information see the LICENSE.txt file which accompanies this NOTICE.txt file.
 
 The Darwino Demo Projects includes the Darwino Platform and all the related dependencies
@@ -19,3 +19,10 @@ The Darwino platform includes code from PrimeFaces, available from http://www.pr
 The Darwino platform includes code from Chart.js, available from https://github.com/chartjs/Chart.js. It is copyright Nick Downie and released under the MIT license (https://github.com/chartjs/Chart.js/blob/master/LICENSE.md)
 
 The Darwino platform includes code from Angular-Chart.js, available from http://jtblin.github.io/angular-chart.js/. It is copyright Jerome Touffe-Blin and released under the BSD license (https://github.com/jtblin/angular-chart.js/blob/master/LICENSE)
+
+
+------------------------------------------
+Third party JavaScript code
+------------------------------------------
+
+The React demo includes code derived from LearnCode's React JS series, available from https://github.com/learncodeacademy/react-js-tutorials and released under the ISC license.

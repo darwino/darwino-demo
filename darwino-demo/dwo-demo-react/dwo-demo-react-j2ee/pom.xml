@@ -40,6 +40,17 @@
 			<artifactId>dwo-jre-jdbc-drivers-postgresql</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-jdbc-pool-hikaricp</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
+    		<groupId>com.zaxxer</groupId>
+    		<artifactId>HikariCP-java6</artifactId>
+    		<version>2.3.9</version>
+		</dependency>
 <!-- 		
 		<dependency>
 			<groupId>com.darwino</groupId>
