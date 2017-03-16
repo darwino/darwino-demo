@@ -1,0 +1,29 @@
+{
+  "aggregate": "{ Count: {$count: '$'} }",
+  "components": [
+    {
+      "id": "listcategory1",
+      "imageUrl": "keys[0]|userPhotoUrl",
+      "line1": "keys[0]|userCn",
+      "line2": "{{Count}} document(s)",
+      "line3": "",
+      "type": "view-list-category"
+    }
+  ],
+  "database": "",
+  "detailPage": "detaildoc",
+  "editPage": "editdoc",
+  "ftSearch": false,
+  "hierarchicalLevel": 0,
+  "id": "list1",
+  "imageUrl": "",
+  "line1": "{{firstname} {{lastname}}",
+  "line2": "_unid",
+  "line3": "",
+  "newDocument": true,
+  "orderBy": "_cuser , firstname, lastname",
+  "query": "",
+  "store": "",
+  "title": "By Author",
+  "type": "view-list"
+}

@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "id": "textfield1",
+      "label": "UNID",
+      "placeholder": "unid",
+      "readOnly": false,
+      "required": false,
+      "type": "form-textfield",
+      "value": "_unid",
+      "valueType": "",
+      "visible": true
+    },
+    {
+      "id": "textfield2",
+      "label": "Author",
+      "placeholder": "Author",
+      "readOnly": false,
+      "required": false,
+      "type": "form-textfield",
+      "value": "_cuser",
+      "valueType": "",
+      "visible": true
+    }
+  ],
+  "database": "",
+  "deleteDocument": true,
+  "editDocument": true,
+  "editPage": "",
+  "newResponse": true,
+  "readOnly": false,
+  "store": "",
+  "type": "form-layout-doc"
+}

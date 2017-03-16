@@ -1,0 +1,6 @@
+{
+	"mainPage": "home",
+	"navigator": "mainnav",
+	"title": "React Demo",
+  	"type": "app-application"
+}

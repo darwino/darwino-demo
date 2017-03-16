@@ -1,0 +1,25 @@
+{
+  "files": [
+    "css/darwino.ionic.css",
+    "css/quill.css",
+    "css/style.css",
+    "img/appicon.png",
+    "img/header.png",
+    "index.html",
+    "js/app.js",
+    "js/darwino.angular.js",
+    "js/darwino.angular.jstore.js",
+    "js/darwino.ionic.js",
+    "templates/about.html",
+    "templates/byauthor.html",
+    "templates/byauthor_list.html",
+    "templates/byauthor_list1.html",
+    "templates/bydate.html",
+    "templates/bydate_list.html",
+    "templates/detaildoc.html",
+    "templates/editdoc.html",
+    "templates/home.html",
+    "templates/navigator.html"
+  ],
+  "version": "1.0.0"
+}

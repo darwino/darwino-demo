@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.darwino.demo.react</groupId>
+		<artifactId>dwo-demo-react</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>dwo-demo-react-swt-hybrid</artifactId>
+	
+	
+<!-- 
+	SWT Maven Repo: https://github.com/maven-eclipse/maven-eclipse.github.io
+ -->
+	<repositories>
+		<!-- Clean SWT repository -->
+    	<repository>
+        	<id>maven-eclipse-repo</id>
+        	<url>http://maven-eclipse.github.io/maven</url>
+    	</repository>
+    	
+    	<!-- JFace repository -->
+    	<repository>
+			<id>545ch4</id>
+			<url>https://raw.githubusercontent.com/545ch4/maven-eclipse.github.io/master/maven</url>
+		</repository>
+	</repositories>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-swt-platform-hybrid</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.darwino.demo.react</groupId>
+			<artifactId>dwo-demo-react-shared</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino.demo.react</groupId>
+			<artifactId>dwo-demo-react-mobile</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino.demo.react</groupId>
+			<artifactId>dwo-demo-react-webui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		
+	</dependencies>
+	
+	<build>
+		<plugins>
+	
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

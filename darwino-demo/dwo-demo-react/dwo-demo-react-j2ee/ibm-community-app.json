@@ -1,0 +1,29 @@
+{
+	"name": "dwodemoreact",
+	"description": "Darwino demonstration application using React and Bootstrap for the UI",
+	"type":"community_widget",
+	"urls":{
+	},
+	"payload": {
+		"defId": "React Demo",
+		"showInPalette": "true",
+		"primaryWidget": "false",
+		"modes": "view",
+		"themes": "wpthemeThin wpthemeNarrow wpthemeWide wpthemeBanner",
+		"url": "https://apps.collabservnext.com/connections/resources/web/com.ibm.social.urliWidget.web.resources/widget/urlWidget.xml",
+		"itemSet": [
+			{
+				"name": "url",
+				"value": "http://10.0.1.2:8080//demoreact/widget/ibm-community-app.html"
+			},
+			{
+				"name": "width",
+				"value": "100%"
+			},
+			{
+				"name": "height",
+				"value": "400px"
+			}
+		]
+	}
+}

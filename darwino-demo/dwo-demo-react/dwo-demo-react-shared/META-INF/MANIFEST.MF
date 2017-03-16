@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: dwo-demo-react-shared
+Bundle-SymbolicName: com.darwino.demo.react.dwo-demo-react-shared
+Bundle-Version: 0.0.1.qualifier
+DARWINO_VERSION: 2.0.0-SNAPSHOT
+Export-Package: com.darwino.demo.react.app;version="0.0.1"
+Require-Bundle: com.darwino.domino.platform;resolution:=optional
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"

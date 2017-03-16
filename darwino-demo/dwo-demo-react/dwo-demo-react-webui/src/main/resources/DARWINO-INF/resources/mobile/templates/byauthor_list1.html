@@ -1,0 +1,14 @@
+<ion-list class='list-entries'>
+	<ion-item ng-repeat="data in entries()" class="list-item item-list-entries" ng-click="onEntryClick(data)">
+		<div class="{{data==currentEntry()?'selected':'notselected'}}">
+			<!-- Document data -->
+			<div >
+				<div style="width:100%;">
+					<h2 ng-bind-template='{{data.value.firstname}} {{data.value.lastname}}'></h2>
+					<h3 ng-bind='data.unid'></h3>
+				</div>
+			</div>
+		</div>
+	</ion-item>
+</ion-list>
+<ion-infinite-scroll ng-if="hasMore()" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>

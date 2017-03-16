@@ -1,0 +1,49 @@
+<ion-view view-title="By Date">
+
+	<button ng-show="canCreateDocument()" class="button button-positive button-fab button-fab-bottom-right" id="fab" ng-click="createDocument('app.editdoc')">
+	    <i class="icon ion-android-create"></i>
+	</button>
+	
+	<ion-nav-buttons side="right">
+		<div class="item-input-inset" ng-show="ftSearchActivated">
+	 			<label class="item-input-wrapper">
+	 				<i class="icon ion-android-search placeholder-icon"></i>
+				<input type="text" placeholder="Search..." ng-model="itemList.ftSearch" class="search-bar-input" ng-change="reload(500)">
+	 			</label>
+			<button class="button button-icon button-clear ion-close" ng-click="cancelFtSearch()">
+			</button>
+		</div>
+		<button ng-show="isFtSearchEnabled() && !ftSearchActivated" class="button button-icon button-clear ion-search" ng-click="startFtSearch()">
+		</button>
+		<!--  Login button for a pure web app, not running in a mobile context -->
+		<button ng-show="entries.isReadOnly() && !darwino.hybrid.isHybrid()" class="button button-icon button-clear ion-log-in" onclick="window.location='auth/login.html'">
+		</button>	
+	</ion-nav-buttons>
+
+ 	<div class="row" ng-if="isDualPane()">
+ 		<div>
+			<ion-content class="list-content col col-33">
+				<ion-refresher pulling-text="Pull to refresh..." on-refresh="reload()"></ion-refresher>
+				<!--  This is the list of item to display -->
+				<ng-include src="listTemplate"></ng-include>
+ 	     	</ion-content>
+ 		</div>
+ 		<div>
+			<ion-content class="col col-offset-33 col-67">
+				<!--  This is the form to display when an entry is selected in the list -->
+				<div ng-controller="bydateCtrl_detail" class="item-body" ng-show="currentEntry() && !currentEntry().category">
+					<ng-include src="'templates/detaildoc.html'"></ng-include>
+				</div>
+	     	</ion-content>
+ 		</div>
+	</div>
+
+ 	<div ng-if="!isDualPane()">
+		<ion-content class="list-content">
+			<ion-refresher pulling-text="Pull to refresh..." on-refresh="reload()"></ion-refresher>
+			<!--  This is the list of item to display -->
+			<ng-include src="listTemplate"></ng-include>
+   		</ion-content>
+	</div>
+	
+</ion-view>

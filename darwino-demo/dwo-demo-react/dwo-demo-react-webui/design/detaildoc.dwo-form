@@ -1,0 +1,41 @@
+{
+  "components": [
+    {
+      "label": "Picture",
+      "type": "form-image",
+      "value": "picture",
+      "visible": true
+    },
+    {
+      "id": "textfield1",
+      "label": "UNID",
+      "placeholder": "unid",
+      "readOnly": false,
+      "required": false,
+      "type": "form-textfield",
+      "value": "_unid",
+      "valueType": "",
+      "visible": true
+    },
+    {
+      "id": "textfield2",
+      "label": "Author",
+      "placeholder": "author",
+      "readOnly": false,
+      "required": false,
+      "type": "form-textfield",
+      "value": "_cuser",
+      "valueType": "",
+      "visible": true
+    }
+  ],
+  "database": "",
+  "deleteDocument": true,
+  "editDocument": true,
+  "editPage": "editdoc",
+  "id": "layoutdoc1",
+  "newResponse": false,
+  "readOnly": true,
+  "store": "",
+  "type": "form-layout-doc"
+}

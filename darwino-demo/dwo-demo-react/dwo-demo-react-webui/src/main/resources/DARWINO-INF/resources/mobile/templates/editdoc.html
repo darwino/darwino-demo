@@ -1,0 +1,24 @@
+<div class="item-body">
+	<div class="button-bar" ng-show="canCreateDocument()||canUpdateDocument(data)||canDeleteDocument(data)">
+		<div class="icon">
+			<a class="button button-clear button-stable ion-trash-a icon-action" ng-show="canDeleteDocument(data)" ng-click="deleteDocument(data)"></a>
+		</div>
+	</div>
+
+
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">UNID</span>
+        	<input type="text" ng-model="data.unid" placeholder="unid"></input>
+        </label>	
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">Author</span>
+        	<input type="text" ng-model="data.cuser" placeholder="Author"></input>
+        </label>	
+
+<!-- This is to display the whole JSON document, for debugging purposes		
+		<label class="item item-input item-stacked-label">
+			<span class="input-label">JSON</span>
+			<textarea json-model rows="20" cols="50" ng-model="json"></textarea>
+		</label>
+ -->		
+</div>

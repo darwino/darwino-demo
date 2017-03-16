@@ -1,0 +1,23 @@
+{
+  "aboutPage": "about",
+  "components": [
+    {
+      "displayCount": true,
+      "icon": "ion-calendar",
+      "id": "link2",
+      "label": "By Date",
+      "page": "bydate",
+      "type": "nav-link"
+    },
+    {
+      "displayCount": true,
+      "icon": "ion-person-stalker",
+      "label": "By Author",
+      "page": "byauthor",
+      "type": "nav-link"
+    }
+  ],
+  "currentUser": true,
+  "homePage": "home",
+  "type": "nav-navigator"
+}

@@ -1,0 +1,22 @@
+{
+  "aggregate": "",
+  "components": [
+
+  ],
+  "database": "",
+  "detailPage": "detaildoc",
+  "editPage": "editdoc",
+  "ftSearch": true,
+  "hierarchicalLevel": 0,
+  "id": "list1",
+  "imageUrl": "_cuser|userPhotoUrl",
+  "line1": "_unid",
+  "line2": "{{_cuser|userCn}}, {{_cdate|dateFromNow}}",
+  "line3": "",
+  "newDocument": true,
+  "orderBy": "_cdate desc",
+  "query": "",
+  "store": "",
+  "title": "By Date",
+  "type": "view-list"
+}

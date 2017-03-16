@@ -1,0 +1,14 @@
+{
+	"connections": [
+		{
+			"enabled": true,
+			"local": true,
+			"name": "Local Server",
+			"url": "http://10.0.1.2:8080",
+			"userId": "amass",
+			"password": "darwino",
+			"dn": "cn=al mass,o=triloggroup",
+			"cn": "Al Mass"
+		}
+	]
+}

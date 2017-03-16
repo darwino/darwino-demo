@@ -1,0 +1,31 @@
+<div class="item-body">
+	<div class="button-bar" ng-show="canCreateDocument()||canUpdateDocument(data)||canDeleteDocument(data)">
+		<div class="icon">
+			<a class="button button-clear button-stable ion-android-create icon-action" ng-show="canUpdateDocument(data)" ng-click="editDocument('app.editdoc',data)"></a>
+			<a class="button button-clear button-stable ion-trash-a icon-action" ng-show="canDeleteDocument(data)" ng-click="deleteDocument(data)"></a>
+		</div>
+	</div>
+
+
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">Picture</span>
+        	<div>
+        		<img ng-src="{{data.value.picture}}">
+        	</div>
+        </label>	
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">UNID</span>
+        	<div ng-bind='data.unid'></div>
+        </label>	
+        <label class="item item-input item-stacked-label">
+        	<span class="input-label">Author</span>
+        	<div ng-bind='data.cuser'></div>
+        </label>	
+
+<!-- This is to display the whole JSON document, for debugging purposes		
+		<label class="item item-input item-stacked-label">
+			<span class="input-label">JSON</span>
+			<textarea json-model rows="20" cols="50" ng-model="json"></textarea>
+		</label>
+ -->		
+</div>

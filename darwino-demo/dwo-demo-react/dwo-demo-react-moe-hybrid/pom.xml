@@ -1,0 +1,111 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.darwino.demo.react</groupId>
+		<artifactId>dwo-demo-react</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>dwo-demo-react-moe-hybrid</artifactId>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-ios-moe-platform-hybrid</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-web-darwino</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.darwino.demo.react</groupId>
+			<artifactId>dwo-demo-react-shared</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino.demo.react</groupId>
+			<artifactId>dwo-demo-react-mobile</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino.demo.react</groupId>
+			<artifactId>dwo-demo-react-webui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+	                <compilerArguments>
+	                    <bootclasspath>${project.dependencies}</bootclasspath>
+	                </compilerArguments>
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <additionalProjectnatures>
+                        <projectnature>org.moe.natures.project</projectnature>
+                        <projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
+                    </additionalProjectnatures>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.multi-os-engine</groupId>
+                <artifactId>moe-maven</artifactId>
+                <executions>
+                    <execution>
+                        <?m2e execute onConfiguration?>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>setupSDK</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.10</version>
+				
+				<executions>
+					<execution>
+						<id>copy-native-lib</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.darwino</groupId>
+									<artifactId>dwo-native-sqlite</artifactId>
+									<version>${DARWINO_VERSION}</version>
+									<type>a</type>
+									<classifier>ios-universal</classifier>
+									<outputDirectory>libs</outputDirectory>
+									<destFileName>libJsonstoreUniversal.a</destFileName>
+								</artifactItem>
+							</artifactItems>
+							<overWriteReleases>true</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
