@@ -21,6 +21,16 @@ export default class Nav extends React.Component {
     // const archivesClass = location.pathname.match(/^\/archives/) ? "active" : "";
     // const settingsClass = location.pathname.match(/^\/settings/) ? "active" : "";
     const navClass = collapsed ? "collapse" : "";
+    
+    /*
+     * 
+              <li activeClassName="active">
+                <Link to="archives" onClick={this.toggleCollapse.bind(this)}>Archives</Link>
+              </li>
+              <li activeClassName="active">
+                <Link to="settings" onClick={this.toggleCollapse.bind(this)}>Settings</Link>
+              </li>
+     */
 
     return (
       <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -36,13 +46,7 @@ export default class Nav extends React.Component {
           <div class={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <li activeClassName="active" onlyActiveOnIndex={true}>
-                <IndexLink to="/" onClick={this.toggleCollapse.bind(this)}>Featured</IndexLink>
-              </li>
-              <li activeClassName="active">
-                <Link to="archives" onClick={this.toggleCollapse.bind(this)}>Archives</Link>
-              </li>
-              <li activeClassName="active">
-                <Link to="settings" onClick={this.toggleCollapse.bind(this)}>Settings</Link>
+                <IndexLink to="/" onClick={this.toggleCollapse.bind(this)}>Breweries</IndexLink>
               </li>
             </ul>
           </div>
