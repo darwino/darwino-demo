@@ -1,31 +1,61 @@
-var debug = process.env.NODE_ENV !== "production";
-var webpack = require("webpack");
-var path = require("path");
+const webpack      = require('webpack');
+const path         = require('path');
+const autoprefixer = require('autoprefixer');
+const precss       = require('precss');
+
+const contextDir      = path.resolve(__dirname, "src/main/app");
+const assetsDir       = path.resolve(__dirname, "src/main/resources/DARWINO-INF/resources/mobile");
+const nodeModulesDir  = path.resolve(__dirname, 'node_modules');
+
+const debug = process.env.NODE_ENV !== "production";
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	context : path.join(__dirname, "src/main/app"),
-	devtool : debug ? "inline-sourcemap" : null,
-	entry : "./js/client.jsx",
-	module : {
-		loaders : [ {
-			test : /\.jsx?$/,
-			exclude : /(node_modules|bower_components)/,
-			loader : 'babel-loader',
-			query : {
-				presets : [ 'react', 'es2015', 'stage-0' ],
-				plugins : [ 'react-html-attrs', 'transform-decorators-legacy',
-						'transform-class-properties' ],
+	context: contextDir,
+	devtool: debug ? "inline-sourcemap" : null,
+	entry: [
+		path.resolve(contextDir, "js/client.jsx")
+	],
+	output: {
+		path: assetsDir,
+		filename: "bundle.js"
+	},
+	module: {
+		loaders: [
+			{
+				test: /\.jsx?$/,
+				loader: 'babel-loader',
+				exclude: [nodeModulesDir],
+				query: {
+					presets: ['react', 'es2015', 'stage-0'],
+					plugins: ['react-html-attrs', 'transform-decorators-legacy', 'transform-class-properties']
+				}
+			}, {
+				test: /\.scss$/,
+				loader: 'style-loader!css-loader!sass-loader'
+			}, {
+				test: /\.css$/,
+				loader: 'style-loader!css-loader'
+			}, {
+				test: /\.json$/,
+				loader: 'json-loader'
+			}, {
+				test: /\.(eot|woff|woff2|ttf|svg|png|jpe?g|gif)(\?\S*)?$/,
+				loader: 'url-loader?limit=100000@name=[name][ext]'
 			}
-		} ]
+		]
 	},
-	output : {
-		path : path.join(__dirname, "src/main/resources/DARWINO-INF/resources/mobile"),
-		filename : "client.min.js"
-	},
-	plugins : debug ? [] : [ new webpack.optimize.DedupePlugin(),
-			new webpack.optimize.OccurenceOrderPlugin(),
-			new webpack.optimize.UglifyJsPlugin({
-				mangle : false,
-				sourcemap : false
-			}), ],
+	plugins : [
+		getImplicitGlobals(),
+		new HtmlWebpackPlugin({
+			template: "html/index.html"
+		})
+	],
 };
+
+function getImplicitGlobals() {
+  return new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery'
+  });
+}

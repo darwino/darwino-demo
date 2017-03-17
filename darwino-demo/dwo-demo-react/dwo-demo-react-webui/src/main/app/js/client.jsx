@@ -7,6 +7,12 @@ import Featured from "./pages/Featured.jsx";
 import Layout from "./pages/Layout.jsx";
 import Settings from "./pages/Settings.jsx";
 
+import 'babel-polyfill';
+import 'jquery';
+import 'font-awesome/css/font-awesome.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+
 const app = document.getElementById('app');
 ReactDOM.render(
         <Router history={hashHistory}>
