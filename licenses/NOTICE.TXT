@@ -28,3 +28,9 @@ Third party JavaScript code
 The React demo includes code derived from LearnCode's React JS series, available from https://github.com/learncodeacademy/react-js-tutorials and released under the ISC license.
 
 The React demo includes code derived from "Full ES2015+ React Bootstrap with Hot Reload STARTER", available from https://github.com/MacKentoch/react-bootstrap-webpack-starter and released under the MIT license.
+
+------------------------------------------
+Third party data
+------------------------------------------
+
+The React demo includes data from beer.db, available from http://openbeer.github.io and released as public domain

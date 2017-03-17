@@ -88,6 +88,11 @@
 			<artifactId>dwo-demo-react-webui</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-sqlite</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
 		
 	</dependencies>
 	
