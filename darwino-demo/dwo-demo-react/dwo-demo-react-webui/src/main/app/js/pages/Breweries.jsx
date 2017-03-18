@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from 'react-redux'
-import { fetchBreweriesIfNeeded } from "../actions/index.jsx"
+import { fetchEntriesIfNeeded } from "../actions/darwinoEntryStoreActions.jsx"
 
 import Brewery from "../components/Brewery.jsx";
 
@@ -14,7 +14,7 @@ export class Breweries extends Component {
     
     componentDidMount() {
         const { dispatch } = this.props;
-        dispatch(fetchBreweriesIfNeeded());
+        dispatch(fetchEntriesIfNeeded("dwodemoreact", "breweries"));
     }
     
     getBreweries() {
@@ -37,10 +37,19 @@ export class Breweries extends Component {
 }
 
 const mapStateToProps = state => {
-    const { items, isFetching, lastUpdated } = state;
+    const { entries } = state;
+    
+    const {
+        isFetching,
+        lastUpdated,
+        items: breweries
+    } = entries["dwodemoreact"+"breweries"] || {
+        isFetching: true,
+        items: []
+    }
     
     return {
-        breweries: items,
+        breweries,
         isFetching,
         lastUpdated
     }

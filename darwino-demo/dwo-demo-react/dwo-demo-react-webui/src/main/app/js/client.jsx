@@ -4,7 +4,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
-import reducer from './reducers/index.jsx'
+import reducer from './reducers/darwinoEntryStore.jsx'
 
 // Bootstrap components
 import 'babel-polyfill';
