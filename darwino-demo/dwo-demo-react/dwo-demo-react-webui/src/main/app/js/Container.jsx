@@ -6,7 +6,6 @@ import Breweries from "./pages/Breweries.jsx";
 import Layout from "./pages/Layout.jsx";
 
 export default class Container extends React.Component {
-
     render() {
         /*
          * 
