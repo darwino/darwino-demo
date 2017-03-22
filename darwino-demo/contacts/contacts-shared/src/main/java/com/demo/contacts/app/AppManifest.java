@@ -30,7 +30,6 @@ public class AppManifest extends DarwinoManifest {
 		return getSession().getDatabase(AppDatabaseDef.DATABASE_NAME);
 	}
 	
-
 	public AppManifest(Section section) {
 		super(section);
 	}
