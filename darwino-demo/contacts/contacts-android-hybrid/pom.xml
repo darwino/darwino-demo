@@ -80,6 +80,15 @@
 									<artifactId>dwo-native-sqlite</artifactId>
 									<version>${DARWINO_VERSION}</version>
 									<type>so</type>
+									<classifier>android-arm64-v8a</classifier>
+									<outputDirectory>libs/arm64-v8a</outputDirectory>
+									<destFileName>libjsonstore-sqlite.so</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.darwino</groupId>
+									<artifactId>dwo-native-sqlite</artifactId>
+									<version>${DARWINO_VERSION}</version>
+									<type>so</type>
 									<classifier>android-armeabi</classifier>
 									<outputDirectory>libs/armeabi</outputDirectory>
 									<destFileName>libjsonstore-sqlite.so</destFileName>
@@ -98,8 +107,8 @@
 									<artifactId>dwo-native-sqlite</artifactId>
 									<version>${DARWINO_VERSION}</version>
 									<type>so</type>
-									<classifier>android-mips</classifier>
-									<outputDirectory>libs/mips</outputDirectory>
+									<classifier>android-x86</classifier>
+									<outputDirectory>libs/x86</outputDirectory>
 									<destFileName>libjsonstore-sqlite.so</destFileName>
 								</artifactItem>
 								<artifactItem>
@@ -107,8 +116,8 @@
 									<artifactId>dwo-native-sqlite</artifactId>
 									<version>${DARWINO_VERSION}</version>
 									<type>so</type>
-									<classifier>android-x86</classifier>
-									<outputDirectory>libs/x86</outputDirectory>
+									<classifier>android-x86_64</classifier>
+									<outputDirectory>libs/x86_64</outputDirectory>
 									<destFileName>libjsonstore-sqlite.so</destFileName>
 								</artifactItem>
 							</artifactItems>
