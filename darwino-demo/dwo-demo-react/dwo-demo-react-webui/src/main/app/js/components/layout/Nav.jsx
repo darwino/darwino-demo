@@ -1,5 +1,4 @@
 import React from "react";
-import { IndexLink, Link } from "react-router";
 
 import NavItem from "./NavItem.jsx";
 
@@ -47,7 +46,8 @@ export default class Nav extends React.Component {
           </div>
           <div class={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <NavItem to="/" index={true} onClick={this.toggleCollapse.bind(this)}>Breweries</NavItem>
+              <NavItem to="/" index={true} onlyActiveOnIndex={true} onClick={this.toggleCollapse.bind(this)}>Breweries</NavItem>
+              <NavItem to="/beers" onClick={this.toggleCollapse.bind(this)}>Beers</NavItem>
             </ul>
           </div>
         </div>

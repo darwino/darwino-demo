@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from 'react-redux'
-import { fetchEntriesIfNeeded } from "../actions/darwinoEntryStoreActions.jsx"
+import { fetchEntriesIfNeeded, darwinoToStoreKey } from "../actions/darwinoEntryStoreActions.jsx"
 
-import Brewery from "../components/Brewery.jsx";
+import BreweryRow from "../components/BreweryRow.jsx";
 
 export class Breweries extends Component {
     static propTypes = {
@@ -20,7 +20,7 @@ export class Breweries extends Component {
     getBreweries() {
         const { breweries } = this.props;
         return breweries.map(
-                (brewery) => <Brewery brewery={brewery.value} key={brewery.unid}/>
+                (brewery) => <BreweryRow brewery={brewery.value} key={brewery.unid}/>
         );
     }
     
@@ -30,7 +30,18 @@ export class Breweries extends Component {
         
         return (
           <div>
-            <div class="row">{this.getBreweries()}</div>
+            <table class="table table-striped table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>Brewey</th>
+                        <th>Address</th>
+                        <th>Tags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.getBreweries()}
+                </tbody>
+            </table>
           </div>
         );
   }
@@ -43,7 +54,7 @@ const mapStateToProps = state => {
         isFetching,
         lastUpdated,
         items: breweries
-    } = entries["dwodemoreact"+"breweries"] || {
+    } = entries[darwinoToStoreKey("dwodemoreact", "breweries")] || {
         isFetching: true,
         items: []
     }

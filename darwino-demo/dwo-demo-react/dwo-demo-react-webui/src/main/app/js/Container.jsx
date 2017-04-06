@@ -3,6 +3,8 @@ import { Link } from "react-router";
 import { Router, Route, IndexRoute, hashHistory } from "react-router";
 
 import Breweries from "./pages/Breweries.jsx";
+import Brewery from "./pages/Brewery.jsx";
+import Beers from "./pages/Beers.jsx";
 import Layout from "./pages/Layout.jsx";
 
 export default class Container extends React.Component {
@@ -16,6 +18,8 @@ export default class Container extends React.Component {
                 <Router history={hashHistory}>
                     <Route path="/" component={Layout}>
                         <IndexRoute component={Breweries}/>
+                        <Route path="breweries/:breweryId" name="breweries" component={Brewery}></Route>
+                        <Route path="beers" name="beers" component={Beers}/>
                     </Route>
                 </Router>
         );

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import {
-    REQUEST_ENTRIES, RECEIVE_ENTRIES
+    REQUEST_ENTRIES, RECEIVE_ENTRIES, darwinoToStoreKey
 } from "../actions/darwinoEntryStoreActions.jsx"
 
 /** Model: The per-key container of entries */
@@ -33,7 +33,8 @@ const entries = (state = {}, action) => {
     case RECEIVE_ENTRIES:
     case REQUEST_ENTRIES:
         var newState = Object.assign({}, state);
-        newState[action.database+action.store] = entryList(state[action.database+action.store], action);
+        var storeKey = darwinoToStoreKey(action.database, action.store, action.query);
+        newState[storeKey] = entryList(state[storeKey], action);
         return newState;
     default:
         return state;
