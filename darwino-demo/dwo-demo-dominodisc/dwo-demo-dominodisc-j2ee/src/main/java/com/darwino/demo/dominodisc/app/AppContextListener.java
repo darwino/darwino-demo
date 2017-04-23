@@ -26,13 +26,16 @@ import javax.servlet.ServletContext;
 
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.tasks.TaskProgress;
-import com.darwino.demo.dominodisc.watson.AnalyzeTask;
-import com.darwino.demo.dominodisc.watson.TranslationTask;
+import com.darwino.demo.dominodisc.watson.WatsonAnalyzeTrigger;
+import com.darwino.demo.dominodisc.watson.WatsonTranslateTrigger;
 import com.darwino.j2ee.application.AbstractDarwinoContextListener;
 import com.darwino.j2ee.application.BackgroundServletSynchronizationExecutor;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.jsonstore.replication.ReplicationProfile;
 import com.darwino.jsonstore.replication.background.BackgroundInstanceReplicationTask;
+import com.darwino.platform.events.EventTrigger;
+import com.darwino.platform.events.EventTriggerList;
+import com.darwino.platform.persistence.JsonStorePersistenceService;
 
 /**
  * Servlet listener for initializing the application.
@@ -42,6 +45,7 @@ import com.darwino.jsonstore.replication.background.BackgroundInstanceReplicatio
 public class AppContextListener extends AbstractDarwinoContextListener {
 	
 	private BackgroundServletSynchronizationExecutor syncExecutor; 
+	private EventTriggerList triggerList;
 	
 	public AppContextListener() {
 	}
@@ -82,8 +86,21 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 	protected void initWatson(ServletContext servletContext, TaskProgress progress) throws JsonException {
 		// Install the Watson translator
 		String[] instances = new String[]{"discdb/xpagesforum.nsf"}; // AppDatabaseDef.getInstances()
-		TranslationTask.install(getApplication(),instances);
-		AnalyzeTask.install(getApplication(),instances);
+		
+		// Install the handlers
+		triggerList = new EventTriggerList();
+		triggerList.addTrigger(WatsonTranslateTrigger.create(getApplication(), instances));
+		triggerList.addTrigger(WatsonAnalyzeTrigger.create(getApplication(), instances));
+		
+		if(!triggerList.isEmpty()) {
+			// Assign a persistence service
+			JsonStorePersistenceService svc = new JsonStorePersistenceService()
+					.database(AppDatabaseDef.DATABASE_NAME)
+					.category("ibm-watson");
+			for(EventTrigger<?> e: triggerList.getTriggers()) { e.persistenceService(svc); }
+			
+			triggerList.install();
+		}
 	}
 	
 
@@ -92,6 +109,10 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 		if(syncExecutor!=null) {
 			syncExecutor.stop();
 			syncExecutor = null;
+		}
+		if(triggerList!=null) {
+			triggerList.uninstall();
+			triggerList = null;
 		}
 		super.destroyApplication(servletContext, progress);
 	}
