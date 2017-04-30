@@ -39,14 +39,15 @@ import com.darwino.jsonstore.Store;
 import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.events.EventException;
 import com.darwino.platform.events.EventTrigger;
-import com.darwino.platform.events.jsonstore.JsonStoreDocumentTrigger;
+import com.darwino.platform.events.jsonstore.JsonStoreChangesTrigger;
+import com.darwino.platform.events.jsonstore.AbstractJsonStoreDocumentTrigger;
 import com.ibm.watson.developer_cloud.language_translation.v2.LanguageTranslation;
 import com.ibm.watson.developer_cloud.language_translation.v2.model.Language;
 
 /**
  * This class is used to translate the content of documents.
  */
-public class WatsonTranslateTrigger extends JsonStoreDocumentTrigger {
+public class WatsonTranslateTrigger extends JsonStoreChangesTrigger {
 
 	// For debugging without effectively calling Watson..
 	private static final boolean FAKE = false;
@@ -66,7 +67,6 @@ public class WatsonTranslateTrigger extends JsonStoreDocumentTrigger {
 		Platform.log(">>> Watson translation handler installed");
 		return new WatsonTranslateTrigger()
 			.scheduler("5s")
-			.incremental(true)
 			.database(AppDatabaseDef.DATABASE_NAME)
 			.store(AppDatabaseDef.STORE_NSFDATA)
 			.instances(instances)
@@ -93,7 +93,7 @@ public class WatsonTranslateTrigger extends JsonStoreDocumentTrigger {
 	}
 
 	
-	public static class Handler implements JsonStoreDocumentTrigger.Handler {
+	public static class Handler implements AbstractJsonStoreDocumentTrigger.Handler {
 	
 		private LanguageTranslationFactory factory;
 		

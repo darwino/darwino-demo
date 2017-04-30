@@ -40,7 +40,8 @@ import com.darwino.jsonstore.Store;
 import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.events.EventException;
 import com.darwino.platform.events.EventTrigger;
-import com.darwino.platform.events.jsonstore.JsonStoreDocumentTrigger;
+import com.darwino.platform.events.jsonstore.JsonStoreChangesTrigger;
+import com.darwino.platform.events.jsonstore.AbstractJsonStoreDocumentTrigger;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.ToneAnalyzer;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneAnalysis;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneOptions;
@@ -48,7 +49,7 @@ import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneOptions;
 /**
  * This class is used to translate the content of documents.
  */
-public class WatsonAnalyzeTrigger extends JsonStoreDocumentTrigger {
+public class WatsonAnalyzeTrigger extends JsonStoreChangesTrigger {
 
 	// For debugging without effectively calling Watson..
 	private static final boolean FAKE = false;
@@ -68,7 +69,6 @@ public class WatsonAnalyzeTrigger extends JsonStoreDocumentTrigger {
 		Platform.log(">>> Watson tone analyzer handler installed");
 		return new WatsonAnalyzeTrigger()
 			.scheduler("5s")
-			.incremental(true)
 			.database(AppDatabaseDef.DATABASE_NAME)
 			.store(AppDatabaseDef.STORE_NSFDATA)
 			.instances(instances)
@@ -94,7 +94,7 @@ public class WatsonAnalyzeTrigger extends JsonStoreDocumentTrigger {
 	}
 
 	
-	public static class Handler implements JsonStoreDocumentTrigger.Handler {
+	public static class Handler implements AbstractJsonStoreDocumentTrigger.Handler {
 	
 		private ToneAnalyzerFactory factory;
 		
