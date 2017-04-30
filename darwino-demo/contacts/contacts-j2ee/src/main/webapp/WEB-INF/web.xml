@@ -95,13 +95,19 @@
 	<filter>
     	<filter-name>DarwinoAuthentication</filter-name>
    		<filter-class>com.darwino.j2ee.servlet.authentication.AuthenticationFilter</filter-class>
-    </filter>
+<!-- Auth required - used to test the ACL replication    		
+		<init-param>
+			<param-name>auth-required</param-name>
+			<param-value>false</param-value>
+		</init-param>
+ -->		
+   	</filter>
 	<filter-mapping>
     	<filter-name>DarwinoAuthentication</filter-name>
     	<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
     	<dispatcher>FORWARD</dispatcher>
-   	</filter-mapping>
+	</filter-mapping>
 
 	<!--  Filter for creating the Darwino Application, Context and DB session -->
 	<filter>
@@ -113,7 +119,7 @@
     	<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
     	<dispatcher>FORWARD</dispatcher>
-    		</filter-mapping>
+    </filter-mapping>
 	
 	<!--  CORS filter for the JsonStore -->
 <!-- 	
