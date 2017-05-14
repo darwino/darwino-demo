@@ -38,10 +38,9 @@ import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.Store;
 import com.darwino.platform.DarwinoApplication;
-import com.darwino.platform.events.EventException;
 import com.darwino.platform.events.EventTrigger;
+import com.darwino.platform.events.jsonstore.AbstractJsonStoreDocumentQueryTrigger;
 import com.darwino.platform.events.jsonstore.JsonStoreChangesTrigger;
-import com.darwino.platform.events.jsonstore.AbstractJsonStoreDocumentTrigger;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.ToneAnalyzer;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneAnalysis;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneOptions;
@@ -94,7 +93,7 @@ public class WatsonAnalyzeTrigger extends JsonStoreChangesTrigger {
 	}
 
 	
-	public static class Handler implements AbstractJsonStoreDocumentTrigger.Handler {
+	public static class Handler implements AbstractJsonStoreDocumentQueryTrigger.Handler {
 	
 		private ToneAnalyzerFactory factory;
 		
@@ -103,7 +102,7 @@ public class WatsonAnalyzeTrigger extends JsonStoreChangesTrigger {
 		}
 	
 		@Override
-		public void handle(Document doc) throws JsonException, EventException {
+		public void handle(Document doc) throws JsonException {
 			Platform.log("Analyzing document, id={0}",doc.getUnid());
 			analyze(doc);
 		}
