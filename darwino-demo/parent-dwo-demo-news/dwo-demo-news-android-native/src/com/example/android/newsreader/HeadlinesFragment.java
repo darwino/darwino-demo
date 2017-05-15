@@ -86,8 +86,7 @@ import android.widget.TextView;
 public class HeadlinesFragment extends ListFragment implements OnItemClickListener {
 
 	private class HeadlinesCommands extends AppAndroidNativeCommandExecutor {
-		HeadlinesCommands(Activity activity) {
-			super(activity);
+		HeadlinesCommands() {
 		}
 		@Override
 		protected void _refreshUi() {
@@ -270,7 +269,7 @@ public class HeadlinesFragment extends ListFragment implements OnItemClickListen
         return super.onOptionsItemSelected(item);
 	}	
 	private HeadlinesCommands getHeadlinesCommands() {
-		return new HeadlinesCommands(getActivity());
+		return new HeadlinesCommands();
 	}
 
     /**
