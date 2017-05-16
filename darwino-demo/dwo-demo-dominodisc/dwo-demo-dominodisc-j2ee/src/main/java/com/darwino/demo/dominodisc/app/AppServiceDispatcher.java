@@ -204,7 +204,7 @@ public class AppServiceDispatcher extends DarwinoJ2EEServiceDispatcherFilter {
 				// Execute as background
 				TaskExecutorService svc = Platform.getService(TaskExecutorService.class);
 				TaskExecutor<Void> ex = svc.createExecutor(true);
-				ex.exec(new ForumTask(instance,count),null,null,null);
+				ex.exec(new ForumTask(instance,count),null,null);
 				
 				try {
 					context.emitJson(JsonObject.fromJson("{message: 'Forum import started'}"));
