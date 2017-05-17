@@ -89,15 +89,15 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 		
 		// Install the handlers
 		triggerList = new EventTriggerList();
-		triggerList.addTrigger(WatsonTranslateTrigger.create(getApplication(), instances));
-		triggerList.addTrigger(WatsonAnalyzeTrigger.create(getApplication(), instances));
+		triggerList.add(WatsonTranslateTrigger.create(getApplication(), instances));
+		triggerList.add(WatsonAnalyzeTrigger.create(getApplication(), instances));
 		
 		if(!triggerList.isEmpty()) {
 			// Assign a persistence service
 			JsonStorePersistenceService svc = new JsonStorePersistenceService()
 					.database(AppDatabaseDef.DATABASE_NAME)
 					.category("ibm-watson");
-			for(EventTrigger<?> e: triggerList.getTriggers()) { e.persistenceService(svc); }
+			for(EventTrigger<?> e: triggerList) { e.persistenceService(svc); }
 			
 			triggerList.install();
 		}
