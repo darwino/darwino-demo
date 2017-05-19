@@ -33,8 +33,8 @@ import com.darwino.j2ee.application.BackgroundServletSynchronizationExecutor;
 import com.darwino.j2ee.application.DarwinoJ2EEApplication;
 import com.darwino.jsonstore.replication.ReplicationProfile;
 import com.darwino.jsonstore.replication.background.BackgroundInstanceReplicationTask;
-import com.darwino.platform.events.EventTrigger;
-import com.darwino.platform.events.EventTriggerList;
+import com.darwino.platform.events.builder.EventBuilderFactory;
+import com.darwino.platform.events.builder.StaticEventBuilder;
 import com.darwino.platform.persistence.JsonStorePersistenceService;
 
 /**
@@ -45,7 +45,7 @@ import com.darwino.platform.persistence.JsonStorePersistenceService;
 public class AppContextListener extends AbstractDarwinoContextListener {
 	
 	private BackgroundServletSynchronizationExecutor syncExecutor; 
-	private EventTriggerList triggerList;
+	private EventBuilderFactory triggers;
 	
 	public AppContextListener() {
 	}
@@ -88,19 +88,16 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 		String[] instances = new String[]{"discdb/xpagesforum.nsf"}; // AppDatabaseDef.getInstances()
 		
 		// Install the handlers
-		triggerList = new EventTriggerList();
+		StaticEventBuilder triggerList = new StaticEventBuilder();
 		triggerList.add(WatsonTranslateTrigger.create(getApplication(), instances));
 		triggerList.add(WatsonAnalyzeTrigger.create(getApplication(), instances));
-		
-		if(!triggerList.isEmpty()) {
-			// Assign a persistence service
-			JsonStorePersistenceService svc = new JsonStorePersistenceService()
-					.database(AppDatabaseDef.DATABASE_NAME)
-					.category("ibm-watson");
-			for(EventTrigger<?> e: triggerList) { e.persistenceService(svc); }
-			
-			triggerList.install();
-		}
+
+		// Use a persistence service for the dates
+		JsonStorePersistenceService svc = new JsonStorePersistenceService()
+				.database(AppDatabaseDef.DATABASE_NAME)
+				.category("ibm-watson");
+		triggers = new EventBuilderFactory(triggerList,svc);
+		triggers.install();
 	}
 	
 
@@ -110,9 +107,9 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 			syncExecutor.stop();
 			syncExecutor = null;
 		}
-		if(triggerList!=null) {
-			triggerList.uninstall();
-			triggerList = null;
+		if(triggers!=null) {
+			triggers.uninstall();
+			triggers = null;
 		}
 		super.destroyApplication(servletContext, progress);
 	}
