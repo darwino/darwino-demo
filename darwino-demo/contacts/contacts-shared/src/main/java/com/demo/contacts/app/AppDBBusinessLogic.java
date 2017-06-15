@@ -5,6 +5,7 @@
 package com.demo.contacts.app;
 
 import com.darwino.jsonstore.extensions.DefaultExtensionRegistry;
+import com.darwino.jsonstore.impl.DarwinoInfCursorFactory;
 import com.darwino.jsonstore.local.DefaultDatabaseACLFactory;
 
 /**
@@ -22,6 +23,9 @@ public class AppDBBusinessLogic extends DefaultExtensionRegistry {
 //			public void querySaveDocument(Document doc) throws JsonException {
 //			}
 //		});
+
+		// Use a query factory
+		setQueryFactory(new DarwinoInfCursorFactory(getClass()));
 		
 		// Default database ACL factory read the design element coming from Domino
 		if(false) {

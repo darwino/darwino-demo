@@ -12,6 +12,8 @@ import com.darwino.commons.security.acl.UserService;
 import com.darwino.j2ee.platform.DefaultWebBeanExtension;
 import com.darwino.j2ee.platform.DefaultWebPropertiesExtension;
 import com.darwino.j2ee.servlet.authentication.AuthenticationService;
+import com.darwino.jsonstore.extensions.QueryFactory;
+import com.darwino.jsonstore.impl.DarwinoInfCursorFactory;
 
 
 

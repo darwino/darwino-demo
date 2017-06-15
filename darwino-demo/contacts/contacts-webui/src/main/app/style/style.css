@@ -1,0 +1,34 @@
+
+/* Layout */
+#body-container {
+	margin-top: 80px;
+}
+.navbar-fixed-top .navbar-brand {
+	height: 80px;
+}
+.navbar-brand > img {
+	display: inline-block;
+}
+
+#content {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+/* Form doodads */
+
+div.action-bar {
+	margin-bottom: 1em;
+	border-bottom: 1px solid #ccc;
+	padding: 0.25em;
+}
+
+form button + a, form a + button {
+	margin-left: 0.5em;
+}
+
+/* BaseCursorList component */
+
+.darwino-view tr {
+	cursor: pointer;
+}

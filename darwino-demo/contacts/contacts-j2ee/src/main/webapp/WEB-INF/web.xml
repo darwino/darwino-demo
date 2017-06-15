@@ -88,6 +88,22 @@
     	<url-pattern>/*</url-pattern>
 	</filter-mapping>
 		
+	<!-- CORS filter for the JsonStore -->
+	<!-- CORS should be applied before the authentication else the OPTIONS preflight can be blocked -->
+	<filter>
+    	<filter-name>Cors</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.cors.CORSFilter</filter-class>
+        <init-param>
+      		<param-name>cors.allowed.methods</param-name>
+      		<param-value>GET,POST,PUT,DELETE,HEAD,OPTIONS</param-value>
+    	</init-param>    
+	</filter>
+	<filter-mapping>
+    	<filter-name>Cors</filter-name>
+    	<url-pattern>/.darwino-jstore/*</url-pattern>
+    	<dispatcher>REQUEST</dispatcher>
+    	<dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
 		
 	<!--  Filter for custom authentication -->
 	<!--  This should be the first one, before the J2EE filter as the user is required for the session  -->
@@ -120,20 +136,6 @@
 		<dispatcher>REQUEST</dispatcher>
     	<dispatcher>FORWARD</dispatcher>
     </filter-mapping>
-	
-	<!--  CORS filter for the JsonStore -->
-<!-- 	
-	<filter>
-    	<filter-name>Cors</filter-name>
-    	<filter-class>com.darwino.j2ee.servlet.cors.CORSFilter</filter-class>
-	</filter>
-	<filter-mapping>
-    	<filter-name>Cors</filter-name>
-    	<url-pattern>/.darwino-jstore/*</url-pattern>
-    	<dispatcher>REQUEST</dispatcher>
-    	<dispatcher>FORWARD</dispatcher>
-    </filter-mapping>
--->    
 
 	<!--  Filter for publishing the Darwino Services -->
 	<filter>

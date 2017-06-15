@@ -4,6 +4,9 @@ bin/
 .project
 .classpath
 
+# Auto-generated
+MANIFEST.MF
+
 
 # Mac
 .DS_Store
@@ -14,8 +17,9 @@ Thumbs.db
 # Android
 gen/
 
-# RoboVM
-robovm-logs/
+# Node - npm
+node_modules/
+.vscode/
 
 # Maven
 target/
@@ -29,3 +33,7 @@ dependency-reduced-pom.xml
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 hs_err_pid*
+
+# Native SQLite libraries
+libJsonstoreUniversal.a
+libjsonstore-sqlite.so
