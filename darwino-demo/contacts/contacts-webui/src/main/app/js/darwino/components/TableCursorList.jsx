@@ -98,7 +98,7 @@ export class TableCursorList extends BaseCursorList {
             return null
         } else {
             return (
-                <button style={this.hasMoreRows() ? {} : {display: 'none'}} onClick={this.addRows}>{addRowsButtonText}}</button>
+                <button style={this.hasMoreRows() ? {} : {display: 'none'}} onClick={this.addRows}>{addRowsButtonText}</button>
             )
         }
     }

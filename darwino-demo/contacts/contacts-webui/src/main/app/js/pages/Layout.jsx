@@ -13,8 +13,9 @@
 
 import React from "react";
 
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
+import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import Nav from "./Nav.jsx";
 
@@ -24,25 +25,12 @@ import AppContact from "./app/Contact.jsx";
 import AppContacts from "./app/Contacts.jsx";
 import AppContactsg from "./app/Contactsg.jsx";
 
-import HeaderLogo from "../../img/darwino-icon32.png";
-
 export default class Layout extends React.Component {
   render() {
     const { location } = this.props;
     return (
       <div>
-
-        <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
-          <div className="container-fluid">
-            <div className="navbar-header">
-              <Link to="/" style={{color: 'inherit'}} className="navbar-brand">
-                <img src={HeaderLogo} className="hidden-sm hidden-xs" />
-                Welcome to the Contacts application
-              </Link>
-            </div>
-          </div>
-        </nav>
-
+        <Header/>
         <div className="container-fluid" id="body-container">
           <div className="row">
             <div className="col-sm-3 col-lg-2 sidebar">
@@ -59,8 +47,8 @@ export default class Layout extends React.Component {
               </Switch>
             </div>
           </div>
-          <Footer/>
         </div>
+        <Footer/>
       </div>
 
     );

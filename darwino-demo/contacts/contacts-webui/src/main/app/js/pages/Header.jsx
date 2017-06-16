@@ -12,16 +12,23 @@
  */
 
 import React from "react";
+import { Link } from 'react-router-dom';
 
+import HeaderLogo from "../../img/darwino-icon32.png";
 
-export default class Footer extends React.Component {
+export default class Header extends React.Component {
   render() {
     return (
-      <footer className="footer">
-        <div className="container-fluid">
-          (c) 2017 Darwino Inc.
-        </div>
-      </footer>
+        <nav className="navbar navbar-default navbar-fixed-top" role="navigation">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <Link to="/" style={{color: 'inherit'}} className="navbar-brand">
+                <img src={HeaderLogo} className="hidden-sm hidden-xs" />
+                Welcome to the Contacts application
+              </Link>
+            </div>
+          </div>
+        </nav>
     );
   }
 }

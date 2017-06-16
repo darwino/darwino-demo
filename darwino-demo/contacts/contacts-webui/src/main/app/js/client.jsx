@@ -38,7 +38,7 @@ import 'font-awesome/css/font-awesome.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
 
-// Custom style
+// Custom styles
 import '../style/navbar-fixed-side.css';
 import '../style/style.css'; 
 
