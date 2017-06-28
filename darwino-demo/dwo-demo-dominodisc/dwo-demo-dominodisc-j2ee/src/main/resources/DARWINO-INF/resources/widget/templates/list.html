@@ -13,9 +13,9 @@
 				<p class="text-muted pull-right"
 					ng-bind-template="{{entries.getUser(entry).getCn()}}, {{entry.cdate|formattedDate}}"></p>
 				<h5 class="text-muted">
-					<a href="" ng-click="viewDetail(entry)" title="view detail">{{entry.value.subject}}</a>
+					<a href="" ng-click="viewDetail(entry)" title="view detail">{{entry.json.subject}}</a>
 				</h5>
-				<p ng-bind="entry.value.abstract|abstractText"></p>
+				<p ng-bind="entry.json.abstract|abstractText"></p>
 			</td>
 		</tr>
 	</tbody>

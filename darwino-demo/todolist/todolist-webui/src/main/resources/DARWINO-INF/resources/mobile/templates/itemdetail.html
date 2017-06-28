@@ -1,6 +1,6 @@
 <div class="item-body" ng-hide="!entries.detailItem || entries.detailItem.category">
 	<div ng-click="entries.selectItem(entries.detailItem)">
-		<h2 ng-bind="entries.detailItem.value.subject"></h2>
+		<h2 ng-bind="entries.detailItem.json.subject"></h2>
 	</div>
 	
 	<div class="item item-avatar item-icon-right">
@@ -45,11 +45,11 @@
 <!-- 		
 		<label class="item item-input">
 			<span class="input-label">FIELD</span>
-    		<span ng-bind="entries.detailItem.value.FIELD"></span>
+    		<span ng-bind="entries.detailItem.json.FIELD"></span>
 		</label>
 		<label class="item item-input">
 			<span class="input-label">HTMLFIELD</span>
-			<span ng-bind-html="entries.detailItem.value.HTMLFIELD"></span>
+			<span ng-bind-html="entries.detailItem.json.HTMLFIELD"></span>
 		</label>
 -->  		
 

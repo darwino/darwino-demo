@@ -33,12 +33,12 @@ function Item(entry, feed_link) {
 
   // parse the entry from JSON
   if (entry) {
-	  this.title = entry.value.title;
+	  this.title = entry.json.title;
 	  this.read =  entry.read;
 	  this.item_id = entry.unid;
 	  this.unid = entry.unid;
-	  this.pub_author = entry.value.source;
-  	  this.pub_date = Date.parse(entry.value.mdate);
+	  this.pub_author = entry.json.source;
+  	  this.pub_date = Date.parse(entry.json.mdate);
 	  this.image = jstore_baseUrl+'/databases/news/stores/news/documents/'+entry.unid+"/attachments/thumbnail.png";
 //	  this.item_link = getLink(entry.link, 'alternate');
 //	  this.feed_link = feed_link;

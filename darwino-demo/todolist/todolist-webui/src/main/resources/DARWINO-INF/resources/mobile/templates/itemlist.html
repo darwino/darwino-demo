@@ -21,7 +21,7 @@
 						<div style="width:100%;">
 							<h2 ng-bind="getUser(item.key).getCn()" style="font-weight:800"></h2>
 							<h3>
-								<ng-pluralize count="{{item.value.Count}}"
+								<ng-pluralize count="{{item.json.Count}}"
                 						when="{'1': '1 post.',
                     				       	'other': '{} posts.'}">
 								</ng-pluralize>

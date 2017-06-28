@@ -129,14 +129,15 @@ public class MainBean implements Serializable {
 						public boolean handle(CursorEntry entry) throws JsonException {
 							RowEntry re = new RowEntry();
 							re.category = entry.isCategory();
-							re.value = entry.getValue();
+							re.value = entry.getJson();
 							// Read the entry
 							if(entry.isCategory()) {
 								//
+								re.value = entry.getKey();
 							} else {
 								if(entry.getStoreId().equals("news")) {
 									if(ub!=null) {
-										((JsonObject)entry.getValue()).put("thumbnailUrl", ub.getAttachmentUrl(NewsDatabaseDef.DATABASE_NEWS, NewsDatabaseDef.STORE_NEWS, entry.getUnid(), NewsManifest.ATTACHMENT_NAME));
+										((JsonObject)entry.getJson()).put("thumbnailUrl", ub.getAttachmentUrl(NewsDatabaseDef.DATABASE_NEWS, NewsDatabaseDef.STORE_NEWS, entry.getUnid(), NewsManifest.ATTACHMENT_NAME));
 									}
 								}
 								// Read the comments
@@ -147,7 +148,7 @@ public class MainBean implements Serializable {
 										public boolean handle(CursorEntry entry) throws JsonException {
 											RowEntry ce = new RowEntry();
 											ce.category = entry.isCategory();
-											ce.value = entry.getValue();
+											ce.value = entry.getJson();
 											comments.add(ce);
 											return true;
 										}

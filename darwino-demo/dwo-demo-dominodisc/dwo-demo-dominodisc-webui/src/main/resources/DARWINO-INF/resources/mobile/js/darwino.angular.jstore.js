@@ -470,9 +470,9 @@ darwino.provide("darwino/angular/jstore",null,function() {
 		var successCallback = function(response) {
 			var items = [];
 			function loaded(item) {
-				for(var field in item.value) {
-					if(darwino.Utils.isString(item.value[field])) {
-						item.value[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, item.storeId, _this.instanceId, item.unid, item.value[field]);
+				for(var field in item.json) {
+					if(darwino.Utils.isString(item.json[field])) {
+						item.json[field] = darwino.jstore.richTextToDisplayFormat(_this.databaseId, item.storeId, _this.instanceId, item.unid, item.json[field]);
 					}
 				}
 				if(item.children) {

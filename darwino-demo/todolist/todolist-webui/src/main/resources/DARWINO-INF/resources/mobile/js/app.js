@@ -463,7 +463,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			return item.category==true;
 		}
 		entries.getFormattedJson = function(item) {
-			return item ? darwino.Utils.toJson(item.value,false) : null;
+			return item ? darwino.Utils.toJson(item.json,false) : null;
 		}
 		entries.newEntry = function() {
 			$state.go("app.edit",{view:entries.view});
