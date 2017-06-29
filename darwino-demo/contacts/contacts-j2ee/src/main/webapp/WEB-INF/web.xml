@@ -13,7 +13,6 @@
     </context-param>
 
 
-<!--
 	Define these properties to enable the replication triggered by this application.  
 	<context-param>
     	<param-name>dwo-sync-enabled</param-name>
@@ -28,10 +27,6 @@
     	<param-value>${contacts.sync-url=http://127.0.0.1/darwino.sync}</param-value>
     </context-param>
 	<context-param>
-    	<param-name>dwo-sync-platform</param-name>
-    	<param-value>${contacts.sync-platform=domino}</param-value>
-  	</context-param>
-		<context-param>
     	<param-name>dwo-sync-commit-threshold</param-name>
     	<param-value>${contacts.sync-commit-threshold=100}</param-value>
   	</context-param>
@@ -55,7 +50,6 @@
     	<param-name>dwo-sync-trace</param-name>
     	<param-value>${contacts.sync-trace=false}</param-value>
   	</context-param>
--->	
 	
 	<!-- Application initialization -->
 	<listener>

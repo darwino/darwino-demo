@@ -34,10 +34,6 @@
     	<param-value>${discdb.url=http://127.0.0.1/darwino.sync}</param-value>
     </context-param>
 	<context-param>
-    	<param-name>dwo-sync-platform</param-name>
-    	<param-value>domino</param-value>
-  	</context-param>
-	<context-param>
     	<param-name>dwo-sync-commit-threshold</param-name>
     	<param-value>${discdb.sync-commit-threshold=100}</param-value>
   	</context-param>
