@@ -1,0 +1,12 @@
+{
+  "extract": {
+    "CommonName": {
+      "$atFormula": "firstName + \" \" + lastName"
+    },
+    "EMail": "email",
+    "Sex": "sex",
+    "State": "state"
+  },
+  "query": "",
+  "orderBy": "firstname,lastname"
+}

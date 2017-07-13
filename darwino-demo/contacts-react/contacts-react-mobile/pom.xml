@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.contacts</groupId>
+		<artifactId>contacts-react</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>contacts-react-mobile</artifactId>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-platform</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-mobile-platform</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.contacts</groupId>
+			<artifactId>contacts-react-shared</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	
+	<profiles>
+		<!--
+			This profile allows for the use of a user-level predefined_connections.json in the ~/.darwino
+			folder to be packaged with the app, but does not preclude using a project-local version. 
+		 -->
+		<profile>
+			<id>copy-predefined-connections</id>
+			<activation>
+				<file>
+					<exists>${user.home}/.darwino/predefined_connections.json</exists>
+				</file>
+			</activation>
+			
+			<properties>
+				<darwino.webapp.name>contacts</darwino.webapp.name>
+			</properties>
+			
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<includes>
+							<include>**/*</include>
+						</includes>
+					</resource>
+					<resource>
+						<directory>${user.home}/.darwino</directory>
+						<includes>
+							<include>predefined_connections.json</include>
+						</includes>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
+	
+</project>

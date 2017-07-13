@@ -1,0 +1,14 @@
+{
+  "extract": {
+    "$Creator": {$name: '$_cuser'},
+    "CommonName": {
+      "$atFormula": "FirstName + \" \" + LastName"
+    },
+    "EMail": "email",
+    "Sex": "sex",
+    "State": "state"
+  },
+  "query": "",
+  "options": 128,
+  "orderBy": "_cuser"
+}
