@@ -121,7 +121,7 @@
 	</dependencyManagement>
 
 	<build>
-        <finalName>contacts</finalName>
+        <finalName>contacts-react</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
