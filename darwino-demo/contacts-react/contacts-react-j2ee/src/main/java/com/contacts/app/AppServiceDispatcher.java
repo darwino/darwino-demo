@@ -6,7 +6,6 @@ package com.contacts.app;
 
 import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.services.HttpServiceContext;
-import com.darwino.commons.services.HttpServiceError;
 import com.darwino.commons.services.HttpServiceFactories;
 import com.darwino.j2ee.application.DarwinoJ2EEServiceDispatcherFilter;
 

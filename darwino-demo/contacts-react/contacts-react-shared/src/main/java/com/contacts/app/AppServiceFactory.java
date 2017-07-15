@@ -16,8 +16,6 @@ import com.darwino.commons.services.rest.RestServiceFactory;
 import com.darwino.commons.util.Lic;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Session;
-import com.darwino.jsonstore.extensions.ExtensionRegistry;
-import com.darwino.jsonstore.meta.DatabaseFactory;
 import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.DarwinoContext;
 import com.darwino.platform.DarwinoHttpConstants;
