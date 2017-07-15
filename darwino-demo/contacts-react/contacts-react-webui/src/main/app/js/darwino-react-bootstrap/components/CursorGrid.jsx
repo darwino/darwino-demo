@@ -49,13 +49,13 @@ const  DefaultRowGroupRenderer = (props) => {
 
     let onKeyDown = (e) => {
         if (e.key === 'ArrowLeft') {
-            props.onRowExpandToggle(false);
+            props.handleRowExpandToggle(false);
         }
         if (e.key === 'ArrowRight') {
-            props.onRowExpandToggle(true);
+            props.handleRowExpandToggle(true);
         }
         if (e.key === 'Enter') {
-            props.onRowExpandToggle(!props.isExpanded);
+            props.handleRowExpandToggle(!props.isExpanded);
         }
     };
 
@@ -75,11 +75,15 @@ export class CursorGrid extends Component {
     };
 
     selector = false
+    orderBy = null
+    descending = false
     constructor(props) {
         super(props);
         this.handleRowClick = this.handleRowClick.bind(this);
-        this.onRowExpandToggle = this.onRowExpandToggle.bind(this);
+        this.handleGridSort = this.handleGridSort.bind(this);
+        this.handleRowExpandToggle = this.handleRowExpandToggle.bind(this);
         this.rowGetter = this.rowGetter.bind(this);
+        this.state = {}
         if(props.groupBy) {
             this.state = {
                 groupBy: props.groupBy,
@@ -88,7 +92,21 @@ export class CursorGrid extends Component {
         }
     }
 
+    findColumn(key) {
+        const columns = this.props.grid && this.props.grid.columns;
+        if(columns) {
+            for(let i=0; i<columns.length; i++) {
+                if(columns[i].key==key) return columns[i]
+            }
+        }
+        return null;
+    }
+
     componentWillMount() {
+        this.reinitData();
+    }
+
+    reinitData() {
         let dataLoader = this.createDataLoader();
         if(this.props.groupBy) {
             this.selector = true
@@ -100,15 +118,19 @@ export class CursorGrid extends Component {
     }
     createDataLoader() {
         const { databaseId, storeId, params } = this.props;
-        return (new JstoreCursor())
+        let jsc = new JstoreCursor()
             .database(databaseId)
             .store(storeId)
             .queryParams(params)
-            .getDataLoader(entry => {
-                return {...entry.json, __meta: entry};
-            }            
-        );
+        ;
+        if(this.orderBy) {
+            jsc.queryParams({orderby: this.orderBy, descending: this.descending})
+        }
+        return jsc.getDataLoader(entry => {
+            return {...entry.json, __meta: entry};
+        });            
     }
+
     createPagingDataFetcher(dataLoader) {
         return new PagingDataFetcher({
             dataLoader,
@@ -128,7 +150,7 @@ export class CursorGrid extends Component {
 
     handleRowClick(entry) {
         const { baseRoute } = this.props;
-        if(!baseRoute || !entry) {
+        if(!baseRoute || !entry || !entry.__meta) {
             return;
         }
         if(entry.__meta.category) {
@@ -138,11 +160,22 @@ export class CursorGrid extends Component {
         this.context.router.history.push(baseRoute + '/' + entry.__meta.unid);
     }
 
-    onRowExpandToggle({ columnGroupName, name, shouldExpand }) {
+    handleRowExpandToggle({ columnGroupName, name, shouldExpand }) {
         let expandedRows = Object.assign({}, this.state.expandedRows);
         expandedRows[columnGroupName] = Object.assign({}, expandedRows[columnGroupName]);
         expandedRows[columnGroupName][name] = {isExpanded: shouldExpand};
         this.setState({expandedRows: expandedRows});
+    }
+
+    handleGridSort(sortColumn, sortDirection) {
+        let c = this.findColumn(sortColumn);
+        if(c && sortDirection!="NONE") {
+            this.orderBy = c.sortField||sortColumn
+            this.descending = sortDirection=='DESC'
+        } else {
+            this.orderBy = null
+        }
+        this.reinitData();
     }
 
     createActionBar() {
@@ -182,7 +215,7 @@ export class CursorGrid extends Component {
         if(this.selector) {
             return Selectors.getRows(this.state)[i];
         }
-        return this.dataFetcher.getRow(i);
+        return i>=0 ? this.dataFetcher.getRow(i) : null;
     }
     rowsCount() {
         if(this.selector) {
@@ -203,8 +236,9 @@ export class CursorGrid extends Component {
                     onRowClick={(idx,data) => {
                         this.handleRowClick(data)
                     }}
-                    onRowExpandToggle={this.onRowExpandToggle}
+                    onRowExpandToggle={this.handleRowExpandToggle}
                     rowGroupRenderer={DefaultRowGroupRenderer}
+                    onGridSort={this.handleGridSort}
                     {...this.props.grid}                
                 />
             </div>

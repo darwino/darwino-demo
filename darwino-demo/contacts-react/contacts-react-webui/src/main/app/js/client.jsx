@@ -62,7 +62,7 @@ const DEVELOPMENT = true;
 // Redux dev tools
 const composeEnhancers = DEVELOPMENT ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : compose;
 if(DEVELOPMENT) {
-    initDevOptions(DEVELOPMENT,"http://localhost:8080/contacts/")
+    initDevOptions(DEVELOPMENT,"http://localhost:8080/contacts-react/")
 }
 
 // Establish the store

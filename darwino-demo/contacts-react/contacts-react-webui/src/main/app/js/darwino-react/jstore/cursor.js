@@ -40,7 +40,11 @@ export default class JstoreCursor {
         if(params) {
             for(let k in params) {
                 if(params.hasOwnProperty(k)) {
-                    this.params[k] = this._stringify(params[k])
+                    if([params[k]]) {
+                        this.params[k] = this._stringify(params[k])
+                    } else {
+                        delete this.params[k];
+                    }
                 }
             }
         }
@@ -58,33 +62,31 @@ export default class JstoreCursor {
     }
 
     query(query) {
-        this.params.query = this._stringify(query);
-        return this;
+        return this.queryParams({query:query});
+    }
+
+    orderby(orderBy) {
+        return this.queryParams({orderby:orderBy});
     }
 
     extract(extract) {
-        this.params.extract = this._stringify(extract);
-        return this;
+        return this.queryParams({extract:extract});
     }
 
     aggregator(aggregator) {
-        this.params.aggregator = this._stringify(aggregator);
-        return this;
+        return this.queryParams({aggregator:aggregator});
     }
 
     skip(skip) {
-        this.params.skip = this._stringify(skip);
-        return this;
+        return this.queryParams({skip:skip});
     }
 
     limit(limit) {
-        this.params.limit = this._stringify(limit);
-        return this;
+        return this.queryParams({limit:limit});
     }
 
     name(name) {
-        this.params.name = this._stringify(name);
-        return this;
+        return this.queryParams({name:name});
     }
     
     fetchEntries() {
@@ -122,11 +124,6 @@ export default class JstoreCursor {
             return this.fetchEntries().then(json => {
                 return transform ? json.map(transform) : json;
             })                
-            // return this.fetchEntries().then(json => {
-            //     return json.map(entry => {
-            //         return {...entry.json, __meta: entry};
-            //     })
-            // })                
         }
     }
 }

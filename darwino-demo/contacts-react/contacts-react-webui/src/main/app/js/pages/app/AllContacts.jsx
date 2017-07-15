@@ -34,10 +34,10 @@ const AllContacts = () => {
             }}
             grid={{
                 columns:[
-                    {name: "Name", key: "CommonName"},
-                    {name: "EMail", key: "EMail"},
-                    {name: "Sex", key: "Sex"},
-                    {name: "State", key: "State"}
+                    {name: "Name", key: "CommonName", sortable: true, sortField: 'firstname,lastname'},
+                    {name: "EMail", key: "EMail", sortable: true, sortField: 'email'},
+                    {name: "Sex", key: "Sex", sortable: true, sortField: 'sex'},
+                    {name: "State", key: "State", sortable: true, sortField: 'state'}
                 ]
             }}
             baseRoute="/app/contact"

@@ -88,8 +88,7 @@ export default class PagingDataFetcher {
     }
     loadMoreRows() {
         if(!this._fetching && !this._eof) {
-            let num = this._pages.length
-            this.loadPage(num+1)
+            this.loadPage(this._pages.length)
         }
     }
     loadPage(num) {
