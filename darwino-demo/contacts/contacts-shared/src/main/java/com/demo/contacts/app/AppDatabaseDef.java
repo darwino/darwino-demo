@@ -20,7 +20,8 @@ import com.darwino.jsonstore.meta._Store;
  */
 public class AppDatabaseDef extends DatabaseFactoryImpl {
 
-	public static final int DATABASE_VERSION	= 1;
+	// V2: added FT search
+	public static final int DATABASE_VERSION	= 2;
 	public static final String DATABASE_NAME	= "contacts";
 	
 	// The list  of instances is defined through a property for the DB

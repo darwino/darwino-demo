@@ -23,12 +23,8 @@ const nodeModulesDir  = path.resolve(__dirname, 'node_modules');
 const debug = process.env.NODE_ENV !== "production";
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
+const config = {
 	context: contextDir,
-	devtool: debug ? "inline-sourcemap" : null,
-	devServer: {
-		port: 8008
-	},	
 	entry: [
 		"babel-polyfill",
 		path.resolve(contextDir, "js/client.jsx")
@@ -73,3 +69,38 @@ module.exports = {
 	    })
 	],
 };
+
+if (process.env.NODE_ENV === 'production') {
+	new webpack.DefinePlugin({ // <-- key to reducing React's size
+       'process.env': {
+         'NODE_ENV': JSON.stringify('production')
+       }
+    }),
+    new webpack.optimize.DedupePlugin(), //dedupe similar code 
+    new webpack.optimize.UglifyJsPlugin(), //minify everything
+    new webpack.optimize.AggressiveMergingPlugin()//Merge chunks 	
+	
+	
+    // Plugins for production
+    // https://stackoverflow.com/questions/35054082/webpack-how-to-build-production-code-and-how-to-use-it
+/*	
+    config.plugins.push(new webpack.optimize.CommonsChunkPlugin('common.js'))
+    config.plugins.push(new webpack.optimize.UglifyJsPlugin())
+    config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin())
+    config.plugins.push(new webpack.optimize.AggressiveMergingPlugin())
+*/
+    //babelSettings.plugins.push("transform-react-inline-elements");
+    //babelSettings.plugins.push("transform-react-constant-elements");
+
+} else {
+    //config.devtool = "#cheap-module-source-map"
+	config.devtool= "inline-sourcemap"
+    config.devServer = {
+		port: 8008
+    }
+    config.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+    );
+}
+
+module.exports = config

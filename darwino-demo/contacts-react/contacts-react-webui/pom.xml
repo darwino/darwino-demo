@@ -65,6 +65,12 @@
 									<goal>webpack</goal>
 								</goals>
 								<phase>generate-resources</phase>
+    							<configuration>
+        							<arguments>-p</arguments>
+    								<environmentVariables>
+        								<NODE_ENV>production</NODE_ENV>
+    								</environmentVariables>    
+    							</configuration>								
 							</execution>
 						</executions>
 					</plugin>

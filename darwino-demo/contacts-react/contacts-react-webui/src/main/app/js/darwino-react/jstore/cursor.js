@@ -65,8 +65,14 @@ export default class JstoreCursor {
         return this.queryParams({query:query});
     }
 
-    orderby(orderBy) {
-        return this.queryParams({orderby:orderBy});
+    orderby(orderBy,descending) {
+        let o = {orderby:orderBy}
+        if(descending) o.descending=true
+        return this.queryParams(o);
+    }
+
+    ftsearch(ftsearch) {
+        return this.queryParams({ftsearch:ftsearch});
     }
 
     extract(extract) {

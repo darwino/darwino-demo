@@ -32,6 +32,7 @@ const AllContacts = () => {
             params={{
                 name: "AllContacts"
             }}
+            ftSearch={true}
             grid={{
                 columns:[
                     {name: "Name", key: "CommonName", sortable: true, sortField: 'firstname,lastname'},

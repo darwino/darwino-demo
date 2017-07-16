@@ -7,8 +7,11 @@ package com.contacts.app;
 import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.util.StringUtil;
+import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.impl.DatabaseFactoryImpl;
 import com.darwino.jsonstore.meta._Database;
+import com.darwino.jsonstore.meta._FtSearch;
+import com.darwino.jsonstore.meta._Store;
 
 /**
  * Database Definition.
@@ -17,7 +20,8 @@ import com.darwino.jsonstore.meta._Database;
  */
 public class AppDatabaseDef extends DatabaseFactoryImpl {
 
-	public static final int DATABASE_VERSION	= 1;
+	// V2: added FT search
+	public static final int DATABASE_VERSION	= 2;
 	public static final String DATABASE_NAME	= "contacts";
 	
     public static final String[] DATABASES = new String[] {
@@ -69,12 +73,12 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 //		}
 		
 		// Customize the default stores, if desired...
-//		{
-//			_Store _def = db.getStore(Database.STORE_DEFAULT);
-//			_def.setFtSearchEnabled(true);
-//			_FtSearch ft = (_FtSearch) _def.setFTSearch(new _FtSearch());
-//			ft.setFields("$");
-//		}
+		{
+			_Store _def = db.getStore(Database.STORE_DEFAULT);
+			_def.setFtSearchEnabled(true);
+			_FtSearch ft = (_FtSearch) _def.setFTSearch(new _FtSearch());
+			ft.setFields("$");
+		}
 
 		// Store...
 //		{

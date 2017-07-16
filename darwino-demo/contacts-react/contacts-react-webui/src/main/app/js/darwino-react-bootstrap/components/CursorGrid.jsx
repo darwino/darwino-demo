@@ -74,9 +74,13 @@ export class CursorGrid extends Component {
         router: PropTypes.object
     };
 
-    selector = false
+    selector = false // React grid add-on Selector
+
+    // Cursor property
     orderBy = null
     descending = false
+    ftSearch = null
+
     constructor(props) {
         super(props);
         this.handleRowClick = this.handleRowClick.bind(this);
@@ -124,7 +128,10 @@ export class CursorGrid extends Component {
             .queryParams(params)
         ;
         if(this.orderBy) {
-            jsc.queryParams({orderby: this.orderBy, descending: this.descending})
+            jsc.orderby(this.orderBy,this.descending)
+        }
+        if(this.ftSearch) {
+            jsc.ftsearch(this.ftSearch)
         }
         return jsc.getDataLoader(entry => {
             return {...entry.json, __meta: entry};
@@ -178,12 +185,33 @@ export class CursorGrid extends Component {
         this.reinitData();
     }
 
+    onSearchChange(evt) {
+        this.setState({_ftSearch: evt.target.value});
+    }
+
     createActionBar() {
         return (
             <div className="action-bar">
                 {this.getCreateButton()}
                 {this.getDeleteAllButton()}
             </div>
+        );
+    }
+
+    createFTSearchBar() {
+        return (
+            <form className="navbar-form" role="search" style={{padding: 0}}
+                    onSubmit={(evt) => {evt.preventDefault(); this.ftSearch=this._ftSearch; this.reinitData();}}>
+                <div className="input-group">
+                    <input type="text" className="form-control" size="30" placeholder="Search..." name="q" 
+                        onChange={(evt) => this._ftSearch=evt.target.value}/>
+                    <div className="input-group-btn">
+                        <button className="btn btn-default" type="submit">
+                            <i className="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>        
         );
     }
 
@@ -229,6 +257,7 @@ export class CursorGrid extends Component {
         return  (
             <div>
                 {this.createActionBar()}
+                {this.props.ftSearch && this.createFTSearchBar()}
                 <ReactDataGrid
                     rowGetter={this.rowGetter}
                     rowsCount={this.rowsCount()}
