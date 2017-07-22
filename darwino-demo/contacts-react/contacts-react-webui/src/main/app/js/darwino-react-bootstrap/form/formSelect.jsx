@@ -22,19 +22,22 @@
 
 import React from "react";
 import { FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
+import { renderText } from "./formText.jsx"
 
 export const renderSelect = field => {
-    const { input, meta, options, label, emptyOption } = field;
-
+    if(field.readOnly) return renderText(field);
+    
+    const { input, meta, disabled, label, type, emptyOption, options } = field;
     return (
-    <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
-        <ControlLabel>{label}</ControlLabel>
-        <FormControl componentClass="select" type={field.type} {...field.input} disabled={field.disabled}>
-            { emptyOption && <option key='' value=''>{emptyOption}</option> }
-            { options && options.map(val =>
-                <option key={val.value} value={val.value}>{val.label}</option>
-            )}
-        </FormControl>
-        {meta.touched && meta.error && <div className="error">{meta.error}</div>}
-    </FormGroup>
-)};
+        <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
+            {label && <ControlLabel>{label}</ControlLabel>}
+            <FormControl componentClass="select" type={type} {...input} disabled={disabled}>
+                { emptyOption && <option key='' value=''>{emptyOption}</option> }
+                { options && options.map(val =>
+                    <option key={val.value} value={val.value}>{val.label}</option>
+                )}
+            </FormControl>
+            {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+        </FormGroup>
+    )
+}

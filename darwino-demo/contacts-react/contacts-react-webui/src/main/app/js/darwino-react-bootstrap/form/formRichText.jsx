@@ -43,23 +43,22 @@ const _quillModules= {
 }
 
 export const renderRichText = field => {
-    const { input, meta, options, label } = field;
-
-    if(field.disabled) {
+    const { input, meta, disabled, label } = field;
+    if(field.readOnly) {
         return (
-            <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
-                <ControlLabel>{label}</ControlLabel>
+            <FormGroup>
+                {label && <ControlLabel>{label}</ControlLabel>}
                 <div dangerouslySetInnerHTML={{__html: input.value}}></div>
-                {meta.touched && meta.error && <div className="error">{meta.error}</div>}
             </FormGroup>
         )
     } else {
         return (
             <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
-                <ControlLabel>{label}</ControlLabel>
+                {label && <ControlLabel>{label}</ControlLabel>}
                 <ReactQuill 
                     theme='snow'
-                    {...field.input} 
+                    readOnly={disabled}
+                    {...input} 
                     modules={_quillModules}>
                 </ReactQuill>
                 {meta.touched && meta.error && <div className="error">{meta.error}</div>}

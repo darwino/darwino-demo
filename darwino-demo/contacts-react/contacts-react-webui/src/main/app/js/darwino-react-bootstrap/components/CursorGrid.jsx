@@ -162,9 +162,10 @@ export class CursorGrid extends Component {
         }
         if(entry.__meta.category) {
             return;
-        }
+        }        
+        let url = (typeof baseRoute==="function") ? baseRoute(entry) : baseRoute + '/' + entry.__meta.unid;  
         // https://stackoverflow.com/questions/42701129/how-to-push-to-history-in-react-router-v4
-        this.context.router.history.push(baseRoute + '/' + entry.__meta.unid);
+        if(url) this.context.router.history.push(url);
     }
 
     handleRowExpandToggle({ columnGroupName, name, shouldExpand }) {

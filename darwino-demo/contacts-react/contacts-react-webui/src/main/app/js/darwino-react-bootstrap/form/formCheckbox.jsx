@@ -21,14 +21,19 @@
  */
 
 import React from "react";
+import { renderText } from "./formText.jsx"
 
 export const renderCheckbox = field => {
+    if(field.readOnly) return renderText(field);
+    
+    const { input, meta, disabled, label } = field;
     return (
-    <div className='checkbox'>
-        <label>
-            <input type='checkbox' {...field.input} disabled={field.disabled}/>
-            {field.label}
-        </label>
-        {field.meta.touched && field.meta.error && <div className="error">{field.meta.error}</div>}
-    </div>
-)};
+        <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
+            <label>
+                <input type='checkbox' {...input} disabled={disabled}/>
+                {label}
+            </label>
+            {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+        </FormGroup>
+    )
+};

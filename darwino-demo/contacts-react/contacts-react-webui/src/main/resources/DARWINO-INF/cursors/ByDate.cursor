@@ -1,4 +1,5 @@
 {
+  "store": "contacts",
   "extract": {
     "Date": "_cdate",
     "CommonName": {
@@ -6,9 +7,10 @@
     },
     "EMail": "email",
     "Sex": "sex",
-    "State": "state"
+    "State": "state",
+    "form": "form"
   },
-  "query": "",
-  "options": 128,
+  //"query": "{form: 'Contact'}",
+  "options": "DATA_MODDATES",
   "orderBy": "_cdate"
 }

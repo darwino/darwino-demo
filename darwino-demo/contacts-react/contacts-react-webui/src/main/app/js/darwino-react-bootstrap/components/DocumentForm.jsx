@@ -43,12 +43,14 @@ export class DocumentForm extends Component {
     static mapStateToProps = function(state, ownProps, databaseId, storeId) {
         const { documents } = state;
         if(ownProps.match.params && ownProps.match.params.unid) {
-            const storeKey = darwinoToStoreKey(databaseId, storeId,  ownProps.match.params.unid);
+            const unid = ownProps.match.params.unid;
+            const storeKey = darwinoToStoreKey(databaseId, storeId, unid);
             const doc = documents[storeKey];
 
             return {
                 databaseId,
                 storeId,
+                unid,
                 doc,
                 newDoc: false,
                 initialValues: doc ? doc.json : null,
@@ -84,33 +86,33 @@ export class DocumentForm extends Component {
     }
     
     componentWillMount() {
-        const { databaseId, storeId, loadDocument, newDocument, newDoc, match } = this.props;
+        const { databaseId, storeId, unid, loadDocument, newDocument, newDoc } = this.props;
 
         // Load the initial values
         // We could also call newDocument is we want to call the service to get the
         // document initialized
         if(!newDoc) {
-            loadDocument(databaseId, storeId, match.params.unid);
+            loadDocument(databaseId, storeId, unid);
         }
     }
 
     componentWillUnmount() {
-        const { databaseId, storeId, newDoc, match } = this.props;
+        const { databaseId, storeId, unid, newDoc} = this.props;
         // Remove the document from the state
         if(!newDoc) {
-            removeDocument(databaseId, storeId, match.params.unid);
+            removeDocument(databaseId, storeId, unid);
         }
     }
 
     handleUpdateDocument(state, dispatch) {
-        const { databaseId, storeId, createDocument, updateDocument, newDoc, doc, match } = this.props;
+        const { databaseId, storeId, unid, createDocument, updateDocument, newDoc, doc } = this.props;
         let promise;
         if(newDoc) {
             promise = createDocument(databaseId, storeId, {
                 ...state
             },state.name);
         } else {
-            promise = updateDocument(databaseId, storeId, match.params.unid, {
+            promise = updateDocument(databaseId, storeId, unid, {
                 ...doc.json,
                 ...state
             })
@@ -134,9 +136,9 @@ export class DocumentForm extends Component {
             return;
         }
 
-        const { databaseId, storeId, deleteDocument, match } = this.props;
+        const { databaseId, storeId, unid, deleteDocument } = this.props;
 
-        deleteDocument(databaseId, storeId, match.params.unid).then(() => {
+        deleteDocument(databaseId, storeId, unid).then(() => {
             if(this.props.nextPageSuccess) {
                 this.context.router.history.push(this.props.nextPageSuccess);
             }

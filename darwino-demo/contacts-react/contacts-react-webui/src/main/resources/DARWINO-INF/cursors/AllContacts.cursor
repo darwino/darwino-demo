@@ -1,12 +1,15 @@
 {
+  "store": "contacts",
   "extract": {
     "CommonName": {
       "$atFormula": "firstName + \" \" + lastName"
     },
     "EMail": "email",
     "Sex": "sex",
-    "State": "state"
+    "State": "state",
+    "form": "form"
   },
-  "query": "",
+  //"query": "{form: 'Contact'}",
+  "options": "DATA_MODDATES",
   "orderBy": "firstname,lastname"
 }

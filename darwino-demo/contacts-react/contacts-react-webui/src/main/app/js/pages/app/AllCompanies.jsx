@@ -21,20 +21,29 @@
  */
 
 import React from "react";
-import { FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
-import { renderText } from "./formText.jsx"
+import Constants from "./Constants.jsx";
+import CursorGrid from "../../darwino-react-bootstrap/components/CursorGrid.jsx"
 
-export const renderField = field => {
-    if(field.readOnly) return renderText(field);
-    
-    const { input, meta, disabled, label, children, type } = field;
+const AllCompanies = () => {
     return (
-        <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
-            {label && <ControlLabel>{label}</ControlLabel>}
-            <FormControl type={type} {...input} disabled={disabled}>
-                {children}
-            </FormControl>
-            {meta.touched && meta.error && <div className="error">{meta.error}</div>}
-        </FormGroup>
+        <div>
+            <h3>All Companies</h3>
+            <CursorGrid
+                databaseId={Constants.DATABASE}
+                params={{
+                    name: "AllCompanies"
+                }}
+                grid={{
+                    columns:[
+                        {name: "Name", key: "Name", sortable: true, sortField: 'name'},
+                        {name: "Industry", key: "Industry", sortable: true, sortField: 'industry'},
+                        {name: "State", key: "State", sortable: true, sortField: 'state'}
+                    ]
+                }}
+                baseRoute="/app/company"
+            />
+        </div>
     )
 }
+
+export default AllCompanies

@@ -22,20 +22,23 @@
 
 import React from "react";
 import { FormGroup, ControlLabel } from 'react-bootstrap';
+import { renderText } from "./formText.jsx"
 
 export const renderRadioGroup = field => {
-    const { input, meta, options, label } = field;
+    if(field.readOnly) return renderText(field);
 
+    const { input, meta, options, label } = field;
     return (
-    <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
-        <ControlLabel>{label}</ControlLabel>
-        <div className="form-control">
-            {options.map(val => 
-                <label className="radio-inline" key={val.value}>
-                    <label><input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={field.disabled}/> {val.label}</label>
-                </label>
-            )}
-        </div>
-        {meta.touched && meta.error && <div className="error">{meta.error}</div>}
-    </FormGroup>
-)};
+        <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
+            {label && <ControlLabel>{label}</ControlLabel>}
+            <div className="form-control">
+                {options.map(val => 
+                    <label className="radio-inline" key={val.value}>
+                        <label><input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={disabled}/>{val.label}</label>
+                    </label>
+                )}
+            </div>
+            {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+        </FormGroup>
+    )
+}

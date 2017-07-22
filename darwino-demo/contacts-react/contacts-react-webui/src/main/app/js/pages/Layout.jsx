@@ -39,6 +39,10 @@ import AppContact from "./app/Contact.jsx";
 import AppContacts from "./app/Contacts.jsx";
 import AppContactsg from "./app/Contactsg.jsx";
 
+import AppAllCompanies from "./app/AllCompanies.jsx";
+import AppAllCompaniesByIndustry from "./app/AllCompaniesByIndustry.jsx";
+import AppCompany from "./app/Company.jsx";
+
 export default class Layout extends React.Component {
   render() {
     const { location } = this.props;
@@ -63,13 +67,16 @@ export default class Layout extends React.Component {
                 <Route exact path="/app/contactsg" component={AppContactsg}></Route>
                 <Route exact path="/app/contact/" component={AppContact}></Route>
                 <Route exact path="/app/contact/:unid" component={AppContact}></Route>
+
+                <Route exact path="/app/allcompanies" component={AppAllCompanies}></Route>
+                <Route exact path="/app/allcompaniesbyindustry" component={AppAllCompaniesByIndustry}></Route>
+                <Route exact path="/app/company/:unid" component={AppCompany}></Route>
               </Switch>
             </div>
           </div>
         </div>
         <Footer/>
       </div>
-
     );
   }
 }

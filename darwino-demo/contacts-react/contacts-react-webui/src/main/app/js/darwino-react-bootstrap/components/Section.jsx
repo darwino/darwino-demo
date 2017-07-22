@@ -23,8 +23,6 @@
 import React, { Component } from "react";
 import { FormGroup, Panel, ControlLabel } from "react-bootstrap";
 
-const DEFAULT_PAGE_SIZE = 50;
-
 /*
  * Collapsible Section
  */

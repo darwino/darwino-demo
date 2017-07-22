@@ -21,7 +21,7 @@ import com.darwino.jsonstore.meta._Store;
 public class AppDatabaseDef extends DatabaseFactoryImpl {
 
 	// V2: added FT search
-	public static final int DATABASE_VERSION	= 2;
+	public static final int DATABASE_VERSION	= 3;
 	public static final String DATABASE_NAME	= "contacts";
 	
     public static final String[] DATABASES = new String[] {
@@ -73,23 +73,32 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 //		}
 		
 		// Customize the default stores, if desired...
-		{
-			_Store _def = db.getStore(Database.STORE_DEFAULT);
-			_def.setFtSearchEnabled(true);
-			_FtSearch ft = (_FtSearch) _def.setFTSearch(new _FtSearch());
-			ft.setFields("$");
-		}
-
-		// Store...
 //		{
-//			_Store store = db.addStore("MyStore");
-//			store.setLabel("My Store");
-//			store.setFtSearchEnabled(true);
-//			
-//			// Search the whole document (all fields)
-//			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
+//			_Store _def = db.getStore(Database.STORE_DEFAULT);
+//			_def.setFtSearchEnabled(true);
+//			_FtSearch ft = (_FtSearch) _def.setFTSearch(new _FtSearch());
 //			ft.setFields("$");
 //		}
+
+		// Stores...
+		{
+			_Store store = db.addStore("contacts");
+			store.setLabel("Contacts");
+			store.setFtSearchEnabled(true);
+			
+			// Search the whole document (all fields)
+			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
+			ft.setFields("$");
+		}
+		{
+			_Store store = db.addStore("companies");
+			store.setLabel("Companies");
+			store.setFtSearchEnabled(true);
+			
+			// Search the whole document (all fields)
+			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
+			ft.setFields("$");
+		}
 
 		return db;
 	}
