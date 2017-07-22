@@ -28,7 +28,6 @@ const ByDate = () => {
     return (
         <CursorGrid
             databaseId={Constants.DATABASE}
-            storeId="_default"
             params={{
                 name: "ByDate"
             }}

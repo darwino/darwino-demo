@@ -1,5 +1,5 @@
 {
-  "store": "contacts",
+  "store": "_default",
   "extract": {
     "CommonName": {
       "$atFormula": "firstName + \" \" + lastName"

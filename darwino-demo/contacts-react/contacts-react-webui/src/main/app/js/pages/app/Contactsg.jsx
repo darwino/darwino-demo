@@ -28,7 +28,6 @@ const Contactsg = () => {
     return (
         <CursorGrid
             databaseId={Constants.DATABASE}
-            storeId="_default"
             params={{
                 orderby: "firstname,lastname"
             }}

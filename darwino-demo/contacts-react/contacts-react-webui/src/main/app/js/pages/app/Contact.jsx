@@ -35,7 +35,7 @@ import { richTextToDisplayFormat } from "../../darwino-react/jstore/richtext";
 import JsonDebug from "../../darwino-react/util/JsonDebug.jsx";
 
 const DATABASE = Constants.DATABASE;
-const STORE = "contacts";
+const STORE = "_default";
 
 const FORM_NAME = "contact";
 

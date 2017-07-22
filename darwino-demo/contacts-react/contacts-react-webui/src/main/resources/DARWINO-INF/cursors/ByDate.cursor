@@ -1,5 +1,5 @@
 {
-  "store": "contacts",
+  "store": "_default",
   "extract": {
     "Date": "_cdate",
     "CommonName": {

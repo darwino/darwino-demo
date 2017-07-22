@@ -21,7 +21,9 @@ import com.darwino.jsonstore.meta._Store;
 public class AppDatabaseDef extends DatabaseFactoryImpl {
 
 	// V2: added FT search
-	public static final int DATABASE_VERSION	= 3;
+	// V3: used store
+	// V4: back to default store for contacts
+	public static final int DATABASE_VERSION	= 4;
 	public static final String DATABASE_NAME	= "contacts";
 	
     public static final String[] DATABASES = new String[] {
@@ -60,36 +62,23 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 	}
 	
 	public _Database loadDatabase_contacts() throws JsonException {
-		_Database db = new _Database(DATABASE_NAME, "Contacts React", DATABASE_VERSION);
+		_Database db = new _Database(DATABASE_NAME, "Contacts", DATABASE_VERSION);
 
 		db.setReplicationEnabled(true);
 		
 		// Document base security
-//		db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
-		
-		// Instances are only available with the enterprise edition
-//		if(Lic.isEnterpriseEdition()) {
-//			db.setInstanceEnabled(true);
-//		}
+		// db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
 		
 		// Customize the default stores, if desired...
-//		{
-//			_Store _def = db.getStore(Database.STORE_DEFAULT);
-//			_def.setFtSearchEnabled(true);
-//			_FtSearch ft = (_FtSearch) _def.setFTSearch(new _FtSearch());
-//			ft.setFields("$");
-//		}
-
-		// Stores...
+		// This store actually stores the contacts
 		{
-			_Store store = db.addStore("contacts");
-			store.setLabel("Contacts");
-			store.setFtSearchEnabled(true);
-			
-			// Search the whole document (all fields)
-			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
+			_Store _def = db.getStore(Database.STORE_DEFAULT);
+			_def.setFtSearchEnabled(true);
+			_FtSearch ft = (_FtSearch) _def.setFTSearch(new _FtSearch());
 			ft.setFields("$");
 		}
+
+		// Other stores...
 		{
 			_Store store = db.addStore("companies");
 			store.setLabel("Companies");

@@ -28,7 +28,6 @@ const ByState = () => {
     return (
         <CursorGrid
             databaseId={Constants.DATABASE}
-            storeId="_default"
             params={{
                 name: "ByState"
             }}

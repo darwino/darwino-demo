@@ -28,7 +28,6 @@ const Contacts = () => {
     return (
         <TableCursorList
             databaseId={Constants.DATABASE}
-            storeId="_default"
             params={{
                 orderby: "firstname,lastname"
             }}
