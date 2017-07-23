@@ -9,24 +9,24 @@
     <label class="item item-input item-stacked-label">
     	<span class="input-label">Picture</span>
     	<div>
-    		<img ng-src="{{data.value.picture}}">
+    		<img ng-src="{{data.json.picture}}">
     	</div>
     </label>	
     <label class="item item-input item-stacked-label">
     	<span class="input-label">First Name</span>
-    	<div ng-bind='data.value.firstname'></div>
+    	<div ng-bind='data.json.firstname'></div>
     </label>	
     <label class="item item-input item-stacked-label">
     	<span class="input-label">Last Name</span>
-    	<div ng-bind='data.value.lastname'></div>
+    	<div ng-bind='data.json.lastname'></div>
     </label>	
     <label class="item item-input item-stacked-label">
     	<span class="input-label">E-Mail</span>
-    	<div ng-bind='data.value.email'></div>
+    	<div ng-bind='data.json.email'></div>
     </label>	
     <label class="item item-input item-stacked-label">
     	<span class="input-label">Comments</span>
-    	<div  ng-bind-html='data.value.comments'></div>
+    	<div  ng-bind-html='data.json.comments'></div>
     </label>	
 
 <!-- This is to display the whole JSON document, for debugging purposes		
