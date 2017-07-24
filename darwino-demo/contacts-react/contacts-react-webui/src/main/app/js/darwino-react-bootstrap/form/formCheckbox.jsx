@@ -21,6 +21,7 @@
  */
 
 import React from "react";
+import { FormGroup, Checkbox, ControlLabel } from 'react-bootstrap';
 import { renderText } from "./formText.jsx"
 
 export const renderCheckbox = field => {
@@ -30,10 +31,20 @@ export const renderCheckbox = field => {
     return (
         <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
             <label>
-                <input type='checkbox' {...input} disabled={disabled}/>
+                <input type='checkbox' {...input} disabled={disabled} checked={input.value}/>
                 {label}
             </label>
             {meta.touched && meta.error && <div className="error">{meta.error}</div>}
         </FormGroup>
     )
 };
+
+/*
+        <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
+            <label>
+                <input type='checkbox' {...input} disabled={disabled}/>
+                {label}
+            </label>
+            {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+        </FormGroup>
+*/

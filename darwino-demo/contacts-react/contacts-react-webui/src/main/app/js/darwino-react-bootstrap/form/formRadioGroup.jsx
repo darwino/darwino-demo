@@ -27,14 +27,15 @@ import { renderText } from "./formText.jsx"
 export const renderRadioGroup = field => {
     if(field.readOnly) return renderText(field);
 
-    const { input, meta, options, label } = field;
+    const { input, meta, options, disabled, label } = field;
     return (
         <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
             {label && <ControlLabel>{label}</ControlLabel>}
             <div className="form-control">
                 {options.map(val => 
                     <label className="radio-inline" key={val.value}>
-                        <label><input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={disabled}/>{val.label}</label>
+                        <input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={disabled}/>
+                        {val.label}
                     </label>
                 )}
             </div>
