@@ -41,29 +41,18 @@ export class DocumentForm extends Component {
 
     // Default mapStateToProps
     static mapStateToProps = function(state, ownProps, databaseId, storeId) {
-        const { documents } = state;
-        if(ownProps.match.params && ownProps.match.params.unid) {
-            const unid = ownProps.match.params.unid;
-            const storeKey = darwinoToStoreKey(databaseId, storeId, unid);
-            const doc = documents[storeKey];
-
-            return {
-                databaseId,
-                storeId,
-                unid,
-                doc,
-                newDoc: false,
-                initialValues: doc ? doc.json : null,
-                ownProps
-            }
-        } else {
-            return {
-                databaseId,
-                storeId,
-                doc: {},
-                newDoc: true,
-                ownProps
-            }
+        const unid = (ownProps.match.params && ownProps.match.params.unid) || null;
+        const storeKey = darwinoToStoreKey(databaseId, storeId, unid);
+        const newDoc = !unid; // Might use a different system to allow new documents with a predefined unid
+        const doc = state.documents[storeKey] || {json:{}};
+        return {
+            databaseId,
+            storeId,
+            unid,
+            doc,
+            newDoc,
+            ownProps,
+            initialValues: doc.json
         }
     }
 
@@ -83,16 +72,28 @@ export class DocumentForm extends Component {
         this.handleUpdateDocument = this.handleUpdateDocument.bind(this);
         this.handleDeleteDocument = this.handleDeleteDocument.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
+        this.docEvents = {
+            initialize: this.initialize.bind(this),
+            prepareForDisplay: this.prepareForDisplay.bind(this),
+            prepareForSave: this.prepareForSave.bind(this)
+        }
     }
+
+    // Default event handlers
+    initialize(doc) {}
+    prepareForDisplay(doc) {}
+    prepareForSave(doc) {return doc.json;}
     
     componentWillMount() {
-        const { databaseId, storeId, unid, loadDocument, newDocument, newDoc } = this.props;
+        const { databaseId, storeId, unid, docEvents, loadDocument, newDocument, newDoc } = this.props;
 
         // Load the initial values
         // We could also call newDocument is we want to call the service to get the
         // document initialized
-        if(!newDoc) {
-            loadDocument(databaseId, storeId, unid);
+        if(newDoc) {
+            newDocument(databaseId, storeId, unid, false, this.docEvents);
+        } else {
+            loadDocument(databaseId, storeId, unid, this.docEvents);
         }
     }
 
@@ -100,7 +101,7 @@ export class DocumentForm extends Component {
         const { databaseId, storeId, unid, newDoc} = this.props;
         // Remove the document from the state
         if(!newDoc) {
-            removeDocument(databaseId, storeId, unid);
+            removeDocument(databaseId, storeId, unid, this.docEvents);
         }
     }
 
@@ -108,14 +109,14 @@ export class DocumentForm extends Component {
         const { databaseId, storeId, unid, createDocument, updateDocument, newDoc, doc } = this.props;
         let promise;
         if(newDoc) {
-            promise = createDocument(databaseId, storeId, {
+            promise = createDocument(databaseId, storeId, unid, {
                 ...state
-            },state.name);
+            },this.docEvents);
         } else {
             promise = updateDocument(databaseId, storeId, unid, {
                 ...doc.json,
                 ...state
-            })
+            }, this.docEvents)
         }
 
         promise.then(() => {

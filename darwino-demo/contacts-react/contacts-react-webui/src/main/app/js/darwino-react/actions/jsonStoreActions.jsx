@@ -55,10 +55,10 @@ export const loadStoreEntries = (database, store, params) => ({
 })
 
 
-
 //
 // Document Actions
 //
+
 export const removeDocument = (database, store, unid) => ({
     type: DELETE_DOCUMENT,
     meta: {
@@ -67,44 +67,96 @@ export const removeDocument = (database, store, unid) => ({
         unid
     }
 })
-export const loadDocument = (database, store, unid) => ({
-    type: LOAD_DOCUMENT,
-    payload: fetch(`${DEV_OPTIONS.serverPrefix}$darwino-jstore/databases/${encodeURIComponent(database)}/stores/${encodeURIComponent(store)}/documents/${encodeURIComponent(unid)}`, {
+
+// Document New
+function dispatchNew(doc,docEvents) {
+    if(docEvents) {
+        if(docEvents.initialize) {
+            docEvents.initialize(doc)
+        }
+        if(docEvents.prepareForDisplay) {
+            docEvents.prepareForDisplay(doc)
+        }
+    }
+    return doc;
+}
+export const newDocument = (database, store, unid, serverInit, docEvents) => ({
+    type: NEW_DOCUMENT,
+    payload: serverInit 
+        ? fetch(`${DEV_OPTIONS.serverPrefix}$darwino-jstore/databases/${encodeURIComponent(database)}/stores/${encodeURIComponent(store)}/newdocument${unid?'/'+encodeURIComponent(unid):''}`, {
             credentials: DEV_OPTIONS.credentials,
-        })
-        .then(response => response.json()),
+            })
+            .then(response => response.json())
+            .then(json => dispatchNew(json,docEvents))
+        : dispatchNew({unid, store, id:0, json:{}},docEvents), 
     meta: {
         database,
         store,
         unid
     }
 })
-export const newDocument = (database, store) => ({
-    type: NEW_DOCUMENT,
-    payload: fetch(`${DEV_OPTIONS.serverPrefix}$darwino-jstore/databases/${encodeURIComponent(database)}/stores/${encodeURIComponent(store)}/newdocument`, {
+
+// Document Load
+function dispatchLoad(doc,docEvents) {
+    if(docEvents && docEvents.prepareForDisplay) {
+         docEvents.prepareForDisplay(doc)
+    }
+    return doc;
+}
+export const loadDocument = (database, store, unid, docEvents) => ({
+    type: LOAD_DOCUMENT,
+    payload: fetch(`${DEV_OPTIONS.serverPrefix}$darwino-jstore/databases/${encodeURIComponent(database)}/stores/${encodeURIComponent(store)}/documents/${encodeURIComponent(unid)}`, {
             credentials: DEV_OPTIONS.credentials,
-        })
-        .then(response => response.json()),
-})
-export const createDocument = (database, store, content, unid) => ({
-    type: CREATE_DOCUMENT,
-    payload: fetch(`${DEV_OPTIONS.serverPrefix}$darwino-jstore/databases/${encodeURIComponent(database)}/stores/${encodeURIComponent(store)}/documents${unid?'/'+unid:''}`, {
-            credentials: DEV_OPTIONS.credentials,
-            method: 'POST',
-            body: JSON.stringify({json: content})
         })
         .then(response => response.json())
+        .then(json => dispatchLoad(json,docEvents)),
+    meta: {
+        database,
+        store,
+        unid
+    }
 })
-export const updateDocument = (database, store, unid, content) => ({
+
+// Document Save
+function dispatchSave(doc,docEvents) {
+    if(docEvents && docEvents.prepareForSave) {
+        return docEvents.prepareForSave(doc)
+    }
+    return doc.json;
+}
+export const createDocument = (database, store, unid, content, docEvents) => ({
+    type: CREATE_DOCUMENT,
+    payload: fetch(`${DEV_OPTIONS.serverPrefix}$darwino-jstore/databases/${encodeURIComponent(database)}/stores/${encodeURIComponent(store)}/documents${unid?'/'+encodeURIComponent(unid):''}`, {
+            credentials: DEV_OPTIONS.credentials,
+            method: 'POST',
+            body: JSON.stringify({json: dispatchSave(content,docEvents)})
+        })
+        .then(response => response.json())
+        .then(json => dispatchLoad(json,docEvents)),
+    meta: {
+        database,
+        store,
+        unid
+    }
+})
+export const updateDocument = (database, store, unid, content, docEvents) => ({
     type: UPDATE_DOCUMENT,
     payload: fetch(`${DEV_OPTIONS.serverPrefix}$darwino-jstore/databases/${encodeURIComponent(database)}/stores/${encodeURIComponent(store)}/documents/${encodeURIComponent(unid)}`, {
             credentials: DEV_OPTIONS.credentials,
             method: 'PUT',
-            body: JSON.stringify({json: content})
+            body: JSON.stringify({json: dispatchSave(content,docEvents)})
         })
         .then(response => response.json())
+        .then(json => dispatchLoad(json,docEvents)),
+    meta: {
+        database,
+        store,
+        unid
+    }
 })
-export const deleteDocument = (database, store, unid) => ({
+
+
+export const deleteDocument = (database, store, unid, docEvents) => ({
     type: DELETE_DOCUMENT,
     payload: fetch(`${DEV_OPTIONS.serverPrefix}$darwino-jstore/databases/${encodeURIComponent(database)}/stores/${encodeURIComponent(store)}/documents/${encodeURIComponent(unid)}`, {
             credentials: DEV_OPTIONS.credentials,
@@ -116,7 +168,7 @@ export const deleteDocument = (database, store, unid) => ({
         unid
     }
 })
-export const deleteAllDocuments = (database, store) => ({
+export const deleteAllDocuments = (database, store, docEvents) => ({
     type: DELETEALL_DOCUMENTS,
     payload: fetch(`${DEV_OPTIONS.serverPrefix}$darwino-jstore/databases/${encodeURIComponent(database)}/stores/${encodeURIComponent(store)}/documents`, {
             credentials: DEV_OPTIONS.credentials,

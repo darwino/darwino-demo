@@ -139,9 +139,13 @@ function validate(values) {
     return errors;
 }
 
+const DEFAULT_VALUES = {
+    form: "Company"
+}
+
 const selector = formValueSelector(FORM_NAME)
 function mapStateToProps(state, ownProps) {
-    return DocumentForm.mapStateToProps(state, ownProps, DATABASE, STORE)
+    return DocumentForm.mapStateToProps(state, ownProps, DATABASE, STORE, DEFAULT_VALUES)
 }
 const mapDispatchToProps = DocumentForm.mapDispatchToProps;
 

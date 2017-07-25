@@ -30,7 +30,7 @@ import { renderField, renderRadioGroup, renderCheckbox, renderSelect, renderRich
 import DocumentForm from "../../darwino-react-bootstrap/components/DocumentForm.jsx";
 import Section from "../../darwino-react-bootstrap/components/Section.jsx";
 import { Tabs, Tab } from "../../darwino-react-bootstrap/components/Tabs.jsx";
-import { richTextToDisplayFormat } from "../../darwino-react/jstore/richtext";
+import { richTextToDisplayFormat, richTextToStorageFormat } from "../../darwino-react/jstore/richtext";
 
 import JsonDebug from "../../darwino-react/util/JsonDebug.jsx";
 
@@ -54,16 +54,30 @@ export class Source extends DocumentForm {
         this.state = {};
     }
 
-    handleActionClick() {
-        alert("You clicked me!");
+    initialize(doc) {
+        doc.json = {
+            form: "Contact",
+            firstname: "Leonardo",
+            lastname: "da Vinci"
+        }
+    }
+    prepareForDisplay(doc) {
+        // Transform the generic attachment links to physical ones
+        const {json} = doc;
+        if(json.card) {
+            json.card = richTextToDisplayFormat(this.props,json.card)
+        }
+    }
+    prepareForSave(json) {
+        // Transform the physical attachment links back to physical ones
+        return {
+            ...json,
+            card: richTextToStorageFormat(this.props,json.card)
+        }
     }
 
-    componentWillReceiveProps(nextProps) {
-        const {doc} = nextProps;
-        //richTextToDisplayFormat(db, store, instance, unid, html) 
-        if(doc) {
-            doc.json.card = richTextToDisplayFormat(nextProps,doc.json.card)
-        }
+    handleActionClick() {
+        alert("You clicked me!");
     }
 
     createActionBar() {
@@ -189,6 +203,7 @@ function validate(values) {
     }
     return errors;
 }
+
 
 const selector = formValueSelector(FORM_NAME)
 function mapStateToProps(state, ownProps) {

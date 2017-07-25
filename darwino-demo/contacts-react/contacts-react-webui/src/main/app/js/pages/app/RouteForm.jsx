@@ -20,8 +20,9 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-function RouteForm(entry,defForm) {
-    let form = entry.form || defForm;
+function RouteForm(entry) {
+    let form = entry && entry.form;
+    if(!form) return null;
     let id = entry ? entry.__meta.unid : "";
     switch(form) {
         case "Contact":     return "/app/contact/"+id;

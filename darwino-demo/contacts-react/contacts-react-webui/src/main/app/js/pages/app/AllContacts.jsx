@@ -43,8 +43,8 @@ const AllContacts = () => {
                         {name: "State", key: "State", sortable: true, sortField: 'state'}
                     ]
                 }}
-                //baseRoute="/app/contact"
-                baseRoute = {RouteForm}
+                baseRoute="/app/contact"
+                dynamicRoute = {RouteForm}
                 createButtonText="Create a new contact"
                 deleteAllButtonText="Delete all contacts"
             />

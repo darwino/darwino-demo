@@ -20,7 +20,11 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import { LOAD_ENTRIES, LOAD_DOCUMENT, DELETE_DOCUMENT, darwinoToStoreKey } from "../actions/jsonStoreActions.jsx"
+import { 
+    LOAD_ENTRIES, 
+    NEW_DOCUMENT, LOAD_DOCUMENT, UPDATE_DOCUMENT, CREATE_DOCUMENT, DELETE_DOCUMENT, 
+    darwinoToStoreKey } 
+from "../actions/jsonStoreActions.jsx"
 
 const QUERY_INITIAL_STATE = { };
 
@@ -43,7 +47,10 @@ const DOCUMENTS_INITIAL_STATE = { };
 export const DarwinoDocumentStoreReducer = (state=DOCUMENTS_INITIAL_STATE, action) => {
     let newState, documentKey;
     switch(action.type) {
+        case NEW_DOCUMENT:
         case LOAD_DOCUMENT:
+        case CREATE_DOCUMENT:
+        case UPDATE_DOCUMENT:
             newState = { ...state };
             documentKey = darwinoToStoreKey(action.meta.database, action.meta.store, action.meta.unid);
             newState[documentKey] = action.payload;

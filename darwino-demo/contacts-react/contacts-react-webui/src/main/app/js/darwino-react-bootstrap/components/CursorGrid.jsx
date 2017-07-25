@@ -156,14 +156,14 @@ export class CursorGrid extends Component {
 
 
     handleRowClick(entry) {
-        const { baseRoute } = this.props;
-        if(!baseRoute || !entry || !entry.__meta) {
+        const { baseRoute, dynamicRoute } = this.props;
+        if((!baseRoute && !dynamicRoute) || !entry || !entry.__meta) {
             return;
         }
         if(entry.__meta.category) {
             return;
         }        
-        let url = (typeof baseRoute==="function") ? baseRoute(entry) : baseRoute + '/' + entry.__meta.unid;  
+        let url = dynamicRoute ? dynamicRoute(entry) : baseRoute + '/' + entry.__meta.unid;  
         // https://stackoverflow.com/questions/42701129/how-to-push-to-history-in-react-router-v4
         if(url) this.context.router.history.push(url);
     }
