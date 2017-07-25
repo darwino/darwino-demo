@@ -42,7 +42,7 @@ export function richTextToDisplayFormat({databaseId, storeId, instanceId, unid},
 
 export function richTextToStorageFormat({databaseId, storeId, instanceId, unid}, html) {
     if(html) {
-        var INLINE_IMAGE_DISPLAY_PATTERN = /src="'+DEV_OPTIONS.serverPrefix+'\$darwino-jstore\/databases\/([^\/]+)\/stores\/([^\/]+)\/documents\/([^\/]+)\/attachments\/([^\?]+)(\?instance=([^"]+))?"/g;
+        var INLINE_IMAGE_DISPLAY_PATTERN = /src="[^\"]*\$darwino-jstore\/databases\/([^\/]+)\/stores\/([^\/]+)\/documents\/([^\/]+)\/attachments\/([^\?]+)(\?instance=([^"]+))?"/g;
         return html.replace(INLINE_IMAGE_DISPLAY_PATTERN, 'src="$document-attachment/$4"');
     }
     return html

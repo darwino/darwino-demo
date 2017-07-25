@@ -148,13 +148,13 @@ export class Source extends DocumentForm {
 
                                 <Section defaultExpanded={true} title="Phone Numbers" className="col-md-12 col-sm-12">
                                     <div className="col-md-12 col-sm-12">
-                                        <Field name="home" type="text" component={renderField} label="Home" disabled={disabled}/>
+                                        <Field name="homephone" type="text" component={renderField} label="Home" disabled={disabled}/>
                                     </div>
                                     <div className="col-md-12 col-sm-12">
-                                        <Field name="mobile" type="text" component={renderField} label="Mobile" disabled={disabled}/>
+                                        <Field name="mobilephone" type="text" component={renderField} label="Mobile" disabled={disabled}/>
                                     </div>
                                     <div className="col-md-12 col-sm-12">
-                                        <Field name="work" type="text" component={renderField} label="Work" disabled={disabled}/>
+                                        <Field name="workphone" type="text" component={renderField} label="Work" disabled={disabled}/>
                                     </div>
                                 </Section>
 
