@@ -27,19 +27,36 @@ import { renderText } from "./formText.jsx"
 export const renderRadioGroup = field => {
     if(field.readOnly) return renderText(field);
 
-    const { input, meta, options, disabled, label } = field;
-    return (
-        <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
-            {label && <ControlLabel>{label}</ControlLabel>}
-            <div className="form-control">
+    const { input, meta, options, disabled, label, inline } = field;
+    if(inline) {
+        return (
+            <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
+                {label && <ControlLabel>{label}</ControlLabel>}
+                <div class="radio">
+                    {options.map(val => 
+                        <label className="radio-inline" key={val.value}>
+                            <input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={disabled}/>
+                            {val.label}
+                        </label>
+                    )}
+                </div>
+                {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+            </FormGroup>
+        )
+    } else {
+        return (
+            <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
+                {label && <ControlLabel>{label}</ControlLabel>}
                 {options.map(val => 
-                    <label className="radio-inline" key={val.value}>
-                        <input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={disabled}/>
-                        {val.label}
-                    </label>
+                    <div class="radio">
+                        <label key={val.value}>
+                            <input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={disabled}/>
+                            {val.label}
+                        </label>
+                    </div>
                 )}
-            </div>
-            {meta.touched && meta.error && <div className="error">{meta.error}</div>}
-        </FormGroup>
-    )
+                {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+            </FormGroup>
+        )
+    }
 }

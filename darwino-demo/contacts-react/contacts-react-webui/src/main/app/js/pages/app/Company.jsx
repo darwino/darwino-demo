@@ -91,7 +91,7 @@ export class Company extends DocumentForm {
                         </div>
 
                         <div className="col-md-12 col-sm-12">
-                            <Field name="size" component={renderRadioGroup} label="Size" disabled={disabled} options={SIZES} readOnly={readOnly}/>
+                            <Field name="size" component={renderRadioGroup} inline={true} label="Size" disabled={disabled} options={SIZES} readOnly={readOnly}/>
                         </div>
 
                         <Section defaultExpanded={true} title="Address" className="col-md-12 col-sm-12">
