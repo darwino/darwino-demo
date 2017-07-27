@@ -95,7 +95,7 @@ export class Company extends DocumentForm {
                         </div>
 
                         <Section defaultExpanded={true} title="Address" className="col-md-12 col-sm-12">
-                            <CCAddress {...props}/>
+                            <CCAddress {...this.props}/>
                         </Section>
 
                         <FormGroup>
