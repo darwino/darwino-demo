@@ -72,10 +72,10 @@ export const removeDocument = (database, store, unid) => ({
 function dispatchNew(doc,docEvents) {
     if(docEvents) {
         if(docEvents.initialize) {
-            docEvents.initialize(doc)
+            docEvents.initialize(doc.json)
         }
         if(docEvents.prepareForDisplay) {
-            docEvents.prepareForDisplay(doc)
+            docEvents.prepareForDisplay(doc.json)
         }
     }
     return doc;
@@ -99,7 +99,7 @@ export const newDocument = (database, store, unid, serverInit, docEvents) => ({
 // Document Load
 function dispatchLoad(doc,docEvents) {
     if(docEvents && docEvents.prepareForDisplay) {
-         docEvents.prepareForDisplay(doc)
+         docEvents.prepareForDisplay(doc.json)
     }
     return doc;
 }
@@ -118,11 +118,12 @@ export const loadDocument = (database, store, unid, docEvents) => ({
 })
 
 // Document Save
-function dispatchSave(doc,docEvents) {
+function dispatchSave(content,docEvents) {
     if(docEvents && docEvents.prepareForSave) {
-        return docEvents.prepareForSave(doc)
+        content = {...content}
+        docEvents.prepareForSave(content)
     }
-    return doc.json;
+    return content;
 }
 export const createDocument = (database, store, unid, content, docEvents) => ({
     type: CREATE_DOCUMENT,

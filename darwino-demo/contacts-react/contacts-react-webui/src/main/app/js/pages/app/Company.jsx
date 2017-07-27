@@ -95,18 +95,7 @@ export class Company extends DocumentForm {
                         </div>
 
                         <Section defaultExpanded={true} title="Address" className="col-md-12 col-sm-12">
-                            <div className="col-md-12 col-sm-12">
-                                <Field name="street" type="text" component={renderField} label="Street" disabled={disabled} readOnly={readOnly}/>
-                            </div>
-                            <div className="col-md-12 col-sm-12">
-                                <Field name="city" type="text" component={renderField} label="City" disabled={disabled} readOnly={readOnly}/>
-                            </div>
-                            <div className="col-md-2 col-sm-2">
-                                <Field name="zipcode" type="text" component={renderField} label="Zip Code" disabled={disabled} readOnly={readOnly}/>
-                            </div>
-                            <div className="col-md-2 col-sm-2">
-                                <Field name="state" type="text" component={renderSelect} label="State" disabled={disabled} options={US_STATES} readOnly={readOnly}/>
-                            </div>
+                            <CCAddress {...props}/>
                         </Section>
 
                         <FormGroup>
@@ -133,25 +122,30 @@ export class Company extends DocumentForm {
   }
 }
 
-function validate(values) {
+Company.validate = function(values,props) {
     const errors = {};
-    // Add the validation rules here!
+    Object.assign(errors,CCAddress.validate(values,props))
     return errors;
 }
-
-const DEFAULT_VALUES = {
-    form: "Company"
+Company.initialize = function(values,props) {
+    CCAddress.initialize(values,props)
+}
+Company.prepareForDisplay = function(values,props) {
+    CCAddress.prepareForDisplay(values,props)
+}
+Company.prepareForSave = function(values,props) {
+    CCAddress.prepareForSave(values,props)
 }
 
 const selector = formValueSelector(FORM_NAME)
 function mapStateToProps(state, ownProps) {
-    return DocumentForm.mapStateToProps(state, ownProps, DATABASE, STORE, DEFAULT_VALUES)
+    return DocumentForm.mapStateToProps(state, ownProps, DATABASE, STORE)
 }
 const mapDispatchToProps = DocumentForm.mapDispatchToProps;
 
 const form = reduxForm({
     form: FORM_NAME,
-    validate,
+    validate: Company.validate,
     enableReinitialize: true
 });
 

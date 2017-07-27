@@ -73,16 +73,20 @@ export class DocumentForm extends Component {
         this.handleDeleteDocument = this.handleDeleteDocument.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.docEvents = {
-            initialize: this.initialize.bind(this),
-            prepareForDisplay: this.prepareForDisplay.bind(this),
-            prepareForSave: this.prepareForSave.bind(this)
+            initialize: (values) => {
+                const ctor = this.constructor
+                ctor.initialize && ctor.initialize.call(null,values,this.props);
+            },
+            prepareForDisplay: (values) => {
+                const ctor = this.constructor
+                ctor.prepareForDisplay && ctor.prepareForDisplay.call(null,values,this.props);
+            },
+            prepareForSave: (values) => {
+                const ctor = this.constructor
+                ctor.prepareForSave && ctor.prepareForSave.call(null,values,this.props);
+            }
         }
     }
-
-    // Default event handlers
-    initialize(doc) {}
-    prepareForDisplay(doc) {}
-    prepareForSave(doc) {return doc.json;}
     
     componentWillMount() {
         const { databaseId, storeId, unid, docEvents, loadDocument, newDocument, newDoc } = this.props;

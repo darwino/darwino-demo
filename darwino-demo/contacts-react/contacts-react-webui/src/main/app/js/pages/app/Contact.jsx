@@ -21,7 +21,6 @@
  */
 
 import React, { Component } from "react";
-import Constants from "./Constants.jsx";
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { Field, reduxForm, formValueSelector } from 'redux-form';
@@ -32,6 +31,9 @@ import Section from "../../darwino-react-bootstrap/components/Section.jsx";
 import { Tabs, Tab } from "../../darwino-react-bootstrap/components/Tabs.jsx";
 import { richTextToDisplayFormat, richTextToStorageFormat } from "../../darwino-react/jstore/richtext";
 
+import Constants from "./Constants.jsx";
+import CCAddress from "./CCAddress.jsx";
+
 import JsonDebug from "../../darwino-react/util/JsonDebug.jsx";
 
 const DATABASE = Constants.DATABASE;
@@ -41,7 +43,7 @@ const FORM_NAME = "contact";
 
 const US_STATES = Constants.US_STATES;
 
-export class Source extends DocumentForm {
+export class Contact extends DocumentForm {
 
     // Default values of the properties
     static defaultProps  = {
@@ -53,29 +55,7 @@ export class Source extends DocumentForm {
         this.handleActionClick = this.handleActionClick.bind(this);
         this.state = {};
     }
-
-    initialize(doc) {
-        doc.json = {
-            form: "Contact",
-            firstname: "Leonardo",
-            lastname: "da Vinci"
-        }
-    }
-    prepareForDisplay(doc) {
-        // Transform the generic attachment links to physical ones
-        const {json} = doc;
-        if(json.card) {
-            json.card = richTextToDisplayFormat(this.props,json.card)
-        }
-    }
-    prepareForSave(json) {
-        // Transform the physical attachment links back to physical ones
-        return {
-            ...json,
-            card: richTextToStorageFormat(this.props,json.card)
-        }
-    }
-
+    
     handleActionClick() {
         alert("You clicked me!");
     }
@@ -91,7 +71,7 @@ export class Source extends DocumentForm {
     render() {
         const { handleSubmit, dirty, reset, invalid, submitting, newDoc, doc, type } = this.props;
         const disabled = !doc || doc.readOnly;
-        
+        const title = "phil"
         return (
             <div>
                 <form onSubmit={handleSubmit(this.handleUpdateDocument)}>
@@ -105,6 +85,8 @@ export class Source extends DocumentForm {
                     <Tabs>
                         <Tab label="Contact Information">
                             <fieldset>
+                                <h2>{title}</h2>
+
                                 <div className="col-md-12 col-sm-12">
                                     <Field name="firstname" type="text" component={renderField} label="First Name" disabled={disabled}/>
                                 </div>
@@ -132,18 +114,7 @@ export class Source extends DocumentForm {
                                 </div>
 
                                 <Section defaultExpanded={true} title="Address" className="col-md-12 col-sm-12">
-                                    <div className="col-md-12 col-sm-12">
-                                        <Field name="street" type="text" component={renderField} label="Street" disabled={disabled}/>
-                                    </div>
-                                    <div className="col-md-12 col-sm-12">
-                                        <Field name="city" type="text" component={renderField} label="City" disabled={disabled}/>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2">
-                                        <Field name="zipcode" type="text" component={renderField} label="Zip Code" disabled={disabled}/>
-                                    </div>
-                                    <div className="col-md-2 col-sm-2">
-                                        <Field name="state" type="text" component={renderSelect} label="State" disabled={disabled} options={US_STATES}/>
-                                    </div>
+                                    <CCAddress {...this.props}/>
                                 </Section>
 
                                 <Section defaultExpanded={true} title="Phone Numbers" className="col-md-12 col-sm-12">
@@ -192,7 +163,7 @@ export class Source extends DocumentForm {
   }
 }
 
-function validate(values) {
+Contact.validate = function(values,props) {
     const errors = {};
     // Add the validation rules here!
     if(!values.firstname) {
@@ -201,7 +172,26 @@ function validate(values) {
     if(!values.lastname) {
         errors.lastname = "Missing Last Name"
     }
+    Object.assign(errors,CCAddress.validate(values,props))
     return errors;
+}
+Contact.initialize = function(values,props) {
+    Object.assign(values, {
+        form: "Contact",
+        firstname: "Leonardo",
+        lastname: "da Vinci"
+    })
+    CCAddress.initialize(values,props)
+}
+Contact.prepareForDisplay = function(values,props) {
+    // Transform the generic attachment links to physical ones
+    if(values.card) values.card = richTextToDisplayFormat(props,values.card)
+    CCAddress.prepareForDisplay(values,props)
+}
+Contact.prepareForSave = function(values,props) {
+    // Transform the physical attachment links back to generic ones
+    if(values.card) values.card = richTextToStorageFormat(props,values.card)
+    CCAddress.prepareForSave(values,props)
 }
 
 
@@ -213,8 +203,8 @@ const mapDispatchToProps = DocumentForm.mapDispatchToProps;
 
 const form = reduxForm({
     form: FORM_NAME,
-    validate,
+    validate: Contact.validate,
     enableReinitialize: true
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(form(Source)))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(form(Contact)))
