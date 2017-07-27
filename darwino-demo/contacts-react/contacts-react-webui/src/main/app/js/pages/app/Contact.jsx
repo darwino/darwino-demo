@@ -163,48 +163,53 @@ export class Contact extends DocumentForm {
   }
 }
 
-Contact.validate = function(values,props) {
-    const errors = {};
-    // Add the validation rules here!
-    if(!values.firstname) {
-        errors.firstname = "Missing First Name"
+Contact.formEvents = { 
+    delegates: [CCAddress],
+    validate: function(values,props) {
+        const errors = {};
+        // Add the validation rules here!
+        if(!values.firstname) {
+            errors.firstname = "Missing First Name"
+        }
+        if(!values.lastname) {
+            errors.lastname = "Missing Last Name"
+        }
+        return errors;
+    },
+    initialize: function(values,props) {
+        Object.assign(values, {
+            form: "Contact",
+            firstname: "Leonardo",
+            lastname: "da Vinci"
+        })
+    },
+    // computedFields: function(values,props) {
+    //     return {
+    //         title: "A good example"
+    //     }
+    // },
+    // computedFields: function(values,props) {
+    //     return {
+    //         fullname: values.firstname + " " + values.lastname
+    //     }
+    // },
+    prepareForDisplay: function(values,props) {
+        // Transform the generic attachment links to physical ones
+        if(values.card) values.card = richTextToDisplayFormat(props,values.card)
+    },
+    prepareForSave: function(values,props) {
+        // Transform the physical attachment links back to generic ones
+        if(values.card) values.card = richTextToStorageFormat(props,values.card)
     }
-    if(!values.lastname) {
-        errors.lastname = "Missing Last Name"
-    }
-    Object.assign(errors,CCAddress.validate(values,props))
-    return errors;
 }
-Contact.initialize = function(values,props) {
-    Object.assign(values, {
-        form: "Contact",
-        firstname: "Leonardo",
-        lastname: "da Vinci"
-    })
-    CCAddress.initialize(values,props)
-}
-Contact.prepareForDisplay = function(values,props) {
-    // Transform the generic attachment links to physical ones
-    if(values.card) values.card = richTextToDisplayFormat(props,values.card)
-    CCAddress.prepareForDisplay(values,props)
-}
-Contact.prepareForSave = function(values,props) {
-    // Transform the physical attachment links back to generic ones
-    if(values.card) values.card = richTextToStorageFormat(props,values.card)
-    CCAddress.prepareForSave(values,props)
-}
-
-
-const selector = formValueSelector(FORM_NAME)
-function mapStateToProps(state, ownProps) {
-    return DocumentForm.mapStateToProps(state, ownProps, DATABASE, STORE)
-}
-const mapDispatchToProps = DocumentForm.mapDispatchToProps;
 
 const form = reduxForm({
     form: FORM_NAME,
-    validate: Contact.validate,
+    validate: DocumentForm.validateForm(Contact),
     enableReinitialize: true
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(form(Contact)))
+export default withRouter(
+    connect(DocumentForm.mapStateToProps(Contact, DATABASE, STORE),DocumentForm.mapDispatchToProps())
+        (form(Contact))
+)

@@ -28,6 +28,24 @@ import { Link } from "react-router";
 import { darwinoToStoreKey, updateDocument, createDocument, loadDocument, newDocument, deleteDocument, removeDocument } from "../../darwino-react/actions/jsonStoreActions.jsx";
 
 
+function _event(clazz,method,values,props,exprops,result) {
+    let c = clazz.formEvents
+    if(c) {
+        var p = exprops ? {...props,...exprops} : props
+        if(c[method]) { 
+            Object.assign(result,c[method](values,props))
+        }
+        if(c.delegates) {
+            c.delegates.forEach((d)=>{
+                let [clazz,props] = Array.isArray(d) ? d : [d]
+                _event(clazz,method,values,p,props,result)
+            })
+        }
+    }
+    return result;
+}
+
+
 /*
  * Expected properties:
  * - databaseId (string)
@@ -39,33 +57,45 @@ export class DocumentForm extends Component {
         router: PropTypes.object
     };
 
+    // Default validate
+    static validateForm = function(clazz) {
+        return function(values,props) {
+            return _event(clazz,"validate",values,props,null,{});
+        }
+    }
+    
     // Default mapStateToProps
-    static mapStateToProps = function(state, ownProps, databaseId, storeId) {
-        const unid = (ownProps.match.params && ownProps.match.params.unid) || null;
-        const storeKey = darwinoToStoreKey(databaseId, storeId, unid);
-        const newDoc = !unid; // Might use a different system to allow new documents with a predefined unid
-        const doc = state.documents[storeKey] || {json:{}};
-        return {
-            databaseId,
-            storeId,
-            unid,
-            doc,
-            newDoc,
-            ownProps,
-            initialValues: doc.json
+    static mapStateToProps = function(clazz, databaseId, storeId) {
+        return function(state, ownProps) {
+            const unid = (ownProps.match.params && ownProps.match.params.unid) || null;
+            const storeKey = darwinoToStoreKey(databaseId, storeId, unid);
+            const newDoc = !unid; // Might use a different system to allow new documents with a predefined unid
+            const doc = state.documents[storeKey] || {json:{}};
+            return {
+                databaseId,
+                storeId,
+                unid,
+                doc,
+                newDoc,
+                ownProps,
+                //computed: _event(clazz,"documentRefreshed",values,props,null,{}),
+                initialValues: doc.json
+            }
         }
     }
 
     // Default mapDispatchProps
-    static mapDispatchToProps = { 
-        updateDocument, 
-        createDocument, 
-        loadDocument, 
-        newDocument, 
-        deleteDocument,
-        removeDocument
+    static mapDispatchToProps = function() {
+        return {
+            updateDocument, 
+            createDocument, 
+            loadDocument, 
+            newDocument, 
+            deleteDocument,
+            removeDocument
+        }
     };
-
+    
     constructor(props) {
         super(props);
 
@@ -74,22 +104,19 @@ export class DocumentForm extends Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.docEvents = {
             initialize: (values) => {
-                const ctor = this.constructor
-                ctor.initialize && ctor.initialize.call(null,values,this.props);
+                _event(this.constructor,"initialize",values,this.props,null,{})
             },
             prepareForDisplay: (values) => {
-                const ctor = this.constructor
-                ctor.prepareForDisplay && ctor.prepareForDisplay.call(null,values,this.props);
+                _event(this.constructor,"prepareForDisplay",values,this.props,null,{})
             },
             prepareForSave: (values) => {
-                const ctor = this.constructor
-                ctor.prepareForSave && ctor.prepareForSave.call(null,values,this.props);
+                _event(this.constructor,"prepareForSave",values,this.props,null,{})
             }
         }
     }
     
     componentWillMount() {
-        const { databaseId, storeId, unid, docEvents, loadDocument, newDocument, newDoc } = this.props;
+        const { databaseId, storeId, unid, loadDocument, newDocument, newDoc } = this.props;
 
         // Load the initial values
         // We could also call newDocument is we want to call the service to get the
@@ -100,6 +127,7 @@ export class DocumentForm extends Component {
             loadDocument(databaseId, storeId, unid, this.docEvents);
         }
     }
+
 
     componentWillUnmount() {
         const { databaseId, storeId, unid, newDoc} = this.props;

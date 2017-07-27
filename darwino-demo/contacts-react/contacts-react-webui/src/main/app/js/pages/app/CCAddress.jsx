@@ -55,17 +55,8 @@ export default class CCAddress extends FormSection {
     }
 }
 
-
-CCAddress.validate = function(values,path,props) {
-    return {};
-}
-
-CCAddress.initialize = function(values,path,props) {
-    values.state = "MA"
-}
-
-CCAddress.prepareForDisplay = function(values,path,props) {
-}
-
-CCAddress.prepareForSave = function(values,path,props) {
+CCAddress.formEvents = { 
+    initialize: function(values,path,props) {
+        values.state = "MA"
+    }
 }

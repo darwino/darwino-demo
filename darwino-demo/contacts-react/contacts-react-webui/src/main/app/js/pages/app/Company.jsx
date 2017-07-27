@@ -31,8 +31,9 @@ import { renderField, renderRadioGroup, renderCheckbox, renderSelect, renderRich
 import DocumentForm from "../../darwino-react-bootstrap/components/DocumentForm.jsx";
 import Section from "../../darwino-react-bootstrap/components/Section.jsx";
 import AttachmentTable from "../../darwino-react-bootstrap/components/AttachmentTable.jsx";
-
 import JsonDebug from "../../darwino-react/util/JsonDebug.jsx";
+
+import CCAddress from "./CCAddress.jsx";
 
 const DATABASE = Constants.DATABASE;
 const STORE = "companies";
@@ -122,31 +123,17 @@ export class Company extends DocumentForm {
   }
 }
 
-Company.validate = function(values,props) {
-    const errors = {};
-    Object.assign(errors,CCAddress.validate(values,props))
-    return errors;
+Company.formEvents = { 
+    delegates: [[CCAddress,{path:''}]]
 }
-Company.initialize = function(values,props) {
-    CCAddress.initialize(values,props)
-}
-Company.prepareForDisplay = function(values,props) {
-    CCAddress.prepareForDisplay(values,props)
-}
-Company.prepareForSave = function(values,props) {
-    CCAddress.prepareForSave(values,props)
-}
-
-const selector = formValueSelector(FORM_NAME)
-function mapStateToProps(state, ownProps) {
-    return DocumentForm.mapStateToProps(state, ownProps, DATABASE, STORE)
-}
-const mapDispatchToProps = DocumentForm.mapDispatchToProps;
 
 const form = reduxForm({
     form: FORM_NAME,
-    validate: Company.validate,
+    validate: DocumentForm.validateForm(Company),
     enableReinitialize: true
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(form(Company)))
+export default withRouter(
+    connect(DocumentForm.mapStateToProps(Company, DATABASE, STORE),DocumentForm.mapDispatchToProps())
+        (form(Company))
+)
