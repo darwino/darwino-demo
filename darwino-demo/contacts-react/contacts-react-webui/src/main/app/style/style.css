@@ -39,6 +39,14 @@ form button + a, form a + button {
 	cursor: pointer;
 }
 
+/* Fixes for the react-data-grid */
+.rdg-child-row-action-cross-last::before, .rdg-child-row-action-cross::before, .rdg-child-row-action-cross-last::after, .rdg-child-row-action-cross::after {
+    background: none!important;
+}
+/* .rdg-cell-expand {
+	position: static!important;
+	float: left!important;
+} */
 
 /* Footer */
 

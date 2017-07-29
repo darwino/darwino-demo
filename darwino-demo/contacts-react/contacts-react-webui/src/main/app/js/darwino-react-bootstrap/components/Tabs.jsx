@@ -36,10 +36,10 @@ import React, { Component } from "react";
  */
 class Tabs extends React.Component {
 
-    static propTypes = {
-        selected: React.PropTypes.number,
-        children: React.PropTypes.oneOfType([React.PropTypes.array, React.PropTypes.element])
-    }
+    // static propTypes = {
+    //     selected: React.PropTypes.number,
+    //     children: React.PropTypes.oneOfType([React.PropTypes.array, React.PropTypes.element])
+    // }
 
     static defaultProps = {
         selected: 0

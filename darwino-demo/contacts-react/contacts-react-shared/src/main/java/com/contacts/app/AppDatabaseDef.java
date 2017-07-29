@@ -23,7 +23,8 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 	// V2: added FT search
 	// V3: used store
 	// V4: back to default store for contacts
-	public static final int DATABASE_VERSION	= 4;
+	// V5: added company document store
+	public static final int DATABASE_VERSION	= 5;
 	public static final String DATABASE_NAME	= "contacts";
 	
     public static final String[] DATABASES = new String[] {
@@ -87,6 +88,10 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 			// Search the whole document (all fields)
 			_FtSearch ft = (_FtSearch) store.setFTSearch(new _FtSearch());
 			ft.setFields("$");
+		}
+		{
+			_Store store = db.addStore("companydocs");
+			store.setLabel("Company documents");
 		}
 
 		return db;

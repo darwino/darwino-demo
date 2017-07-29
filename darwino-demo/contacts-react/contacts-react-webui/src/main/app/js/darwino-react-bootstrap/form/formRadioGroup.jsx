@@ -32,13 +32,16 @@ export const renderRadioGroup = field => {
         return (
             <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
                 {label && <ControlLabel>{label}</ControlLabel>}
-                <div class="radio">
-                    {options.map(val => 
-                        <label className="radio-inline" key={val.value}>
-                            <input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={disabled}/>
-                            {val.label}
-                        </label>
-                    )}
+                <div className="radio">
+                    {options && options.map(val => {
+                        if(!(typeof(val)==="object")) val = {value:val,label:val};
+                        return (
+                            <label className="radio-inline" key={val.value}>
+                                <input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={disabled}/>
+                                {val.label||val.value}
+                            </label>
+                        )
+                    })}
                 </div>
                 {meta.touched && meta.error && <div className="error">{meta.error}</div>}
             </FormGroup>
@@ -47,14 +50,17 @@ export const renderRadioGroup = field => {
         return (
             <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
                 {label && <ControlLabel>{label}</ControlLabel>}
-                {options.map(val => 
-                    <div class="radio">
-                        <label key={val.value}>
-                            <input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={disabled}/>
-                            {val.label}
-                        </label>
-                    </div>
-                )}
+                {options && options.map(val => {
+                    if(!(typeof(val)==="object")) val = {value:val,label:val};
+                    return (
+                        <div className="radio">
+                            <label key={val.value}>
+                                <input type="radio" {...input} value={val.value} checked={input.value==val.value} disabled={disabled}/>
+                                {val.label||val.value}
+                            </label>
+                        </div>
+                    )
+                })}
                 {meta.touched && meta.error && <div className="error">{meta.error}</div>}
             </FormGroup>
         )

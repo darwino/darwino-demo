@@ -32,6 +32,7 @@ import DocumentForm from "../../darwino-react-bootstrap/components/DocumentForm.
 import Section from "../../darwino-react-bootstrap/components/Section.jsx";
 import AttachmentTable from "../../darwino-react-bootstrap/components/AttachmentTable.jsx";
 import JsonDebug from "../../darwino-react/util/JsonDebug.jsx";
+import CursorGrid from "../../darwino-react-bootstrap/components/CursorGrid.jsx"
 
 import CCAddress from "./CCAddress.jsx";
 
@@ -112,6 +113,24 @@ export class Company extends DocumentForm {
                                 <button type="submit" className="btn btn-primary" disabled={invalid||submitting}>Submit</button>
                             </span>
                             <a className="btn btn-link" onClick={this.handleCancel}>Cancel</a>
+                        </div>
+
+                        <div>
+                            <h3>Company Documents</h3>
+                            <CursorGrid
+                                databaseId={Constants.DATABASE}
+                                params={{
+                                    name: "AllCompanyDocuments",
+                                    parentid: this.props.unid,
+                                    jsontree: true
+                                }}
+                                showResponses={true}
+                                grid={{
+                                    columns:[
+                                        {name: "Title", key: "Title", sortable: true, sortField: 'title'},
+                                    ]
+                                }}
+                            />
                         </div>
                         
                         {/*Uncomment to display the current JSON content*/}

@@ -72,13 +72,12 @@ export class DocumentForm extends Component {
             const newDoc = !unid; // Might use a different system to allow new documents with a predefined unid
             const doc = state.documents[storeKey] || {json:{}};
             return {
+                ...ownProps,
                 databaseId,
                 storeId,
                 unid,
                 doc,
                 newDoc,
-                ownProps,
-                //computed: _event(clazz,"documentRefreshed",values,props,null,{}),
                 initialValues: doc.json
             }
         }

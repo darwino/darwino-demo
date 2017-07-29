@@ -24,9 +24,9 @@ import queryString from 'query-string';
 import DEV_OPTIONS from '../util/dev';
 
 /*
- * JSON store cursor.
+ * JSON store query builder
  */
-export default class JstoreCursor {
+export default class Jsql {
 
     constructor() {
         this.params = {};
@@ -34,6 +34,11 @@ export default class JstoreCursor {
 
     _stringify(s) {
         return typeof s==='object' ?  JSON.stringify(s) : s;
+    }
+
+    database(database) {
+        this.database = database;
+        return this;
     }
 
     queryParams(params) {
@@ -51,36 +56,16 @@ export default class JstoreCursor {
         return this;
     }
 
-    database(database) {
-        this.database = database;
-        return this;
+    name(name) {
+        return this.queryParams({name:name});
     }
 
-    store(store) {
-        this.store = store;
-        return this;
+    format(format) {
+        return this.queryParams({format:format});
     }
 
     query(query) {
         return this.queryParams({query:query});
-    }
-
-    orderby(orderBy,descending) {
-        let o = {orderby:orderBy}
-        if(descending) o.descending=true
-        return this.queryParams(o);
-    }
-
-    ftsearch(ftsearch) {
-        return this.queryParams({ftsearch:ftsearch});
-    }
-
-    extract(extract) {
-        return this.queryParams({extract:extract});
-    }
-
-    aggregator(aggregator) {
-        return this.queryParams({aggregator:aggregator});
     }
 
     skip(skip) {
@@ -91,16 +76,16 @@ export default class JstoreCursor {
         return this.queryParams({limit:limit});
     }
 
-    name(name) {
-        return this.queryParams({name:name});
+    params(params) {
+        return this.queryParams({params:params});
     }
     
-    fetchEntries() {
-        let url = `${DEV_OPTIONS.serverPrefix}$darwino-jstore/databases/${encodeURIComponent(this.database)}`
-        if(this.store) {
-            url += `/stores/${encodeURIComponent(this.store)}`
+    fetch() {
+        let url = `${DEV_OPTIONS.serverPrefix}$darwino-jstore`
+        if(this.database) {
+            url += `/databases/${encodeURIComponent(this.database)}`
         }
-        url += '/entries'
+        url += '/jsql'
         if(this.params) {
             url += `?${queryString.stringify(this.params)}`
         }
@@ -110,26 +95,8 @@ export default class JstoreCursor {
             try {
                 return entries.json();
             } catch(e) {
-                return "Fetch JSON entries error!";
+                return "Fetch JSQL result error!";
             }
         })
-    }
-
-    lookup() {
-        return this.fetchEntries().then(json => {
-            return json.map(entry => {
-                return entry.json;
-            })
-        })                
-    }
-
-    getDataLoader(transform) {
-        return (num,pagesize) => {
-            this.skip(num*pagesize)
-            this.limit(pagesize)
-            return this.fetchEntries().then(json => {
-                return transform ? json.map(transform) : json;
-            })                
-        }
     }
 }

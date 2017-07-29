@@ -6,7 +6,7 @@
     "Name": "name",
     "form": "form"
   },
-  //"query": "{form: 'Company'}",
+  "query": "{form: 'Company'}",
   "options": "DATA_MODDATES",
   "orderBy": "industry,state"
 }

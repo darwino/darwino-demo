@@ -29,6 +29,7 @@ import { renderField, renderRadioGroup, renderCheckbox, renderSelect, renderRich
 import DocumentForm from "../../darwino-react-bootstrap/components/DocumentForm.jsx";
 import Section from "../../darwino-react-bootstrap/components/Section.jsx";
 import { Tabs, Tab } from "../../darwino-react-bootstrap/components/Tabs.jsx";
+import Jsql from "../../darwino-react/jstore/jsql";
 import { richTextToDisplayFormat, richTextToStorageFormat } from "../../darwino-react/jstore/richtext";
 
 import Constants from "./Constants.jsx";
@@ -54,6 +55,16 @@ export class Contact extends DocumentForm {
         super(props)
         this.handleActionClick = this.handleActionClick.bind(this);
         this.state = {};
+
+        // Get the list of companies
+        new Jsql()
+            .database(props.databaseId)
+            .query("SELECT $.name name FROM companies WHERE $.form='Company' ORDER BY name")
+            .format('value')
+            .fetch()
+            .then((json) => {
+                this.setState({allCompanies: json})
+            });
     }
     
     handleActionClick() {
@@ -95,6 +106,10 @@ export class Contact extends DocumentForm {
                                     <Field name="lastname" type="text" component={renderField} label="Last Name" disabled={disabled}/>
                                 </div>
 
+                                <div>
+                                    {this.props.computed.fullName}
+                                </div>
+
                                 <div className="col-md-12 col-sm-12">
                                     <Field name="email" type="text" component={renderField} label="E-Mail" disabled={disabled}/>
                                 </div>
@@ -132,6 +147,13 @@ export class Contact extends DocumentForm {
                                 <div className="col-md-12 col-sm-12">
                                     <Field name="comments" component={renderRichText} label="Comments" disabled={disabled}/>
                                 </div>
+
+                                <Section defaultExpanded={true} title="Company" className="col-md-12 col-sm-12">
+                                    <div className="col-md-12 col-sm-12">
+                                        <Field name="company" type="text" component={renderSelect} label="Company" disabled={disabled}
+                                            options={this.state.allCompanies}/>
+                                    </div>
+                                </Section>
 
                                 <div>
                                     <span style={disabled ? {display: 'none'} : {}}>
@@ -183,16 +205,6 @@ Contact.formEvents = {
             lastname: "da Vinci"
         })
     },
-    // computedFields: function(values,props) {
-    //     return {
-    //         title: "A good example"
-    //     }
-    // },
-    // computedFields: function(values,props) {
-    //     return {
-    //         fullname: values.firstname + " " + values.lastname
-    //     }
-    // },
     prepareForDisplay: function(values,props) {
         // Transform the generic attachment links to physical ones
         if(values.card) values.card = richTextToDisplayFormat(props,values.card)
@@ -209,7 +221,17 @@ const form = reduxForm({
     enableReinitialize: true
 });
 
+function computedFields(f) {
+    return function(state,ownProps)  {
+        let r = f(state,ownProps)
+        r.computed = {
+            fullName: "Full NAME"
+        }
+        return r;
+    }
+}
+
 export default withRouter(
-    connect(DocumentForm.mapStateToProps(Contact, DATABASE, STORE),DocumentForm.mapDispatchToProps())
+    connect(computedFields(DocumentForm.mapStateToProps(Contact, DATABASE, STORE)),DocumentForm.mapDispatchToProps())
         (form(Contact))
 )

@@ -87,12 +87,15 @@ export class CursorGrid extends Component {
         this.handleGridSort = this.handleGridSort.bind(this);
         this.handleRowExpandToggle = this.handleRowExpandToggle.bind(this);
         this.rowGetter = this.rowGetter.bind(this);
+        this.getSubRowDetails = this.getSubRowDetails.bind(this);
+        this.onCellExpand = this.onCellExpand.bind(this);
         this.state = {}
         if(props.groupBy) {
-            this.state = {
-                groupBy: props.groupBy,
-                expandedRows: {}
-            }
+            this.state.groupBy= props.groupBy;
+            this.state.expandedRows= {};
+        }
+        if(props.showResponses) {
+            this.state.expanded = {}
         }
     }
 
@@ -112,7 +115,7 @@ export class CursorGrid extends Component {
 
     reinitData() {
         let dataLoader = this.createDataLoader();
-        if(this.props.groupBy) {
+        if(this.props.groupBy || this.props.showResponses) {
             this.selector = true
             this.dataFetcher = this.createArrayDataFetcher(dataLoader);
         } else {
@@ -134,7 +137,15 @@ export class CursorGrid extends Component {
             jsc.ftsearch(this.ftSearch)
         }
         return jsc.getDataLoader(entry => {
-            return {...entry.json, __meta: entry};
+            // Do it recusively for the chidren if any
+            function process(e) {
+                var r = {...e.json, __meta: e};
+                if(r.__meta && r.__meta.children) {
+                    r.__meta.children = r.__meta.children.map(process);
+                }
+                return r;
+            }
+            return process(entry);
         });            
     }
 
@@ -254,11 +265,53 @@ export class CursorGrid extends Component {
         return this.dataFetcher.getRowCount();
     }
 
+    getSubRowDetails(rowItem) {
+        //alert("getSubRowDetails="+JSON.stringify(rowItem))
+        let rowId = rowItem.__meta.unid
+        let isExpanded = this.state.expanded[rowId] ? this.state.expanded[rowId] : false;
+        return {
+            group: rowItem.__meta.children && rowItem.__meta.children.length > 0,
+            expanded: isExpanded,
+            children: rowItem.__meta.children,
+            field: this.props.grid.columns[0].key,
+            treeDepth: rowItem.treeDepth || 0,
+            siblingIndex: rowItem.siblingIndex,
+            numberSiblings: rowItem.numberSiblings
+        };
+    }
+    onCellExpand(args) {
+        let rows = this.state.rows.slice(0);
+        let rowKey = args.rowData.__meta.unid;
+        let rowIndex = rows.indexOf(args.rowData);
+        let subRows = args.expandArgs.children;
+
+        let expanded = Object.assign({}, this.state.expanded);
+        if (expanded && !expanded[rowKey]) {
+            expanded[rowKey] = true;
+            this.updateSubRowDetails(subRows, args.rowData.treeDepth);
+            rows.splice(rowIndex + 1, 0, ...subRows);
+        } else if (expanded[rowKey]) {
+            expanded[rowKey] = false;
+            rows.splice(rowIndex + 1, subRows.length);
+        }
+
+        this.setState({ expanded: expanded, rows: rows });
+    }
+    updateSubRowDetails(subRows, parentTreeDepth) {
+        let treeDepth = parentTreeDepth || 0;
+        subRows.forEach((sr, i) => {
+            sr.treeDepth = treeDepth + 1;
+            sr.siblingIndex = i;
+            sr.numberSiblings = subRows.length;
+        });
+    }
+
     render() {
+        const props = this.props;
         return  (
             <div>
                 {this.createActionBar()}
-                {this.props.ftSearch && this.createFTSearchBar()}
+                {props.ftSearch && this.createFTSearchBar()}
                 <ReactDataGrid
                     rowGetter={this.rowGetter}
                     rowsCount={this.rowsCount()}
@@ -269,6 +322,12 @@ export class CursorGrid extends Component {
                     onRowExpandToggle={this.handleRowExpandToggle}
                     rowGroupRenderer={DefaultRowGroupRenderer}
                     onGridSort={this.handleGridSort}
+                    { ...(props.showResponses && 
+                        {
+                            getSubRowDetails: this.getSubRowDetails,
+                            onCellExpand: this.onCellExpand
+                        }
+                    )}
                     {...this.props.grid}                
                 />
             </div>
