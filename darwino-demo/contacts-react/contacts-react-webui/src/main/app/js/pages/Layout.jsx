@@ -27,6 +27,7 @@ import { Route, Switch } from 'react-router-dom';
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
 import Nav from "./Nav.jsx";
+import AdminConsole from "../darwino-react-bootstrap/components/AdminConsole.jsx";
 
 import Home from "./Home.jsx";
 
@@ -71,6 +72,8 @@ export default class Layout extends React.Component {
                 <Route exact path="/app/allcompanies" component={AppAllCompanies}></Route>
                 <Route exact path="/app/allcompaniesbyindustry" component={AppAllCompaniesByIndustry}></Route>
                 <Route exact path="/app/company/:unid" component={AppCompany}></Route>
+
+                <Route exact path="/admin/console" component={AdminConsole}></Route>
               </Switch>
             </div>
           </div>

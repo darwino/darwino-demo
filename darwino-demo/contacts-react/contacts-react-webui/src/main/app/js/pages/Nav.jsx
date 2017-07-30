@@ -61,13 +61,21 @@ export default class Nav extends React.Component {
                                 </ul>
                             </li>
 
-                            <li className="dropdown">
+                            {/* <li className="dropdown">
                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">Initials</a>
                                 <ul className="dropdown-menu">
                                     <NavLink to="/app/contacts">Contacts</NavLink>
                                     <NavLink to="/app/contactsg">Contacts Grid</NavLink>
                                 </ul>
+                            </li> */}
+
+                            <li className="dropdown">
+                                <a href="#" className="dropdown-toggle" data-toggle="dropdown">Developers</a>
+                                <ul className="dropdown-menu">
+                                    <NavLink to="/admin/console">Console</NavLink>
+                                </ul>
                             </li>
+                            
                         </ul>
                     </div>
                 </div>

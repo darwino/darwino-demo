@@ -38,6 +38,8 @@ import com.darwino.platform.DarwinoManifest;
  */
 public class AppManifest extends DarwinoManifest {
 	
+	public static String CONFIG_ID = "discdb";
+
 	// This is used by the mobile application to call the remote service
 	public static final String MOBILE_PATHINFO	= "dominodisc";
 	
@@ -55,6 +57,11 @@ public class AppManifest extends DarwinoManifest {
 
 	public AppManifest(Section section) {
 		super(section);
+	}
+	
+	@Override
+	public String getConfigId() {
+		return CONFIG_ID;
 	}
 	
 	@Override

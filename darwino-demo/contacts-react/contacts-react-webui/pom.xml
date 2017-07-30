@@ -16,6 +16,11 @@
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-commons-runtime-debug</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.contacts</groupId>
 			<artifactId>contacts-react-shared</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

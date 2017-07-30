@@ -7,6 +7,7 @@ package com.contacts.app;
 import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.services.HttpServiceContext;
 import com.darwino.commons.services.HttpServiceFactories;
+import com.darwino.commons.services.debug.DebugRestFactory;
 import com.darwino.j2ee.application.DarwinoJ2EEServiceDispatcherFilter;
 
 /**
@@ -52,6 +53,9 @@ public class AppServiceDispatcher extends DarwinoJ2EEServiceDispatcherFilter {
 	 */
 	@Override
 	protected void addApplicationServiceFactories(HttpServiceFactories factories) {
+		// Add the debug services
+		final DebugRestFactory debug = new DebugRestFactory();  
+		factories.add(debug);
 		
 		// The service should always executed locally when running on a server
 		factories.add(new AppServiceFactory() {

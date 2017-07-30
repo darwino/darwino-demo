@@ -37,7 +37,7 @@ public class AppJ2EEApplication extends DarwinoJ2EEApplication {
 	
 	@Override
 	public String[] getConfigurationBeanNames() {
-		return new String[] {"contacts",ManagedBeansService.LOCAL_NAME,ManagedBeansService.DEFAULT_NAME};
+		return new String[] {getManifest().getConfigId(),ManagedBeansService.LOCAL_NAME,ManagedBeansService.DEFAULT_NAME};
 	}
 	
 	@Override
