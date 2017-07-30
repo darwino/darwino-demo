@@ -73,6 +73,7 @@ export default class Nav extends React.Component {
                                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">Developers</a>
                                 <ul className="dropdown-menu">
                                     <NavLink to="/admin/console">Console</NavLink>
+                                    <li><a target="_blank" href="https://github.com/darwino/darwino-demo/tree/develop/darwino-demo/contacts-react">Github</a></li>
                                 </ul>
                             </li>
                             
