@@ -44,6 +44,11 @@
 			<artifactId>dwo-jre-jdbc-drivers-sqlserver</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-jdbc-drivers-mysql</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
 
 <!-- Uncomment that if you want to use the HikariCP connections pool --> 		
 		<dependency>
