@@ -29,7 +29,7 @@ import { Link, Prompt } from "react-router-dom";
 import { FormControl, FormGroup, ControlLabel, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import { renderField, renderRadioGroup, renderCheckbox, renderSelect, renderRichText, renderDatePicker } from "../../darwino-react-bootstrap/form/formControls.jsx";
 import DocumentForm from "../../darwino-react-bootstrap/components/DocumentForm.jsx";
-import Section from "../../darwino-react-bootstrap/components/Section.jsx";
+import { Panel } from 'react-bootstrap';
 import AttachmentTable from "../../darwino-react-bootstrap/components/AttachmentTable.jsx";
 import JsonDebug from "../../darwino-react/util/JsonDebug.jsx";
 import CursorGrid from "../../darwino-react-bootstrap/components/CursorGrid.jsx"
@@ -96,9 +96,11 @@ export class Company extends DocumentForm {
                             <Field name="size" component={renderRadioGroup} inline={true} label="Size" disabled={disabled} options={SIZES} readOnly={readOnly}/>
                         </div>
 
-                        <Section defaultExpanded={true} title="Address" className="col-md-12 col-sm-12">
-                            <CCAddress {...this.props}/>
-                        </Section>
+                        <div className="col-md-12 col-sm-12">
+                            <Panel collapsible defaultExpanded header="Address">
+                                <CCAddress {...this.props}/>
+                            </Panel>
+                        </div>
 
                         <FormGroup>
                             <ControlLabel>Documents</ControlLabel>

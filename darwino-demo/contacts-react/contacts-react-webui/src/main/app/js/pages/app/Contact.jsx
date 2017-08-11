@@ -27,8 +27,7 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Link, Prompt } from "react-router-dom";
 import { renderField, renderRadioGroup, renderCheckbox, renderSelect, renderRichText, renderDatePicker } from "../../darwino-react-bootstrap/form/formControls.jsx";
 import DocumentForm from "../../darwino-react-bootstrap/components/DocumentForm.jsx";
-import Section from "../../darwino-react-bootstrap/components/Section.jsx";
-import { Tabs, Tab } from "../../darwino-react-bootstrap/components/Tabs.jsx";
+import { Panel, Tabs, Tab } from 'react-bootstrap';
 import Jsql from "../../darwino-react/jstore/jsql";
 import { richTextToDisplayFormat, richTextToStorageFormat } from "../../darwino-react/jstore/richtext";
 
@@ -93,8 +92,8 @@ export class Contact extends DocumentForm {
                             `The contact is modified and not saved yet.\nDo you want to leave the current page without saving it?`
                         )}
                     />                    
-                    <Tabs>
-                        <Tab label="Contact Information">
+                    <Tabs defaultActiveKey={1}>
+                        <Tab eventKey={1} title="Contact Information">
                             <fieldset>
                                 <h2>{title}</h2>
 
@@ -128,32 +127,38 @@ export class Contact extends DocumentForm {
                                     <Field name="firstcontact" component={renderDatePicker} label="Contact Since" disabled={disabled}/>
                                 </div>
 
-                                <Section defaultExpanded={true} title="Address" className="col-md-12 col-sm-12">
-                                    <CCAddress {...this.props}/>
-                                </Section>
+                                <div className="col-md-12 col-sm-12">
+                                    <Panel collapsible defaultExpanded header="Address">
+                                        <CCAddress {...this.props}/>
+                                    </Panel>
+                                </div>
 
-                                <Section defaultExpanded={true} title="Phone Numbers" className="col-md-12 col-sm-12">
-                                    <div className="col-md-12 col-sm-12">
-                                        <Field name="homephone" type="text" component={renderField} label="Home" disabled={disabled}/>
-                                    </div>
-                                    <div className="col-md-12 col-sm-12">
-                                        <Field name="mobilephone" type="text" component={renderField} label="Mobile" disabled={disabled}/>
-                                    </div>
-                                    <div className="col-md-12 col-sm-12">
-                                        <Field name="workphone" type="text" component={renderField} label="Work" disabled={disabled}/>
-                                    </div>
-                                </Section>
+                                <div className="col-md-12 col-sm-12">
+                                    <Panel collapsible defaultExpanded header="Phone Numbers">
+                                        <div className="col-md-12 col-sm-12">
+                                            <Field name="homephone" type="text" component={renderField} label="Home" disabled={disabled}/>
+                                        </div>
+                                        <div className="col-md-12 col-sm-12">
+                                            <Field name="mobilephone" type="text" component={renderField} label="Mobile" disabled={disabled}/>
+                                        </div>
+                                        <div className="col-md-12 col-sm-12">
+                                            <Field name="workphone" type="text" component={renderField} label="Work" disabled={disabled}/>
+                                        </div>
+                                    </Panel>
+                                </div>
 
                                 <div className="col-md-12 col-sm-12">
                                     <Field name="comments" component={renderRichText} label="Comments" disabled={disabled}/>
                                 </div>
 
-                                <Section defaultExpanded={true} title="Company" className="col-md-12 col-sm-12">
-                                    <div className="col-md-12 col-sm-12">
-                                        <Field name="company" type="text" component={renderSelect} label="Company" disabled={disabled}
-                                            options={this.state.allCompanies}/>
-                                    </div>
-                                </Section>
+                                <div className="col-md-12 col-sm-12">
+                                    <Panel collapsible defaultExpanded header="Company">
+                                        <div className="col-md-12 col-sm-12">
+                                            <Field name="company" type="text" component={renderSelect} label="Company" disabled={disabled}
+                                                options={this.state.allCompanies}/>
+                                        </div>
+                                    </Panel>
+                                </div>
 
                                 <div>
                                     <span style={disabled ? {display: 'none'} : {}}>
@@ -169,7 +174,7 @@ export class Contact extends DocumentForm {
                                 {/*<JsonDebug form={this.props.form}/>*/}
                             </fieldset>
                         </Tab>
-                        <Tab label="Business Card">
+                        <Tab eventKey={2} title="Business Card">
                             <fieldset>
                                 <div>
                                     <div className="col-md-12 col-sm-12">

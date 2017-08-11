@@ -41,7 +41,20 @@ const config = {
 				exclude: [nodeModulesDir],
 				query: {
 					presets: ['react', 'es2015', 'stage-1'],
-					plugins: ['transform-class-properties']
+					plugins: [
+						'transform-class-properties'
+					]
+/*
+					plugins: [
+						'transform-class-properties',
+			            ["transform-imports", {
+			                "redux-form": {
+			                  "transform": "redux-form/es/${member}",
+			                  "preventFullImport": true
+			                }
+			            }]					
+					]
+*/
 				}
 			}, {
 				test: /\.scss$/,
@@ -61,12 +74,7 @@ const config = {
 	plugins : [
 		new HtmlWebpackPlugin({
 			template: "html/index.html"
-		}),
-	    new webpack.ProvidePlugin({   
-	        jQuery: 'jquery',
-	        $: 'jquery',
-	        jquery: 'jquery'
-	    })
+		})
 	],
 };
 
