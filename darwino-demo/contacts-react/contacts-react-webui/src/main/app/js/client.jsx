@@ -42,7 +42,7 @@ import 'whatwg-fetch'
 
 import 'font-awesome/css/font-awesome.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap';
+//import 'bootstrap/dist/js/bootstrap';
 
 // Custom styles
 import '../style/navbar-fixed-side.css';
