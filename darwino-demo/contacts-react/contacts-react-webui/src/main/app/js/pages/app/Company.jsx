@@ -34,7 +34,8 @@ import AttachmentTable from "../../darwino-react-bootstrap/components/Attachment
 import JsonDebug from "../../darwino-react/util/JsonDebug.jsx";
 import CursorGrid from "../../darwino-react-bootstrap/components/CursorGrid.jsx"
 
-import CCAddress from "./CCAddress.jsx";
+import ComputedComponent from "./ComputedComponent.jsx";
+import CCAddress from "./CCAddress.jsx"; // for delegation
 
 const DATABASE = Constants.DATABASE;
 const STORE = "companies";
@@ -98,7 +99,7 @@ export class Company extends DocumentForm {
 
                         <div className="col-md-12 col-sm-12">
                             <Panel collapsible defaultExpanded header="Address">
-                                <CCAddress {...this.props}/>
+                                {/* <ComputedComponent name="CCAddress" {...this.props}/> */}
                             </Panel>
                         </div>
 
@@ -145,7 +146,7 @@ export class Company extends DocumentForm {
 }
 
 Company.formEvents = { 
-    delegates: [[CCAddress,{path:''}]]
+    delegates: [CCAddress]
 }
 
 const form = reduxForm({

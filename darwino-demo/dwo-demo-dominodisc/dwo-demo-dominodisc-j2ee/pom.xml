@@ -109,6 +109,12 @@
 			<artifactId>postgresql</artifactId>
 			<version>9.4.1212.jre6</version>
 		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.43</version>
+    		<!--  <version>8.0.7-dmr</version>  -->
+		</dependency>
 		
 		<!--  Social plug-ins, like Gravatar -->
 		<dependency>
