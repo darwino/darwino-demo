@@ -22,6 +22,10 @@ const nodeModulesDir  = path.resolve(__dirname, 'node_modules');
 
 const debug = process.env.NODE_ENV !== "production";
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+// Ugly way to find if we are in prod
+const production = (process.argv.indexOf('-p')>=0) || (process.env.NODE_ENV==='production');
 
 const config = {
 	context: contextDir,
@@ -42,19 +46,22 @@ const config = {
 				query: {
 					presets: ['react', 'es2015', 'stage-1'],
 					plugins: [
-						'transform-class-properties'
-					]
-/*
-					plugins: [
 						'transform-class-properties',
 			            ["transform-imports", {
 			                "redux-form": {
 			                  "transform": "redux-form/es/${member}",
 			                  "preventFullImport": true
-			                }
-			            }]					
+			                },
+			                "lodash": {
+			                    "transform": "lodash/${member}",
+			                    "preventFullImport": true
+			                },
+			                "react-bootstrap": {
+				                  "transform": "react-bootstrap/lib/${member}",
+				                  "preventFullImport": true
+				                }
+				            }]					
 					]
-*/
 				}
 			}, {
 				test: /\.scss$/,
@@ -72,13 +79,14 @@ const config = {
 		]
 	},
 	plugins : [
+		//new BundleAnalyzerPlugin(),
 		new HtmlWebpackPlugin({
 			template: "html/index.html"
 		})
 	],
 };
 
-if (process.env.NODE_ENV === 'production') {
+if (production) {
 	new webpack.DefinePlugin({ // <-- key to reducing React's size
        'process.env': {
          'NODE_ENV': JSON.stringify('production')
@@ -93,16 +101,14 @@ if (process.env.NODE_ENV === 'production') {
     // https://stackoverflow.com/questions/35054082/webpack-how-to-build-production-code-and-how-to-use-it
 /*	
     config.plugins.push(new webpack.optimize.CommonsChunkPlugin('common.js'))
-    config.plugins.push(new webpack.optimize.UglifyJsPlugin())
     config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin())
-    config.plugins.push(new webpack.optimize.AggressiveMergingPlugin())
 */
     //babelSettings.plugins.push("transform-react-inline-elements");
     //babelSettings.plugins.push("transform-react-constant-elements");
 
 } else {
     //config.devtool = "#cheap-module-source-map"
-	config.devtool= "inline-sourcemap"
+	config.devtool= "source-map"
     config.devServer = {
 		port: 8008
     }
