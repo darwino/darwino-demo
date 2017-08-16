@@ -12,10 +12,10 @@ export default class NavLink extends React.Component {
 
   render() {
     const { router } = this.context;
-    const { to, children, ...props } = this.props;
+    const { to, children, exact, ...props } = this.props;
 
     return (
-      <Route path={to} children={({match}) => (
+      <Route path={to} exact={exact} children={({match}) => (
         <li className={match ? 'active' : ''}>
           <Link to={to} {...props}>{children}</Link>
         </li>

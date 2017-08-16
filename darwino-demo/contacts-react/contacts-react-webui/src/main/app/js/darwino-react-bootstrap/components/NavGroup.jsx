@@ -26,18 +26,24 @@ export class NavGroup extends Component {
         if(collapsible) {
             return (
                 <li className="dropdown">
-                    <a href="#" className="dropdown-toggle">
-                        <i onClick={this.handleClick} className={"glyphicon "+(this.state.expanded ? "glyphicon-chevron-down" : "glyphicon-chevron-right")}></i>
+                    <a className="dropdown-toggle" onClick={this.handleClick}>
+                        <i className={"glyphicon "+(this.state.expanded ? "glyphicon-chevron-down" : "glyphicon-chevron-right")}></i>
                         &nbsp;
                         {title}
                     </a>
-                    {this.state.expanded && this.props.children}
+                    {this.state.expanded && (
+                        <ul className="dropdown-menu">
+                            {this.props.children}
+                        </ul>
+                    )}
                 </li>
             )
         } else {
             return (
                 <li className="dropdown">
-                    {this.props.children}
+                    <ul className="dropdown-menu">
+                        {this.props.children}
+                    </ul>
                 </li>
             )               
         }
