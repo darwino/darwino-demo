@@ -58,6 +58,9 @@ function dispatchNew(doc,docEvents) {
         if(docEvents.prepareForDisplay) {
             docEvents.prepareForDisplay(doc.json)
         }
+        if(docEvents.documentReady) {
+            docEvents.documentReady(doc)
+        }
     }
     return doc;
 }
@@ -79,8 +82,13 @@ export const newDocument = (database, store, unid, serverInit, docEvents) => ({
 
 // Document Load
 function dispatchLoad(doc,docEvents) {
-    if(docEvents && docEvents.prepareForDisplay) {
-         docEvents.prepareForDisplay(doc.json)
+    if(docEvents) {
+        if(docEvents.prepareForDisplay) {
+            docEvents.prepareForDisplay(doc.json)
+        }
+        if(docEvents.documentReady) {
+            docEvents.documentReady(doc)
+        }
     }
     return doc;
 }

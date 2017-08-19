@@ -23,6 +23,18 @@ const _quillModules= {
     ]
 }
 
+let preventOnChange = false;
+class ReactQuillFix extends ReactQuill {
+	componentWillReceiveProps(nextProps, nextState) {
+        preventOnChange = true;
+        try {
+            super.componentWillReceiveProps(nextProps, nextState)
+        } finally {
+            preventOnChange = false;
+        }
+    }
+}
+
 export const renderRichText = field => {
     const { input, meta, disabled, label } = field;
     if(field.readOnly) {
@@ -33,15 +45,23 @@ export const renderRichText = field => {
             </FormGroup>
         )
     } else {
+        // React-quill issue that sets the form dirty when the value is set
+        // See: https://github.com/zenoamaro/react-quill/issues/259
+        let input2 = {
+            ...input,
+            onChange: function(content,delta,source,editor) { 
+                if(!preventOnChange) input.onChange(content)
+            }
+        }
         return (
             <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
                 {label && <ControlLabel>{label}</ControlLabel>}
-                <ReactQuill 
+                <ReactQuillFix 
                     theme='snow'
                     readOnly={disabled}
-                    {...input} 
+                    {...input2} 
                     modules={_quillModules}>
-                </ReactQuill>
+                </ReactQuillFix>
                 {meta.touched && meta.error && <div className="error">{meta.error}</div>}
             </FormGroup>
         )

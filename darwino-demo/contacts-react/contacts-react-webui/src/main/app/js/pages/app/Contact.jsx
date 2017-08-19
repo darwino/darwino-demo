@@ -5,10 +5,11 @@
 import React, { Component } from "react";
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Field, reduxForm, getFormValues, formValueSelector } from 'redux-form';
 import { Link, Prompt } from "react-router-dom";
 import { renderField, renderRadioGroup, renderCheckbox, renderSelect, renderRichText, renderDatePicker } from "../../darwino-react-bootstrap/form/formControls.jsx";
 import DocumentForm from "../../darwino-react-bootstrap/components/DocumentForm.jsx";
+import ComputedField from "../../darwino-react-bootstrap/components/ComputedField.jsx";
 import { Panel, Tabs, Tab } from 'react-bootstrap';
 import Jsql from "../../darwino-react/jstore/jsql";
 import { richTextToDisplayFormat, richTextToStorageFormat } from "../../darwino-react/jstore/richtext";
@@ -29,13 +30,14 @@ export class Contact extends DocumentForm {
 
     // Default values of the properties
     static defaultProps  = {
+        databaseId: DATABASE,
+        storeId: STORE,
         nextPageSuccess: "/app/allcontacts"
     };
 
     constructor(props) {
         super(props)
         this.handleActionClick = this.handleActionClick.bind(this);
-        this.state = {};
 
         // Get the list of companies
         new Jsql()
@@ -47,7 +49,54 @@ export class Contact extends DocumentForm {
                 this.setState({allCompanies: json})
             });
     }
+
+    // Default values when a new document is created
+    defaultValues() {
+        return {
+            form: "Contact",
+            firstname: "Leonardo",
+            lastname: "da Vinci"
+        }
+    }
+
+    // Validation
+    validate(values) {
+        const errors = {};
+        // Add the validation rules here!
+        if(!values.firstname) {
+            errors.firstname = "Missing First Name"
+        }
+        if(!values.lastname) {
+            errors.lastname = "Missing Last Name"
+        }
+        return errors;
+    }
+
+    // Values computed once when the document is loaded
+    calculateOnLoad(values) {
+        return {
+            title: "Contact Document"
+        }
+    }
+
+    // Values computed every time the document is changed
+    calculateOnChange(values) {
+        return {
+            fullname: (values.firstname||'') + " " + (values.lastname||'')
+        }
+    }
+
+    // Transform the generic attachment links to physical ones
+    prepareForDisplay(values) {
+        if(values.card) values.card = richTextToDisplayFormat(this.state,values.card)
+    }
+
+    // Transform the physical attachment links back to generic ones
+    prepareForSave(values) {
+        if(values.card) values.card = richTextToStorageFormat(this.state,values.card)
+    }
     
+
     handleActionClick() {
         alert("You clicked me!");
     }
@@ -61,15 +110,15 @@ export class Contact extends DocumentForm {
     }
 
     render() {
-        const { handleSubmit, dirty, reset, invalid, submitting, newDoc, doc, type } = this.props;
+        const { newDoc, doc } = this.state;
+        const { handleSubmit, dirty, reset, invalid, submitting, type } = this.props;
         const disabled = !doc || doc.readOnly;
-        const title = "phil"
         return (
             <div>
                 <form onSubmit={handleSubmit(this.handleUpdateDocument)}>
                     {this.createActionBar()}
                     <Prompt
-                        when={dirty||newDoc}
+                        when={dirty}
                         message={location => (
                             `The contact is modified and not saved yet.\nDo you want to leave the current page without saving it?`
                         )}
@@ -77,7 +126,7 @@ export class Contact extends DocumentForm {
                     <Tabs defaultActiveKey={1}>
                         <Tab eventKey={1} title="Contact Information">
                             <fieldset>
-                                <h2>{title}</h2>
+                                <h2>{this.computedValues.title}</h2>
 
                                 <div className="col-md-12 col-sm-12">
                                     <Field name="firstname" type="text" component={renderField} label="First Name" disabled={disabled}/>
@@ -87,8 +136,8 @@ export class Contact extends DocumentForm {
                                     <Field name="lastname" type="text" component={renderField} label="Last Name" disabled={disabled}/>
                                 </div>
 
-                                <div>
-                                    {this.props.computed.fullName}
+                                <div className="col-md-12 col-sm-12">
+                                    <ComputedField label="Full Name" value={this.computedValues.fullname}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
@@ -111,7 +160,7 @@ export class Contact extends DocumentForm {
 
                                 <div className="col-md-12 col-sm-12">
                                     <Panel collapsible defaultExpanded header="Address">
-                                        <CCAddress {...this.props}/>
+                                        <CCAddress {...this.props} name="" documentForm={this}/>
                                     </Panel>
                                 </div>
 
@@ -137,7 +186,7 @@ export class Contact extends DocumentForm {
                                     <Panel collapsible defaultExpanded header="Company">
                                         <div className="col-md-12 col-sm-12">
                                             <Field name="company" type="text" component={renderSelect} label="Company" disabled={disabled}
-                                                options={this.state.allCompanies}/>
+                                                options={this.state.allCompanies} emptyOption={true}/>
                                         </div>
                                     </Panel>
                                 </div>
@@ -151,9 +200,6 @@ export class Contact extends DocumentForm {
                                     </span>
                                     <a className="btn btn-link" onClick={this.handleCancel}>Cancel</a>
                                 </div>
-                                
-                                {/*Uncomment to display the current JSON content*/}
-                                {/*<JsonDebug form={this.props.form}/>*/}
                             </fieldset>
                         </Tab>
                         <Tab eventKey={2} title="Business Card">
@@ -166,59 +212,21 @@ export class Contact extends DocumentForm {
                             </fieldset>
                         </Tab>
                     </Tabs>
+                    {/*Uncomment to display the current JSON content*/}
+                     <JsonDebug form={this.props.form}/> 
                 </form>
             </div>
         );
   }
 }
 
-Contact.formEvents = { 
-    delegates: [CCAddress],
-    validate: function(values,props) {
-        const errors = {};
-        // Add the validation rules here!
-        if(!values.firstname) {
-            errors.firstname = "Missing First Name"
-        }
-        if(!values.lastname) {
-            errors.lastname = "Missing Last Name"
-        }
-        return errors;
-    },
-    initialize: function(values,props) {
-        Object.assign(values, {
-            form: "Contact",
-            firstname: "Leonardo",
-            lastname: "da Vinci"
-        })
-    },
-    prepareForDisplay: function(values,props) {
-        // Transform the generic attachment links to physical ones
-        if(values.card) values.card = richTextToDisplayFormat(props,values.card)
-    },
-    prepareForSave: function(values,props) {
-        // Transform the physical attachment links back to generic ones
-        if(values.card) values.card = richTextToStorageFormat(props,values.card)
-    }
-}
-
 const form = reduxForm({
     form: FORM_NAME,
-    validate: DocumentForm.validateForm(Contact),
-    enableReinitialize: true
+    validate: DocumentForm.validateForm,
+    onChange: DocumentForm.onChange
 });
 
-function computedFields(f) {
-    return function(state,ownProps)  {
-        let r = f(state,ownProps)
-        r.computed = {
-            fullName: "Full NAME"
-        }
-        return r;
-    }
-}
-
 export default withRouter(
-    connect(computedFields(DocumentForm.mapStateToProps(Contact, DATABASE, STORE)),DocumentForm.mapDispatchToProps())
+    connect(null,DocumentForm.mapDispatchToProps)
         (form(Contact))
 )

@@ -15,8 +15,7 @@ import AttachmentTable from "../../darwino-react-bootstrap/components/Attachment
 import JsonDebug from "../../darwino-react/util/JsonDebug.jsx";
 import CursorGrid from "../../darwino-react-bootstrap/components/CursorGrid.jsx"
 
-import ComputedComponent from "./ComputedComponent.jsx";
-import CCAddress from "./CCAddress.jsx"; // for delegation
+import CCAddress from "./CCAddress.jsx";
 
 const DATABASE = Constants.DATABASE;
 const STORE = "companies";
@@ -35,21 +34,23 @@ export class Company extends DocumentForm {
 
     // Default values of the properties
     static defaultProps  = {
+        databaseId: DATABASE,
+        storeId: STORE,
         nextPageSuccess: "/app/allcompanies"
     };
 
     constructor(props) {
         super(props)
         //this.handleActionClick = this.handleActionClick.bind(this);
-        this.state = {
+        this.state.mode = {
             // 0: readonly, 1: disabled, 2:edit
             mode: 2
         };
     }
 
     render() {
-        const { mode } = this.state.mode;
-        const { handleSubmit, dirty, reset, invalid, submitting, newDoc, doc, type } = this.props;
+        const { newDoc, doc, mode } = this.state;
+        const { handleSubmit, dirty, reset, invalid, submitting, type } = this.props;
         const readOnly = mode==0;
         const disabled = mode==1;
         
@@ -80,7 +81,7 @@ export class Company extends DocumentForm {
 
                         <div className="col-md-12 col-sm-12">
                             <Panel collapsible defaultExpanded header="Address">
-                                <ComputedComponent name="CCAddress" {...this.props}/>
+                                <CCAddress {...this.props} documentForm={this}/>
                             </Panel>
                         </div>
 
@@ -126,17 +127,13 @@ export class Company extends DocumentForm {
   }
 }
 
-Company.formEvents = { 
-    delegates: [CCAddress]
-}
-
 const form = reduxForm({
     form: FORM_NAME,
-    validate: DocumentForm.validateForm(Company),
-    enableReinitialize: true
+    validate: DocumentForm.validateForm,
+    onChange: DocumentForm.onChange
 });
 
 export default withRouter(
-    connect(DocumentForm.mapStateToProps(Company, DATABASE, STORE),DocumentForm.mapDispatchToProps())
+    connect(null,DocumentForm.mapDispatchToProps)
         (form(Company))
 )

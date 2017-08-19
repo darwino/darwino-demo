@@ -19,13 +19,3 @@ export const renderCheckbox = field => {
         </FormGroup>
     )
 };
-
-/*
-        <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
-            <label>
-                <input type='checkbox' {...input} disabled={disabled}/>
-                {label}
-            </label>
-            {meta.touched && meta.error && <div className="error">{meta.error}</div>}
-        </FormGroup>
-*/
