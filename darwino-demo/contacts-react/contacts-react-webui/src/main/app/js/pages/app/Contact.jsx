@@ -213,7 +213,7 @@ export class Contact extends DocumentForm {
                         </Tab>
                     </Tabs>
                     {/*Uncomment to display the current JSON content*/}
-                     <JsonDebug form={this.props.form}/> 
+                    {/* <JsonDebug form={this.props.form}/>  */}
                 </form>
             </div>
         );
