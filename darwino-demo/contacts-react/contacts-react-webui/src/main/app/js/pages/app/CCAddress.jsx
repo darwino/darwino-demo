@@ -68,7 +68,7 @@ export default class CCAddress extends DocumentSubform {
     }
 
     render() {
-        const { doc } = this.props.documentForm.state;
+        const doc = this.props.documentForm.getDocument();
         const disabled = !doc || doc.readOnly;
         return (
             <div>
