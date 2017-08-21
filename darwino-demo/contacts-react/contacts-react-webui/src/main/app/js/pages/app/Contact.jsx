@@ -126,7 +126,7 @@ export class Contact extends DocumentForm {
                     <Tabs defaultActiveKey={1}>
                         <Tab eventKey={1} title="Contact Information">
                             <fieldset>
-                                <h2>{this.computedValues.title}</h2>
+                                <h2>{this.getFieldValue("title")}</h2>
 
                                 <div className="col-md-12 col-sm-12">
                                     <Field name="firstname" type="text" component={renderField} label="First Name" disabled={disabled}/>
@@ -213,7 +213,7 @@ export class Contact extends DocumentForm {
                         </Tab>
                     </Tabs>
                     {/*Uncomment to display the current JSON content*/}
-                    {/* <JsonDebug form={this.props.form}/>  */}
+                    {/* <JsonDebug form={this.props.form}/>   */}
                 </form>
             </div>
         );

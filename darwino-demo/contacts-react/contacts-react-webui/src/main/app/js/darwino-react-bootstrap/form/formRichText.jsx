@@ -23,18 +23,6 @@ const _quillModules= {
     ]
 }
 
-let preventOnChange = false;
-class ReactQuillFix extends ReactQuill {
-	componentWillReceiveProps(nextProps, nextState) {
-        preventOnChange = true;
-        try {
-            super.componentWillReceiveProps(nextProps, nextState)
-        } finally {
-            preventOnChange = false;
-        }
-    }
-}
-
 export const renderRichText = field => {
     const { input, meta, disabled, label } = field;
     if(field.readOnly) {
@@ -47,23 +35,27 @@ export const renderRichText = field => {
     } else {
         // React-quill issue that sets the form dirty when the value is set
         // See: https://github.com/zenoamaro/react-quill/issues/259
-        let input2 = {
-            ...input,
-            onChange: function(content,delta,source,editor) { 
-                if(!preventOnChange) input.onChange(content)
+        function onChange(content,delta,source,editor) { 
+            if(source!=="api") {
+                input.onChange(content)
             }
         }
+        // This generates an issue where the content gets empty when there is a click on a combobox within the toolbar */}                    
+        // We only pass 'value' & 'onchange'                     
+        //    onBlur={input.onBlur}
         return (
             <FormGroup className={meta.touched && meta.error ? 'has-error' : ''}>
                 {label && <ControlLabel>{label}</ControlLabel>}
-                <ReactQuillFix 
+                <ReactQuill
                     theme='snow'
                     readOnly={disabled}
-                    {...input2} 
+                    onChange={onChange}
+                    value={input.value}
                     modules={_quillModules}>
-                </ReactQuillFix>
+                </ReactQuill>
                 {meta.touched && meta.error && <div className="error">{meta.error}</div>}
             </FormGroup>
         )
     }
 }
+

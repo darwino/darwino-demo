@@ -46,6 +46,27 @@ export default class CCAddress extends DocumentSubform {
         return errors;
     }
 
+    setAddress(a) {
+        this.setFieldValue("street","");
+        switch(a) {
+            case 1: {
+                this.setFieldValue("city","Boston");
+                this.setFieldValue("zipcode","02110");
+                this.setFieldValue("state","MA");
+            } break;
+            case 2: {
+                this.setFieldValue("city","New York");
+                this.setFieldValue("zipcode","10001");
+                this.setFieldValue("state","NY");
+            } break;
+            case 3: {
+                this.setFieldValue("city","San Francisco");
+                this.setFieldValue("zipcode","94016");
+                this.setFieldValue("state","CA");
+            } break;
+        }
+    }
+
     render() {
         const { doc } = this.props.documentForm.state;
         const disabled = !doc || doc.readOnly;
@@ -63,6 +84,13 @@ export default class CCAddress extends DocumentSubform {
                 <div className="col-md-2 col-sm-2">
                     <Field name="state" type="text" component={renderSelect} label="State" disabled={disabled} 
                             options={US_STATES} emptyOption={true}/>
+                </div>
+                <div className="col-md-12 col-sm-12">
+                    <div classname="btn-group">
+                        <button type="button" className="btn btn-default" onClick={()=>(this.setAddress(1))}>Boston</button>
+                        <button type="button" className="btn btn-default" onClick={()=>(this.setAddress(2))}>New York</button>
+                        <button type="button" className="btn btn-default" onClick={()=>(this.setAddress(3))}>San Franciso</button>
+                    </div>
                 </div>
             </div>
         );

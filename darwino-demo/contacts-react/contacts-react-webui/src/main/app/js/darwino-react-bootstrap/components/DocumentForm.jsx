@@ -187,12 +187,20 @@ export class DocumentForm extends Component {
         this.subforms.splice(index,1);
     }
 
+    getDocument() {
+        return this.state.doc;
+    }
+
     getFieldValue(field) {
         let v = this.fieldValues[field];
         if(v===undefined) {
             return this.computedValues[field];
         }
         return v;
+    }
+
+    setFieldValue(field,value) {
+        this.props.change(field,value)
     }
 
     // // Future extension: get hierarchical fields
