@@ -1,5 +1,0 @@
-build
-bin
-**/*.xcodeproj/xcuserdata/
-**/*.xcworkspace/xcuserdata/
-.gradle
