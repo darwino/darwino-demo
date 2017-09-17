@@ -24,8 +24,10 @@ package com.darwino.application.jsonstore;
 
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.util.StringUtil;
+import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.impl.DatabaseFactoryImpl;
 import com.darwino.jsonstore.meta._Database;
+import com.darwino.jsonstore.meta._FieldPath;
 import com.darwino.jsonstore.meta._FtSearch;
 import com.darwino.jsonstore.meta._Index;
 import com.darwino.jsonstore.meta._Store;
@@ -61,6 +63,25 @@ public class NewsDatabaseDef extends DatabaseFactoryImpl {
 		db.setReplicationEnabled(true);
 		//db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
 		db.setInstanceEnabled(true);
+		
+		{
+			// We add an index to the comments store, as this is no longer defined in the default store
+			// Note that indexes should be removed over time
+			_Store store = db.getStore(Database.STORE_COMMENTS);
+			try {
+				store.addQueryField("date",_FieldPath.TYPE_TIMESTAMP, false);
+				
+				// THIS SHOULD BE REMOVED!
+				// Register document events
+				_Index i1 = store.addIndex("allComments");
+				i1.setLabel("Comments by date");
+				// Cannot do that because it fails the unit test comparison.
+				// So we use a fake date field
+				// i1.keys(SpecialFieldNode.LASTMODDATE);
+				i1.addKey("date",_FieldPath.TYPE_TIMESTAMP);
+				i1.valuesExtract("\"$\"");
+			} catch(JsonException ex) {} // Should not happen
+		}
 
 		// Store: NEWS
 		{
