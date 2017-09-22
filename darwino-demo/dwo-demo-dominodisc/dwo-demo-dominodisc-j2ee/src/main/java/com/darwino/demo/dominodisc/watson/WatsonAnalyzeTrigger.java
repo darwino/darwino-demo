@@ -39,7 +39,7 @@ import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.Store;
 import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.events.EventTrigger;
-import com.darwino.platform.events.jsonstore.AbstractJsonStoreDocumentQueryTrigger;
+import com.darwino.platform.events.jsonstore.JsonStoreDocumentQueryTrigger;
 import com.darwino.platform.events.jsonstore.JsonStoreChangesTrigger;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.ToneAnalyzer;
 import com.ibm.watson.developer_cloud.tone_analyzer.v3.model.ToneAnalysis;
@@ -93,7 +93,7 @@ public class WatsonAnalyzeTrigger extends JsonStoreChangesTrigger {
 	}
 
 	
-	public static class Handler implements AbstractJsonStoreDocumentQueryTrigger.Handler {
+	public static class Handler implements JsonStoreDocumentQueryTrigger.DocHandler {
 	
 		private ToneAnalyzerFactory factory;
 		

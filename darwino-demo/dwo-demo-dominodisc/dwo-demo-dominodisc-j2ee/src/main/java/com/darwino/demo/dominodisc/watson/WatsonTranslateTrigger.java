@@ -38,7 +38,7 @@ import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.Store;
 import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.events.EventTrigger;
-import com.darwino.platform.events.jsonstore.AbstractJsonStoreDocumentQueryTrigger;
+import com.darwino.platform.events.jsonstore.JsonStoreDocumentQueryTrigger;
 import com.darwino.platform.events.jsonstore.JsonStoreChangesTrigger;
 import com.ibm.watson.developer_cloud.language_translation.v2.LanguageTranslation;
 import com.ibm.watson.developer_cloud.language_translation.v2.model.Language;
@@ -92,7 +92,7 @@ public class WatsonTranslateTrigger extends JsonStoreChangesTrigger {
 	}
 
 	
-	public static class Handler implements AbstractJsonStoreDocumentQueryTrigger.Handler {
+	public static class Handler implements JsonStoreDocumentQueryTrigger.DocHandler {
 	
 		private LanguageTranslationFactory factory;
 		
