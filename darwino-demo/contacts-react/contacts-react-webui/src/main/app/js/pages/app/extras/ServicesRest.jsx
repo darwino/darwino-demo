@@ -4,7 +4,7 @@
 import React, {Component} from "react";
 import { Button, ButtonToolbar, ControlLabel } from 'react-bootstrap';
 
-import { MicroServices, DEV_OPTIONS } from '@darwino/darwino';
+import { MicroServices, fetchJson } from '@darwino/darwino';
 
 import { Messages } from '@darwino/darwino-react-bootstrap';
 
@@ -20,22 +20,9 @@ class ServicesRest extends Component {
 
     callRestService(valid) {
         const {mainForm} = this.props;
-        let url = `${DEV_OPTIONS.serverPrefix}$darwino-app/`
+        let url = `$darwino-app/`
         if(!valid) url += 'fake'
-        return fetch(
-            url, {
-                credentials: DEV_OPTIONS.credentials
-            })
-        .then(response => {
-			if(!response.ok) {
-				return response.text().then(content => { throw {message:response.statusText,status:response.status,content}; });
-			}
-            try {
-                return response.json();
-            } catch(e) {
-                throw {message:e.toString(),exception:e}
-            }
-        })
+        return fetchJson(url)
         .then((r) => {
             this.setState({
                 error: false,
