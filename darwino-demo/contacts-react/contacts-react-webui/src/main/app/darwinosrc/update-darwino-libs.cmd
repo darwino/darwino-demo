@@ -9,7 +9,8 @@ IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
 Echo Installing the source - last chance to cancel before total REPLACEMENT! [CTRL+C]
 PAUSE >nul
 
-set ROOTDIR=..\..\..\..\..\..\..\darwino-client-javascript\javascript
+rem set ROOTDIR=..\..\..\..\..\..\..\darwino-client-javascript\javascript
+set ROOTDIR=c:\phildev\source\darwino\darwino-client-javascript\javascript
 
 rd %ROOTDIR%\javascript-darwino\src\main\javascript\src /s /q
 md %ROOTDIR%\javascript-darwino\src\main\javascript\src
