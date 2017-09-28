@@ -3,7 +3,7 @@
 		<div class="{{data==currentEntry()?'selected':'notselected'}}">
 			<!-- Document data -->
 			<div class="item-avatar item-icon-right item-list-header">
-				<img ng-src="{{data.cuser|userPhotoUrl}}" alt="Photo" 
+				<img ng-src="{{data.json.email|userPhotoUrl}}" alt="Photo" 
 					onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src='$darwino-social/users/images/anonymous-photo.png';">
 				<div style="width:100%;">
 					<h2 ng-bind-template='{{data.json.firstname}} {{func.upperCase(data.json.lastname)}}'></h2>

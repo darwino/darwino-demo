@@ -7,6 +7,7 @@ package com.contacts.app;
 import com.darwino.commons.microservices.StaticJsonMicroServicesFactory;
 
 import com.contacts.app.microservices.HelloWorld;
+import com.contacts.app.microservices.SetCompanySize;
 
 
 /**
@@ -20,5 +21,6 @@ public class AppMicroServicesFactory extends StaticJsonMicroServicesFactory {
 	
 	public AppMicroServicesFactory() {
 		add(HelloWorld.NAME, new HelloWorld());
+		add(SetCompanySize.NAME, new SetCompanySize());
 	}
 }

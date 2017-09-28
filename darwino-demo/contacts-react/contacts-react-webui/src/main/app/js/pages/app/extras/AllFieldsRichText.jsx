@@ -18,7 +18,7 @@ class AllFieldsRichText extends Component {
                     <Field name="richtext" component={renderRichText} label="Some rich text" disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="__attachments" component={renderAttachments} label="Attachments" disabled={disabled} readOnly={readOnly}/>
+                    <Field name="__attachments" component={renderAttachments} label="Attachments" buttonLabel="Add a New File..." disabled={disabled} readOnly={readOnly}/>
                 </div>
             </fieldset>
         );

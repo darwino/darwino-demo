@@ -5,8 +5,8 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { CursorPage, CursorGrid} from '@darwino/darwino-react-bootstrap'
 
-import Constants from "./Constants.jsx";
-import RouteForm from "./RouteForm.jsx";
+import Constants from "./Constants";
+import RouteForm from "./RouteForm";
 import {SexFormatter} from "./Formatters";
 
 import { Link } from "react-router-dom";

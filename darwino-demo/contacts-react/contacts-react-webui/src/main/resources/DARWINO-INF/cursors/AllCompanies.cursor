@@ -3,6 +3,7 @@
   "extract": {
     "Name": "name",
     "Industry": "industry",
+    "Size": "size",
     "State": "state",
     "form": "form"
   },

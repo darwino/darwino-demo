@@ -8,8 +8,7 @@ import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Tabs, Tab, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 
 import { Jsql, JstoreCursor } from '@darwino/darwino';
-import {JsonDebug} from "@darwino/darwino-react";
-import { DocumentForm, renderText, renderTextArea, renderStatic, renderSelect, renderCheckbox } from '@darwino/darwino-react-bootstrap';
+import { DocumentForm, FormDebug, renderText, renderTextArea, renderStatic, renderSelect, renderCheckbox } from '@darwino/darwino-react-bootstrap';
 
 import Constants from "../Constants";
 import AllFieldsText from "./AllFieldsText";
@@ -18,6 +17,7 @@ import AllFieldsCheckboxes from "./AllFieldsCheckboxes";
 import AllFieldsRadioButtons from "./AllFieldsRadioButtons";
 import AllFieldsSelect from "./AllFieldsSelect";
 import AllFieldsRichText from "./AllFieldsRichText";
+import AllFieldsComputed from "./AllFieldsComputed";
 
 const {DEFAULT_MODE,EDITABLE,DISABLED,READONLY} = DocumentForm
 
@@ -36,6 +36,13 @@ class AllFields extends DocumentForm {
     defaultValues(values) {
         values.MultipleInput = ["v1","v2"]
     }
+
+    calculateOnChange(values) {
+        const value = this.getFieldValue("SimpleInput","")
+        values.UpperCase = value.toUpperCase()
+        values.LowerCase = value.toLowerCase()
+        values.CalculatedValue = this.getFieldValue("Value1","") + " - " + this.getFieldValue("Value2","")
+    }   
 
     render() {
         const readOnly = this.isReadOnly();
@@ -71,10 +78,12 @@ class AllFields extends DocumentForm {
                         <Tab eventKey={6} title="Rich Text &amp; Attachments">
                             <AllFieldsRichText mainForm={this}/>
                         </Tab>
+                        <Tab eventKey={7} title="Computed Fields">
+                            <AllFieldsComputed mainForm={this}/>
+                        </Tab>
                     </Tabs>
-                    {/*Uncomment to display the current JSON content*/}
-                    <h4>JSON Content</h4>
-                    <JsonDebug form={this.props.form}/>
+                    {/*Uncomment to display the current FORM content*/}
+                    <FormDebug/>
                 </form>
             </div>
         );

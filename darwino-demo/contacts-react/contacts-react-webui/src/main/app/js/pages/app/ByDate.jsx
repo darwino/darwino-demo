@@ -3,7 +3,7 @@
  */
 import React from "react";
 import { CursorPage, CursorGrid} from '@darwino/darwino-react-bootstrap'
-import Constants from "./Constants.jsx";
+import Constants from "./Constants";
 
 import {DateFormatter,SexFormatter} from "./Formatters";
 

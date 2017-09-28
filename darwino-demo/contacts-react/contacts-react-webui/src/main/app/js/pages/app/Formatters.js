@@ -31,3 +31,11 @@ export const SexFormatter = function(props) {
         )
     }
 }
+
+export const SizeFormatter = function(props) {
+    const size = props.value;
+    if(size=='0') return <span>0-9</span>
+    if(size=='1') return <span>10-499</span>
+    if(size=='2') return <span>500-9,999</span>
+    return <span>10,000+</span>
+}

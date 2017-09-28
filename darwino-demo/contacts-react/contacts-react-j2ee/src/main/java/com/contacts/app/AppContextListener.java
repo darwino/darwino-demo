@@ -118,9 +118,9 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 		final TaskScheduler scheduler = Platform.getService(TaskScheduler.class);
 		
 		// Install the tasks
-		// This tasks logs a string every 10secs
+		// This tasks logs a string every 1 minute
 		scheduler.scheduleTask(
 				new LogTask(),
-				new IntervalScheduler().interval("10s"));
+				new IntervalScheduler().interval("1m"));
 	}
 }

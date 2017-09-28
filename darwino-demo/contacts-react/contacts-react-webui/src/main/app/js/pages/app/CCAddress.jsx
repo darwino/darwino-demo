@@ -11,7 +11,7 @@ import { Field } from 'redux-form';
 import { Button, DropdownButton, MenuItem } from 'react-bootstrap';
 
 import { DocumentSubform, renderText, renderSelect } from '@darwino/darwino-react-bootstrap';
-import Constants from "./Constants.jsx";
+import Constants from "./Constants";
 
 const US_STATES = Constants.US_STATES;
 

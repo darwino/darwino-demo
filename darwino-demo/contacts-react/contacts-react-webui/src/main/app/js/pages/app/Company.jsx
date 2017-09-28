@@ -110,8 +110,7 @@ export class Company extends DocumentForm {
                                     databaseId={Constants.DATABASE}
                                     params={{
                                         name: "AllCompanyDocuments",
-                                        parentid: this.state.unid,
-                                        jsontree: true
+                                        parentid: this.state.unid
                                     }}
                                     showResponses={true}
                                     grid={{

@@ -27,6 +27,8 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 	public static final int DATABASE_VERSION	= 5;
 	public static final String DATABASE_NAME	= "contacts";
 	
+	public static final String STORE_COMPANIES	= "companies";
+	
     public static final String[] DATABASES = new String[] {
     	DATABASE_NAME
     };
@@ -81,7 +83,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 
 		// Other stores...
 		{
-			_Store store = db.addStore("companies");
+			_Store store = db.addStore(STORE_COMPANIES);
 			store.setLabel("Companies");
 			store.setFtSearchEnabled(true);
 			

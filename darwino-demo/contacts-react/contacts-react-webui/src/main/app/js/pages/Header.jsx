@@ -5,7 +5,8 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-import HeaderLogo from "../../img/darwino-icon32.png";
+//import HeaderLogo from "../../img/darwino-icon32-blue.png";
+import HeaderLogo from "../../img/darwino-icon32-white.png";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 import { UserService } from '@darwino/darwino';
