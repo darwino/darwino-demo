@@ -40,7 +40,8 @@ export default class AllCompaniesByIndustry extends CursorPage {
                 <h4>All Companies by Industry &amp; State</h4>
                 {this.createActionBar()}
                 <div>
-                    <AllCompaniesByIndustryGrid height={this.state.gridHeight}/>
+                    <AllCompaniesByIndustryGrid ref="grid" 
+                        height={this.state.gridHeight}/>
                 </div>
             </div>
         )

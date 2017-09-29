@@ -20,9 +20,9 @@ class AllCompanies extends CursorPage {
     }
 
     displaySelection() {
-        if(this.grid) {
+        if(this.getGrid()) {
             let sel = ""
-            this.grid.getSelectedEntries().forEach( e => {
+            this.getGrid().getSelectedEntries().forEach( e => {
                 sel += "\n" + e.Name
             });
             alert("Selection: "+sel)
@@ -30,15 +30,15 @@ class AllCompanies extends CursorPage {
     }
 
     setSize(size) {
-        if(this.grid) {
-            let sel = this.grid.getSelectedEntries().map( e => e.__meta.unid );
+        if(this.getGrid()) {
+            let sel = this.getGrid().getSelectedEntries().map( e => e.__meta.unid );
             new MicroServices()
                 .name("SetCompanySize")
                 .params({ids: sel, size})
                 .fetch()
                 .then((r) => {
                     this.getMessages().add({key:"setsize",title:"Update Success",message:r.message,type: Messages.SUCCESS})
-                    this.grid.reinitData()
+                    this.getGrid().reinitData()
                 })
                 .catch((e) => {
                     this.getMessages().add({key:"setsize",title:"Update Error",message:e.message,type: Messages.ERROR})
@@ -50,8 +50,8 @@ class AllCompanies extends CursorPage {
         if(!checkUser(this)) {
             return;
         }
-        if(this.grid) {
-            this.grid.handleDeleteSelectedDocuments();
+        if(this.getGrid()) {
+            this.getGrid().handleDeleteSelectedDocuments();
         }
     }
 
@@ -78,9 +78,8 @@ class AllCompanies extends CursorPage {
                 <h4>All Companies</h4>
                 {this.createActionBar()}
                 {this.createMessages()}
-                <CursorGrid
+                <CursorGrid ref="grid" 
                     height={this.state.gridHeight}
-                    ref={(grid) => {this.grid=grid}}
                     databaseId={Constants.DATABASE}
                     params={{
                         name: "AllCompanies"

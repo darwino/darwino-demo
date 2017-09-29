@@ -41,7 +41,8 @@ export default class ByAuthor extends CursorPage {
                 <h4>By Date</h4>
                 {this.createActionBar()}
                 <div>
-                    <ByDateGrid height={this.state.gridHeight}/>
+                    <ByDateGrid ref="grid" 
+                        height={this.state.gridHeight}/>
                 </div>
             </div>
         )

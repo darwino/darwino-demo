@@ -23,7 +23,6 @@ export class AllContactsGrid extends CursorGrid {
         params: {
             name: "AllContacts"
         },
-        ftSearch:true,
         grid: {
             columns:[
                 {name: "Name", key: "CommonName", resizable:true, sortable: true, sortField: 'firstname,lastname'},
@@ -68,8 +67,10 @@ export default class AllContacts extends CursorPage {
             <div>
                 <h4>All Contacts</h4>
                 {this.createActionBar()}
+                {this.createFTSearchBar()}
                 <div>
-                    <AllContactsGrid height={this.state.gridHeight}/>
+                    <AllContactsGrid ref="grid" 
+                        height={this.state.gridHeight}/>
                 </div>
             </div>
         )

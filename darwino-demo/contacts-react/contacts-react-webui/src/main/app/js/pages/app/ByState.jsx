@@ -40,7 +40,8 @@ export default class ByState extends CursorPage {
                 <h4>By State</h4>
                 {this.createActionBar()}
                 <div>
-                    <ByStateGrid height={this.state.gridHeight}/>
+                    <ByStateGrid ref="grid" 
+                        height={this.state.gridHeight}/>
                 </div>
             </div>
         )
