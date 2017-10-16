@@ -39,12 +39,12 @@ const config = {
 	},
   	resolve: {
   		// For internal development of the darwino library
-  		alias: {
-  		 	"@darwino/darwino$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino'),
-  		 	"@darwino/darwino-react$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react'),
-  		 	"@darwino/darwino-react-bootstrap$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-bootstrap'),
-  		 	"@darwino/darwino-react-bootstrap-notes$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-bootstrap-notes')
-  		},
+  		// alias: {
+  		//  	"@darwino/darwino$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino'),
+  		//  	"@darwino/darwino-react$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react'),
+  		//  	"@darwino/darwino-react-bootstrap$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-bootstrap'),
+  		//  	"@darwino/darwino-react-bootstrap-notes$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-bootstrap-notes')
+  		// },
     	extensions: ['.js', '.jsx']
 	},
   	module: {

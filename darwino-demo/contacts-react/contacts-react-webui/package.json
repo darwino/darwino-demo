@@ -27,10 +27,10 @@
     "webpack-dev-server": "^2.9.1"
   },
   "dependencies": {
-    "@darwino/darwino": "^2.0.0-SNAPSHOT.20170929194522",
-    "@darwino/darwino-react": "^2.0.0-SNAPSHOT.20170929194538",
-    "@darwino/darwino-react-bootstrap": "^2.0.0-SNAPSHOT.20170929194554",
-    "@darwino/darwino-react-bootstrap-notes": "^2.0.0-SNAPSHOT.20170929194606",
+    "@darwino/darwino": "^2.0.0-SNAPSHOT",
+    "@darwino/darwino-react": "^2.0.0-SNAPSHOT",
+    "@darwino/darwino-react-bootstrap": "^2.0.0-SNAPSHOT",
+    "@darwino/darwino-react-bootstrap-notes": "^2.0.0-SNAPSHOT",
     "babel-polyfill": "^6.16.0",
     "babel-preset-stage-1": "^6.1.18",
     "bootstrap": "^3.3.7",
