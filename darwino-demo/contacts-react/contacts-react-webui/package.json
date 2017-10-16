@@ -43,7 +43,6 @@
     "react": "^15.6.2",
     "react-bootstrap": "^0.31.3",
     "react-bootstrap-date-picker": "^5.1.0",
-    "react-data-grid": "^2.0.60",
     "react-dom": "^15.6.2",
     "react-intl": "^2.4.0",
     "react-quill": "^1.1.0",

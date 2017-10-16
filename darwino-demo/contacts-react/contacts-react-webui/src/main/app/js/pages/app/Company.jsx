@@ -43,11 +43,11 @@ export class Company extends DocumentForm {
         super(props,context)
     }
 
-    handleUpdateDocument(state, dispatch) {
+    onSubmit(state, dispatch) {
         if(!checkUser(this)) {
             return;
         }
-        super.handleUpdateDocument(state, dispatch);
+        super.onSubmit(state, dispatch);
     }
     
     render() {

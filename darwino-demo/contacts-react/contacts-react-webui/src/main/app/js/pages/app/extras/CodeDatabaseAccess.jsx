@@ -89,6 +89,26 @@ class CodeDatabaseAccess extends Component {
                 });
     }
 
+
+    //
+    // DB perfoamnce
+    //
+    dbPerformance(count,categorized) {
+        const js = new JstoreCursor()
+            .database(Constants.DATABASE)
+            .store("_default")
+            .queryParams({name:"ByState"})
+            .limit(count)
+        if(categorized) {
+            js.categoryCount(1);
+        }
+        const start = performance.now()
+        js.fetch().then((json) => {
+            const end = performance.now()
+            alert(JSON.stringify("Read "+json.length+" entries, "+(end-start).toFixed(0)+"ms"))
+        })
+    }
+
     render() {
         const {mainForm} = this.props;
         return (
@@ -116,6 +136,20 @@ class CodeDatabaseAccess extends Component {
                         <ButtonToolbar>
                             <Button bsStyle="primary" onClick={()=>this.dblookup(this.companyName)}>Use Darwino Query</Button>
                             <Button bsStyle="primary" onClick={()=>this.dblookupsql(this.companyName)}>Use JSQL</Button>
+                        </ButtonToolbar>
+                    </div>
+
+                    <div className="col-md-12 col-sm-12">
+                        <br/>
+                        <ControlLabel>Performance Tests</ControlLabel>
+                        <p>
+                            This is used internally to measure performance
+                        </p>
+                        <ButtonToolbar>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(1000)}>1000 view entries</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(10000)}>10,000 view entries</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(50000)}>50,000 view entries</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(50000,true)}>50,000 view entries, categorized</Button>
                         </ButtonToolbar>
                     </div>
                 </fieldset>

@@ -69,6 +69,12 @@ export class Contact extends FormPage {
         values.title = "Contact Document"
     }
 
+    // Values computed every time the document is changed
+    calculateOnChange(values) {
+        values.fullname = this.getFieldValue("firstname","") + " " + this.getFieldValue("lastname","")
+        values.fullnameUpper = this.getFieldValue("fullname","").toUpperCase()
+    }
+
     contributeActionBar() {
         const { newDoc, doc } = this.state;
         const { invalid, submitting } = this.props;

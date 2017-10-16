@@ -2,12 +2,53 @@
  * (c) Copyright Darwino Inc. 2014-2017.
  */
 import React, {Component} from "react";
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux'
 import { Button, ButtonToolbar, ControlLabel } from 'react-bootstrap';
 import { Jsql } from '@darwino/darwino';
-import { ListPicker, Dialog, renderText } from '@darwino/darwino-react-bootstrap';
+import { ListPicker, Dialog, DocumentForm, renderText } from '@darwino/darwino-react-bootstrap';
 
 import Constants from "../Constants.jsx";
+
+class _CustomForm extends DocumentForm {
+    constructor(props,context) {
+        super(props,context)
+    }
+    handleUpdateDocument(state, dispatch) {
+        alert()
+    }
+    render() {
+        const { handleSubmit, dirty, invalid, submitting, type } = this.props;
+        const readOnly = this.isReadOnly();
+        const disabled = this.isDisabled();
+        return (
+            <div>
+                <form onSubmit={handleSubmit(this.handleUpdateDocument)}>
+                    <fieldset>
+                        <h2>{this.getFieldValue("title")}</h2>
+
+                        <div className="col-md-12 col-sm-12">
+                            <Field name="firstname" type="text" component={renderText} label="First Name" disabled={disabled} readOnly={readOnly}/>
+                        </div>
+                        <div className="col-md-12 col-sm-12">
+                            <Field name="lastname" type="text" component={renderText} label="Last Name" disabled={disabled} readOnly={readOnly}/>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        );
+    }
+}    
+const cform = reduxForm({
+    form: "CustomForm",
+    validate: DocumentForm.validateForm,
+    onChange: DocumentForm.onChange
+});
+const CustomForm = (
+    connect(null,DocumentForm.mapDispatchToProps)
+        (cform(_CustomForm))
+)
+
 
 class CodeMessages extends Component {
 
@@ -32,6 +73,7 @@ class CodeMessages extends Component {
                             })}>Alert with Notification</Button>
                     </ButtonToolbar>
                 </div>
+
                 <div className="col-md-12 col-sm-12">
                     <ControlLabel>Ask for a confirmation</ControlLabel>
                     <p>
@@ -49,6 +91,22 @@ class CodeMessages extends Component {
                             })}>Confirm, Yes/No</Button>
                     </ButtonToolbar>
                 </div>
+
+                <div className="col-md-12 col-sm-12">
+                    <ControlLabel>Custom dialog</ControlLabel>
+                    <p>
+                        Display a dialog containing a form
+                    </p>
+                    <ButtonToolbar>
+                        <Button bsStyle="primary" onClick={()=>
+                            mainForm.getDialog().form({
+                                title:"Enter Your information",
+                                form: (<CustomForm/>),
+                                onClose:(action,value) => alert("You Entered: "+(JSON.stringify(value,2)))
+                            })}>Enter your information</Button>
+                    </ButtonToolbar>
+                </div>
+
                 <div className="col-md-12 col-sm-12">
                     <ControlLabel>Prompt for a value</ControlLabel>
                     <p>

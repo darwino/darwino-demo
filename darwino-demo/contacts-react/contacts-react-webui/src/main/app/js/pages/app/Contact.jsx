@@ -73,9 +73,16 @@ export class Contact extends DocumentForm {
     calculateOnLoad(values) {
         values.title = "Contact Document"
         values.cdate = this.getDocument().cdate && new Date(this.getDocument().cdate)
-        values.cuser = this.userService.getUser(this.getDocument().cuser, (u,loaded) => {if(loaded) this.forceUpdate()})
         values.mdate = this.getDocument().mdate && new Date(this.getDocument().mdate)
-        values.muser = this.userService.getUser(this.getDocument().muser, (u,loaded) => {if(loaded) this.forceUpdate()})
+
+        // These are not calculated fields as they are just objects that should not be passed to the
+        // server as computed fields
+        if(!this.cuser || this.cuser.getDn()!=this.getDocument().cuser) {
+            this.cuser = this.userService.getUser(this.getDocument().cuser, (u,loaded) => {if(loaded) this.forceUpdate()})
+        }
+        if(!this.muser || this.muser.getDn()!=this.getDocument().muser) {
+            this.muser = this.userService.getUser(this.getDocument().muser, (u,loaded) => {if(loaded) this.forceUpdate()})
+        }
     }
 
     // Values computed every time the document is changed
@@ -124,7 +131,8 @@ export class Contact extends DocumentForm {
         const { handleSubmit, dirty, invalid, submitting, type } = this.props;
         const readOnly = this.isReadOnly();
         const disabled = this.isDisabled();
-        const {cdate, cuser, mdate, muser} = this.getComputedValues()
+        const {cdate, mdate} = this.getComputedValues()
+        const {cuser,  muser} = this
         
         return (
             <div>
@@ -261,7 +269,7 @@ export class Contact extends DocumentForm {
                 </form>
             </div>
         );
-  }
+    }
 }
 
 const form = reduxForm({
