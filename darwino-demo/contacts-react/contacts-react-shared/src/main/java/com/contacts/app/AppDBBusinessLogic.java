@@ -6,6 +6,7 @@ package com.contacts.app;
 
 import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
+import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.Store;
 import com.darwino.jsonstore.extensions.DefaultExtensionRegistry;
@@ -23,7 +24,7 @@ public  class AppDBBusinessLogic extends DefaultExtensionRegistry {
 	@SuppressWarnings("unused")
 	public AppDBBusinessLogic() {
 		// Add here the database events to register to the JSON store
-		registerDocumentEvents(AppDatabaseDef.DATABASE_NAME, new DocumentEvents() {
+		registerDocumentEvents(AppDatabaseDef.DATABASE_NAME, Database.STORE_DEFAULT, new DocumentEvents() {
 			@Override
 			public void queryNewDocument(Store store, String unid) throws JsonException {
 				Platform.log("QueryNewDocument, Database={0}, Store={1}, Unid={2}",store.getDatabase().getId(),store.getId(),unid);
@@ -43,6 +44,9 @@ public  class AppDBBusinessLogic extends DefaultExtensionRegistry {
 			@Override
 			public void querySaveDocument(Document doc) throws JsonException {
 				Platform.log("QuerySaveDocument, Database={0}, Store={1}, Unid={2}",doc.getDatabase().getId(),doc.getStore().getId(),doc.getUnid());
+				if(doc.getProperty("computedValues")!=null) {
+					Platform.log("  computedValues={0}",doc.getProperty("computedValues"));
+				}
 			}
 			@Override
 			public void postSaveDocument(Document doc) throws JsonException {
