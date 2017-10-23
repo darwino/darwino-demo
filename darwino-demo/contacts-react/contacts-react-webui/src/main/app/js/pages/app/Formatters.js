@@ -3,6 +3,7 @@
  */
 import React from "react";
 import { FormattedDate, FormattedTime } from "react-intl";
+import Constants from "./Constants";
 
 import MaleImage from "../../../img/male.png";
 import FemaleImage from "../../../img/female.png";
@@ -30,6 +31,17 @@ export const SexFormatter = function(props) {
             <div><img alt="female" src={FemaleImage}  style={{height: 20, marginRight: 10}}/>Female</div>
         )
     }
+}
+
+export const StateFormatter = function(props) {
+    const state = props.value;
+    const US_STATES = Constants.US_STATES;
+    for(let i=0; i<US_STATES.length; i++) {
+        if(US_STATES[i].value==state) {
+            return US_STATES[i].label;
+        }
+    }
+    return state;
 }
 
 export const SizeFormatter = function(props) {

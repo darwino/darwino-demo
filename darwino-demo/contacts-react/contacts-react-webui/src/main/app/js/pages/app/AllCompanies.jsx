@@ -9,7 +9,7 @@ import { CursorPage, CursorGrid, Messages} from '@darwino/darwino-react-bootstra
 
 import Constants from "./Constants";
 import {checkUser} from "./Demo";
-import {SizeFormatter} from "./Formatters";
+import {StateFormatter,SizeFormatter} from "./Formatters";
 
 class AllCompanies extends CursorPage {
 

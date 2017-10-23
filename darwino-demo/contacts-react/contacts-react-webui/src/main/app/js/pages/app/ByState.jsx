@@ -38,13 +38,16 @@ export class ByStateGrid extends CursorGrid {
         },
         grid: {
             columns:[
-                {name: "State", key: "State", resizable:true, width: 1},
+                // This column is not needed...
+                //{name: "State", key: "State", resizable:true, width: 1},
                 {name: "Name", key: "CommonName", resizable:true},
                 {name: "EMail", key: "EMail", resizable:true},
                 {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100}
             ]
         },
-        groupBy: ["State"],
+        expandable: "CommonName",
+        expandLevel: 1,
+        groupBy: [{column: "State"}],
         baseRoute:"/app/contact"
     }
 }

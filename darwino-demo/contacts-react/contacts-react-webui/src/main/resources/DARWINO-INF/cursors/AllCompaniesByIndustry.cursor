@@ -2,7 +2,7 @@
   "store": "companies",
   "extract": {
     "Industry": "industry",
-    "State": "state",
+    "State": {$USState: "$state"},
     "Name": "name",
     "form": "form"
   },

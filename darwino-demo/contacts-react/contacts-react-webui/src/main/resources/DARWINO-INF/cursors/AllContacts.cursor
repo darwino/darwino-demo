@@ -8,7 +8,7 @@
     },
     "EMail": "email",
     "Sex": "sex",
-    "State": "state",
+    "State": {$USState: "$state"},
     "form": "form"
   },
   //"query": "{form: 'Contact'}",

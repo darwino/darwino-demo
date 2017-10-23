@@ -26,6 +26,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 	// V5: added company document store
 	public static final int DATABASE_VERSION	= 5;
 	public static final String DATABASE_NAME	= "contacts";
+	//public static final String DATABASE_NAME	= "contactslg";
 	
 	public static final String STORE_COMPANIES	= "companies";
 	

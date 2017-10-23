@@ -24,7 +24,8 @@ const ByAuthorGrid = (props) => {
                     {name: "State", key: "State", resizable:true, width:70}
                 ]
             }}
-            groupBy= {["$Creator"]}
+            expandLevel={1}
+            groupBy={[{column: "$Creator"}]}
             baseRoute="/app/contact"
         />
     )
