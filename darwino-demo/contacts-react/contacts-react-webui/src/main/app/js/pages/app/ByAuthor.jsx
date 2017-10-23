@@ -7,6 +7,9 @@ import { CursorPage, CursorGrid} from '@darwino/darwino-react-bootstrap'
 import Constants from "./Constants";
 import {SexFormatter} from "./Formatters";
 
+function nameFormatter(value) {
+    return "From: "+value
+}
 const ByAuthorGrid = (props) => {
     return (
         <CursorGrid
@@ -25,7 +28,7 @@ const ByAuthorGrid = (props) => {
                 ]
             }}
             expandLevel={1}
-            groupBy={[{column: "$Creator"}]}
+            groupBy={[{column: "$Creator",formatter:nameFormatter}]}
             baseRoute="/app/contact"
         />
     )
