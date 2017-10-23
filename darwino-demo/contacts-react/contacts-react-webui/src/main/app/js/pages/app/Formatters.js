@@ -26,9 +26,14 @@ export const SexFormatter = function(props) {
         return (
             <div><img alt="male" src={MaleImage} style={{height: 20, marginRight: 10}}/>Male</div>
         )
-    } else {
+    } else
+    if(sex=='F') {
         return (
             <div><img alt="female" src={FemaleImage}  style={{height: 20, marginRight: 10}}/>Female</div>
+        )
+    } else {
+        return (
+            <b>{sex}</b>
         )
     }
 }

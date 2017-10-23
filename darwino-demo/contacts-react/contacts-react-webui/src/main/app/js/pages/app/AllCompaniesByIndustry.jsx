@@ -18,7 +18,7 @@ export class AllCompaniesByIndustryGrid extends CursorGrid {
         grid: {
             columns:[
                 {name: "Industry", key: "Industry", resizable:true, sortable: true, sortField: 'industry'},
-                {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state', width:70},
+                {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state', width:90},
                 {name: "Name", key: "Name", resizable:true, sortable: true, sortField: 'name'}
             ]
         },
