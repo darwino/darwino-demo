@@ -18,7 +18,12 @@ class AllFieldsSelect extends Component {
         return (
             <fieldset>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="select1" component={renderSelect} label="Select With Static Values" disabled={disabled} readOnly={readOnly}
+                    <Field name="select1" component={renderSelect} label="Select With Static Values - No Label" disabled={disabled} readOnly={readOnly}
+                        options={["M","F"]}
+                    />
+                </div>
+                <div className="col-md-12 col-sm-12">
+                    <Field name="select11" component={renderSelect} label="Select With Static Values" disabled={disabled} readOnly={readOnly}
                         options={[
                             { value: "M", label: "Male"},
                             { value: "F", label: "Female"}
@@ -35,7 +40,7 @@ class AllFieldsSelect extends Component {
                     />
                 </div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="select2" component={renderSelect} label="Read Companies With Database Query" disabled={disabled} readOnly={readOnly}
+                    <Field name="select3" component={renderSelect} label="Read Companies With Database Query" disabled={disabled} readOnly={readOnly}
                         emptyOption="<empty>"
                         options={() => {
                             return new JstoreCursor()
@@ -48,7 +53,7 @@ class AllFieldsSelect extends Component {
                         />
                     </div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="select2" component={renderSelect} label="Read Companies With a JSQL Query" disabled={disabled} readOnly={readOnly}
+                    <Field name="select4" component={renderSelect} label="Read Companies With a JSQL Query" disabled={disabled} readOnly={readOnly}
                         emptyOption="<empty>"
                         options={() => {
                             return new Jsql()

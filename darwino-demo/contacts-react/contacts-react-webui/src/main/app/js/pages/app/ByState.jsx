@@ -7,15 +7,20 @@ import { CursorPage, CursorGrid} from '@darwino/darwino-react-bootstrap'
 import Constants from "./Constants";
 import {SexFormatter} from "./Formatters";
 
+// Not currently used
 class CustomRenderer extends CursorGridRowRenderer {   
-    formatGroup(value) {
-        const props = this.props;
-        const row = props.row;
-        const c = row.__meta.children;
-        return value + " (" + (c?c.length:0) + ")";
-    }
 }    
 
+// This is used to format a group when it is not displayed as columns
+function formatGroup(props) {
+    const row = props.row;
+    const c = row.__meta.children;
+    return props.value + " (" + (c?c.length:0) + ")";
+}
+
+// This calculates some totals in order to display them for categories
+//   - It sets some group values for displaying in columns when this option is selected
+//   - It adds a new row to the children in order to display the totals separately
 function calculateTotals(group) {
     let M = 0, F = 0;
     for(let i=0; i<group.__meta.children.length; i++) {
@@ -23,8 +28,12 @@ function calculateTotals(group) {
         let sex = row["Sex"]
         if(sex=='M') M++; else F++;
     }
+    // Set the category values to be displayed as columne
+    group.CommonName = group.key
+    group.Sex = M+"M, "+F+"F"
+    // Add a new row to the list
     let totals = {
-        Sex: M+"M, "+F+"F",
+        Sex: group.Sex,
         __meta: {
             totals: true
         }
@@ -43,17 +52,16 @@ export class ByStateGrid extends CursorGrid {
         rowRenderer: CustomRenderer,
         grid: {
             columns:[
-                // This column is not needed...
-                //{name: "State", key: "State", resizable:true, width: 1},
                 {name: "Name", key: "CommonName", resizable:true},
                 {name: "EMail", key: "EMail", resizable:true},
                 {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100}
             ]
         },
-        calculateTotals,
+        //renderCategoryAsColumns: true,
+        processEntries: calculateTotals,
         expandable: "CommonName",
         expandLevel: 1,
-        groupBy: [{column: "State"}],
+        groupBy: [{column: "State", formatter: formatGroup}],
         baseRoute:"/app/contact"
     }
 }

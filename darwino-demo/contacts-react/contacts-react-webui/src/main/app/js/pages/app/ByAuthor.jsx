@@ -7,8 +7,8 @@ import { CursorPage, CursorGrid} from '@darwino/darwino-react-bootstrap'
 import Constants from "./Constants";
 import {SexFormatter} from "./Formatters";
 
-function nameFormatter(value) {
-    return "From: "+value
+function nameFormatter(props) {
+    return "From: "+props.value
 }
 const ByAuthorGrid = (props) => {
     return (
@@ -20,7 +20,6 @@ const ByAuthorGrid = (props) => {
             }}
             grid={{
                 columns:[
-                    {name: "Author", key: "$Creator", resizable:true, width: 1},
                     {name: "Name", key: "CommonName", resizable:true },
                     {name: "EMail", key: "EMail", resizable:true},
                     {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100},
@@ -28,6 +27,7 @@ const ByAuthorGrid = (props) => {
                 ]
             }}
             expandLevel={1}
+            indentDocuments={true}
             groupBy={[{column: "$Creator",formatter:nameFormatter}]}
             baseRoute="/app/contact"
         />
