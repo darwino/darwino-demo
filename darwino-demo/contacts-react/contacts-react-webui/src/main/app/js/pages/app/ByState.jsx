@@ -21,7 +21,7 @@ function formatGroup(props) {
 // This calculates some totals in order to display them for categories
 //   - It sets some group values for displaying in columns when this option is selected
 //   - It adds a new row to the children in order to display the totals separately
-function calculateTotals(group) {
+function calculateTotals(group,groups) {
     if(group.__meta.indentLevel==0) {
         let M = 0, F = 0;
         for(let i=0; i<group.__meta.children.length; i++) {
