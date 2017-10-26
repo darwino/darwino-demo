@@ -50,7 +50,7 @@ class FormLayout extends DocumentForm {
                     <Tab eventKey={2} title="Horizontal Labels">
                         <FormLayoutHorizontal mainForm={this}/>
                     </Tab>
-                    <Tab eventKey={3} title="Components">
+                    <Tab eventKey={3} title="Components (no labels)">
                         <FormLayoutComponents mainForm={this}/>
                     </Tab>
                 </Tabs>

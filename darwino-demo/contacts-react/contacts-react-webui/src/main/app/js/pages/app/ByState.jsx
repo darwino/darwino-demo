@@ -22,23 +22,42 @@ function formatGroup(props) {
 //   - It sets some group values for displaying in columns when this option is selected
 //   - It adds a new row to the children in order to display the totals separately
 function calculateTotals(group) {
-    let M = 0, F = 0;
-    for(let i=0; i<group.__meta.children.length; i++) {
-        let row = group.__meta.children[i];
-        let sex = row["Sex"]
-        if(sex=='M') M++; else F++;
-    }
-    // Set the category values to be displayed as columne
-    group.CommonName = group.key
-    group.Sex = M+"M, "+F+"F"
-    // Add a new row to the list
-    let totals = {
-        Sex: group.Sex,
-        __meta: {
-            totals: true
+    if(group.__meta.indentLevel==0) {
+        let M = 0, F = 0;
+        for(let i=0; i<group.__meta.children.length; i++) {
+            let row = group.__meta.children[i];
+            let sex = row["Sex"]
+            if(sex=='M') M++; else F++;
         }
+        // Set the category values to be displayed as columne
+        group._M = M
+        group._F = F
+        group.CommonName = group.key
+        group.Sex = M+"M, "+F+"F"
+        // Add a new row to the list
+        let totals = {
+            Sex: group.Sex,
+            __meta: {
+                totals: true
+            }
+        }
+        group.__meta.children.push(totals)
+    } else if(group.__meta.indentLevel==-1) {
+        let M = 0, F = 0;
+        for(let i=0; i<group.__meta.children.length; i++) {
+            let row = group.__meta.children[i];
+            M += row._M; F += row._F;
+        }
+        // Add a new row to the list
+        let totals = {
+            EMail: "Grand Total:",
+            Sex: M+"M, "+F+"F",
+            __meta: {
+                totals: true
+            }
+        }
+        group.__meta.children.push(totals)
     }
-    group.__meta.children.push(totals)
 }
     
 export class ByStateGrid extends CursorGrid {
