@@ -131,6 +131,10 @@
 	<filter>
     	<filter-name>DarwinoAuthentication</filter-name>
    		<filter-class>com.darwino.j2ee.servlet.authentication.AuthenticationFilter</filter-class>
+        <init-param>
+      		<param-name>login-form</param-name>
+      		<param-value>contacts-login.html</param-value>
+    	</init-param>    
     </filter>
 	<filter-mapping>
     	<filter-name>DarwinoAuthentication</filter-name>
