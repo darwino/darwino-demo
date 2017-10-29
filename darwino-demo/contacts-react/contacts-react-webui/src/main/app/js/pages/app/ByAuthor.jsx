@@ -26,6 +26,7 @@ const ByAuthorGrid = (props) => {
                     {name: "State", key: "State", resizable:true, width:70}
                 ]
             }}
+            responsive={true}
             expandLevel={1}
             indentDocuments={true}
             groupBy={[{column: "$Creator",formatter:nameFormatter}]}

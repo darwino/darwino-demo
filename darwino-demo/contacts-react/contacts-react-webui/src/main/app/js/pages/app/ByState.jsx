@@ -77,6 +77,7 @@ export class ByStateGrid extends CursorGrid {
             ]
         },
         //renderCategoryAsColumns: true,
+        responsive: true,
         processEntries: calculateTotals,
         expandable: "CommonName",
         expandLevel: 1,

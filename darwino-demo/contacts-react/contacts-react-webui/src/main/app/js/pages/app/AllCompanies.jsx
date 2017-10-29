@@ -85,6 +85,7 @@ class AllCompanies extends CursorPage {
                         name: "AllCompanies"
                     }}
                     selectRows={true}
+                    responsive={true}
                     grid={{
                         columns:[
                             {name: "Name", key: "Name", resizable:true, sortable: true, sortField: 'name'},

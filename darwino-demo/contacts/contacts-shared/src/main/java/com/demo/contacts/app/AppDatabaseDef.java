@@ -10,6 +10,7 @@ import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.impl.DatabaseFactoryImpl;
 import com.darwino.jsonstore.meta._Database;
+import com.darwino.jsonstore.meta._DatabaseACL;
 import com.darwino.jsonstore.meta._FtSearch;
 import com.darwino.jsonstore.meta._Store;
 
@@ -24,8 +25,12 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 	// V3: used store
 	// V4: back to default store for contacts
 	// V5: added company document store
-	public static final int DATABASE_VERSION	= 5;
+	// V6: added ACL for the demo user
+	public static final int DATABASE_VERSION	= 6;
 	public static final String DATABASE_NAME	= "contacts";
+	//public static final String DATABASE_NAME	= "contactslg";
+	
+	public static final String STORE_COMPANIES	= "companies";
 	
     public static final String[] DATABASES = new String[] {
     	DATABASE_NAME
@@ -69,6 +74,10 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		
 		// Document base security
 		// db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
+		_DatabaseACL acl = new _DatabaseACL();
+		acl.addUser("demo", _DatabaseACL.ROLE_READER);
+		acl.addAuthenticated(_DatabaseACL.ROLE_FULLEDITOR);
+		db.setACL(acl);
 		
 		// Customize the default stores, if desired...
 		// This store actually stores the contacts
@@ -81,7 +90,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 
 		// Other stores...
 		{
-			_Store store = db.addStore("companies");
+			_Store store = db.addStore(STORE_COMPANIES);
 			store.setLabel("Companies");
 			store.setFtSearchEnabled(true);
 			

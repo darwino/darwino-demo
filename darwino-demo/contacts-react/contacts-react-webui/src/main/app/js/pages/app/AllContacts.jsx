@@ -31,6 +31,7 @@ export class AllContactsGrid extends CursorGrid {
                 {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state', width:70}
             ]
         },
+        responsive: true,
         baseRoute: "/app/contact",
         dynamicRoute: RouteForm
     }

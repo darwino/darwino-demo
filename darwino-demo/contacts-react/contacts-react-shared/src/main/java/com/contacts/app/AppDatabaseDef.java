@@ -10,6 +10,7 @@ import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.impl.DatabaseFactoryImpl;
 import com.darwino.jsonstore.meta._Database;
+import com.darwino.jsonstore.meta._DatabaseACL;
 import com.darwino.jsonstore.meta._FtSearch;
 import com.darwino.jsonstore.meta._Store;
 
@@ -24,7 +25,7 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 	// V3: used store
 	// V4: back to default store for contacts
 	// V5: added company document store
-	public static final int DATABASE_VERSION	= 5;
+	public static final int DATABASE_VERSION	= 6;
 	public static final String DATABASE_NAME	= "contacts";
 	//public static final String DATABASE_NAME	= "contactslg";
 	
@@ -72,6 +73,10 @@ public class AppDatabaseDef extends DatabaseFactoryImpl {
 		
 		// Document base security
 		// db.setDocumentSecurity(Database.DOCSEC_INCLUDE);
+		_DatabaseACL acl = new _DatabaseACL();
+		acl.addUser("demo", _DatabaseACL.ROLE_READER);
+		acl.addAuthenticated(_DatabaseACL.ROLE_FULLEDITOR);
+		db.setACL(acl);
 		
 		// Customize the default stores, if desired...
 		// This store actually stores the contacts

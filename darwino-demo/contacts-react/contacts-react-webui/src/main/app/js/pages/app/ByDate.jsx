@@ -24,6 +24,7 @@ const ByDateGrid = (props) => {
                     {name: "State", key: "State", resizable:true, width:70}
                 ]
             }}
+            responsive={true}
             baseRoute="/app/contact"
         />
     )

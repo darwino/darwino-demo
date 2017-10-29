@@ -22,6 +22,7 @@ export class AllCompaniesByIndustryGrid extends CursorGrid {
                 {name: "Name", key: "Name", resizable:true, sortable: true, sortField: 'name'}
             ]
         },
+        responsive: true,
         baseRoute: "/app/company",
         groupBy: [
             {column:"Industry"}, // formatter: null

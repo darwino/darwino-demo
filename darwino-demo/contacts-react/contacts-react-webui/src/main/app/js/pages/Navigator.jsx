@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
 import {NavLink, NavGroup} from '@darwino/darwino-react-bootstrap';
 
