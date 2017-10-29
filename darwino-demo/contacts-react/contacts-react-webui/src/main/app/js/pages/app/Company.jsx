@@ -14,7 +14,7 @@ import { CursorGrid, DocumentForm, AttachmentTable,
 
 import Constants from "./Constants";
 import CCAddress from "./CCAddress";
-import {checkUser} from "./Demo";
+import {checkUser,isDemoUser} from "./Demo";
 
 const DATABASE = Constants.DATABASE;
 const STORE = "companies";
@@ -43,11 +43,20 @@ export class Company extends DocumentForm {
         super(props,context)
     }
 
-    onSubmit(state, dispatch) {
+    isReadOnly() {
+        // This is for demo purposes, to let the demo user edit the document
+        // Although this can be saved
+        if(isDemoUser()) {
+            return false;
+        }
+        return super.isReadOnly();
+    }
+
+    handleUpdateDocument(state, dispatch) {
         if(!checkUser(this)) {
             return;
         }
-        super.onSubmit(state, dispatch);
+        super.handleUpdateDocument(state, dispatch);
     }
     
     render() {

@@ -38,6 +38,14 @@
 				margin-top: 7px;
 				padding: 7px 0 8px;
 			}
+			/* Make the page responsive */
+            @media (max-width: 768px) {
+            	.mainBox {
+					margin: auto; 
+					margin-top: 5em; 
+                    width: 75%; 
+                }
+            }  			
 		</style>
 	</head>
 	<body>
@@ -45,7 +53,7 @@
 			<h2>
 				Welcome to the Contacts demo application.
 			</h2>
-			If you don't have a user/password, please use demo/demo.
+			If you don't have a user/password, please use demo/demo. You will be able to edit the data, but not save the changes.
 			</br>
 			<form action="${ACTION_URL}" method="post">
 				<p>

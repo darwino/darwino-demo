@@ -18,7 +18,7 @@ import { DocumentForm, ComputedField,
 
 import Constants from "./Constants";
 import CCAddress from "./CCAddress";
-import {checkUser} from "./Demo";
+import {checkUser,isDemoUser} from "./Demo";
 
 
 const DATABASE = Constants.DATABASE;
@@ -47,6 +47,15 @@ export class Contact extends DocumentForm {
             .then((json) => {
                 this.setState({allCompanies: json})
             });
+    }
+
+    isReadOnly() {
+        // This is for demo purposes, to let the demo user edit the document
+        // Although this can be saved
+        if(isDemoUser()) {
+            return false;
+        }
+        return super.isReadOnly();
     }
 
     // Default values when a new document is created

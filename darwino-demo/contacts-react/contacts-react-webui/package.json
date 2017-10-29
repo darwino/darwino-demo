@@ -41,7 +41,7 @@
     "promise-polyfill": "^6.0.2",
     "query-string": "^4.3.4",
     "react": "^15.6.2",
-    "react-bootstrap": "^0.31.3",
+    "react-bootstrap": "^0.31.5",
     "react-bootstrap-date-picker": "^5.1.0",
     "react-dom": "^15.6.2",
     "react-intl": "^2.4.0",
