@@ -66,7 +66,7 @@ class AllCompanies extends CursorPage {
                     <MenuItem eventKey="3" onClick={()=>(this.setSize(3))}>10,000+</MenuItem>
                 </DropdownButton>
                 <div className="pull-right">
-                    <Button onClick={this.handleDeleteSelectedDocuments} bsStyle="danger">Delete Selected Companies</Button>
+                    <Button onClick={this.handleDeleteSelectedDocuments} bsStyle="danger">Delete</Button>
                 </div>
             </div>
         );

@@ -15,7 +15,7 @@ class CustomRenderer extends CursorGridRowRenderer {
 function formatGroup(props) {
     const row = props.row;
     const c = row.__meta.children;
-    return props.value + " (" + (c?c.length:0) + ")";
+    return props.value + " (" + (c?c.length-1:0) + ")"; // -1 because of the total row
 }
 
 // This calculates some totals in order to display them for categories
