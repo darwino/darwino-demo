@@ -8,12 +8,13 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import {NavLink, NavGroup} from '@darwino/darwino-react-bootstrap';
 
 export default class Navigator extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
+        const {expanded, inverse, onSelect} = this.props;
         return (
-            <Navbar inverse={this.props.inverse} collapseOnSelect className="navbar-fixed-side">
-                <Navbar.Header>
-                    <Navbar.Toggle />
-                </Navbar.Header>
+            <Navbar ref="navbar" expanded={expanded} inverse={inverse} className="navbar-fixed-side" onSelect={onSelect}>
                 <Navbar.Collapse>
                     <Nav>
                         <NavLink to="/" exact={true}>Home</NavLink>

@@ -7,30 +7,30 @@ import Constants from "./Constants";
 
 import {DateFormatter,SexFormatter} from "./Formatters";
 
-const ByDateGrid = (props) => {
-    return (
-        <CursorGrid
-            height={props.height}
-            databaseId={Constants.DATABASE}
-            params={{
-                name: "ByDate"
-            }}
-            grid={{
-                columns:[
-                    {name: "Date", key: "Date", resizable:true, formatter: DateFormatter, width:150},
-                    {name: "Name", key: "CommonName", resizable:true},
-                    {name: "EMail", key: "EMail", resizable:true},
-                    {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100},
-                    {name: "State", key: "State", resizable:true, width:70}
-                ]
-            }}
-            responsive={true}
-            baseRoute="/app/contact"
-        />
-    )
+
+export class ByDateGrid extends CursorGrid {
+    
+    // Default values of the properties
+    static defaultProps  = {
+        databaseId: Constants.DATABASE,
+        params: {
+            name: "ByDate"
+        },
+        grid: {
+            columns:[
+                {name: "Date", key: "Date", resizable:true, formatter: DateFormatter, width:150},
+                {name: "Name", key: "CommonName", resizable:true},
+                {name: "EMail", key: "EMail", resizable:true},
+                {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100},
+                {name: "State", key: "State", resizable:true, width:70}
+            ]
+        },
+        responsive:true,
+        baseRoute:"/app/contact"
+    }
 }
 
-export default class ByAuthor extends CursorPage {
+export default class ByDate extends CursorPage {
     
     constructor(props,context) {
         super(props,context)

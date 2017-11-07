@@ -5,9 +5,21 @@ html {
   position: relative;
   min-height: 100%;
 }
-body {
-  	/* Margin bottom by footer height */
-  	margin-bottom: 66px;
+@media screen and (min-width: 768px) {
+	body {
+		/* Margin bottom by footer height */
+		margin-bottom: 66px;
+	}
+	footer {
+
+	}  
+}
+@media screen and (max-width: 767px) {
+	body {
+	}
+	footer {
+		display: none;
+	}  
 }
 #body-container {
 	margin-top: 66px;

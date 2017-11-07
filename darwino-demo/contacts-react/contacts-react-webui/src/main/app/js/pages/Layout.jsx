@@ -5,6 +5,7 @@
 import React from "react";
 
 import { Route, Switch } from 'react-router-dom';
+import { MobileUtils } from '@darwino/darwino';
 import { AdminConsole, Dialog } from '@darwino/darwino-react-bootstrap';
 
 import Header from "./Header.jsx";
@@ -37,16 +38,32 @@ import Code from "./app/extras/Code.jsx";
 import Services from "./app/extras/Services.jsx";
 
 export default class Layout extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.handleSelect = this.handleSelect.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
+    this.state = {sideNavExpanded: false}
+  }
+
+  handleSelect() {
+        this.setState({sideNavExpanded: false})
+  }
+
+  handleToggle() {
+      this.setState({sideNavExpanded: !this.state.sideNavExpanded})
+  }
+
   render() {
     const { location, renderingOptions } = this.props;
     return (
       <div>
-        <Header inverse={renderingOptions.headerInverted}/>
+        <Header inverse={renderingOptions.headerInverted} onToggleNavigator={this.handleToggle}/>
         <Dialog/>
         <div className="container-fluid" id="body-container">
           <div className="row">
             <div className="col-sm-3 col-lg-2 sidebar">
-              <Navigator location={location} inverse={renderingOptions.leftnavInverted}/>
+              <Navigator expanded={this.state.sideNavExpanded} onSelect={this.handleSelect} location={location} inverse={renderingOptions.leftnavInverted}/>
             </div>
             <div className="col-sm-9 col-lg-10 main" id="content">
               <Switch>
@@ -82,7 +99,9 @@ export default class Layout extends React.Component {
             </div>
           </div>
         </div>
-        <Footer inverse={renderingOptions.footerInverted}/>
+        <div className="hidden-xs">
+          <Footer inverse={renderingOptions.footerInverted}/>
+        </div>
       </div>
     );
   }
