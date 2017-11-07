@@ -53,7 +53,7 @@ export default class Header extends React.Component {
                 Contacts
             </Link>
           </Navbar.Brand>
-          <Toggle onClick={this.props.onToggleNavigator}/>
+          <Toggle onClick={this.props.onToggleNavigator} className="hidden-md hidden-ld"/>
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>      
