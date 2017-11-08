@@ -23,14 +23,12 @@ export class AllContactsGrid extends CursorGrid {
         params: {
             name: "AllContacts"
         },
-        grid: {
-            columns:[
-                {name: "Name", key: "CommonName", resizable:true, sortable: true, sortField: 'firstname,lastname'},
-                {name: "EMail", key: "EMail", resizable:true, sortable: true, sortField: 'email'},
-                {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100},
-                {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state', width:70}
-            ]
-        },
+        columns:[
+            {name: "Name", key: "CommonName", resizable:true, sortable: true, sortField: 'firstname,lastname'},
+            {name: "EMail", key: "EMail", resizable:true, sortable: true, sortField: 'email'},
+            {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100},
+            {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state', width:70}
+        ],
         responsive: true,
         baseRoute: "/app/contact",
         dynamicRoute: RouteForm

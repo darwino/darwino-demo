@@ -69,13 +69,11 @@ export class ByStateGrid extends CursorGrid {
             name: "ByState"
         },
         rowRenderer: CustomRenderer,
-        grid: {
-            columns:[
-                {name: "Name", key: "CommonName", resizable:true},
-                {name: "EMail", key: "EMail", resizable:true},
-                {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100}
-            ]
-        },
+        columns:[
+            {name: "Name", key: "CommonName", resizable:true},
+            {name: "EMail", key: "EMail", resizable:true},
+            {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100}
+        ],
         //renderCategoryAsColumns: true,
         responsive: true,
         processEntries: calculateTotals,

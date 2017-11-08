@@ -19,14 +19,12 @@ export class ByAuthorGrid extends CursorGrid {
         params: {
             name: "ByAuthor"
         },
-        grid: {
-            columns:[
-                {name: "Name", key: "CommonName", resizable:true },
-                {name: "EMail", key: "EMail", resizable:true},
-                {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100},
-                {name: "State", key: "State", resizable:true, width:70}
-            ]
-        },
+        columns:[
+            {name: "Name", key: "CommonName", resizable:true },
+            {name: "EMail", key: "EMail", resizable:true},
+            {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100},
+            {name: "State", key: "State", resizable:true, width:70}
+        ],
         //renderCategoryAsColumns: true,
         responsive:true,
         expandLevel:1,

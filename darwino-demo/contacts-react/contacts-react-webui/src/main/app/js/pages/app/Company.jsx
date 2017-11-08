@@ -122,11 +122,9 @@ export class Company extends DocumentForm {
                                         parentid: this.state.unid
                                     }}
                                     showResponses={true}
-                                    grid={{
-                                        columns:[
-                                            {name: "Title", key: "Title", sortable: true, sortField: 'title'},
-                                        ]
-                                    }}
+                                    columns={[
+                                        {name: "Title", key: "Title", sortable: true, sortField: 'title'},
+                                    ]}
                                 />
                             </FormGroup>
                         </div>

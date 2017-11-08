@@ -86,14 +86,12 @@ class AllCompanies extends CursorPage {
                     }}
                     selectRows={true}
                     responsive={true}
-                    grid={{
-                        columns:[
-                            {name: "Name", key: "Name", resizable:true, sortable: true, sortField: 'name'},
-                            {name: "Industry", key: "Industry", resizable:true, sortable: true, sortField: 'industry'},
-                            {name: "Size", key: "Size", formatter:SizeFormatter,resizable:true, sortable: true, sortField: 'size', width:100},
-                            {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state', width:90}
-                        ]
-                    }}
+                    columns={[
+                        {name: "Name", key: "Name", resizable:true, sortable: true, sortField: 'name'},
+                        {name: "Industry", key: "Industry", resizable:true, sortable: true, sortField: 'industry'},
+                        {name: "Size", key: "Size", formatter:SizeFormatter,resizable:true, sortable: true, sortField: 'size', width:100},
+                        {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state', width:90, hideWhenStacked: true}
+                    ]}
                     baseRoute="/app/company"
                 />
             </div>
