@@ -72,13 +72,11 @@ class Pickers extends DocumentForm {
             <GridPicker
                 value="Name"
                 dataLoader={jsc.getDataLoader()}
-                grid={{
-                    columns:[
-                        {name: "Name", key: "Name", sortable: true, sortField: 'name'},
-                        {name: "Industry", key: "Industry", sortable: true, sortField: 'industry'},
-                        {name: "State", key: "State", sortable: true, sortField: 'state'}
-                    ]
-                }}
+                columns={[
+                    {name: "Name", key: "Name", sortable: true, sortField: 'name'},
+                    {name: "Industry", key: "Industry", sortable: true, sortField: 'industry'},
+                    {name: "State", key: "State", sortable: true, sortField: 'state'}
+                ]}
             />
         )
     }
@@ -96,17 +94,16 @@ class Pickers extends DocumentForm {
                     name: "AllCompanies"
                 }}
                 ftSearch= {true}
-                grid={{
-                    columns:[
-                        {name: "Industry", key: "Industry", sortable: true, sortField: 'industry'},
-                        {name: "State", key: "State", sortable: true, sortField: 'state'},
-                        {name: "Name", key: "Name", sortable: true, sortField: 'name'}
-                    ]
-                }}
-                groupBy= {["Industry","State"]}
+                columns={[
+                    {name: "Industry", key: "Industry", sortable: true, sortField: 'industry'},
+                    {name: "State", key: "State", sortable: true, sortField: 'state'},
+                    {name: "Name", key: "Name", sortable: true, sortField: 'name'}
+                ]}
+                groupBy= {[{column:"Industry"},{column:"State"}]}
                 baseRoute="/app/company"
             />
         )
+
         return (
             <CursorGridPicker
                 value="Name"
