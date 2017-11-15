@@ -119,8 +119,10 @@ public class WatsonAnalyzeTrigger extends JsonStoreChangesTrigger {
 					Document analyze = loadTargetDocument(document, document.getSession().getDatabase(db.getId(),db.getInstance().getId()).getStore(AppDatabaseDef.STORE_ANALYZE));
 					if(analyze!=null) {
 						Platform.log("Analyzing Document: {0}, date {1}, inst {2}",document.getUnid(),document.getUpdateDate(),document.getStore().getDatabase().getInstance().getId());
-						ToneOptions options = null; // TODO
-						ToneAnalysis tone = ta.getTone(bodyText,options).execute();
+						ToneOptions options = new ToneOptions.Builder()
+								.text(bodyText)
+								.build();
+						ToneAnalysis tone = ta.tone(options).execute();
 						JsonObject json = transform(JsonObject.fromJson(tone.toString())); 
 						//System.out.println(tone);
 						//System.out.println(json);

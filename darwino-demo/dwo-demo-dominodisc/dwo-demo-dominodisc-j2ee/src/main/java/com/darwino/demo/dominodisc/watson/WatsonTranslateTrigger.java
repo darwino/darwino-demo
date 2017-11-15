@@ -23,6 +23,7 @@
 package com.darwino.demo.dominodisc.watson;
 
 import java.util.Date;
+import java.util.List;
 
 import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
@@ -31,17 +32,19 @@ import com.darwino.commons.util.StringUtil;
 import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.commons.util.text.HtmlTextUtil;
 import com.darwino.demo.dominodisc.app.AppDatabaseDef;
-import com.darwino.ibm.watson.LanguageTranslationFactory;
+import com.darwino.ibm.watson.LanguageTranslatorFactory;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.Store;
 import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.events.EventTrigger;
-import com.darwino.platform.events.jsonstore.JsonStoreDocumentQueryTrigger;
 import com.darwino.platform.events.jsonstore.JsonStoreChangesTrigger;
-import com.ibm.watson.developer_cloud.language_translation.v2.LanguageTranslation;
-import com.ibm.watson.developer_cloud.language_translation.v2.model.Language;
+import com.darwino.platform.events.jsonstore.JsonStoreDocumentQueryTrigger;
+import com.ibm.watson.developer_cloud.language_translator.v2.LanguageTranslator;
+import com.ibm.watson.developer_cloud.language_translator.v2.model.TranslateOptions;
+import com.ibm.watson.developer_cloud.language_translator.v2.model.Translation;
+import com.ibm.watson.developer_cloud.language_translator.v2.util.Language;
 
 /**
  * This class is used to translate the content of documents.
@@ -57,7 +60,7 @@ public class WatsonTranslateTrigger extends JsonStoreChangesTrigger {
 		}
 		
 		// A service must exists
-		LanguageTranslationFactory factory = Platform.getManagedBeanUnchecked(LanguageTranslationFactory.BEAN_TYPE);
+		LanguageTranslatorFactory factory = Platform.getManagedBeanUnchecked(LanguageTranslatorFactory.BEAN_TYPE);
 		if(factory==null) {
 			Platform.log("Cannot find a factory for the Watson LanguageTranslation service");
 			return null;
@@ -94,9 +97,9 @@ public class WatsonTranslateTrigger extends JsonStoreChangesTrigger {
 	
 	public static class Handler implements JsonStoreDocumentQueryTrigger.DocHandler {
 	
-		private LanguageTranslationFactory factory;
+		private LanguageTranslatorFactory factory;
 		
-		public Handler(LanguageTranslationFactory factory) {
+		public Handler(LanguageTranslatorFactory factory) {
 			this.factory = factory;
 		}
 	
@@ -107,7 +110,7 @@ public class WatsonTranslateTrigger extends JsonStoreChangesTrigger {
 		}
 		
 		public boolean translate(Document document) throws JsonException {
-			final LanguageTranslation tr = factory.createLanguageTranslation();
+			final LanguageTranslator tr = factory.createLanguageTranslator();
 			
 			String subject = document.getString("subject");
 			String bodyText = HtmlTextUtil.fromHTML(document.getString("body")); // Watson does not translate HTML!
@@ -146,11 +149,19 @@ public class WatsonTranslateTrigger extends JsonStoreChangesTrigger {
 			return true; // continue
 		}
 	
-		private String translate(LanguageTranslation tr, String text, Language source, Language target) {
+		private String translate(LanguageTranslator tr, String text, String source, String target) {
 			// In case the translation fails, then keeps the original string...
 			try {
 				if(!FAKE) {
-					return tr.translate(text, source, target).execute().getFirstTranslation();
+					TranslateOptions opt = new TranslateOptions.Builder()
+							.addText(text)
+							.source(source.toString())
+							.target(target.toString())
+							.build();
+					List<Translation> trans = tr.translate(opt).execute().getTranslations();
+					if(!trans.isEmpty()) {
+						return trans.get(0).getTranslation();
+					}
 				}
 				return target.toString() + ": " + text; 
 			} catch(Exception ex) {
