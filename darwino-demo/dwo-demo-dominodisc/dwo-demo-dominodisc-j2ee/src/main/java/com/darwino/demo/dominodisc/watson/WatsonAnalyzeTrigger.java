@@ -28,6 +28,8 @@ import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.json.nav.JsonNav;
+import com.darwino.commons.tasks.TaskException;
+import com.darwino.commons.tasks.TaskExecutorContext;
 import com.darwino.commons.util.StringArray;
 import com.darwino.commons.util.io.StreamUtil;
 import com.darwino.commons.util.text.HtmlTextUtil;
@@ -52,6 +54,9 @@ public class WatsonAnalyzeTrigger extends JsonStoreChangesTrigger {
 
 	// For debugging without effectively calling Watson..
 	private static final boolean FAKE = false;
+
+	private static boolean CLEAR_ON_START = false;
+
 	
 	public static EventTrigger<?> create(DarwinoApplication application, String[] instances) {
 		if(!Platform.getPropertyService().getPropertyBoolean("discdb.watson.analyzer")) {
@@ -71,6 +76,8 @@ public class WatsonAnalyzeTrigger extends JsonStoreChangesTrigger {
 			.database(AppDatabaseDef.DATABASE_NAME)
 			.store(AppDatabaseDef.STORE_NSFDATA)
 			.instances(instances)
+			.useCreationDate()
+			.query("{_parentId:null}")
 			.maxEntries(8)
 			.handler(new Handler(factory));
 	}
@@ -86,12 +93,25 @@ public class WatsonAnalyzeTrigger extends JsonStoreChangesTrigger {
 			for(int i=0; i<ins.length; i++) {
 				Database db = session.getDatabase(AppDatabaseDef.DATABASE_NAME,ins[i]);
 				db.getStore(AppDatabaseDef.STORE_ANALYZE).deleteAllDocuments();
+				clearStartDate(db);
 			}
 		} finally {
 			StreamUtil.close(session);
 		}
 	}
 
+	@Override
+	public Void execute(TaskExecutorContext context) throws TaskException {
+		if(CLEAR_ON_START) {
+			CLEAR_ON_START = false;
+			try {
+				clearAnalyzes();
+			} catch (JsonException ex) {
+				Platform.log(ex);
+			}
+		}
+		return super.execute(context);
+	}
 	
 	public static class Handler implements JsonStoreDocumentQueryTrigger.DocHandler {
 	
