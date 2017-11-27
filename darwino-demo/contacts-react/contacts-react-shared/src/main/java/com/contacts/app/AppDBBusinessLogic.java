@@ -31,6 +31,7 @@ import com.darwino.jsonstore.extensions.DefaultExtensionRegistry;
 import com.darwino.jsonstore.extensions.DocumentEvents;
 import com.darwino.jsonstore.impl.DarwinoInfCursorFactory;
 import com.darwino.jsonstore.local.DefaultDatabaseACLFactory;
+import com.darwino.jsonstore.sql.jsql.query.DarwinoInfJsqQueryFactory;
 
 /**
  * Database Business logic - event handlers.
@@ -80,8 +81,9 @@ public  class AppDBBusinessLogic extends DefaultExtensionRegistry {
 			}
 		});
 		
-		// Use a query factory
+		// Use a query factories, for cursors and JSQL
 		setQueryFactory(new DarwinoInfCursorFactory(getClass()));
+		setJsqlQueryFactory(new DarwinoInfJsqQueryFactory(getClass()));
 		
 		// Default database ACL factory read the design element coming from Domino
 		if(false) {
