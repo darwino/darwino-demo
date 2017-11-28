@@ -88,7 +88,7 @@ public abstract class GridCursorService extends AbstractJsonDBService {
 					if(index!=null) {
 						o.put("key",asString(entry.getKey()));
 					}
-					o.put("value",asString(entry.getValue()));
+					o.put("value",asString(entry.getJson()));
 				}
 				jw.outArrayObject(o);
 				return true;

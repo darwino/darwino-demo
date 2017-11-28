@@ -1,0 +1,16 @@
+{
+  "store": "_default",
+  "extract": {
+    "$Creator": {$name: '$_cuser'},
+    "CommonName": {
+      "$atFormula": "FirstName + \" \" + LastName"
+    },
+    "EMail": "email",
+    "Sex": "sex",
+    "State": "state",
+    "form": "form"
+  },
+  //"query": "{form: 'Contact'}",
+  "options": "DATA_MODDATES",
+  "orderBy": "_cuser"
+}

@@ -1,0 +1,22 @@
+{
+  "extract": {
+    "$6": {
+      "$atFormula": "@Text(@DocumentUniqueID)"
+    },
+    "CommonName": {
+      "$atFormula": "FirstName + \" \" + LastName"
+    },
+    "FirstName": {
+      "$atFormula": "FirstName"
+    },
+    "LastName": {
+      "$atFormula": "LastName"
+    },
+    "State": {
+      "$atFormula": "State"
+    }
+  },
+  "query": "",
+  "orderBy": "state",
+  "options": 128
+}

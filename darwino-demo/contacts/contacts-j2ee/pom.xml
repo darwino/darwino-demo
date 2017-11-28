@@ -40,22 +40,6 @@
 			<artifactId>dwo-jre-jdbc-drivers-postgresql</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.darwino</groupId>
-			<artifactId>dwo-jre-jdbc-drivers-db2</artifactId>
-			<version>${DARWINO_VERSION}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.darwino</groupId>
-			<artifactId>dwo-jre-jdbc-drivers-h2</artifactId>
-			<version>${DARWINO_VERSION}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.darwino</groupId>
-			<artifactId>dwo-jre-jdbc-pool-bonecp</artifactId>
-			<version>${DARWINO_VERSION}</version>
-		</dependency>
 
 <!-- For desktop SQLite tests 
 		<dependency>

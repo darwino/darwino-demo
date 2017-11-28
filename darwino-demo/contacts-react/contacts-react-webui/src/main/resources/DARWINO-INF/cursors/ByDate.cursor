@@ -1,0 +1,16 @@
+{
+  "store": "_default",
+  "extract": {
+    "Date": "_cdate",
+    "CommonName": {
+      "$atFormula": "FirstName + \" \" + LastName"
+    },
+    "EMail": "email",
+    "Sex": "sex",
+    "State": "state",
+    "form": "form"
+  },
+  //"query": "{form: 'Contact'}",
+  "options": "DATA_MODDATES",
+  "orderBy": "_cdate"
+}

@@ -1,0 +1,17 @@
+{
+  "store": "_default",
+  "extract": {
+	"docnum": {$atFormula: '@DocNumber'}  
+    "CommonName": {
+      "$atFormula": "firstName + \" \" + lastName"
+//    	"$atFormula": '@If(LastName="";"Misc";"  "+@Left(@ProperCase(LastName);1))' 
+    },
+    "EMail": "email",
+    "Sex": "sex",
+    "State": {$USState: "$state"},
+    "form": "form"
+  },
+  //"query": "{form: 'Contact'}",
+  "options": "DATA_MODDATES",
+  "orderBy": "firstname,lastname"
+}

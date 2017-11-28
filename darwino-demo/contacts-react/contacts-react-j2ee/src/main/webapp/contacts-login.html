@@ -1,0 +1,75 @@
+<html>
+	<head>
+		<title>Login Page</title>
+		<style>
+			body {
+				background: #f4f5f6 none repeat scroll 0 0; 
+				font: 0.75em/1.5em Arial,Verdana,sans-serif;
+			}
+			.mainBox {
+				width: 25em; 
+				margin-top: 3em; 
+				margin-left: 5em; 
+				font-size: 1.2em; 
+				font-weight: normal;
+			}
+			.title {
+			}
+			.edit {
+				width: 100%;
+				background: #fff none repeat scroll 0 0; 
+				height: 28px; 
+				border: 1px solid #ccc;
+				border-radius: 3px;
+				padding: 4px;
+			}
+			.error {
+				width: 100%;
+				color: red; 
+				font-weight: bold;
+			}
+			.submit {
+				width: 100%;
+				background: #1f7cae none repeat scroll 0 0;
+				border: 1px none #013150;
+				border-radius: 3px;
+				color: #ffffff;
+				margin-bottom: 8px;
+				margin-top: 7px;
+				padding: 7px 0 8px;
+			}
+			/* Make the page responsive */
+            @media (max-width: 768px) {
+            	.mainBox {
+					margin: auto; 
+					margin-top: 5em; 
+                    width: 75%; 
+                }
+            }  			
+		</style>
+	</head>
+	<body>
+		<div class="mainBox">
+			<h2>
+				Welcome to the Contacts demo application.
+			</h2>
+			If you don't have a user/password, please use demo/demo. You will be able to edit the data, but not save the changes.
+			</br>
+			<form action="${ACTION_URL}" method="post">
+				<p>
+					<p class="error" style="color: red">
+						${ERROR_MESSAGE}
+					</p>
+					<input type="text" class="edit" name="dwo_username" placeholder="User Name" value="${USER}">
+				</p>
+				<p>
+					<input type="password" class="edit" name="dwo_password" placeholder="Password">
+				</p>
+					<input type="hidden" name="dwo_redirect" value="${REDIRECT_URL}">
+				<p>
+					<input type="submit" class="submit" value="Log In">
+				</p>
+			</form>
+		</div>
+	</body>
+</html>

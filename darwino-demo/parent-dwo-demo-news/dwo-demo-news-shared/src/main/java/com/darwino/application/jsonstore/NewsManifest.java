@@ -37,6 +37,8 @@ import com.darwino.platform.DarwinoManifest;
  */
 public class NewsManifest extends DarwinoManifest {
 	
+	public static String CONFIG_ID = "news";
+
 	public static final String CATEGORY_ALL = "All";
 	
 	private static final String[] CATEGORIES = new String[]{ 
@@ -75,6 +77,11 @@ public class NewsManifest extends DarwinoManifest {
 		super(section);
 	}
 	
+	@Override
+	public String getConfigId() {
+		return CONFIG_ID;
+	}
+
 	@Override
 	public String getLabel() {
 		return "News Reader";

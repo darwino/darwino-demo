@@ -6,7 +6,7 @@
     	<property name="db">postgresql</property>    
     	<property name="user">postgres</property>    
     	<property name="password">postgres</property>    
-    	<property name="url">jdbc:postgresql://localhost:5434/dwodemo</property>    
+    	<property name="url">jdbc:postgresql://localhost:5432/dwodemo</property>    
     </bean>
     <bean type="darwino/jsondb" name="db2" class="com.darwino.config.jsonstore.JsonDbJdbc">
     	<property name="db">db2</property>    

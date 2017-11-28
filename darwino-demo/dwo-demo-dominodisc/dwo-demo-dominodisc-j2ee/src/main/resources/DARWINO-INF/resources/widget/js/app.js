@@ -108,8 +108,8 @@ angular.module('app', ['ngSanitize','ngRoute','darwino.angular.jstore'])
 	};
 	entries.initCursor(p);
 	entries.getUserDn = function(item) {
-		if(item && item.value && item.value._writers && item.value._writers.from) {
-			var a = item.value._writers.from;
+		if(item && item.json && item.json._writers && item.json._writers.from) {
+			var a = item.json._writers.from;
 			if(darwino.Utils.isArray(a)) {
 				return a.length==1 ? a[0] : null;
 			}

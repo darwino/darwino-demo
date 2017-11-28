@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.darwino</groupId>
 		<artifactId>parent-dwo-demo-news</artifactId>
-		<version>1.5.1</version>
+		<version>2.0.0</version>
 	</parent>
 
 	<artifactId>dwo-demo-news-j2ee</artifactId>
@@ -51,21 +51,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
-			<artifactId>dwo-jre-jdbc-drivers-db2</artifactId>
-			<version>${DARWINO_VERSION}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.darwino</groupId>
-			<artifactId>dwo-jre-jdbc-drivers-h2</artifactId>
-			<version>${DARWINO_VERSION}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.darwino</groupId>
-			<artifactId>dwo-jre-jdbc-pool-bonecp</artifactId>
-			<version>${DARWINO_VERSION}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-social</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
@@ -73,23 +58,23 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino</artifactId>
-			<version>1.5.1</version>
+			<version>2.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-web-darwino-explorer</artifactId>
-			<version>1.5.1</version>
+			<version>2.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-news-shared</artifactId>
-			<version>1.5.1</version>
+			<version>2.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-news-webui</artifactId>
-			<version>1.5.1</version>
+			<version>2.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -100,7 +85,7 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-demo-commons</artifactId>
-			<version>1.5.1</version>
+			<version>2.0.0</version>
 		</dependency>
 
 		<!-- For now, the dependency are added in WEB-INF - the ones bellow do not work at runtime -->
@@ -174,7 +159,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.4-1206-jdbc4</version>
+			<version>9.4.1212.jre6</version>
 		</dependency>
 	</dependencies>
 

@@ -3,10 +3,10 @@
 		<div class="{{data==currentEntry()?'selected':'notselected'}}">
 			<!-- Document data -->
 			<div class="item-avatar item-icon-right item-list-header">
-				<img ng-src="{{data.value._cuser|userPhotoUrl}}" alt="Photo" 
+				<img ng-src="{{data.json.email|userPhotoUrl}}" alt="Photo" 
 					onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src='$darwino-social/users/images/anonymous-photo.png';">
 				<div style="width:100%;">
-					<h2 ng-bind-template='{{data.value.firstname}} {{func.upperCase(data.value.lastname)}}'></h2>
+					<h2 ng-bind-template='{{data.json.firstname}} {{func.upperCase(data.json.lastname)}}'></h2>
 					<h3 ng-bind='data.unid'></h3>
 					<h4 ng-bind-template='{{data.cuser|userCn}}, {{data.cdate|dateFromNow}}'></h4>
 				</div>

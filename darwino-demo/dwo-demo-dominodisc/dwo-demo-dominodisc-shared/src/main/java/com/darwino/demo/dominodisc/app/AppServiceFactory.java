@@ -33,6 +33,7 @@ import com.darwino.commons.services.HttpServiceError;
 import com.darwino.commons.services.rest.RestServiceBinder;
 import com.darwino.commons.services.rest.RestServiceFactory;
 import com.darwino.commons.util.Lic;
+import com.darwino.demo.dominodisc.service.RedirService;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Session;
 import com.darwino.platform.DarwinoApplication;
@@ -153,6 +154,13 @@ public class AppServiceFactory extends RestServiceFactory {
 			@Override
 			public HttpService createService(HttpServiceContext context, String[] parts) {
 				return new Properties();
+			}
+		});
+		
+		binders.add(new RestServiceBinder("homeredir") {
+			@Override
+			public HttpService createService(HttpServiceContext context, String[] parts) {
+				return new RedirService();
 			}
 		});
 	}	

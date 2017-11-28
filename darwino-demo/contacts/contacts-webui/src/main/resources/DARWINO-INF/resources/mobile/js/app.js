@@ -8,7 +8,7 @@
         $stateProvider.state('app', {
         	url : '/app',
         	abstract : true,
-        	templateUrl : 'templates/navigator.html'
+        	templateUrl : 'templates/mainnav.html'
         });
         // Form - about
         $stateProvider.state('app.about', {
@@ -22,7 +22,7 @@
                     template:
                        '<ion-view view-title="{{getTitle()}}">'
                       +'<ion-content>'
-                      +'<div ng-include src="\'templates/about.html\'"></div>'
+                      +'<div ng-include src="\'templates/pages/about.html\'"></div>'
                       +'</ion-content>'
                       +'</ion-view>'
                     ,
@@ -35,7 +35,7 @@
             url: '/byauthor',
             views: {
                 'menuContent': {
-                    templateUrl: 'templates/byauthor.html',
+                    templateUrl: 'templates/pages/byauthor.html',
                     controller: 'byauthorCtrl'
                 }
             }
@@ -45,7 +45,7 @@
             url: '/byauthor/:key1',
             views: {
                 'menuContent': {
-                    templateUrl: 'templates/byauthor.html',
+                    templateUrl: 'templates/pages/byauthor.html',
                     controller: 'byauthorCtrl1'
                 }
             }
@@ -55,7 +55,7 @@
             url: '/bydate',
             views: {
                 'menuContent': {
-                    templateUrl: 'templates/bydate.html',
+                    templateUrl: 'templates/pages/bydate.html',
                     controller: 'bydateCtrl'
                 }
             }
@@ -65,7 +65,7 @@
             url: '/bystate',
             views: {
                 'menuContent': {
-                    templateUrl: 'templates/bystate.html',
+                    templateUrl: 'templates/pages/bystate.html',
                     controller: 'bystateCtrl'
                 }
             }
@@ -75,7 +75,7 @@
             url: '/bystate/:key1',
             views: {
                 'menuContent': {
-                    templateUrl: 'templates/bystate.html',
+                    templateUrl: 'templates/pages/bystate.html',
                     controller: 'bystateCtrl1'
                 }
             }
@@ -92,7 +92,7 @@
                     template:
                        '<ion-view view-title="{{getTitle()}}">'
                       +'<ion-content>'
-                      +'<div ng-include src="\'templates/detailcontact.html\'"></div>'
+                      +'<div ng-include src="\'templates/pages/detailcontact.html\'"></div>'
                       +'</ion-content>'
                       +'</ion-view>'
                     ,
@@ -115,7 +115,7 @@
                       +'<button class="button button-icon button-clear ion-android-send" ng-click="submit()"></button>'
                       +'</ion-nav-buttons>'
                       +'<ion-content>'
-                      +'<div ng-include src="\'templates/editcontact.html\'"></div>'
+                      +'<div ng-include src="\'templates/pages/editcontact.html\'"></div>'
                       +'</ion-content>'
                       +'</ion-view>'
                     ,
@@ -135,7 +135,7 @@
                     template:
                        '<ion-view view-title="{{getTitle()}}">'
                       +'<ion-content>'
-                      +'<div ng-include src="\'templates/home.html\'"></div>'
+                      +'<div ng-include src="\'templates/pages/home.html\'"></div>'
                       +'</ion-content>'
                       +'</ion-view>'
                     ,
@@ -147,7 +147,7 @@
     }]);
 
 
-    module.run(['$rootScope','$window','$state','func',function($rootScope,$window,$state,func) {
+    module.run(['$rootScope','$window','$state','$ionicHistory','func',function($rootScope,$window,$state,$ionicHistory,func) {
     	// Make the data models globally available so the navigator can access them
     	// Could also be provided as a service to avoid the pollution of $rooScope
     	// Use an object because of prototypical inheritance
@@ -174,9 +174,9 @@
 
     	// Handle authentication error 
     	$rootScope.$on('dwo-unauthorized', function() {
-    		// By default, we reload the page whgich should trigger the proper authentication
-    		// This can be overridden with custom code
-        	window.location.reload(); 
+    		// By default, we reload the page which should trigger the proper authentication
+    		// This can be overridden with custom code, as it depends on the authenticator being used
+        	//window.location.reload(); 
         });
 
     	// Check the current state
@@ -204,6 +204,13 @@
     		}
     		$state.go(path);
     	};
+    	$rootScope.submit = function() {
+    	}
+    	$rootScope.cancel = function() {
+    	}
+    	$rootScope.back = function() {
+    		$ionicHistory.goBack();
+    	}
     }]);
 
 

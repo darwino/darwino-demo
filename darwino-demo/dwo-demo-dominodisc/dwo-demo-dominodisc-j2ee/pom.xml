@@ -46,15 +46,43 @@
 		</dependency>
 		<dependency>
 			<groupId>com.darwino</groupId>
-			<artifactId>dwo-jre-jdbc-drivers-h2</artifactId>
+			<artifactId>dwo-jre-jdbc-drivers-mysql</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
 
+<!-- Uncomment that if you want to use the HikariCP connections pool --> 		
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-jdbc-pool-hikaricp</artifactId>
+			<version>2.0.0-SNAPSHOT</version>
+		</dependency>
+<!--  Java 8
+		<dependency>
+    		<groupId>com.zaxxer</groupId>
+    		<artifactId>HikariCP</artifactId>
+    		<version>2.5.1</version>
+    		<scope>compile</scope>
+		</dependency>
+ -->		
+<!-- Java 6 & 7  -->
+		<dependency>
+    		<groupId>com.zaxxer</groupId>
+    		<artifactId>HikariCP-java6</artifactId>
+    		<version>2.3.9</version>
+		</dependency>
+ 	
+<!-- Uncomment that if you want to use the BoneCP connections pool - deprecated 		
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-jdbc-pool-bonecp</artifactId>
-			<version>${DARWINO_VERSION}</version>
-		</dependency>		
+			<version>2.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp</artifactId>
+			<version>0.8.0.RELEASE</version>
+		</dependency>
+-->		
 
 <!-- For desktop SQLite tests 
 		<dependency>
@@ -79,7 +107,13 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.4-1206-jdbc4</version>
+			<version>9.4.1212.jre6</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.43</version>
+    		<!--  <version>8.0.7-dmr</version>  -->
 		</dependency>
 		
 		<!--  Social plug-ins, like Gravatar -->
@@ -96,6 +130,11 @@
 		<dependency>
 			<groupId>com.darwino</groupId>
 			<artifactId>dwo-jre-microsoft-o365</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-microsoft-sharepoint</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
 		

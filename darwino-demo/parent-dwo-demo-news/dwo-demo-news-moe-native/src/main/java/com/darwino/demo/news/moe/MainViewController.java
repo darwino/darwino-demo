@@ -172,7 +172,7 @@ public class MainViewController extends UITableViewController {
                 }
                 case 3: {
                     DarwinoMobileApplication app = DarwinoMobileApplication.get();
-                    app.createCommandExecutor().openSettings();
+                    app.getCommandExecutor().openSettings();
                     break;
                 }
             }

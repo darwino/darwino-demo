@@ -1,5 +1,4 @@
 <beans>
-    
 <!-- Define your J2EE specific beans here, and register a WebInf provider in AppPlugin -->
 
 <!-- HTTP Security constraints -->

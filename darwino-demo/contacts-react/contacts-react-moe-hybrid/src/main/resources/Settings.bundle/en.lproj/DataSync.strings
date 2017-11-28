@@ -1,0 +1,13 @@
+"SyncFrequency" = "Sync Frequency";
+"NotEnabled" = "Not Enabled";
+"Immediate" = "Immediate";
+"Min_1" = "1 Minute";
+"Min_5" = "5 Minutes";
+"Min_10" = "10 Minutes";
+"Min_15" = "15 Minutes";
+"Min_30" = "30 Minutes";
+"Hour_1" = "1 Hour";
+"Hour_2" = "2 Hours";
+"Daily" = "Daily";
+"PushChangesImmediately" = "Push Changes Immediately";
+"NotifyOnSuccess" = "Notify Successful Synchronization";

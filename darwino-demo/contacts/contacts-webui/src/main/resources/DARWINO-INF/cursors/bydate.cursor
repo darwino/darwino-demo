@@ -1,0 +1,22 @@
+{
+  "extract": {
+    "$Created": {
+      "$atFormula": "@Created"
+    },
+    "CommonName": {
+      "$atFormula": "FirstName + \" \" + LastName"
+    },
+    "EMail": {
+      "$atFormula": "EMail"
+    },
+    "Sex": {
+      "$atFormula": "Sex"
+    },
+    "State": {
+      "$atFormula": "State"
+    }
+  },
+  "query": "",
+  "orderBy": "_cdate",
+  "options": 128
+}

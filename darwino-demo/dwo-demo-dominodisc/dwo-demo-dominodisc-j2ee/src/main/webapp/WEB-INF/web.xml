@@ -34,10 +34,6 @@
     	<param-value>${discdb.url=http://127.0.0.1/darwino.sync}</param-value>
     </context-param>
 	<context-param>
-    	<param-name>dwo-sync-platform</param-name>
-    	<param-value>domino</param-value>
-  	</context-param>
-	<context-param>
     	<param-name>dwo-sync-commit-threshold</param-name>
     	<param-value>${discdb.sync-commit-threshold=100}</param-value>
   	</context-param>
@@ -65,6 +61,18 @@
     	<param-name>dwo-sync-mode</param-name>
     	<param-value>${discdb.sync-mode=pull+push}</param-value>
   	</context-param>
+	<context-param>
+    	<param-name>dwo-sync-period</param-name>
+    	<param-value>${discdb.sync-period}</param-value>
+    </context-param>
+	<context-param>
+    	<param-name>dwo-sync-retry-delay</param-name>
+    	<param-value>${discdb.sync-retry-delay}</param-value>
+    </context-param>
+		<context-param>
+    	<param-name>dwo-sync-initial-delay</param-name>
+    	<param-value>${discdb.sync-initial-delay}</param-value>
+    </context-param>
  <!-- -->
  
 	<!-- Application initialization -->

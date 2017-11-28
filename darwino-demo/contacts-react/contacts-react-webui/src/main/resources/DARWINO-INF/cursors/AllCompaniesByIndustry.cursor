@@ -1,0 +1,12 @@
+{
+  "store": "companies",
+  "extract": {
+    "Industry": "industry",
+    "State": {$USState: "$state"},
+    "Name": "name",
+    "form": "form"
+  },
+  "query": "{form: 'Company'}",
+  "options": "DATA_MODDATES",
+  "orderBy": "industry,state"
+}

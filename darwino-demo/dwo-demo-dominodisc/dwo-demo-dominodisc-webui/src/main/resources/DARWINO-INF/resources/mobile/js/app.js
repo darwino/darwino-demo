@@ -457,8 +457,8 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 		
 		// Specific methods
 		entries.getUserDn = function(item) {
-			if(item && item.value && item.value._writers && item.value._writers.from) {
-				var a = item.value._writers.from;
+			if(item && item.json && item.json._writers && item.json._writers.from) {
+				var a = item.json._writers.from;
 				if(darwino.Utils.isArray(a)) {
 					return a.length==1 ? a[0] : null;
 				}
@@ -482,10 +482,10 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			var item = item || entries.detailItem;
 			if(!item) return;
 			if($rootScope.data.localized) {
-				if($rootScope.data.language==1 && item.value.loc_fr && item.value.loc_fr[field]) return item.value.loc_fr[field];
-				if($rootScope.data.language==2 && item.value.loc_es && item.value.loc_es[field]) return item.value.loc_es[field];
+				if($rootScope.data.language==1 && item.json.loc_fr && item.json.loc_fr[field]) return item.json.loc_fr[field];
+				if($rootScope.data.language==2 && item.json.loc_es && item.json.loc_es[field]) return item.json.loc_es[field];
 			}
-			return item.value[field];
+			return item.json[field];
 		}
 		entries.isFtEnabled = function() {
 			return $rootScope.nsfdata && $rootScope.nsfdata.isFtSearchEnabled();
@@ -512,7 +512,7 @@ angular.module('app', ['ngSanitize','ionic', 'darwino.ionic', 'darwino.angular.j
 			return item.category==true;
 		}
 		entries.getFormattedJson = function(item) {
-			return item ? darwino.Utils.toJson(item.value,false) : null;
+			return item ? darwino.Utils.toJson(item.json,false) : null;
 		}
 		entries.newEntry = function() {
 			$state.go("app.edit",{view:entries.view});

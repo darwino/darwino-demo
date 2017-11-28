@@ -1,0 +1,1 @@
+SELECT $.name name FROM companies WHERE $.form='Company' ORDER BY name

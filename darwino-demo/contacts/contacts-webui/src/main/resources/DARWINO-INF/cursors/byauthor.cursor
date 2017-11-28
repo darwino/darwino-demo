@@ -1,0 +1,22 @@
+{
+  "extract": {
+    "$Creator": {
+      "$atFormula": "$UpdatedBy[1]"
+    },
+    "CommonName": {
+      "$atFormula": "FirstName + \" \" + LastName"
+    },
+    "EMail": {
+      "$atFormula": "EMail"
+    },
+    "Sex": {
+      "$atFormula": "Sex"
+    },
+    "State": {
+      "$atFormula": "State"
+    }
+  },
+  "query": "",
+  "orderBy": "_cuser",
+  "options": 128
+}

@@ -12,7 +12,6 @@
     	<param-value>${contacts.auto-deploy-jsonstore=true}</param-value>
     </context-param>
 
-
 <!--
 	Define these properties to enable the replication triggered by this application.  
 	<context-param>
@@ -28,10 +27,6 @@
     	<param-value>${contacts.sync-url=http://127.0.0.1/darwino.sync}</param-value>
     </context-param>
 	<context-param>
-    	<param-name>dwo-sync-platform</param-name>
-    	<param-value>${contacts.sync-platform=domino}</param-value>
-  	</context-param>
-		<context-param>
     	<param-name>dwo-sync-commit-threshold</param-name>
     	<param-value>${contacts.sync-commit-threshold=100}</param-value>
   	</context-param>
@@ -55,7 +50,7 @@
     	<param-name>dwo-sync-trace</param-name>
     	<param-value>${contacts.sync-trace=false}</param-value>
   	</context-param>
--->	
+-->
 	
 	<!-- Application initialization -->
 	<listener>
@@ -88,6 +83,22 @@
     	<url-pattern>/*</url-pattern>
 	</filter-mapping>
 		
+	<!-- CORS filter for the JsonStore -->
+	<!-- CORS should be applied before the authentication else the OPTIONS preflight can be blocked -->
+	<filter>
+    	<filter-name>Cors</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.cors.CORSFilter</filter-class>
+        <init-param>
+      		<param-name>cors.allowed.methods</param-name>
+      		<param-value>GET,POST,PUT,DELETE,HEAD,OPTIONS</param-value>
+    	</init-param>    
+	</filter>
+	<filter-mapping>
+    	<filter-name>Cors</filter-name>
+    	<url-pattern>/.darwino-jstore/*</url-pattern>
+    	<dispatcher>REQUEST</dispatcher>
+    	<dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
 		
 	<!--  Filter for custom authentication -->
 	<!--  This should be the first one, before the J2EE filter as the user is required for the session  -->
@@ -95,13 +106,19 @@
 	<filter>
     	<filter-name>DarwinoAuthentication</filter-name>
    		<filter-class>com.darwino.j2ee.servlet.authentication.AuthenticationFilter</filter-class>
-    </filter>
+<!-- Auth required - used to test the ACL replication    		
+		<init-param>
+			<param-name>auth-required</param-name>
+			<param-value>false</param-value>
+		</init-param>
+ -->		
+   	</filter>
 	<filter-mapping>
     	<filter-name>DarwinoAuthentication</filter-name>
     	<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
     	<dispatcher>FORWARD</dispatcher>
-   	</filter-mapping>
+	</filter-mapping>
 
 	<!--  Filter for creating the Darwino Application, Context and DB session -->
 	<filter>
@@ -113,21 +130,7 @@
     	<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
     	<dispatcher>FORWARD</dispatcher>
-    		</filter-mapping>
-	
-	<!--  CORS filter for the JsonStore -->
-<!-- 	
-	<filter>
-    	<filter-name>Cors</filter-name>
-    	<filter-class>com.darwino.j2ee.servlet.cors.CORSFilter</filter-class>
-	</filter>
-	<filter-mapping>
-    	<filter-name>Cors</filter-name>
-    	<url-pattern>/.darwino-jstore/*</url-pattern>
-    	<dispatcher>REQUEST</dispatcher>
-    	<dispatcher>FORWARD</dispatcher>
     </filter-mapping>
--->    
 
 	<!--  Filter for publishing the Darwino Services -->
 	<filter>
