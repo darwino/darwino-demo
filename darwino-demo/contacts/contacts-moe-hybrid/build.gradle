@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         // MOE plugin
-		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.2.+'
+		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.4.+'
     }
 }
 
@@ -33,14 +33,15 @@ test { exclude '**' }
 
 // Setup MOE
 moe {
-    xcode.mainTarget = 'contacts-moe-hybrid'
-    xcode.testTarget = 'contacts-moe-hybrid-Test'
-    xcode.packageName = 'contacts-moe-hybrid.app'
-    xcode.launchScreenFilePath = 'src/main/resources/LaunchScreen.xib'
-    xcode.infoPlistPath 'src/main/resources/Info.plist'
-    xcode.bundleID = 'contacts-moe-hybrid.app'
-    xcode.generateProject false
-    xcode.xcodeProjectDirPath 'xcode'
+    xcode {
+        project 'xcode/contacts-moe-hybrid.xcodeproj'
+        mainTarget 'contacts-moe-hybrid'
+        testTarget 'contacts-moe-hybrid-Test'
+
+        workspace 'xcode/contacts-moe-hybrid.xcworkspace'
+        mainScheme 'contacts-moe-hybrid'
+        testScheme 'contacts-moe-hybrid-Test'
+    }
 }
 
 // Set dependencies
