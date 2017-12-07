@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         // MOE plugin
-		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.2.+'
+		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.4.+'
     }
 }
 
@@ -33,14 +33,15 @@ test { exclude '**' }
 
 // Setup MOE
 moe {
-    xcode.mainTarget = 'Discussion Database'
-    xcode.testTarget = 'Discussion Database-Test'
-    xcode.packageName = 'com.darwino.demo.dominodisc.app'
-    xcode.launchScreenFilePath = 'src/main/resources/LaunchScreen.xib'
-    xcode.infoPlistPath 'src/main/resources/Info.plist'
-    xcode.bundleID = 'com.darwino.demo.dominodisc.app'
-    xcode.generateProject false
-    xcode.xcodeProjectDirPath 'xcode'
+    xcode {
+        project 'xcode/Discussion Database.xcodeproj'
+        mainTarget 'dwo-demo-dominodisc-moe-hybrid'
+        testTarget 'dwo-demo-dominodisc-moe-hybrid-Test'
+
+        workspace 'xcode/Discussion Database.xcworkspace'
+        mainScheme 'dwo-demo-dominodisc-moe-hybrid'
+        testScheme 'dwo-demo-dominodisc-moe-hybrid-Test'
+    }
 }
 
 // Set dependencies

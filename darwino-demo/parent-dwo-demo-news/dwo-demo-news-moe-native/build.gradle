@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         // MOE plugin
-		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.2.+'
+		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.4.+'
     }
 }
 
@@ -33,14 +33,15 @@ test { exclude '**' }
 
 // Setup MOE
 moe {
-    xcode.mainTarget = 'Darwino News'
-    xcode.testTarget = 'Darwino News-Test'
-    xcode.packageName = 'com.darwino.demo.news.moe'
-    xcode.launchScreenFilePath = 'src/main/resources/LaunchScreen.xib'
-    xcode.infoPlistPath 'src/main/resources/Info.plist'
-    xcode.bundleID = 'migeran.sample'
-    xcode.generateProject false
-    xcode.xcodeProjectDirPath 'xcode'
+    xcode {
+        project 'xcode/Darwino News.xcodeproj'
+        mainTarget 'Darwino News'
+        testTarget 'Darwino News-Test'
+
+        workspace 'xcode/Darwino News.xcworkspace'
+        mainScheme 'Darwino News'
+        testScheme 'Darwino News-Test'
+    }
 }
 
 // Set dependencies

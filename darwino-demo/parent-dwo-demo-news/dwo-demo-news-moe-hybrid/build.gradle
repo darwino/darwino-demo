@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         // MOE plugin
-		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.2.+'
+		classpath group: 'org.multi-os-engine', name: 'moe-gradle', version: '1.4.+'
     }
 }
 
@@ -33,14 +33,15 @@ test { exclude '**' }
 
 // Setup MOE
 moe {
-    xcode.mainTarget = 'dwo-demo-news-moe-hybrid'
-    xcode.testTarget = 'dwo-demo-news-moe-hybrid-Test'
-    xcode.packageName = 'dwo-demo-news-moe-hybrid.app'
-    xcode.launchScreenFilePath = 'src/main/resources/LaunchScreen.xib'
-    xcode.infoPlistPath 'src/main/resources/Info.plist'
-    xcode.bundleID = 'dwo-demo-news-moe-hybrid.app'
-    xcode.generateProject false
-    xcode.xcodeProjectDirPath 'xcode'
+    xcode {
+        project 'xcode/dwo-demo-news-moe-hybrid.xcodeproj'
+        mainTarget 'dwo-demo-news-moe-hybrid'
+        testTarget 'dwo-demo-news-moe-hybrid-Test'
+
+        workspace 'xcode/dwo-demo-news-moe-hybrid.xcworkspace'
+        mainScheme 'dwo-demo-news-moe-hybrid'
+        testScheme 'dwo-demo-news-moe-hybrid-Test'
+    }
 }
 
 // Set dependencies
