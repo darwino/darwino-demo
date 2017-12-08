@@ -1,0 +1,37 @@
+nsfName 'DarwinoContacts.nsf'
+
+form('Company') {
+  	storeId 'companies'  
+	field 'Name'
+	field 'Industry'
+	field 'Public', flags:[MULTIPLE]
+	field 'Size'
+	field 'Street'
+	field 'City'
+	field 'State'
+	field 'ZipCode'
+	field 'Logo', type:RICHTEXT
+	field 'Documents', type:RICHTEXT
+}
+form('CompanyDocument') {
+  	storeId 'companies'  
+	field 'Title'
+	field 'Document'
+}
+form('Contact') {
+	field 'FirstName'
+	field 'LastName'
+	field 'EMail'
+	field 'Sex'
+	field 'firstContact', type:DATETIME
+	field 'Street'
+	field 'City'
+	field 'State'
+	field 'ZipCode'
+	field 'HomePhone'
+	field 'MobilePhone'
+	field 'WorkPhone'
+	field 'Comments', type:RICHTEXT
+	field 'Picture'
+	field 'Card', type:RICHTEXT
+}
