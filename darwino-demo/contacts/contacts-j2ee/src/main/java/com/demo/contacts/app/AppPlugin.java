@@ -7,6 +7,7 @@ package com.demo.contacts.app;
 import java.util.List;
 
 import com.darwino.commons.platform.beans.ManagedBeansExtension;
+import com.darwino.commons.platform.impl.PluginImpl;
 import com.darwino.commons.platform.properties.PropertiesExtension;
 import com.darwino.commons.security.acl.UserService;
 import com.darwino.j2ee.platform.DefaultWebBeanExtension;
@@ -18,7 +19,7 @@ import com.darwino.j2ee.servlet.authentication.AuthenticationService;
 /**
  * J2EE Plugin for registering the services.
  */
-public class AppPlugin extends AppBasePlugin {
+public class AppPlugin extends PluginImpl {
 	
 	public AppPlugin() {
 		super("J2EE Application");
@@ -26,6 +27,8 @@ public class AppPlugin extends AppBasePlugin {
 
 	@Override
 	public void findExtensions(Class<?> serviceClass, List<Object> extensions) {
+		AppBasePlugin.findExtensions(serviceClass, extensions);
+		
 		if(serviceClass==AuthenticationService.class) {
 			// User authentication service
 			// This service grabs the currently authenticated user from the server context

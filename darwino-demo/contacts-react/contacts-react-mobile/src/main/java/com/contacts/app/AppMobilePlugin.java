@@ -24,12 +24,14 @@ package com.contacts.app;
 
 import java.util.List;
 
+import com.darwino.commons.platform.impl.PluginImpl;
+
 
 
 /**
  * Application Plugin.
  */
-public abstract class AppMobilePlugin extends AppBasePlugin {
+public abstract class AppMobilePlugin extends PluginImpl {
 	
 	public AppMobilePlugin(String name) {
 		super(name);
@@ -37,6 +39,8 @@ public abstract class AppMobilePlugin extends AppBasePlugin {
 
 	@Override
 	public void findExtensions(Class<?> serviceClass, List<Object> extensions) {
+		AppBasePlugin.findExtensions(serviceClass, extensions);
+		
 		super.findExtensions(serviceClass, extensions);
 	}
 }

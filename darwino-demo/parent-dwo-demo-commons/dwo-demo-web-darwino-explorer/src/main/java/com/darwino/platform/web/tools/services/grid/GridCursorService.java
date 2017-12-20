@@ -38,6 +38,7 @@ import com.darwino.commons.services.HttpServiceContext;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.Cursor;
 import com.darwino.jsonstore.Index;
+import com.darwino.jsonstore.QueryParams;
 import com.darwino.jsonstore.Store;
 import com.darwino.jsonstore.callback.CursorEntry;
 import com.darwino.jsonstore.callback.CursorHandler;
@@ -186,7 +187,7 @@ public abstract class GridCursorService extends AbstractJsonDBService {
 //			c.descending();
 //		}
 		
-		int options = context.getQueryParameterInt("options"); 
+		int options = QueryParams.CURSOR_OPTIONS.asInt(context.getQueryParameterInt("options")); 
 		if(options>0) {
 			c.options(options);
 		}
