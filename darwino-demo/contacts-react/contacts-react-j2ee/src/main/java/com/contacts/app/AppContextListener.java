@@ -29,6 +29,7 @@ import com.contacts.app.tasks.LogTask;
 import com.contacts.app.triggers.LogHandler;
 import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonException;
+import com.darwino.commons.tasks.TaskEnabler;
 import com.darwino.commons.tasks.TaskProgress;
 import com.darwino.commons.tasks.scheduler.TaskScheduler;
 import com.darwino.commons.tasks.scheduler.schedulers.IntervalScheduler;
@@ -122,6 +123,12 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 				//.store(Database.STORE_DEFAULT)
 				.maxEntries(10) // For demo purposes, only process the last 10 docs...
 				.handler(new LogHandler())
+				.enabler(new TaskEnabler() {
+					@Override
+					public boolean isEnabled() {
+						return syncExecutor==null || !syncExecutor.isReplicationRunning();
+					}
+				})
 			);
 		
 		// Use a persistence service for the dates
@@ -138,7 +145,12 @@ public class AppContextListener extends AbstractDarwinoContextListener {
 		// Install the tasks
 		// This tasks logs a string every 1 minute
 		scheduler.scheduleTask(
-				new LogTask(),
+				(new LogTask()).enabler(new TaskEnabler() {
+					@Override
+					public boolean isEnabled() {
+						return syncExecutor==null || !syncExecutor.isReplicationRunning();
+					}
+				}),
 				new IntervalScheduler().interval("1m"));
 	}
 }
