@@ -29,6 +29,7 @@ export default class Navigator extends React.Component {
                         <NavGroup title="Companies" collapsible={true} defaultExpanded={true}>
                             <NavLink to="/app/allcompanies">All Companies</NavLink>
                             <NavLink to="/app/allcompaniesbyindustry">By Industry/State</NavLink>
+                            <NavLink to="/app/allcompaniesasjson">All Companies As JSON</NavLink>
                         </NavGroup>
 
                         <NavGroup title="Technical Demo" collapsible={true} defaultExpanded={false}>

@@ -25,7 +25,9 @@ import AppContactsg from "./app/Contactsg.jsx";
 
 import AppAllCompanies from "./app/AllCompanies.jsx";
 import AppAllCompaniesByIndustry from "./app/AllCompaniesByIndustry.jsx";
+import AppAllCompaniesAsJson from "./app/AllCompaniesAsJson.jsx";
 import AppCompany from "./app/Company.jsx";
+import AppCompanyAsJson from "./app/CompanyAsJson.jsx";
 
 import NotesAllContacts from "./app/notes/AllContacts.jsx";
 import NotesContact from "./app/notes/Contact.jsx";
@@ -81,7 +83,9 @@ export default class Layout extends React.Component {
 
                 <Route exact path="/app/allcompanies" component={AppAllCompanies}></Route>
                 <Route exact path="/app/allcompaniesbyindustry" component={AppAllCompaniesByIndustry}></Route>
+                <Route exact path="/app/allcompaniesasjson" component={AppAllCompaniesAsJson}></Route>
                 <Route exact path="/app/company/:unid" component={AppCompany}></Route>
+                <Route exact path="/app/companyasjson/:unid" component={AppCompanyAsJson}></Route>
 
                 <Route exact path="/views/allcontacts" component={NotesAllContacts}></Route>
                 <Route exact path="/forms/contact" component={NotesContact}></Route>
