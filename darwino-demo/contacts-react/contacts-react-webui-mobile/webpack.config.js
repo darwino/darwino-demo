@@ -18,7 +18,7 @@ const precss       = require('precss');
 const fs 		   = require('fs');
 
 const contextDir      = path.resolve(__dirname, "src/main/app");
-const assetsDir       = path.resolve(__dirname, "src/main/resources/DARWINO-INF/resources/assets");
+const assetsDir       = path.resolve(__dirname, "src/main/resources/DARWINO-INF/resources/assets-mobile");
 const nodeModulesDir  = path.resolve(__dirname, 'node_modules');
 
 const debug = process.env.NODE_ENV !== "production";
@@ -103,8 +103,7 @@ if(fs.existsSync(path.resolve(__dirname,'src/main/app/darwinosrc'))) {
  	config.resolve.alias = {
   	  	"@darwino/darwino$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino'),
   	  	"@darwino/darwino-react$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react'),
-  	  	"@darwino/darwino-react-bootstrap$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-bootstrap'),
-  	  	"@darwino/darwino-react-bootstrap-notes$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-bootstrap-notes')
+  	  	"@darwino/darwino-react-onsenui$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-onsenui')
 	}
 }
 

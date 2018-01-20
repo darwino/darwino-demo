@@ -10,6 +10,7 @@
 	<modules>
 		<module>contacts-react-shared</module>
 		<module>contacts-react-webui</module>
+		<module>contacts-react-webui-mobile</module>
 		<module>contacts-react-j2ee</module>
 		<module>contacts-react-mobile</module>
 		<module>contacts-react-android-hybrid</module>
