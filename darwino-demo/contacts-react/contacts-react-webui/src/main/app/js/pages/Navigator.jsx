@@ -42,6 +42,10 @@ export default class Navigator extends React.Component {
                             <NavLink to="/views/allcontacts">Notes Components</NavLink>
                         </NavGroup>
 
+                        <NavGroup title="Mobile UI" defaultExpanded={true}>
+                            <li><a  href="../mobile-demo/index.html">OnsenUI Mobile</a></li>
+                        </NavGroup>
+
                         <NavGroup title="Developers">
                             <NavLink to="/admin/console">Console</NavLink>
                             <li><a target="_blank" href="https://github.com/darwino/darwino-demo/tree/develop/darwino-demo/contacts-react">Github</a></li>

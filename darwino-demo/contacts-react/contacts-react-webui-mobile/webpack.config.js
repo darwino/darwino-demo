@@ -39,6 +39,7 @@ const config = {
 		filename: "bundle.js"
 	},
   	resolve: {
+		symlinks: false,
     	extensions: ['.js', '.jsx']
 	},
   	module: {

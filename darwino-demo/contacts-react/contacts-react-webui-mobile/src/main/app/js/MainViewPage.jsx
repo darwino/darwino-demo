@@ -9,6 +9,8 @@ import ReactDOM from "react-dom";
 import ons from "onsenui";
 
 import {
+    Fab,
+    Icon,
     Page,
     Toolbar,
     Tabbar, Tab
@@ -28,6 +30,7 @@ export default class MainViewPage extends Component {
     constructor(props,context) {
         super(props,context);
         this.renderToolbar = this.renderToolbar.bind(this);
+        this.renderFixed = this.renderFixed.bind(this);
         this.newDocument = this.newDocument.bind(this);
     }
 
@@ -40,9 +43,19 @@ export default class MainViewPage extends Component {
 
     renderToolbar() {
         const titles = ['Contacts', 'Companies'];
+        const actions = !ons.platform.isAndroid() && {type:"new",handler:this.newDocument};
         return (
-            <NavBar title={titles[this.props.tabIndex]} action={{type:"new",handler:this.newDocument}}/>
+            <NavBar title={titles[this.props.tabIndex]} action={actions}/>
         );
+    }
+    renderFixed() {
+        const f = this.newDocument;
+        return ons.platform.isAndroid() && 
+                    <Fab
+                        onClick={this.newDocument}
+                        position='bottom right'>
+                        <Icon icon='md-plus' />                        
+                    </Fab>
     }
 
     renderTabs() {
@@ -60,7 +73,9 @@ export default class MainViewPage extends Component {
         
     render() {
         return (
-            <Page renderToolbar={this.renderToolbar}>
+            <Page 
+                renderToolbar={this.renderToolbar}
+                renderFixed={this.renderFixed}>
                 <Tabbar
                     swipeable={true}
                     position='auto'

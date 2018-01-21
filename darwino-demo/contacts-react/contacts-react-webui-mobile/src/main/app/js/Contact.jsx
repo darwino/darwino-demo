@@ -86,24 +86,12 @@ class Contact extends DocumentForm {
 
     // Values computed once when the document is loaded
     calculateOnLoad(values) {
-        values.title = "Contact Document"
-        values.cdate = this.getDocument().cdate && new Date(this.getDocument().cdate)
-        values.mdate = this.getDocument().mdate && new Date(this.getDocument().mdate)
-
-        // These are not calculated fields as they are just objects that should not be passed to the
-        // server as computed fields
-        if(!this.cuser || this.cuser.getDn()!=this.getDocument().cuser) {
-            this.cuser = this.userService.getUser(this.getDocument().cuser, (u,loaded) => {if(loaded) this.forceUpdate()})
-        }
-        if(!this.muser || this.muser.getDn()!=this.getDocument().muser) {
-            this.muser = this.userService.getUser(this.getDocument().muser, (u,loaded) => {if(loaded) this.forceUpdate()})
-        }
+        // None in this demo
     }
 
     // Values computed every time the document is changed
     calculateOnChange(values) {
-        values.fullname = this.getFieldValue("firstname","") + " " + this.getFieldValue("lastname","")
-        values.fullnameUpper = this.getFieldValue("fullname","").toUpperCase()
+        // None in this demo
     }
 
     // Transform the generic attachment links to physical ones
@@ -115,7 +103,6 @@ class Contact extends DocumentForm {
     prepareForSave(values) {
         if(values.card) values.card = richTextToStorageFormat(this.state,values.card)
     }
-
 
     handleUpdateDocument(state, dispatch) {
         if(!checkUser(this)) {

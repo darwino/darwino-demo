@@ -41,6 +41,16 @@
 				margin-top: 7px;
 				padding: 7px 0 8px;
 			}
+			.submit-demo {
+				width: 100%;
+				background: #5cb85c none repeat scroll 0 0;
+				border: 1px none #4cae4c;
+				border-radius: 3px;
+				color: #ffffff;
+				margin-bottom: 8px;
+				margin-top: 7px;
+				padding: 7px 0 8px;
+			}
 			/* Make the page responsive */
             @media (max-width: 768px) {
             	.mainBox {
@@ -50,15 +60,30 @@
                 }
             }  			
 		</style>
+		<script>
+			function logDemo() {
+				var form = document.forms[0];
+				form.dwo_username.value = "demo";
+				form.dwo_password.value = "demo";
+				form.submit();
+			}
+		</script>
 	</head>
 	<body>
 		<div class="mainBox">
 			<h2>
 				Welcome to the Contacts demo application.
 			</h2>
-			If you don't have a user/password, please use demo/demo. You will be able to edit the data, but not save the changes.
+			If you don't have a user/password, please use demo/demo or the button bellow. You will be able to edit the data, but not save the changes.
 			</br>
 			<form action="${ACTION_URL}" method="post">
+				<p>
+					<input type="button" class="submit-demo" value="Log As Demo User" onclick="logDemo()">
+				</p>
+				<p/>
+				<h2>
+					Login
+				</h2>
 				<p>
 					<p class="error" style="color: red">
 						${ERROR_MESSAGE}
