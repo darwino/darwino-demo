@@ -99,7 +99,7 @@ const config = {
 };
 
 // Darwino development version 
-if(fs.existsSync(path.resolve(__dirname,'src/main/app/darwinosrc'))) {
+if(fs.existsSync(path.resolve(__dirname,'src/main/app/darwinosrc/darwino'))) {
 	// For internal development of the Darwino library
  	config.resolve.alias = {
   	  	"@darwino/darwino$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino'),
