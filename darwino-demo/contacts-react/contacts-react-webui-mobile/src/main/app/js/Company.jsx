@@ -21,7 +21,7 @@ import {checkUser,isDemoUser} from "./Demo";
 import NavBar from "./NavBar";
 
 const DATABASE = Constants.DATABASE;
-const STORE = "_default";
+const STORE = "companies";
 
 const FORM_NAME = "company";
 
@@ -41,7 +41,7 @@ class Company extends DocumentForm {
 
     renderToolbar() {
         return (
-            <NavBar title={"Contact"} backButton={true} action={{type:"save",handler:this.submit}}/>
+            <NavBar title={"Company"} backButton={true} action={{type:"save",handler:this.submit}}/>
           );
     }
 
@@ -66,18 +66,15 @@ class Company extends DocumentForm {
         const { handleSubmit, dirty, invalid, submitting, type } = this.props;
         const readOnly = this.isReadOnly();
         const disabled = this.isDisabled();
-        const {cdate, mdate} = this.getComputedValues()
-        const {cuser,  muser} = this
 
         return (
             <Page renderToolbar={this.renderToolbar}>
                 <form onSubmit={handleSubmit(this.handleUpdateDocument)}>
-                    <h2>{this.getFieldValue("title")}</h2>
                     <div>
-                        <Field name="firstname" type="text" component={renderText} label="First Name" disabled={disabled} readOnly={readOnly}/>
+                        <Field name="name" type="text" component={renderText} label="Name" disabled={disabled} readOnly={readOnly}/>
                     </div>
                     <div>
-                        <Field name="lastname" type="text" component={renderText} label="Last Name" disabled={disabled} readOnly={readOnly}/>
+                        <Field name="industry" type="text" component={renderText} label="Industry" disabled={disabled} readOnly={readOnly}/>
                     </div>
                     {/*Uncomment to display the current JSON content*/}
                     {/* <JsonDebug form={this.props.form}/>   */}

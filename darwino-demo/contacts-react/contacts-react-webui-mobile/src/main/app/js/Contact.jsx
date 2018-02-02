@@ -116,13 +116,10 @@ class Contact extends DocumentForm {
         const { handleSubmit, dirty, invalid, submitting, type } = this.props;
         const readOnly = this.isReadOnly();
         const disabled = this.isDisabled();
-        const {cdate, mdate} = this.getComputedValues()
-        const {cuser,  muser} = this
 
         return (
             <Page renderToolbar={this.renderToolbar}>
                 <form onSubmit={handleSubmit(this.handleUpdateDocument)}>
-                    <h2>{this.getFieldValue("title")}</h2>
                     <div>
                         <Field name="firstname" type="text" component={renderText} label="First Name" disabled={disabled} readOnly={readOnly}/>
                     </div>

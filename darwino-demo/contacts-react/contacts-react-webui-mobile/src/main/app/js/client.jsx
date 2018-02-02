@@ -16,6 +16,9 @@ import promiseMiddleware from 'redux-promise';
 
 import App from "./App";
 
+// Load hybrid so it gets initialized
+import {Hybrid} from "@darwino/darwino";
+
 
 // Polyfills
 import Promise from 'promise-polyfill'; 

@@ -27,16 +27,16 @@ class NavBar extends Component {
     renderAction(action) {
         if(action.type=="save") {
             if(ons.platform.isAndroid()) {
-                return <ToolbarButton className='right' onClick={action.handler}><Icon icon='md-save'/></ToolbarButton>
+                return <div className='right'><ToolbarButton onClick={action.handler}><Icon icon='md-save'/></ToolbarButton></div>
             }
-            return <ToolbarButton className='right' onClick={action.handler}>Save</ToolbarButton>
+            return <div className='right'><ToolbarButton onClick={action.handler}>Save</ToolbarButton></div>
         }
         if(action.type=="new") {
             if(ons.platform.isAndroid()) {
                 // Use a floating button?
                 return null;
             }
-            return <ToolbarButton className='right' onClick={action.handler}>New</ToolbarButton>
+            return <div className='right'><ToolbarButton onClick={action.handler}>New</ToolbarButton></div>
         }
         return null;
     }

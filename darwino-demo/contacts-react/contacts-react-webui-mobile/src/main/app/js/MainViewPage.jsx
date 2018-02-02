@@ -5,6 +5,7 @@
 import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import ReactDOM from "react-dom";
+import {Hybrid} from "@darwino/darwino";
 
 import ons from "onsenui";
 
@@ -26,7 +27,10 @@ export default class MainViewPage extends Component {
     static contextTypes = {
         navigator: PropTypes.object
     };
-    
+
+    // This does not need to be a state as we don't want to redraw when it changes
+    tabIndex=0;
+
     constructor(props,context) {
         super(props,context);
         this.renderToolbar = this.renderToolbar.bind(this);
@@ -35,7 +39,7 @@ export default class MainViewPage extends Component {
     }
 
     newDocument() {
-        switch(this.props.tabIndex) {
+        switch(this.tabIndex) {
             case 0:     this.context.navigator.pushPage({page:"contact"}); return;
             case 1:     this.context.navigator.pushPage({page:"company"}); return;
         }
@@ -45,7 +49,7 @@ export default class MainViewPage extends Component {
         const titles = ['Contacts', 'Companies'];
         const actions = !ons.platform.isAndroid() && {type:"new",handler:this.newDocument};
         return (
-            <NavBar title={titles[this.props.tabIndex]} action={actions}/>
+            <NavBar title={titles[this.tabIndex]} action={actions}/>
         );
     }
     renderFixed() {
@@ -59,7 +63,7 @@ export default class MainViewPage extends Component {
     }
 
     renderTabs() {
-        return [
+        let tabs = [
           {
             content: <AllContacts/>,
             tab: <Tab label='Contacts' icon='fa-users' />
@@ -69,6 +73,13 @@ export default class MainViewPage extends Component {
             tab: <Tab label='Companies' icon='fa-industry' />
           }
         ];
+        if(Hybrid.isHybrid()) {
+            tabs.push({
+                content: <div/>, // null disables the tab
+                tab: <Tab label='Setting' icon='fa-cog' />
+            })
+        }
+        return tabs;
     }
         
     render() {
@@ -79,9 +90,14 @@ export default class MainViewPage extends Component {
                 <Tabbar
                     swipeable={true}
                     position='auto'
-                    index={this.props.tabIndex}
+                    // index={this.tabIndex} // Not needed!!
                     onPreChange={(event) => {
-                        this.context.navigator.replacePage({page:'views', props:{tabIndex:event.index}});
+                        if(event.index==2) {
+                            Hybrid.openSettings();
+                            event.cancel(); // Do not change the tab
+                        } else {
+                            this.tabIndex=event.index;
+                        }
                     }}
                     renderTabs={this.renderTabs}
                 />
