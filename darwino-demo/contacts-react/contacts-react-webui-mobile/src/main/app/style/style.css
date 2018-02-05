@@ -49,3 +49,17 @@
     -ms-flex-item-align: start;
     align-self: flex-start;
 }
+
+.left-label {
+    width: 30%;
+    font-size: 16px;
+    color: #666
+}
+
+.has-error {
+}
+
+.error {
+    color: red;
+}
+  

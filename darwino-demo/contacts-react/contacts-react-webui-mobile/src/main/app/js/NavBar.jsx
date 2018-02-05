@@ -17,11 +17,18 @@ class NavBar extends Component {
 
     // Context to read from the parent - navigator
     static contextTypes = {
-        navigator: PropTypes.object
+        navigator: PropTypes.object,
+        layout: PropTypes.object
     };
 
     constructor(props,context) {
         super(props,context);
+    }
+
+    showLeftMenu(show) {
+        if(this.context.layout) {
+            this.context.layout.showLeftMenu(show);
+        }
     }
 
     renderAction(action) {
@@ -42,11 +49,12 @@ class NavBar extends Component {
     }
 
     render() {
-        const {title, backButton, action} = this.props;
+        const {title, backButton, menuButton, action} = this.props;
         return (
             <Toolbar>
                 <div className='left'>
-                    {backButton ? <BackButton onClick={() => this.context.navigator.popPage()}>Back</BackButton> : null}
+                    {menuButton && <ToolbarButton onClick={() => this.showLeftMenu(true)}><Icon icon="ion-navicon, material:md-menu" size={{default:32, material:24}}></Icon></ToolbarButton> }
+                    {backButton && <BackButton onClick={() => this.context.navigator.popPage()}>Back</BackButton> }
                 </div>
                 <div className='center'>{title}</div>
                 {action && this.renderAction(action)}

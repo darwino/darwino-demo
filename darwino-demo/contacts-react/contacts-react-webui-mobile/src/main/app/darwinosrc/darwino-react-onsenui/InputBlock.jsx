@@ -2,7 +2,7 @@
  * (c) Copyright Darwino Inc. 2014-2017.
  */
 import React, {Component} from "react";
-import { Col } from 'react-onsenui';
+import { ListItem } from 'react-onsenui';
 
 class InputBlock extends Component {
 
@@ -10,24 +10,29 @@ class InputBlock extends Component {
         const {horizontal, inline, label, meta} = this.props
         if(horizontal) {
             return (
-                <div className={meta.touched && meta.error ? 'has-error' : ''}>
-                    <Col componentClass={ControlLabel} sm={2}>
+                <ListItem modifier="nodivider" className={meta.touched && meta.error ? 'has-error' : ''}>
+                    <label className="left left-label">
                         {label}
-                    </Col>
-                    <Col sm={10}>
+                    </label>
+                    <div className="center">
                         {this.props.children}
-                    </Col>
+                    </div>
                     {meta.touched && meta.error && <div className="error">{meta.error}</div>}
-                </div>
+                </ListItem>
             )
         } else {
             return (
-                <div className={meta.touched && meta.error ? 'has-error' : ''}>
-                    {label && <div>{label}</div>}
-                    {inline && ' '}
-                    {this.props.children}
-                    {meta.touched && meta.error && <div className="error">{meta.error}</div>}
-                </div>
+                <ListItem modifier="nodivider" className={meta.touched && meta.error ? 'has-error' : ''}>
+                    <div>
+                        <label>
+                            {label && <div>{label}</div>}
+                        </label>
+                        <div>
+                            {this.props.children}
+                        </div>
+                        {meta.touched && meta.error && <div className="error">{meta.error}</div>}
+                    </div>
+                </ListItem>
             )
         }
     }

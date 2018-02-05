@@ -71,6 +71,7 @@ export default class AllCompanies extends CursorList {
                     dataSource={this.dataFetcher.getRows(0,this.dataFetcher.getRowCount())}
                     renderRow={this.renderRow}
                 >  
+                    {this.dataFetcher.isError() && <ListItem>{this.dataFetcher.getErrorMessage()}</ListItem>}  
                 </List>
             </Page>
         );

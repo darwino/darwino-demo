@@ -41,4 +41,3 @@ class FieldText extends Component {
     }
 }
 export default FieldText
-//<Input type={type} {...props} {...inputAttr} disabled={disabled} readOnly={inputReadOnly}>

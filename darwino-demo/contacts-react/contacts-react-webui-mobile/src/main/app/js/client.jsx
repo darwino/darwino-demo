@@ -16,7 +16,7 @@ import promiseMiddleware from 'redux-promise';
 
 import App from "./App";
 
-// Load hybrid so it gets initialized
+// Load hybrid so it gets initialized early
 import {Hybrid} from "@darwino/darwino";
 
 

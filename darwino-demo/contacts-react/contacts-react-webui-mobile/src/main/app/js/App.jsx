@@ -4,8 +4,14 @@
 
 import React, {Component} from "react";
 import ReactDOM from "react-dom";
+import PropTypes from 'prop-types';
+
+import {
+    Splitter, SplitterSide, SplitterContent
+} from 'react-onsenui';
 
 import { Navigator } from '@darwino/darwino-react-onsenui';
+import Menu from './Menu';
 import MainViewPage from './MainViewPage';
 import Contact from './Contact';
 import Company from './Company';
@@ -35,8 +41,8 @@ export default class App extends Component {
         return (
             <Navigator
                 renderPage={this.renderPage}
-                initialRoute={{page: 'views', props:{tabIndex: 0}}}
-            />            
+                initialRoute={{page: 'views'}}
+            />        
         );
     }
 }

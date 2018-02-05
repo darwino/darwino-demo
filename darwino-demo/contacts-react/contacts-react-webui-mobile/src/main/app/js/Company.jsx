@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
 import {
     Page,
+    List,
     Toolbar
 } from 'react-onsenui';
 
@@ -70,12 +71,10 @@ class Company extends DocumentForm {
         return (
             <Page renderToolbar={this.renderToolbar}>
                 <form onSubmit={handleSubmit(this.handleUpdateDocument)}>
-                    <div>
-                        <Field name="name" type="text" component={renderText} label="Name" disabled={disabled} readOnly={readOnly}/>
-                    </div>
-                    <div>
-                        <Field name="industry" type="text" component={renderText} label="Industry" disabled={disabled} readOnly={readOnly}/>
-                    </div>
+                    <List>
+                        <Field name="name" type="text" horizontal={true} component={renderText} label="Name" disabled={disabled} readOnly={readOnly}/>
+                        <Field name="industry" type="text" horizontal={true} component={renderText} label="Industry" disabled={disabled} readOnly={readOnly}/>
+                    </List>
                     {/*Uncomment to display the current JSON content*/}
                     {/* <JsonDebug form={this.props.form}/>   */}
                 </form>

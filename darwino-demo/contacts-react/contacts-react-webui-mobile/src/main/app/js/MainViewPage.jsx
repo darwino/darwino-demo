@@ -12,12 +12,12 @@ import ons from "onsenui";
 import {
     Fab,
     Icon,
-    Page,
-    Toolbar,
     Tabbar, Tab
 } from 'react-onsenui';
 
+import PageWithMenu from './PageWithMenu';
 import NavBar from "./NavBar";
+
 import AllContacts from "./AllContacts";
 import AllCompanies from "./AllCompanies";
 
@@ -29,13 +29,19 @@ export default class MainViewPage extends Component {
     };
 
     // This does not need to be a state as we don't want to redraw when it changes
-    tabIndex=0;
+    tabIndex=0
 
     constructor(props,context) {
         super(props,context);
         this.renderToolbar = this.renderToolbar.bind(this);
         this.renderFixed = this.renderFixed.bind(this);
         this.newDocument = this.newDocument.bind(this);
+        this.tabIndex = this.props.tabIndex||0;
+    }
+
+    setTabIndex(tabIndex) {
+        this.tabIndex = tabIndex;
+        this.forceUpdate();
     }
 
     newDocument() {
@@ -49,7 +55,7 @@ export default class MainViewPage extends Component {
         const titles = ['Contacts', 'Companies'];
         const actions = !ons.platform.isAndroid() && {type:"new",handler:this.newDocument};
         return (
-            <NavBar title={titles[this.tabIndex]} action={actions}/>
+            <NavBar title={titles[this.tabIndex]} menuButton={true} action={actions}/>
         );
     }
     renderFixed() {
@@ -65,32 +71,32 @@ export default class MainViewPage extends Component {
     renderTabs() {
         let tabs = [
           {
-            content: <AllContacts/>,
-            tab: <Tab label='Contacts' icon='fa-users' />
+            content: <AllContacts key={0}/>,
+            tab: <Tab key={0} label='Contacts' icon='fa-users' />
           },
           {
-            content: <AllCompanies/>,
-            tab: <Tab label='Companies' icon='fa-industry' />
+            content: <AllCompanies key={1}/>,
+            tab: <Tab key={1} label='Companies' icon='fa-industry' />
           }
         ];
         if(Hybrid.isHybrid()) {
             tabs.push({
-                content: <div/>, // null disables the tab
-                tab: <Tab label='Setting' icon='fa-cog' />
+                content: <div key={2}/>, // null disables the tab
+                tab: <Tab key={2} label='Settings' icon='fa-cog' />
             })
         }
         return tabs;
     }
-        
+
     render() {
         return (
-            <Page 
+            <PageWithMenu 
                 renderToolbar={this.renderToolbar}
                 renderFixed={this.renderFixed}>
                 <Tabbar
                     swipeable={true}
                     position='auto'
-                    // index={this.tabIndex} // Not needed!!
+                    index={this.tabIndex}
                     onPreChange={(event) => {
                         if(event.index==2) {
                             Hybrid.openSettings();
@@ -101,8 +107,7 @@ export default class MainViewPage extends Component {
                     }}
                     renderTabs={this.renderTabs}
                 />
-            </Page>            
+            </PageWithMenu>            
         );
     }
 }
-
