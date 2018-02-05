@@ -38,10 +38,10 @@ import com.darwino.platform.DarwinoManifest;
  */
 public class AppManifest extends DarwinoManifest {
 	
-	public static String CONFIG_ID = "contacts";
+	public static String CONFIG_ID = "contacts-react";
 	
 	// This is used by the mobile application to call the remote service
-	public static final String MOBILE_PATHINFO	= "contacts";
+	public static final String MOBILE_PATHINFO	= "contacts-react";
 	
 	public static Session getSession() throws JsonException {
 		return DarwinoContext.get().getSession();
