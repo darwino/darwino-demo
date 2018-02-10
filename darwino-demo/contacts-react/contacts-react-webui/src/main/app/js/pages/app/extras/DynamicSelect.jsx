@@ -58,6 +58,10 @@ class DynamicSelect extends DocumentForm {
                                 return e.fname + " " + e.lname;
                             });
                             this.setState({currentCompany:company, users: json})
+                            // Make the first user the selected one
+                            if(json && json.length) {
+                                this.setFieldValue("employee",json[0]);
+                            }
                         }
                     });
             } else {
