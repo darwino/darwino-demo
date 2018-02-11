@@ -22,54 +22,40 @@
 
 package com.contacts.app.microservices;
 
-import com.contacts.app.AppDatabaseDef;
-import com.darwino.commons.json.JsonArray;
+import java.util.Locale;
+
+import com.darwino.commons.i18n.I18NLocaleService;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.microservices.JsonMicroService;
 import com.darwino.commons.microservices.JsonMicroServiceContext;
+import com.darwino.commons.services.HttpServiceContext;
 import com.darwino.commons.util.StringUtil;
-import com.darwino.jsonstore.Document;
-import com.darwino.jsonstore.Session;
-import com.darwino.jsonstore.Store;
-import com.darwino.platform.DarwinoContext;
-
 
 
 /**
- * Set the size of a selection of companies.
+ * Set the current locale.
  */
-public class SetCompanySize implements JsonMicroService {
+public class SetSessionLocale implements JsonMicroService {
 	
-	public static final String NAME = "SetCompanySize";
+	public static final String NAME = "SetSessionLocale";
 	
 	@Override
 	public void execute(JsonMicroServiceContext context) throws JsonException {
 		JsonObject req = (JsonObject)context.getRequest();
-		JsonArray sel = req.getArray("ids");
-		if(sel==null || sel.isEmpty()) {
-			context.throwError("The selection is empty");
-		}
-		int size = req.getInt("size");
 
-		Session session = DarwinoContext.get().getSession();
-		Store st = session.getDatabase(AppDatabaseDef.DATABASE_NAME).getStore(AppDatabaseDef.STORE_COMPANIES);
-		
-		session.startTransaction();
-		try {
-			for(int i=0; i<sel.size(); i++) {
-				String unid = sel.getString(i);
-				Document doc = st.loadDocument(unid);
-				doc.set("size", size);
-				doc.save();
-			}
-			session.commitTransaction();
-		} finally {
-			session.endTransaction();
+		// Set the locale in the HTTP context
+		HttpServiceContext ctx = (HttpServiceContext)context.getExternalContext();
+		String lang = req.getString("locale");
+		if(StringUtil.isNotEmpty(lang)) {
+			Locale loc = I18NLocaleService.parseLocale(lang);
+			ctx.getSessionAttributes().put(I18NLocaleService.PROP_LOCALE, loc);
+		} else {
+			ctx.getSessionAttributes().remove(I18NLocaleService.PROP_LOCALE);
 		}
 		
 		context.setResponse(
-			JsonObject.of("message",StringUtil.format("Updated {0} documents", sel.size()))
+			JsonObject.of("locale",StringUtil.toString(ctx.getSessionAttribute(I18NLocaleService.PROP_LOCALE)))
 		);
 	}
 }

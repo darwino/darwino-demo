@@ -26,6 +26,7 @@ import com.darwino.commons.microservices.StaticJsonMicroServicesFactory;
 
 import com.contacts.app.microservices.HelloWorld;
 import com.contacts.app.microservices.SetCompanySize;
+import com.contacts.app.microservices.SetSessionLocale;
 
 
 /**
@@ -40,5 +41,6 @@ public class AppMicroServicesFactory extends StaticJsonMicroServicesFactory {
 	public AppMicroServicesFactory() {
 		add(HelloWorld.NAME, new HelloWorld());
 		add(SetCompanySize.NAME, new SetCompanySize());
+		add(SetSessionLocale.NAME, new SetSessionLocale());
 	}
 }

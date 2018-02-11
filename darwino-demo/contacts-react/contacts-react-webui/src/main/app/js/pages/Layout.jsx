@@ -60,7 +60,7 @@ export default class Layout extends React.Component {
     const { location, renderingOptions } = this.props;
     return (
       <div>
-        <Header inverse={renderingOptions.headerInverted} onToggleNavigator={this.handleToggle}/>
+        <Header inverse={renderingOptions.headerInverted} onToggleNavigator={this.handleToggle} mainPage={this}/>
         <Dialog/>
         <div className="container-fluid" id="body-container">
           <div className="row">

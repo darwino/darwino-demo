@@ -22,6 +22,8 @@
 
 package com.contacts.app;
 
+import java.util.Locale;
+
 import com.darwino.commons.json.JsonException;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Session;
@@ -93,4 +95,10 @@ public class AppManifest extends DarwinoManifest {
 	public ExtensionRegistry getExtensionRegistry() {
 		return new AppDBBusinessLogic();
 	}
+
+	@Override
+	public Locale[] getSupportedLocales() {
+		return _locales;
+	}
+	private Locale[] _locales = new Locale[] {Locale.ENGLISH, Locale.FRENCH};	
 }
