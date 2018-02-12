@@ -3,6 +3,7 @@
  */
 import React, {Component} from "react";
 import { Button, ButtonToolbar, ControlLabel } from 'react-bootstrap';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { MicroServices, fetchJson } from '@darwino/darwino';
 
@@ -41,16 +42,17 @@ class ServicesRest extends Component {
         return (
             <div>
                 <div className="col-md-12 col-sm-12">
-                    <p>
-                       The code bellow shows how to connect to generic REST services implemented on
-                        the server side.
-                    </p>
+                    <FormattedMessage id='restsvc.desc' tagName="p"/>
                 </div>
                 <div className="col-md-12 col-sm-12">
                     <ButtonToolbar>
-                        <Button bsStyle="primary" onClick={()=>this.callRestService(true)}>Call REST service</Button>
-                        <Button bsStyle="primary" onClick={()=>this.callRestService(false)}>Call REST service - Error</Button>
-                    </ButtonToolbar>
+                        <Button bsStyle="primary" onClick={()=>this.callRestService(true)}>
+                            <FormattedMessage id='restsvc.callrestsvc'/>
+                        </Button>
+                        <Button bsStyle="primary" onClick={()=>this.callRestService(false)}>
+                            <FormattedMessage id='restsvc.callrestsvcerr'/>
+                        </Button>
+                    </ButtonToolbar>                    
                     <br/>
                     {this.state.result &&
                         <pre style={this.state.error ? {color: 'red'} : {} }>

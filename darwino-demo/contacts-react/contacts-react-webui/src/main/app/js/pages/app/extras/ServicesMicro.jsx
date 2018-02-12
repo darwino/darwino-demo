@@ -3,8 +3,8 @@
  */
 import React, {Component} from "react";
 import { Button, ButtonToolbar, ControlLabel } from 'react-bootstrap';
-
-import { MicroServices } from '@darwino/darwino';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { MicroServices, I18N } from '@darwino/darwino';
 import { Messages } from '@darwino/darwino-react-bootstrap';
 
 class ServicesMicro extends Component {
@@ -21,7 +21,7 @@ class ServicesMicro extends Component {
         const {mainForm} = this.props;
         new MicroServices()
             .name(valid?"HelloWorld":"fake")
-            .params({greetings: "I am the React client calling you"})
+            .params({greetings: this.props.intl.formatMessage({id:"microsvc.clientstr"})})
             .fetch()
             .then((r) => {
                 this.setState({
@@ -41,16 +41,16 @@ class ServicesMicro extends Component {
         return (
             <div>
                 <div className="col-md-12 col-sm-12">
-                    <p>
-                        Micro services are simple JSON based services implemented on the server side that can 
-                        be called by the client through a REST request. They optionally take a JSON payload 
-                        as parameters and return a JSON result.
-                    </p>
+                    <FormattedMessage id='microsvc.desc' tagName='p'/>
                 </div>
                 <div className="col-md-12 col-sm-12">
                     <ButtonToolbar>
-                        <Button bsStyle="primary" onClick={()=>this.callMicroService(true)}>Call Micro service</Button>
-                        <Button bsStyle="primary" onClick={()=>this.callMicroService(false)}>Call Micro service - Error</Button>
+                        <Button bsStyle="primary" onClick={()=>this.callMicroService(true)}>
+                            <FormattedMessage id='microsvc.callmicrosvc'/>
+                        </Button>
+                        <Button bsStyle="primary" onClick={()=>this.callMicroService(false)}>
+                            <FormattedMessage id='microsvc.callmicrosvcerr'/>
+                        </Button>
                     </ButtonToolbar>
                     <br/>
                     {this.state.result &&
@@ -64,4 +64,4 @@ class ServicesMicro extends Component {
     }
 }
 
-export default ServicesMicro
+export default injectIntl(ServicesMicro)

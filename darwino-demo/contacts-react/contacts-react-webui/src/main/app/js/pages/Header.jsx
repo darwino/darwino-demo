@@ -12,7 +12,7 @@ import LangEN from "../../img/english24.png";
 import LangFR from "../../img/french24.png";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
-import { UserService, MicroServices } from '@darwino/darwino';
+import { I18N, UserService, MicroServices } from '@darwino/darwino';
 
 class Toggle extends React.Component {
   render() {
@@ -51,14 +51,21 @@ export default class Header extends React.Component {
         .params({locale})
         .fetch()
         .then((r) => {
-            // Ok, just refresh the main page?                
-            this.props.mainPage.forceUpdate();
+            I18N.setLocale(r.locale);
         })
         .catch((e) => {
             alert("Error while setting the locale\n"+e.toString());
         })
-}
+  }
 
+  currentLocaleImage() {
+      const locale = I18N.getLocale();
+      switch(locale) {
+          case "en":    return LangEN;
+          case "fr":    return LangFR;
+      }
+      return null;
+  }
 
   render() {
     const {currentUser} = this.state;
@@ -75,10 +82,27 @@ export default class Header extends React.Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight>      
+            <NavDropdown 
+                eventKey="3"
+                title="Language"
+                >
+                <MenuItem eventKey="3.1" onClick={() => this.setLocale(null)} >
+                    <img src={LangDEF} alt="Default Language" style={{height: 18, marginRight: 3}}/>
+                    Browser Default
+                </MenuItem>
+                <MenuItem eventKey="3.2" onClick={() => this.setLocale("en")} >
+                    <img src={LangEN} alt="Language English" style={{height: 18, marginRight: 3}}/>
+                    English
+                </MenuItem>
+                <MenuItem eventKey="3.3" onClick={() => this.setLocale("fr")} >
+                    <img src={LangFR} alt="Language French" style={{height: 18, marginRight: 3}}/>
+                    French
+                </MenuItem>
+            </NavDropdown >                
             <Navbar.Text>
-                <img src={LangDEF} onClick={() => this.setLocale(null)} alt="Default Language" style={{height: 18, marginRight: 3}}/>
-                <img src={LangEN} onClick={() => this.setLocale("en")} alt="Language English" style={{height: 18, marginRight: 3}}/>
-                <img src={LangFR} onClick={() => this.setLocale("fr")} alt="Language French" style={{height: 18, marginRight: 3}}/>
+                <img src={this.currentLocaleImage()} alt="Current Language" style={{height: 18, marginRight: 3}}/>
+            </Navbar.Text>
+            <Navbar.Text>
                 <img src={currentUser.getPhotoUrl()} className="img-circle" style={{width: 25, height: 25, marginLeft: 15}}/>
                 &nbsp;
                 {currentUser.getCn()}

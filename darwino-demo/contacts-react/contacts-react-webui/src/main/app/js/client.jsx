@@ -2,15 +2,16 @@
  * (c) Copyright Darwino Inc. 2014-2017.
  */
 
-import React from "react";
+import React, {Component} from "react";
 import ReactDOM from "react-dom";
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 
 import { HashRouter as Router, Route } from "react-router-dom";
 
 import { Provider } from 'react-redux'
-import { IntlProvider } from 'react-intl'
+import { IntlProvider, addLocaleData } from 'react-intl'
 import { reducer as reduxFormReducer } from 'redux-form';
+import { I18N } from '@darwino/darwino'
 import { StoreReducers } from '@darwino/darwino-react'
 const { DarwinoQueryStoreReducer, DarwinoDocumentStoreReducer } = StoreReducers
 
@@ -85,15 +86,54 @@ const darwinoReducer = combineReducers({
     form: reduxFormReducer
 })
 
-const app = document.getElementById('app');
+//
+// Translations
+//
+import messages_en from "./i18n/messages_en"
+import messages_fr from "./i18n/messages_fr"
+I18N.setMessages("fr",messages_fr);
+I18N.setMessages("en",messages_en);
 
-ReactDOM.render(
-    <IntlProvider locale="en">
-        <Provider store={createStore(darwinoReducer,composeEnhancers(applyMiddleware(promiseMiddleware)))}>
-            <Router>
-                <Route path="/" render={() => <Layout renderingOptions={renderingOptions}/>}/>
-            </Router>
-        </Provider>
-    </IntlProvider>        
-    , app
-);
+import enLocaleData from 'react-intl/locale-data/en';
+import frLocaleData from 'react-intl/locale-data/fr';
+addLocaleData(enLocaleData);
+addLocaleData(frLocaleData);
+
+class MainApp extends Component {
+    constructor(props) {
+        super(props);
+        // We do not display the page until we know the actual locale
+        // This avoids a first default rendering and then the desired one
+        this.state = {intlLoaded: false}
+        I18N.loadServerContext();
+        I18N.addListener(() => {
+            if(!this.state.intlLoaded) {
+                this.setState({intlLoaded: true})
+            } else {
+                this.forceUpdate()
+            }
+        });
+    }
+    render() {
+        if(!this.state.intlLoaded) {
+            return <div/>
+        }
+        // The key is IntlProvider trigger a re-render of the app when the Locale changes
+        // See: https://github.com/yahoo/react-intl/wiki/Components#intlprovider 
+        //   Dynamic Language Selection 
+        // Also see: https://github.com/yahoo/react-intl/issues/243
+        const msg = I18N.getMessages()
+        return (
+            <Provider store={createStore(darwinoReducer,composeEnhancers(applyMiddleware(promiseMiddleware)))}>
+                <IntlProvider locale={I18N.getLocale()} key={I18N.getLocale()} messages={I18N.getMessages()}>
+                    <Router>
+                        <Route path="/" render={() => <Layout renderingOptions={renderingOptions}/>}/>
+                    </Router>
+                </IntlProvider>        
+            </Provider>
+        )
+    }
+}
+
+const app = document.getElementById('app');
+ReactDOM.render(<MainApp/>, app);

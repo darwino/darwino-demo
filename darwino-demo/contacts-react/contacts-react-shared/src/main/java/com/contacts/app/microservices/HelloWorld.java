@@ -22,6 +22,8 @@
 
 package com.contacts.app.microservices;
 
+import static com.darwino.commons.i18n.AppMessages._t;
+
 import java.util.Date;
 
 import com.darwino.commons.json.JsonException;
@@ -32,8 +34,6 @@ import com.darwino.commons.util.DateFormatter;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.jsonstore.Session;
 import com.darwino.platform.DarwinoContext;
-
-
 
 /**
  * Basic Hello World micro-service.
@@ -47,7 +47,8 @@ public class HelloWorld implements JsonMicroService {
 		Session session = DarwinoContext.get().getSession();
 		JsonObject req = (JsonObject)context.getRequest();
 		String greetings = req.getString("greetings"); 
-		JsonObject result = JsonObject.of("message",StringUtil.format("Hello, {0}. {1}. It is {2} here, on the server!",
+		JsonObject result = JsonObject.of("message",StringUtil.format(
+					_t("hello.world","Hello, {0}. {1}. It is {2} here, on the server!"),
 					session.getUser().getCn(),
 					greetings,
 					DateFormatter.getFormat("DEFAULT_TIME").format(new Date())));

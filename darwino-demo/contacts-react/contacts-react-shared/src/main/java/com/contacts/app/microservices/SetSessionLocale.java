@@ -24,6 +24,7 @@ package com.contacts.app.microservices;
 
 import java.util.Locale;
 
+import com.darwino.commons.Platform;
 import com.darwino.commons.i18n.I18NLocaleService;
 import com.darwino.commons.json.JsonException;
 import com.darwino.commons.json.JsonObject;
@@ -55,7 +56,7 @@ public class SetSessionLocale implements JsonMicroService {
 		}
 		
 		context.setResponse(
-			JsonObject.of("locale",StringUtil.toString(ctx.getSessionAttribute(I18NLocaleService.PROP_LOCALE)))
+			JsonObject.of("locale",StringUtil.toString(Platform.getService(I18NLocaleService.class).getUserLocale()))
 		);
 	}
 }
