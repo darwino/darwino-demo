@@ -7,11 +7,12 @@
     </bean>
     
 <!-- MYSQL Oracle Cloud - Provided as an example -->
+<!-- 
     <bean type="darwino/jsondb" name="oraclecloudJdbc" class="com.darwino.config.jsonstore.JsonDbJdbc" alias="demo,default"> 
         <property name="db">mysql</property>    
         <property name="url">jdbc:mysql://129.150.82.89:3306/dwodemo?verifyServerCertificate=false&amp;useSSL=true</property>    
         <property name="user">root</property>    
-        <property name="password">DwoDemo2!</property>    
+        <property name="password">xxxx</property>    
     </bean>
-  
+ -->s  
 </beans>
