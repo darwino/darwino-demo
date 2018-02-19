@@ -45,7 +45,12 @@ public class AppHybridApplication extends DarwinoSwtHybridApplication {
 						public boolean isDataEncryptedByDefault() {
 							return false;
 						}
-					}), 
+					} ) {
+						@Override
+						public String getMainPageUrl() {
+							return "assets/index.html"; //$NON-NLS-1$
+						}
+					}, 
 					application);
 			app.init();
 		}
@@ -65,4 +70,5 @@ public class AppHybridApplication extends DarwinoSwtHybridApplication {
 	protected DarwinoMobileHttpServer createHttpServer(HttpServerContext context) {
     	return new AppServiceDispatcher(context);
 	}
+	
 }
