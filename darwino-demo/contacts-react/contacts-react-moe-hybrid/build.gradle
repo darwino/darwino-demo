@@ -31,6 +31,8 @@ targetCompatibility = "1.8"
 // Exclude all files from Gradle's test runner
 test { exclude '**' }
 
+ext.DARWINO_VERSION = "2.1.0-SNAPSHOT"
+
 // Setup MOE
 moe {
 	xcode {
@@ -44,10 +46,20 @@ moe {
 	}
 }
 
+repositories {
+	mavenLocal()
+}
+
 // Set dependencies
 dependencies {
     // Compile with 'jar' files in the project's 'lib' directory
     compile fileTree(dir: 'lib', include: '*.jar')
+    
+    compile group: "com.darwino", name: "dwo-ios-moe-platform-hybrid", version: "${DARWINO_VERSION}"
+    compile group: "com.darwino", name: "dwo-web-darwino", version: "${DARWINO_VERSION}"
+    compile group: "com.contacts", name: "contacts-react-shared", version: "0.0.1-SNAPSHOT"
+    compile group: "com.contacts", name: "contacts-react-mobile", version: "0.0.1-SNAPSHOT"
+    compile group: "com.contacts", name: "contacts-react-webui-mobile", version: "0.0.1-SNAPSHOT"
 }
 
 
