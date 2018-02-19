@@ -10,25 +10,27 @@ import Constants from "./Constants";
 export class AllCompaniesByIndustryGrid extends CursorGrid {
     
     // Default values of the properties
-    static defaultProps  = {
-        databaseId:Constants.DATABASE,
-        params:{
-            name: "AllCompaniesByIndustry"
-            //name: "AllCompanies"
-        },
-        columns:[
-            {name: _t("allcompindus.industry","Industry"), key: "Industry", resizable:true, sortable: true, sortField: 'industry'},
-            {name: _t("allcompindus.state","State"), key: "State", resizable:true, sortable: true, sortField: 'state', width:90},
-            {name: _t("allcompindus.name","Name"), key: "Name", resizable:true, sortable: true, sortField: 'name'}
-        ],
-        responsive: true,
-        baseRoute: "/app/company",
-        groupBy: [
-            {column:"Industry"}, // formatter: null
-            {column:"State"}
-        ],
-        expandLevel: 2
-        //inMemorySort={true}
+    static get defaultProps() { 
+        return {
+            databaseId:Constants.DATABASE,
+            params:{
+                name: "AllCompaniesByIndustry"
+                //name: "AllCompanies"
+            },
+            columns:[
+                {name: _t("allcompindus.industry","Industry"), key: "Industry", resizable:true, sortable: true, sortField: 'industry'},
+                {name: _t("allcompindus.state","State"), key: "State", resizable:true, sortable: true, sortField: 'state', width:90},
+                {name: _t("allcompindus.name","Name"), key: "Name", resizable:true, sortable: true, sortField: 'name'}
+            ],
+            responsive: true,
+            baseRoute: "/app/company",
+            groupBy: [
+                {column:"Industry"}, // formatter: null
+                {column:"State"}
+            ],
+            expandLevel: 2
+            //inMemorySort={true}
+        }
     }
 }        
 

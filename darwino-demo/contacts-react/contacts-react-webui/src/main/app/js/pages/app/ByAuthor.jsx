@@ -9,30 +9,32 @@ import Constants from "./Constants";
 import {SexFormatter} from "./Formatters";
 
 function nameFormatter(props) {
-    return "From: "+props.value
+    return _t("byauthors.form","From: ")+props.value
 }
 
 export class ByAuthorGrid extends CursorGrid {
     
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: Constants.DATABASE,
-        params: {
-            name: "ByAuthor"
-        },
-        columns:[
-            {name: _t("byauthors.name","Name"), key: "CommonName", resizable:true },
-            {name: _t("byauthors.email","EMail"), key: "EMail", resizable:true},
-            {name: _t("byauthors.sex","Sex"), key: "Sex", resizable:true, formatter: SexFormatter, width:100},
-            {name: _t("byauthors.state","State"), key: "State", resizable:true, width:70}
-        ],
-        //renderCategoryAsColumns: true,
-        responsive:true,
-        expandLevel:1,
-        indentDocuments:true,
-        expandable: "CommonName",
-        groupBy: [{column: "$Creator",formatter:nameFormatter}],
-        baseRoute:"/app/contact"
+    static get defaultProps() { 
+        return {
+            databaseId: Constants.DATABASE,
+            params: {
+                name: "ByAuthor"
+            },
+            columns:[
+                {name: _t("byauthors.name","Name"), key: "CommonName", resizable:true },
+                {name: _t("byauthors.email","EMail"), key: "EMail", resizable:true},
+                {name: _t("byauthors.sex","Sex"), key: "Sex", resizable:true, formatter: SexFormatter, width:100},
+                {name: _t("byauthors.state","State"), key: "State", resizable:true, width:70}
+            ],
+            //renderCategoryAsColumns: true,
+            responsive:true,
+            expandLevel:1,
+            indentDocuments:true,
+            expandable: "CommonName",
+            groupBy: [{column: "$Creator",formatter:nameFormatter}],
+            baseRoute:"/app/contact"
+        }
     }
 }
 
@@ -45,7 +47,7 @@ export default class ByAuthor extends CursorPage {
     render() {
         return (
             <div>
-                <h4>By Author</h4>
+                <h4>{_t("byauthors.byauthor","By Author")}</h4>
                 {this.createActionBar()}
                 <div>
                     <ByAuthorGrid ref="grid" 

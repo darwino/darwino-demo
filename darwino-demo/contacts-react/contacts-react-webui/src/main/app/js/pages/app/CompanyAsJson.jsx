@@ -24,11 +24,13 @@ const FORM_NAME = "companyAsJson";
 export class CompanyAsJson extends DocumentForm {
 
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: DATABASE,
-        storeId: STORE,
-        savingMessage: true,
-        nextPageSuccess: "/app/allcompaniesasjson" // Force this view!
+    static get defaultProps() { 
+        return {
+            databaseId: DATABASE,
+            storeId: STORE,
+            savingMessage: true,
+            nextPageSuccess: "/app/allcompaniesasjson" // Force this view!
+        }
     };
 
     constructor(props,context) {

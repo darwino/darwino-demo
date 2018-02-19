@@ -103,11 +103,10 @@ I18N.addMessages("en",messages_en);
 import messages_fr from "./i18n/messages_fr"
 I18N.addMessages("fr",messages_fr);
 
-
+// React intl classes
 import enLocaleData from 'react-intl/locale-data/en';
 import frLocaleData from 'react-intl/locale-data/fr';
-addLocaleData(enLocaleData);
-addLocaleData(frLocaleData);
+addLocaleData([...enLocaleData, ...frLocaleData]);
 
 class MainApp extends Component {
     constructor(props) {

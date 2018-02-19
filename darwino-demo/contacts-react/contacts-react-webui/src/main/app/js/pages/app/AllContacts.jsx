@@ -19,20 +19,22 @@ import { Link } from "react-router-dom";
 export class AllContactsGrid extends CursorGrid {
 
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: Constants.DATABASE,
-        params: {
-            name: "AllContacts"
-        },
-        columns:[
-            {name: _t("allcontacts.name","Name"), key: "CommonName", resizable:true, sortable: true, sortField: 'firstname,lastname'},
-            {name: _t("allcontacts.email","EMail"), key: "EMail", resizable:true, sortable: true, sortField: 'email'},
-            {name: _t("allcontacts.sex","Sex"), key: "Sex", resizable:true, formatter: SexFormatter, width:100},
-            {name: _t("allcontacts.state","State"), key: "State", resizable:true, sortable: true, sortField: 'state', width:70}
-        ],
-        responsive: true,
-        baseRoute: "/app/contact",
-        dynamicRoute: RouteForm
+    static get defaultProps() { 
+        return {
+            databaseId: Constants.DATABASE,
+            params: {
+                name: "AllContacts"
+            },
+            columns:[
+                {name: _t("allcontacts.name","Name"), key: "CommonName", resizable:true, sortable: true, sortField: 'firstname,lastname'},
+                {name: _t("allcontacts.email","EMail"), key: "EMail", resizable:true, sortable: true, sortField: 'email'},
+                {name: _t("allcontacts.sex","Sex"), key: "Sex", resizable:true, formatter: SexFormatter, width:100},
+                {name: _t("allcontacts.state","State"), key: "State", resizable:true, sortable: true, sortField: 'state', width:70}
+            ],
+            responsive: true,
+            baseRoute: "/app/contact",
+            dynamicRoute: RouteForm
+        }
     }
 
     export(format) {

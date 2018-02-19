@@ -18,28 +18,30 @@ import { RouteForm, ViewGrid, ViewPage } from '@darwino/darwino-react-bootstrap-
 export class AllContactsGrid extends ViewGrid {
 
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: Constants.DATABASE,
-        params: {
-            name: "AllContacts"
-        },
-        ftSearch:true,
-        grid: {
-            columns:[
-                {name: "Name", key: "CommonName", resizable:true, sortable: true, sortField: 'firstname,lastname'},
-                {name: "EMail", key: "EMail", resizable:true, sortable: true, sortField: 'email'},
-                {name: "Sex", key: "Sex", resizable:true, sortable: true, sortField: 'sex'},
-                {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state'}
-            ]
-        },
-        baseRoute: "/forms/contact",
-        dynamicRoute: RouteForm
+    static get defaultProps() { 
+        return {
+            databaseId: Constants.DATABASE,
+            params: {
+                name: "AllContacts"
+            },
+            ftSearch:true,
+            grid: {
+                columns:[
+                    {name: _t("notescontacts.name","Name"), key: "CommonName", resizable:true, sortable: true, sortField: 'firstname,lastname'},
+                    {name: _t("notescontacts.email","EMail"), key: "EMail", resizable:true, sortable: true, sortField: 'email'},
+                    {name: _t("notescontacts.sex","Sex"), key: "Sex", resizable:true, sortable: true, sortField: 'sex'},
+                    {name: _t("notescontacts.state","State"), key: "State", resizable:true, sortable: true, sortField: 'state'}
+                ]
+            },
+            baseRoute: "/forms/contact",
+            dynamicRoute: RouteForm
+        }
     }
 
     contributeActionBar() {
         return (
             <Nav key="main">
-                <NavItem eventKey={1} href="#/forms/contact">Create New Contact</NavItem>
+                <NavItem eventKey={1} href="#/forms/contact">{_t("notescontacts.new","Create New Contact")}</NavItem>
             </Nav>
         );
     }
@@ -59,7 +61,7 @@ export default class AllContacts extends ViewPage {
     render() {
         return (
             <div>
-                <h4>All Contacts</h4>
+                <h4>{_t("notescontacts.allcontacts","All Contacts")}</h4>
                 {this.createActionBar()}
                 <AllContactsGrid height={this.state.gridHeight}/>
             </div>

@@ -64,24 +64,26 @@ function calculateTotals(group,groups) {
 export class ByStateGrid extends CursorGrid {
     
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: Constants.DATABASE,
-        params: {
-            name: "ByState"
-        },
-        rowRenderer: CustomRenderer,
-        columns:[
-            {name: _t("bystate.name","Name"), key: "CommonName", resizable:true},
-            {name: _t("bystate.email","EMail"), key: "EMail", resizable:true},
-            {name: _t("bystate.sex","Sex"), key: "Sex", resizable:true, formatter: SexFormatter, width:100}
-        ],
-        //renderCategoryAsColumns: true,
-        responsive: true,
-        processEntries: calculateTotals,
-        expandable: "CommonName",
-        expandLevel: 1,
-        groupBy: [{column: "State", formatter: formatGroup}],
-        baseRoute:"/app/contact"
+    static get defaultProps() { 
+        return {
+            databaseId: Constants.DATABASE,
+            params: {
+                name: "ByState"
+            },
+            rowRenderer: CustomRenderer,
+            columns:[
+                {name: _t("bystate.name","Name"), key: "CommonName", resizable:true},
+                {name: _t("bystate.email","EMail"), key: "EMail", resizable:true},
+                {name: _t("bystate.sex","Sex"), key: "Sex", resizable:true, formatter: SexFormatter, width:100}
+            ],
+            //renderCategoryAsColumns: true,
+            responsive: true,
+            processEntries: calculateTotals,
+            expandable: "CommonName",
+            expandLevel: 1,
+            groupBy: [{column: "State", formatter: formatGroup}],
+            baseRoute:"/app/contact"
+        }
     }
 }
 

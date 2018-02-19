@@ -18,7 +18,7 @@ export default class Navigator extends React.Component {
             <Navbar ref="navbar" expanded={expanded} inverse={inverse} className="navbar-fixed-side" onSelect={onSelect}>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavLink to="/" exact={true}>Home</NavLink>
+                        <NavLink to="/" exact={true}>{_t("navigator.home","Home")}</NavLink>
 
                         <NavGroup title={_t("navigator.contacts","Contacts")} collapsible={true} defaultExpanded={true}>
                             <NavLink to="/app/allcontacts">{_t("navigator.allcontacts","All Contacts")}</NavLink>

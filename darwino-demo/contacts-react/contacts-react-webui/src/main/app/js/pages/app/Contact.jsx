@@ -30,9 +30,11 @@ const FORM_NAME = "contact";
 export class Contact extends DocumentForm {
 
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: DATABASE,
-        storeId: STORE
+    static get defaultProps() { 
+        return {
+            databaseId: DATABASE,
+            storeId: STORE
+        }
     };
 
     constructor(props,context) {

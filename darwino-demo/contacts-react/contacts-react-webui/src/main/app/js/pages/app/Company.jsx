@@ -33,11 +33,13 @@ const SIZES = [
 export class Company extends DocumentForm {
 
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: DATABASE,
-        storeId: STORE,
-        savingMessage: true,
-        nextPageSuccess: "/app/allcompanies" // Force this view!
+    static get defaultProps() { 
+        return {
+            databaseId: DATABASE,
+            storeId: STORE,
+            savingMessage: true,
+            nextPageSuccess: "/app/allcompanies" // Force this view!
+        }
     };
 
     constructor(props,context) {

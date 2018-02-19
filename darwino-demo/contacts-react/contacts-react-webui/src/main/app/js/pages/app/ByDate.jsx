@@ -12,20 +12,22 @@ import {DateFormatter,SexFormatter} from "./Formatters";
 export class ByDateGrid extends CursorGrid {
     
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: Constants.DATABASE,
-        params: {
-            name: "ByDate"
-        },
-        columns:[
-            {name: _t("bydate.date","Date"), key: "Date", resizable:true, formatter: DateFormatter, width:150},
-            {name: _t("bydate.name","Name"), key: "CommonName", resizable:true},
-            {name: _t("bydate.email","EMail"), key: "EMail", resizable:true},
-            {name: _t("bydate.sex","Sex"), key: "Sex", resizable:true, formatter: SexFormatter, width:100},
-            {name: _t("bydate.state","State"), key: "State", resizable:true, width:70}
-        ],
-        responsive:true,
-        baseRoute:"/app/contact"
+    static get defaultProps() { 
+        return {
+            databaseId: Constants.DATABASE,
+            params: {
+                name: "ByDate"
+            },
+            columns:[
+                {name: _t("bydate.date","Date"), key: "Date", resizable:true, formatter: DateFormatter, width:150},
+                {name: _t("bydate.name","Name"), key: "CommonName", resizable:true},
+                {name: _t("bydate.email","EMail"), key: "EMail", resizable:true},
+                {name: _t("bydate.sex","Sex"), key: "Sex", resizable:true, formatter: SexFormatter, width:100},
+                {name: _t("bydate.state","State"), key: "State", resizable:true, width:70}
+            ],
+            responsive:true,
+            baseRoute:"/app/contact"
+        }
     }
 }
 

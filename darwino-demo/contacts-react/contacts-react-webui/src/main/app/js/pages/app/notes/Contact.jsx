@@ -29,9 +29,11 @@ const FORM_NAME = "contact";
 export class Contact extends FormPage {
 
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: DATABASE,
-        storeId: STORE
+    static get defaultProps() { 
+        return {
+            databaseId: DATABASE,
+            storeId: STORE
+        }
     };
 
     constructor(props,context) {
@@ -57,17 +59,17 @@ export class Contact extends FormPage {
         const errors = {};
         // Add the validation rules here!
         if(!values.firstname) {
-            errors.firstname = _t("contact.missfname","Missing First Name");
+            errors.firstname = _t("notescontact.missfname","Missing First Name");
         }
         if(!values.lastname) {
-            errors.lastname = _t("contact.misslname","Missing Last Name");
+            errors.lastname = _t("notescontact.misslname","Missing Last Name");
         }
         return errors;
     }
 
     // Values computed once when the document is loaded
     calculateOnLoad(values) {
-        values.title = _t("contact.title","Contact Document");
+        values.title = _t("notescontact.title","Contact Document");
     }
 
     // Values computed every time the document is changed
@@ -81,14 +83,14 @@ export class Contact extends FormPage {
         const { invalid, submitting } = this.props;
         return (
             <Nav key="main">
-                <NavItem eventKey={1} href="#" onClick={this.submit}>Save</NavItem>
-                <NavItem eventKey={2} href="#" onClick={this.cancel}>Cancel</NavItem>
-                <NavDropdown eventKey={3} title={_t("contact.formact","Form Actions")} id="form-nav-dropdown">
-                    <MenuItem eventKey={3.1}>{_t("contact.action1","Action 1")}</MenuItem>
-                    <MenuItem eventKey={3.2}>{_t("contact.action2","Action 3")}</MenuItem>
-                    <MenuItem eventKey={3.3}>{_t("contact.action3","Action 3")}</MenuItem>
+                <NavItem eventKey={1} href="#" onClick={this.submit}>{_t("notescontact.save","Save")}</NavItem>
+                <NavItem eventKey={2} href="#" onClick={this.cancel}>{_t("notescontact.cancel","Cancel")}</NavItem>
+                <NavDropdown eventKey={3} title={_t("notescontact.formact","Form Actions")} id="form-nav-dropdown">
+                    <MenuItem eventKey={3.1}>{_t("notescontact.action1","Action 1")}</MenuItem>
+                    <MenuItem eventKey={3.2}>{_t("notescontact.action2","Action 3")}</MenuItem>
+                    <MenuItem eventKey={3.3}>{_t("notescontact.action3","Action 3")}</MenuItem>
                     <MenuItem divider />
-                    <MenuItem eventKey={3.4}>{_t("contact.action4","Action 4")}</MenuItem>
+                    <MenuItem eventKey={3.4}>{_t("notescontact.action4","Action 4")}</MenuItem>
                 </NavDropdown>
             </Nav>
         );
@@ -107,22 +109,22 @@ export class Contact extends FormPage {
                     <Prompt
                         when={dirty}
                         message={location => (
-                            _t("contact.saveconf","The contact is modified and not saved yet.\nDo you want to leave the current page without saving it?")
+                            _t("notescontact.saveconf","The contact is modified and not saved yet.\nDo you want to leave the current page without saving it?")
                         )}
                     />                    
                     <fieldset>
                         <h2>{this.getFieldValue("title")}</h2>
 
                         <div className="col-md-12 col-sm-12">
-                            <Field name="firstname" type="text" component={renderText} label={_t("contact.fname","First Name")} disabled={disabled} readOnly={readOnly}/>
+                            <Field name="firstname" type="text" component={renderText} label={_t("notescontact.fname","First Name")} disabled={disabled} readOnly={readOnly}/>
                         </div>
 
                         <div className="col-md-12 col-sm-12">
-                            <Field name="lastname" type="text" component={renderText} label={_t("contact.lname","Last Name")} disabled={disabled} readOnly={readOnly}/>
+                            <Field name="lastname" type="text" component={renderText} label={_t("notescontact.lname","Last Name")} disabled={disabled} readOnly={readOnly}/>
                         </div>
 
                         <div className="col-md-12 col-sm-12">
-                            <Panel collapsible defaultExpanded header={_t("contact.address","Address")}>
+                            <Panel collapsible defaultExpanded header={_t("notescontact.address","Address")}>
                                 <CCAddress {...this.props} name=""/>
                             </Panel>
                         </div>

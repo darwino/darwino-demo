@@ -25,12 +25,12 @@ export const SexFormatter = function(props) {
     const sex = props.value;
     if(sex=='M') {
         return (
-            <div><img alt={_t("formatters.male","male")} src={MaleImage} style={{height: 20, marginRight: 10}}/>Male</div>
+            <div><img alt={_t("formatters.male","Male")} src={MaleImage} style={{height: 20, marginRight: 10}}/>{_t("formatters.male","Male")}</div>
         )
     } else
     if(sex=='F') {
         return (
-            <div><img alt={_t("formatters.female","female")} src={FemaleImage}  style={{height: 20, marginRight: 10}}/>Female</div>
+            <div><img alt={_t("formatters.female","Female")} src={FemaleImage}  style={{height: 20, marginRight: 10}}/>{_t("formatters.female","Female")}</div>
         )
     } else {
         return (

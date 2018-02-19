@@ -94,7 +94,7 @@
 			            <configuration>
 	                		<sourceDirectory>src/main/app/js</sourceDirectory>
 	                		<outputDirectory>src/main/app/js/i18n</outputDirectory>
-	                		<outputFile>messages_en.js</outputFile>
+	                		<outputFile>messages_extracted.js</outputFile>
 	                		<outputFormat>js</outputFormat>
 			            </configuration>
 	                </execution>

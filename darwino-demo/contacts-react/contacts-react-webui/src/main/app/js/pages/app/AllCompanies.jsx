@@ -59,7 +59,7 @@ class AllCompanies extends CursorPage {
     contributeActionBar() {
         return (
             <div key="main">
-                <Button bsStyle="primary" onClick={this.displaySelection}>Display Selection...</Button>
+                <Button bsStyle="primary" onClick={this.displaySelection}>{_t("allcomp.dispsel","Display Selection...")}</Button>
                 <DropdownButton key="address" title={_t("allcomp.setsize","Set Size")} id="dropdown-size-medium">
                     <MenuItem eventKey="1" onClick={()=>(this.setSize(0))}>0-9</MenuItem>
                     <MenuItem eventKey="2" onClick={()=>(this.setSize(1))}>10-499</MenuItem>
@@ -67,7 +67,7 @@ class AllCompanies extends CursorPage {
                     <MenuItem eventKey="3" onClick={()=>(this.setSize(3))}>10,000+</MenuItem>
                 </DropdownButton>
                 <div className="pull-right">
-                    <Button onClick={this.handleDeleteSelectedDocuments} bsStyle="danger">Delete</Button>
+                    <Button onClick={this.handleDeleteSelectedDocuments} bsStyle="danger">{_t("allcomp.delete","Delete")}</Button>
                 </div>
             </div>
         );
@@ -76,7 +76,7 @@ class AllCompanies extends CursorPage {
     render() {
         return (
             <div>
-                <h4>_t("allcomp.allcomp","All Companies")}</h4>
+                <h4>{_t("allcomp.allcomp","All Companies")}</h4>
                 {this.createActionBar()}
                 {this.createMessages()}
                 <CursorGrid ref="grid" 

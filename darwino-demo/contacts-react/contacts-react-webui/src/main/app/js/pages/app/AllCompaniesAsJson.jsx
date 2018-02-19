@@ -59,7 +59,7 @@ class AllCompaniesAsJson extends CursorPage {
     contributeActionBar() {
         return (
             <div key="main">
-                <Button bsStyle="primary" onClick={this.displaySelection}>Display Selection...</Button>
+                <Button bsStyle="primary" onClick={this.displaySelection}>{_t("allcompjson.dispsel","Display Selection...")}</Button>
                 <DropdownButton key="address" title={_t("allcompjson.setsize","Set Size")} id="dropdown-size-medium">
                     <MenuItem eventKey="1" onClick={()=>(this.setSize(0))}>0-9</MenuItem>
                     <MenuItem eventKey="2" onClick={()=>(this.setSize(1))}>10-499</MenuItem>
@@ -67,7 +67,7 @@ class AllCompaniesAsJson extends CursorPage {
                     <MenuItem eventKey="3" onClick={()=>(this.setSize(3))}>10,000+</MenuItem>
                 </DropdownButton>
                 <div className="pull-right">
-                    <Button onClick={this.handleDeleteSelectedDocuments} bsStyle="danger">Delete</Button>
+                    <Button onClick={this.handleDeleteSelectedDocuments} bsStyle="danger">{_t("allcompjson.delete","Delete")}</Button>
                 </div>
             </div>
         );
@@ -76,7 +76,7 @@ class AllCompaniesAsJson extends CursorPage {
     render() {
         return (
             <div>
-                <h4>All Companies</h4>
+                <h4>{_t("allcompjson.allcomp","All Companies")}</h4>
                 {this.createActionBar()}
                 {this.createMessages()}
                 <CursorGrid ref="grid" 

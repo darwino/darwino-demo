@@ -35,6 +35,7 @@ export default
     "navigator.developers":"Developeurs",
     "navigator.dynselect":"Selects Dynamiques",
     "navigator.formlay":"Formulaires",
+    "navigator.home":"Acceuil",
     "navigator.mobui":"UI Mobile",
     "navigator.notescomp":"Composants Notes",
     "navigator.onsenmob":"Mobile OnsenUI",
@@ -44,7 +45,9 @@ export default
 
   /*File: /pages/app/AllCompanies.jsx*/
 ,
-    "allcomp.allcomp":"Companies",
+    "allcomp.allcomp":"Compagnies",
+    "allcomp.delete":"Supprimer",
+    "allcomp.dispsel":"Afficher la selection...",
     "allcomp.industry":"Industrie",
     "allcomp.name":"Nom",
     "allcomp.selection":"Selection: ",
@@ -56,6 +59,9 @@ export default
 
   /*File: /pages/app/AllCompaniesAsJson.jsx*/
 ,
+    "allcompjson.allcomp":"Compagnies",
+    "allcompjson.delete":"Supprimer",
+    "allcompjson.dispsel":"Afficher la selection...",
     "allcompjson.industry":"Industrie",
     "allcompjson.name":"Nom",
     "allcompjson.selection":"Selection: ",
@@ -86,7 +92,9 @@ export default
 
   /*File: /pages/app/ByAuthor.jsx*/
 ,
+    "byauthors.byauthor":"Par Auteur",
     "byauthors.email":"E-Mail",
+    "byauthors.form":"De: ",
     "byauthors.name":"Nom",
     "byauthors.sex":"Sexe",
     "byauthors.state":"Etat"
@@ -194,8 +202,8 @@ export default
 
   /*File: /pages/app/Formatters.js*/
 ,
-    "formatters.female":"femme",
-    "formatters.male":"homme"
+    "formatters.female":"Femme",
+    "formatters.male":"Homme"
 
   /*File: /pages/app/extras/AllFields.jsx*/
 ,
@@ -422,25 +430,40 @@ export default
     "pickers.userpicks":"Choix d'utilisateurs",
     "pickers.usrpickdlg":"Dialogue de choix d'utilisateurs"
 
+  /*File: /pages/app/notes/AllContacts.jsx*/
+,
+    "notescontacts.allcontacts":"Contacts",
+    "notescontacts.email":"E-mail",
+    "notescontacts.name":"Nom",
+    "notescontacts.new":"Creer un nouveau contact",
+    "notescontacts.sex":"Sexe",
+    "notescontacts.state":"Etat"
+
   /*File: /pages/app/notes/CCAddress.jsx*/
 ,
-    "ccaddr.action1":"Action 1",
-    "ccaddr.action2":"Action 2",
-    "ccaddr.action3":"Action 3",
-    "ccaddr.city":"Ville",
-    "ccaddr.state":"Etat",
-    "ccaddr.street":"Rue",
-    "ccaddr.subaction":"Actions sous formulaire",
-    "ccaddr.zipcode":"code posta;"
+    "notesccaddr.action1":"Action 1",
+    "notesccaddr.action2":"Action 2",
+    "notesccaddr.action3":"Action 3",
+    "notesccaddr.city":"Ville",
+    "notesccaddr.state":"Etat",
+    "notesccaddr.street":"Rue",
+    "notesccaddr.subaction":"Actions sous formulaire",
+    "notesccaddr.zipcode":"Code postal"
 
   /*File: /pages/app/notes/Contact.jsx*/
 ,
-    "contact.action1":"Action 1",
-    "contact.action2":"Action 3",
-    "contact.action3":"Action 3",
-    "contact.action4":"Action 4",
-    "contact.formact":"Actions du formulaire",
-    "contact.missfname":"Prenom manquant",
-    "contact.misslname":"Nom de famille manquant",
-    "contact.saveconf":"Le contact a ete modifie mais n'a pas ete sauve.\nVoulez-vous quitter la page sans le sauver?"
+    "notescontact.action1":"Action 1",
+    "notescontact.action2":"Action 3",
+    "notescontact.action3":"Action 3",
+    "notescontact.action4":"Action 4",
+    "notescontact.address":"Addresse",
+    "notescontact.cancel":"Annuler",
+    "notescontact.fname":"Prenom",
+    "notescontact.formact":"Actions du formulaire",
+    "notescontact.lname":"Nom de famille",
+    "notescontact.missfname":"Prenom manquant",
+    "notescontact.misslname":"Nom de famille manquant",
+    "notescontact.save":"Sauvegarder",
+    "notescontact.saveconf":"Le contact a ete modifie mais n'a pas ete sauve.\nVoulez-vous quitter la page sans le sauver?",
+    "notescontact.title":"Document"
 }
