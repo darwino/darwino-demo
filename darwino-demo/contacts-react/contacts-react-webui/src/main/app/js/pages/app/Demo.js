@@ -3,10 +3,11 @@
  */
 
  import { UserService } from '@darwino/darwino';
+ import {  _t } from '@darwino/darwino';
 
  export function checkUser(page) {
     if(isDemoUser()) {
-        page.getDialog().alert({message:"Man, you are a demo user so we cannot let you save the data. You can contact us, www.darwino.com, to know more about the technology!"})
+        page.getDialog().alert({message:_t("demojs.alert","Man, you are a demo user so we cannot let you save the data. You can contact us, www.darwino.com, to know more about the technology!")})
         return false;
     }
     return true;

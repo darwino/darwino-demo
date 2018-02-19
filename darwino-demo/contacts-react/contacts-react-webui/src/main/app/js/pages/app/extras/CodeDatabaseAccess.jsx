@@ -4,6 +4,7 @@
 import React, {Component} from "react";
 import { Button, ButtonToolbar, ControlLabel } from 'react-bootstrap';
 import { Jsql, JstoreCursor } from '@darwino/darwino';
+import {  _t } from '@darwino/darwino';
 
 import Constants from "../Constants.jsx";
 
@@ -116,40 +117,38 @@ class CodeDatabaseAccess extends Component {
                 <fieldset>
                     <div className="col-md-12 col-sm-12">
                         <br/>
-                        <ControlLabel>Database columns (@DbColumn)</ControlLabel>
+                        <ControlLabel>{_t("codedba.descdbcol","Database columns (@DbColumn)")}</ControlLabel>
                         <p>
-                            This example shows how to extract a list of values from the database. It either
-                            uses the Darwino queries or JSQL.
+                            {_t("codedba.descextr","This example shows how to extract a list of values from the database. It either uses the Darwino queries or JSQL.")}
                         </p>
                         <ButtonToolbar>
-                            <Button bsStyle="primary" onClick={()=>this.dbcolumn()}>Use Darwino Query</Button>
-                            <Button bsStyle="primary" onClick={()=>this.dbcolumnsql()}>Use JSQL</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbcolumn()}>{_t("codedba.dwoquery","Use Darwino Query")}</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbcolumnsql()}>{_t("codedba.jsql","Use JSQL")}</Button>
                         </ButtonToolbar>
                     </div>
                     <div className="col-md-12 col-sm-12">
                         <br/>
-                        <ControlLabel>Value lookup (@DbLookup)</ControlLabel>
+                        <ControlLabel>{_t("codedba.dblookup","Value lookup (@DbLookup)")}</ControlLabel>
                         <p>
-                            This example shows how to lookup a value using a key from the database. It either
-                            uses the Darwino queries or JSQL.
+                            {_t("codedba.desclk","This example shows how to lookup a value using a key from the database. It either uses the Darwino queries or JSQL.")}
                         </p>
                         <ButtonToolbar>
-                            <Button bsStyle="primary" onClick={()=>this.dblookup(this.companyName)}>Use Darwino Query</Button>
-                            <Button bsStyle="primary" onClick={()=>this.dblookupsql(this.companyName)}>Use JSQL</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dblookup(this.companyName)}>{_t("codedba.dwoquery","Use Darwino Query")}</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dblookupsql(this.companyName)}>{_t("codedba.jsql","Use JSQL")}</Button>
                         </ButtonToolbar>
                     </div>
 
                     <div className="col-md-12 col-sm-12">
                         <br/>
-                        <ControlLabel>Performance Tests</ControlLabel>
+                        <ControlLabel>{_t("codedba.perftest","Performance Tests")}</ControlLabel>
                         <p>
-                            This is used internally to measure performance
+                            {_t("codedba.decperf","This is used internally to measure performance")}
                         </p>
                         <ButtonToolbar>
-                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(1000)}>1000 view entries</Button>
-                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(10000)}>10,000 view entries</Button>
-                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(50000)}>50,000 view entries</Button>
-                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(50000,true)}>50,000 view entries, categorized</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(1000)}>{_t("codedba.1000","1000 view entries")}</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(10000)}>{_t("codedba.10000","10,000 view entries")}</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(50000)}>{_t("codedba.50000","50,000 view entries")}</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(50000,true)}>{_t("codedba.50000cat","50,000 view entries, categorized")}</Button>
                         </ButtonToolbar>
                     </div>
                 </fieldset>

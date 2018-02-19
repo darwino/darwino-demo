@@ -8,6 +8,7 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Link, Prompt } from "react-router-dom";
 import { Form, Panel, Button, FormControl, FormGroup, ControlLabel, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 
+import {  _t } from '@darwino/darwino';
 import {JsonDebug} from "@darwino/darwino-react";
 import { DocumentForm, AttachmentTable,
          renderTextArea } from '@darwino/darwino-react-bootstrap'
@@ -56,7 +57,7 @@ export class CompanyAsJson extends DocumentForm {
             try {
                 JSON.parse(json);
             } catch (e) {
-                errors.json = "Invalid JSON value"
+                errors.json = _t("companyjson.invjson","Invalid JSON value")
             }
         }
         return errors;
@@ -92,18 +93,18 @@ export class CompanyAsJson extends DocumentForm {
                     <div>
                         <span style={(disabled||readOnly) ? {display: 'none'} : {}}>
                             <div className="pull-right">
-                                <Button onClick={this.delete} bsStyle="danger" style={newDoc ? {display: 'none'} : {}}>Delete</Button>
+                                <Button onClick={this.delete} bsStyle="danger" style={newDoc ? {display: 'none'} : {}}>{_t("companyjson.delete","Delete")}</Button>
                             </div>
-                            <Button bsStyle="primary" type="submit" disabled={invalid||submitting}>Submit</Button>
+                            <Button bsStyle="primary" type="submit" disabled={invalid||submitting}>{_t("companyjson.submit","Submit")}</Button>
                         </span>
-                        <Button bsStyle="link" onClick={this.handleCancel}>Cancel</Button>
+                        <Button bsStyle="link" onClick={this.handleCancel}>{_t("companyjson.cancel","Cancel")}</Button>
                     </div>
                     
                     <fieldset>
-                        <legend>Company As JSON</legend>
+                        <legend>{_t("companyjson.title","Company As JSON")}</legend>
 
                         <div className="col-md-12 col-sm-12">
-                            <Field name="json" type="text" label="JSON" rows={15} component={renderTextArea} disabled={disabled} readOnly={readOnly}/>
+                            <Field name="json" type="text" label={_t("companyjson.json","JSON")} rows={15} component={renderTextArea} disabled={disabled} readOnly={readOnly}/>
                         </div>
                         
                         {/*Uncomment to display the current JSON content*/}

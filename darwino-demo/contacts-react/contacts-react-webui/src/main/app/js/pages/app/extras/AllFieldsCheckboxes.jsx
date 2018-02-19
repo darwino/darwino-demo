@@ -4,6 +4,7 @@
 import React, {Component} from "react";
 
 import { Field } from 'redux-form';
+import {  _t } from '@darwino/darwino';
 import { renderCheckbox } from '@darwino/darwino-react-bootstrap';
 
 class AllFieldsCheckboxes extends Component {
@@ -15,13 +16,13 @@ class AllFieldsCheckboxes extends Component {
         return (
             <fieldset>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="CheckboxDefault" component={renderCheckbox} label="Default Checkbox" disabled={disabled} readOnly={readOnly}/>
+                    <Field name="CheckboxDefault" component={renderCheckbox} label={_t("afcheckboxes.ckdefault","Default Checkbox")} disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="CheckboxBoolean" component={renderCheckbox} label="Boolean Checkbox" checkedValue={true} uncheckedValue={false} disabled={disabled} readOnly={readOnly}/>
+                    <Field name="CheckboxBoolean" component={renderCheckbox} label={_t("afcheckboxes.ckboolean","Boolean Checkbox")} checkedValue={true} uncheckedValue={false} disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="CheckboxString" component={renderCheckbox} label="String Checkbox" checkedValue={"CheckedValue"} uncheckedValue={"UncheckedValue"} disabled={disabled} readOnly={readOnly}/>
+                    <Field name="CheckboxString" component={renderCheckbox} label={_t("afcheckboxes.ckstring","String Checkbox")} checkedValue={"CheckedValue"} uncheckedValue={"UncheckedValue"} disabled={disabled} readOnly={readOnly}/>
                 </div>
             </fieldset>
         );

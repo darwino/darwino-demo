@@ -9,6 +9,7 @@
 import React, { Component } from "react";
 import { Field } from 'redux-form';
 import { Nav, NavDropdown, MenuItem } from 'react-bootstrap';
+import {  _t } from '@darwino/darwino';
 import { renderText, renderSelect } from '@darwino/darwino-react-bootstrap';
 import { Subform } from '@darwino/darwino-react-bootstrap-notes';
 
@@ -25,10 +26,10 @@ export default class CCAddress extends Subform {
     contributeActionBar() {
         return (
             <Nav key="address">
-                <NavDropdown eventKey={4} title="SubForm Actions" id="subform-nav-dropdown">
-                    <MenuItem eventKey={4.1}>Actions 1</MenuItem>
-                    <MenuItem eventKey={4.2}>Actions 2</MenuItem>
-                    <MenuItem eventKey={4.3}>Actions 3</MenuItem>
+                <NavDropdown eventKey={4} title={_t("ccaddr.subaction","SubForm Actions")} id="subform-nav-dropdown">
+                    <MenuItem eventKey={4.1}>{_t("ccaddr.action1","Action 1")}</MenuItem>
+                    <MenuItem eventKey={4.2}>{_t("ccaddr.action2","Action 2")}</MenuItem>
+                    <MenuItem eventKey={4.3}>{_t("ccaddr.action3","Action 3")}</MenuItem>
                 </NavDropdown>
             </Nav>
         );
@@ -40,16 +41,16 @@ export default class CCAddress extends Subform {
         return (
             <div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="street" type="text" component={renderText} label="Street" disabled={disabled} readOnly={readOnly}/>
+                    <Field name="street" type="text" component={renderText} label={_t("ccaddr.street","Street")} disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="city" type="text" component={renderText} label="City" disabled={disabled} readOnly={readOnly}/>
+                    <Field name="city" type="text" component={renderText} label={_t("ccaddr.city","City")} disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-2 col-sm-2">
-                    <Field name="zipcode" type="text" component={renderText} label="Zip Code" disabled={disabled} readOnly={readOnly}/>
+                    <Field name="zipcode" type="text" component={renderText} label={_t("ccaddr.zipcode","Zip Code")} disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-2 col-sm-2">
-                    <Field name="state" type="text" component={renderSelect} label="State" disabled={disabled} readOnly={readOnly}
+                    <Field name="state" type="text" component={renderSelect} label={_t("ccaddr.state","State")} disabled={disabled} readOnly={readOnly}
                             options={US_STATES} emptyOption={true}/>
                 </div>
             </div>

@@ -2,6 +2,7 @@
  * (c) Copyright Darwino Inc. 2014-2017.
  */
 import React from "react";
+import {  _t } from '@darwino/darwino';
 import { CursorGridRowRenderer } from '@darwino/darwino-react'
 import { CursorPage, CursorGrid} from '@darwino/darwino-react-bootstrap'
 import Constants from "./Constants";
@@ -50,7 +51,7 @@ function calculateTotals(group,groups) {
         }
         // Add a new row to the list
         let totals = {
-            EMail: "Grand Total:",
+            EMail: _t("bystate.gtotal","Grand Total:"),
             Sex: M+"M, "+F+"F",
             __meta: {
                 totals: true
@@ -70,9 +71,9 @@ export class ByStateGrid extends CursorGrid {
         },
         rowRenderer: CustomRenderer,
         columns:[
-            {name: "Name", key: "CommonName", resizable:true},
-            {name: "EMail", key: "EMail", resizable:true},
-            {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100}
+            {name: _t("bystate.name","Name"), key: "CommonName", resizable:true},
+            {name: _t("bystate.email","EMail"), key: "EMail", resizable:true},
+            {name: _t("bystate.sex","Sex"), key: "Sex", resizable:true, formatter: SexFormatter, width:100}
         ],
         //renderCategoryAsColumns: true,
         responsive: true,
@@ -93,7 +94,7 @@ export default class ByState extends CursorPage {
     render() {
         return (
             <div>
-                <h4>By State</h4>
+                <h4>{_t("bystate.title","By State")}</h4>
                 {this.createActionBar()}
                 {this.createFTSearchBar()}
                 <div>

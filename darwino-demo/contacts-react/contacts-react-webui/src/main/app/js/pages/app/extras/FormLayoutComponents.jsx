@@ -5,6 +5,7 @@ import React, {Component} from "react";
 
 import { Field } from 'redux-form';
 import { Form } from 'react-bootstrap';
+import {  _t } from '@darwino/darwino';
 import { FieldText, FieldStatic, FieldValuePicker, FieldTextArea, FieldSelect, FieldDatePicker, 
          FieldCheckbox, FieldRadioGroup, FieldRichText, FieldAttachments, 
          ListPicker } from '@darwino/darwino-react-bootstrap';
@@ -27,7 +28,11 @@ class FormLayoutComponents extends Component {
                     <Field name="field2" component={FieldValuePicker} disabled={disabled} readOnly={readOnly}
                         picker={(
                             <ListPicker
-                                values={["one", "two", "three"]}
+                                values={[
+                                    _t("frmlaycomp.one","one"), 
+                                    _t("frmlaycomp.two","two"), 
+                                    _t("frmlaycomp.three","three")
+                                ]}
                             />
                     )}/>
                 </div>

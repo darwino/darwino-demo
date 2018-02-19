@@ -3,6 +3,7 @@
  */
 import React from "react";
 import { Button } from "react-bootstrap";
+import {  _t } from '@darwino/darwino';
 import { CursorPage, CursorGrid} from '@darwino/darwino-react-bootstrap'
 import Constants from "./Constants";
 
@@ -16,9 +17,9 @@ export class AllCompaniesByIndustryGrid extends CursorGrid {
             //name: "AllCompanies"
         },
         columns:[
-            {name: "Industry", key: "Industry", resizable:true, sortable: true, sortField: 'industry'},
-            {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state', width:90},
-            {name: "Name", key: "Name", resizable:true, sortable: true, sortField: 'name'}
+            {name: _t("allcompindus.industry","Industry"), key: "Industry", resizable:true, sortable: true, sortField: 'industry'},
+            {name: _t("allcompindus.state","State"), key: "State", resizable:true, sortable: true, sortField: 'state', width:90},
+            {name: _t("allcompindus.name","Name"), key: "Name", resizable:true, sortable: true, sortField: 'name'}
         ],
         responsive: true,
         baseRoute: "/app/company",
@@ -40,8 +41,8 @@ export default class AllCompaniesByIndustry extends CursorPage {
     contributeActionBar() {
         return (
             <div key="expand">
-                <Button onClick={() => {this.getGrid().expandAll()}}>Expand All</Button>
-                <Button onClick={() => {this.getGrid().collapseAll()}}>Collapse All</Button>
+                <Button onClick={() => {this.getGrid().expandAll()}}>{_t("allcompindus.expall","Expand All")}</Button>
+                <Button onClick={() => {this.getGrid().collapseAll()}}>{_t("allcompindus.colall","Collapse All")}</Button>
             </div>
         );
     }
@@ -49,7 +50,7 @@ export default class AllCompaniesByIndustry extends CursorPage {
     render() {
         return (
             <div>
-                <h4>All Companies by Industry &amp; State</h4>
+                <h4>{_t("allcompindus.title","All Companies by Industry and State")}</h4>
                 {this.createActionBar()}
                 <div>
                     <AllCompaniesByIndustryGrid ref="grid" 

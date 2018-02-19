@@ -4,6 +4,7 @@
 import React from "react";
 import { Button, DropdownButton, MenuItem } from 'react-bootstrap';
 
+import {  _t } from '@darwino/darwino';
 import { MicroServices } from '@darwino/darwino';
 import { CursorPage, CursorGrid, Messages} from '@darwino/darwino-react-bootstrap'
 
@@ -25,7 +26,7 @@ class AllCompaniesAsJson extends CursorPage {
             this.getGrid().getSelectedEntries().forEach( e => {
                 sel += "\n" + e.Name
             });
-            alert("Selection: "+sel)
+            alert(_t("allcompjson.selection","Selection: ")+sel)
         }
     }
 
@@ -37,11 +38,11 @@ class AllCompaniesAsJson extends CursorPage {
                 .params({ids: sel, size})
                 .fetch()
                 .then((r) => {
-                    this.getMessages().add({key:"setsize",title:"Update Success",message:r.message,type: Messages.SUCCESS})
+                    this.getMessages().add({key:"setsize",title:_t("allcompjson.updsuccess","Update Success"),message:r.message,type: Messages.SUCCESS})
                     this.getGrid().reinitData()
                 })
                 .catch((e) => {
-                    this.getMessages().add({key:"setsize",title:"Update Error",message:e.message,type: Messages.ERROR})
+                    this.getMessages().add({key:"setsize",title:_t("allcompjson.upderror","Update Error"),message:e.message,type: Messages.ERROR})
                 })
         }
     }
@@ -59,7 +60,7 @@ class AllCompaniesAsJson extends CursorPage {
         return (
             <div key="main">
                 <Button bsStyle="primary" onClick={this.displaySelection}>Display Selection...</Button>
-                <DropdownButton key="address" title="Set Size" id="dropdown-size-medium">
+                <DropdownButton key="address" title={_t("allcompjson.setsize","Set Size")} id="dropdown-size-medium">
                     <MenuItem eventKey="1" onClick={()=>(this.setSize(0))}>0-9</MenuItem>
                     <MenuItem eventKey="2" onClick={()=>(this.setSize(1))}>10-499</MenuItem>
                     <MenuItem eventKey="3" onClick={()=>(this.setSize(2))}>500-9999</MenuItem>
@@ -87,10 +88,10 @@ class AllCompaniesAsJson extends CursorPage {
                     selectRows={true}
                     responsive={true}
                     columns={[
-                        {name: "Name", key: "Name", resizable:true, sortable: true, sortField: 'name'},
-                        {name: "Industry", key: "Industry", resizable:true, sortable: true, sortField: 'industry'},
-                        {name: "Size", key: "Size", formatter:SizeFormatter,resizable:true, sortable: true, sortField: 'size', width:100},
-                        {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state', width:90, hideWhenStacked: true}
+                        {name: _t("allcompjson.name","Name"), key: "Name", resizable:true, sortable: true, sortField: 'name'},
+                        {name: _t("allcompjson.industry","Industry"), key: "Industry", resizable:true, sortable: true, sortField: 'industry'},
+                        {name: _t("allcompjson.size","Size"), key: "Size", formatter:SizeFormatter,resizable:true, sortable: true, sortField: 'size', width:100},
+                        {name: _t("allcompjson.state","State"), key: "State", resizable:true, sortable: true, sortField: 'state', width:90, hideWhenStacked: true}
                     ]}
                     baseRoute="/app/companyasjson"
                 />

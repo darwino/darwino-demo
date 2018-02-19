@@ -5,6 +5,7 @@
 import React from "react";
 
 import { Route, Switch } from 'react-router-dom';
+import {  _t } from '@darwino/darwino';
 import { MobileUtils } from '@darwino/darwino';
 import { AdminConsole, Dialog } from '@darwino/darwino-react-bootstrap';
 

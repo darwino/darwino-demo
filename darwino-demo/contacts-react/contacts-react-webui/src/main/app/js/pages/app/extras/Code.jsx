@@ -8,6 +8,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Tabs, Tab, Button, ButtonToolbar, ControlLabel } from 'react-bootstrap';
 
 import { JstoreCursor, Jsql } from '@darwino/darwino';
+import {  _t } from '@darwino/darwino';
 import { DocumentForm, Dialog, Messages, renderText, ListPicker } from '@darwino/darwino-react-bootstrap';
 
 import Constants from "../Constants.jsx";
@@ -34,13 +35,13 @@ class Code extends DocumentForm {
                 <form>
                     <h2>Some code examples</h2>
                     <Tabs defaultActiveKey={1} id="doctab">
-                        <Tab eventKey={1} title="Database access">
+                        <Tab eventKey={1} title={_t("code.dbaccess","Database access")}>
                             <CodeDatabaseAccess mainForm={this}/>
                         </Tab>
-                        <Tab eventKey={2} title="Prompt Dialogs">
+                        <Tab eventKey={2} title={_t("code.dialogs","Prompt Dialogs")}>
                             <CodeDialogs mainForm={this}/>
                         </Tab>
-                        <Tab eventKey={3} title="Messages">
+                        <Tab eventKey={3} title={_t("code.messages","Messages")}>
                             <CodeMessages mainForm={this}/>
                         </Tab>
                     </Tabs>

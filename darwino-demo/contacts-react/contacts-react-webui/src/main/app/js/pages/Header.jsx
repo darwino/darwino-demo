@@ -12,6 +12,7 @@ import LangEN from "../../img/english24.png";
 import LangFR from "../../img/french24.png";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
+import {  _t } from '@darwino/darwino';
 import { I18N, UserService, MicroServices } from '@darwino/darwino';
 
 class Toggle extends React.Component {
@@ -25,7 +26,7 @@ class Toggle extends React.Component {
 
     return (
       <button {...buttonProps}>
-        <span className="sr-only">Toggle navigation</span>
+        <span className="sr-only">{_t("header.toggle","Toggle navigation")}</span>
         <span className="icon-bar" />
         <span className="icon-bar" />
         <span className="icon-bar" />
@@ -54,7 +55,7 @@ export default class Header extends React.Component {
             I18N.setLocale(r.locale);
         })
         .catch((e) => {
-            alert("Error while setting the locale\n"+e.toString());
+            alert(_t("header.errsetloc","Error while setting the locale\n")+e.toString());
         })
   }
 
@@ -73,7 +74,7 @@ export default class Header extends React.Component {
       <Navbar id="header" inverse={this.props.inverse} fluid fixedTop>
         <Navbar.Header>
           <Navbar.Brand>
-            <img src={HeaderLogo} alt="Photo" style={{height: 23, marginRight: 10}}/>
+            <img src={HeaderLogo} alt={_t("header.photo","Photo")} style={{height: 23, marginRight: 10}}/>
             <Link to="/" style={{color: 'inherit'}}>
                 Contacts
             </Link>
@@ -84,23 +85,23 @@ export default class Header extends React.Component {
           <Nav pullRight>      
             <NavDropdown 
                 eventKey="3"
-                title="Language"
+                title={_t("header.language","Language")}
                 >
                 <MenuItem eventKey="3.1" onClick={() => this.setLocale(null)} >
-                    <img src={LangDEF} alt="Default Language" style={{height: 18, marginRight: 3}}/>
-                    Browser Default
+                    <img src={LangDEF} alt={_t("header.langdef","Default Language")} style={{height: 18, marginRight: 3}}/>
+                    {_t("header.browserdef","Browser Default")}
                 </MenuItem>
                 <MenuItem eventKey="3.2" onClick={() => this.setLocale("en")} >
-                    <img src={LangEN} alt="Language English" style={{height: 18, marginRight: 3}}/>
-                    English
+                    <img src={LangEN} alt={_t("header.langenglish","Language English")} style={{height: 18, marginRight: 3}}/>
+                    {_t("header.english","English")}
                 </MenuItem>
                 <MenuItem eventKey="3.3" onClick={() => this.setLocale("fr")} >
-                    <img src={LangFR} alt="Language French" style={{height: 18, marginRight: 3}}/>
-                    French
+                    <img src={LangFR} alt={_t("header.langfrench","Language French")} style={{height: 18, marginRight: 3}}/>
+                    {_t("header.french","French")}
                 </MenuItem>
             </NavDropdown >                
             <Navbar.Text>
-                <img src={this.currentLocaleImage()} alt="Current Language" style={{height: 18, marginRight: 3}}/>
+                <img src={this.currentLocaleImage()} alt={_t("header.currentlang","Current Language")} style={{height: 18, marginRight: 3}}/>
             </Navbar.Text>
             <Navbar.Text>
                 <img src={currentUser.getPhotoUrl()} className="img-circle" style={{width: 25, height: 25, marginLeft: 15}}/>

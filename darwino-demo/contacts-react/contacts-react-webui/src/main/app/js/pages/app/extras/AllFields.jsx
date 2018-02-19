@@ -8,6 +8,7 @@ import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Tabs, Tab, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 
 import { Jsql, JstoreCursor } from '@darwino/darwino';
+import {  _t } from '@darwino/darwino';
 import { DocumentForm, FormDebug, renderText, renderTextArea, renderStatic, renderSelect, renderCheckbox } from '@darwino/darwino-react-bootstrap';
 
 import Constants from "../Constants";
@@ -54,31 +55,31 @@ class AllFields extends DocumentForm {
 
                     <div className="col-md-12 col-sm-12">
                         <ToggleButtonGroup type="radio" name="mode" value={this.getMode()} onChange={(value)=>(this.setMode(value))}>
-                            <ToggleButton value={EDITABLE}>Editable</ToggleButton>                            
-                            <ToggleButton value={DISABLED}>Disabled</ToggleButton>                            
-                            <ToggleButton value={READONLY}>Readonly</ToggleButton>                            
+                            <ToggleButton value={EDITABLE}>{_t('allfields.editable','Editable')}</ToggleButton>                            
+                            <ToggleButton value={DISABLED}>{_t('allfields.disabled','Disabled')}</ToggleButton>                            
+                            <ToggleButton value={READONLY}>{_t('allfields.readonly','Readonly')}</ToggleButton>                            
                         </ToggleButtonGroup>
                     </div>
                     <Tabs defaultActiveKey={1} id="doctab">
-                        <Tab eventKey={1} title="Single Value">
+                        <Tab eventKey={1} title={_t('allfields.singlevalue','Single Value')}>
                             <AllFieldsText mainForm={this}/>
                         </Tab>
-                        <Tab eventKey={2} title="Multiple Values">
+                        <Tab eventKey={2} title={_t('allfields.multivalue','Multiple Values')}>
                             <AllFieldsMultipleValues mainForm={this}/>
                         </Tab>
-                        <Tab eventKey={3} title="Checkboxes">
+                        <Tab eventKey={3} title={_t('allfields.checkboxes','Checkboxes')}>
                             <AllFieldsCheckboxes mainForm={this}/>
                         </Tab>
-                        <Tab eventKey={4} title="Radio Buttons">
+                        <Tab eventKey={4} title={_t('allfields.radiobuttons','Radio Buttons')}>
                             <AllFieldsRadioButtons mainForm={this}/>
                         </Tab>
-                        <Tab eventKey={5} title="Select">
+                        <Tab eventKey={5} title={_t('allfields.select','Select')}>
                             <AllFieldsSelect mainForm={this}/>
                         </Tab>
-                        <Tab eventKey={6} title="Rich Text &amp; Attachments">
+                        <Tab eventKey={6} title={_t('allfields.rightext','Rich Text & Attachments')}>
                             <AllFieldsRichText mainForm={this}/>
                         </Tab>
-                        <Tab eventKey={7} title="Computed Fields">
+                        <Tab eventKey={7} title={_t('allfields.computedfields','Computed Fields')}>
                             <AllFieldsComputed mainForm={this}/>
                         </Tab>
                     </Tabs>

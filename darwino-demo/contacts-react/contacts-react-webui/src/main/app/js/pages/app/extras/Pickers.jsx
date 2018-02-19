@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
 import { Tabs, Tab, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 
+import {  _t } from '@darwino/darwino';
 import { JstoreCursor, Jsql } from '@darwino/darwino';
 import { DocumentForm, CursorGrid, ListPicker, GridPicker, CursorGridPicker, UserPicker, renderText, renderValuePicker } from '@darwino/darwino-react-bootstrap';
 
@@ -29,7 +30,11 @@ class Pickers extends DocumentForm {
     picker1() {
         return (
             <ListPicker
-                values={["one", "two", "three", "four"]}
+                values={[
+                    _t("pickers.one","one"), 
+                    _t("pickers.two","two"), 
+                    _t("pickers.three","three")
+                ]}
             />
         )
     }
@@ -40,10 +45,10 @@ class Pickers extends DocumentForm {
                 value="value"
                 label="label"
                 values={[
-                    {value:1, label:"one"}, 
-                    {value:2, label:"two"}, 
-                    {value:3, label:"three"}, 
-                    {value:4, label:"four"}
+                    {value:1, label:_t("pickers.one","one")}, 
+                    {value:2, label:_t("pickers.two","two")}, 
+                    {value:3, label:_t("pickers.three","three")}, 
+                    {value:4, label:_t("pickers.four","four")}
                 ]}
             />
         )
@@ -125,63 +130,67 @@ class Pickers extends DocumentForm {
         return (
             <div>
                 <form>
-                    <h2>All Pickers in one page!</h2>
+                    <h2>{_t("pickers.title","All Pickers in one page!")}</h2>
 
                     <div className="col-md-12 col-sm-12">
                         <ToggleButtonGroup type="radio" name="mode" value={this.getMode()} onChange={(value)=>(this.setMode(value))}>
-                            <ToggleButton value={EDITABLE}>Editable</ToggleButton>                            
-                            <ToggleButton value={DISABLED}>Disabled</ToggleButton>                            
-                            <ToggleButton value={READONLY}>Readonly</ToggleButton>                            
+                            <ToggleButton value={EDITABLE}>{_t("pickers.editable","Editable")}</ToggleButton>                            
+                            <ToggleButton value={DISABLED}>{_t("pickers.disabled","Disabled")}</ToggleButton>                            
+                            <ToggleButton value={READONLY}>{_t("pickers.readonly","Readonly")}</ToggleButton>                            
                         </ToggleButtonGroup>
                     </div>
 
                     <Tabs defaultActiveKey={1} id="doctab">
-                        <Tab eventKey={1} title="Value Pickers">
+                        <Tab eventKey={1} title={_t("pickers.tabpick","Value Pickers")}>
                             <fieldset>
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="value11" type="text" component={renderValuePicker} label="Not Editable String Value" disabled={disabled} readOnly={readOnly}
+                                    <Field name="value11" type="text" component={renderValuePicker} label={_t("pickers.noteditval","Not Editable String Value")} disabled={disabled} readOnly={readOnly}
                                             picker={this.picker1}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="value12" type="text" component={renderValuePicker} label="Editable String Value" disabled={disabled} readOnly={readOnly}
+                                    <Field name="value12" type="text" component={renderValuePicker} label={_t("pickers.editval","Editable String Value")} disabled={disabled} readOnly={readOnly}
                                             editable={true}
                                             picker={this.picker1}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="value2" type="text" component={renderValuePicker} label="Static Integer with a label" disabled={disabled} readOnly={readOnly}
+                                    <Field name="value2" type="text" component={renderValuePicker} label={_t("pickers.staticint","Static Integer with a label")} disabled={disabled} readOnly={readOnly}
                                             picker={this.picker2}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="value3" type="text" component={renderValuePicker} label="Select a Company from a databases list" disabled={disabled} readOnly={readOnly}
+                                    <Field name="value3" type="text" component={renderValuePicker} label={_t("pickers.sellist","Select a Company from a databases list")} disabled={disabled} readOnly={readOnly}
                                             picker={this.picker3}
-                                            pickerTitle="Select a company"/>
+                                            pickerTitle={_t("pickers.selcomp","Select a company")}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="value4" type="text" component={renderValuePicker} label="Select a Company using a simple grid" disabled={disabled} readOnly={readOnly}
+                                    <Field name="value4" type="text" component={renderValuePicker} label={_t("pickers.selgrid","Select a Company using a simple grid")} disabled={disabled} readOnly={readOnly}
                                             picker={this.picker4}
-                                            pickerTitle="Select a company"/>
+                                            pickerTitle={_t("pickers.selcomp","Select a company")}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="value5" type="text" component={renderValuePicker} label="Select a Company using a CursorGrid" disabled={disabled} readOnly={readOnly}
+                                    <Field name="value5" type="text" component={renderValuePicker} label={_t("pickers.selcurgrid","Select a Company using a CursorGrid")} disabled={disabled} readOnly={readOnly}
                                             picker={this.picker5}
-                                            pickerTitle="Select a company"/>
+                                            pickerTitle={_t("pickers.selcomp","Select a company")}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="value6" type="text" component={renderValuePicker} label="Embedded picker" disabled={disabled} readOnly={readOnly}
+                                    <Field name="value6" type="text" component={renderValuePicker} label={_t("pickers.embpick","Embedded picker")} disabled={disabled} readOnly={readOnly}
                                         picker={(
                                             <ListPicker
-                                                values={["one", "two", "three"]}
+                                                values={[
+                                                    _t("pickers.one","one"), 
+                                                    _t("pickers.two","two"), 
+                                                    _t("pickers.three","three")
+                                                ]}
                                             />
                                         )}/>
                                 </div>
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="value7" type="text" component={renderValuePicker} label="Company picker (promise)" disabled={disabled} readOnly={readOnly}
+                                    <Field name="value7" type="text" component={renderValuePicker} label={_t("pickers.compickprom","Company picker (promise)")} disabled={disabled} readOnly={readOnly}
                                         picker={(
                                             <ListPicker
                                                 values={
@@ -193,29 +202,29 @@ class Pickers extends DocumentForm {
                                                 }
                                             />
                                         )}
-                                        pickerTitle="Choose a company"/>
+                                        pickerTitle={_t("pickers.selcomp","Select a company")}/>
                                 </div>
                             </fieldset>
                         </Tab>
-                        <Tab eventKey={2} title="User Pickers">
+                        <Tab eventKey={2} title={_t("pickers.userpicks","User Pickers")}>
                             <fieldset>
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="valueu1" type="text" component={renderValuePicker} label="Single User Picker Dialog" disabled={disabled} readOnly={readOnly}
+                                    <Field name="valueu1" type="text" component={renderValuePicker} label={_t("pickers.singusr","Single User Picker Dialog")} disabled={disabled} readOnly={readOnly}
                                             picker={this.pickeru1}
-                                            pickerTitle="Select a user"/>
+                                            pickerTitle={_t("pickers.seluser","Select a user")}/>
                                 </div>
                             </fieldset>
                         </Tab>
-                        <Tab eventKey={3} title="Multiple Values">
+                        <Tab eventKey={3} title={_t("pickers.mulvalues","Multiple Values")}>
                             <fieldset>
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="valuem1" multiple={true} component={renderValuePicker} label="String Value" disabled={disabled} readOnly={readOnly}
+                                    <Field name="valuem1" multiple={true} component={renderValuePicker} label={_t("pickers.stringval","String Value")} disabled={disabled} readOnly={readOnly}
                                             picker={this.picker1}/>
                                 </div>
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="valuemu1" multiple={true} component={renderValuePicker} label="User Picker Dialog" disabled={disabled} readOnly={readOnly}
+                                    <Field name="valuemu1" multiple={true} component={renderValuePicker} label={_t("pickers.usrpickdlg","User Picker Dialog")} disabled={disabled} readOnly={readOnly}
                                             picker={this.pickeru1}
-                                            pickerTitle="Select Users"/>
+                                            pickerTitle={_t("pickers.selusers","Select users")}/>
                                 </div>
                             </fieldset>
                         </Tab>

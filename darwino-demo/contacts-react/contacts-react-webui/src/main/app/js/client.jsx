@@ -86,13 +86,23 @@ const darwinoReducer = combineReducers({
     form: reduxFormReducer
 })
 
+
 //
 // Translations
 //
+
+// Strings for React-Intl
+import ri_messages_en from "./i18n/ri_messages_en"
+I18N.addMessages("en",ri_messages_en);
+import ri_messages_fr from "./i18n/ri_messages_fr"
+I18N.addMessages("fr",ri_messages_fr);
+
+// Strings for _t()
 import messages_en from "./i18n/messages_en"
+I18N.addMessages("en",messages_en);
 import messages_fr from "./i18n/messages_fr"
-I18N.setMessages("fr",messages_fr);
-I18N.setMessages("en",messages_en);
+I18N.addMessages("fr",messages_fr);
+
 
 import enLocaleData from 'react-intl/locale-data/en';
 import frLocaleData from 'react-intl/locale-data/fr';

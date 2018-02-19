@@ -81,6 +81,25 @@
 	
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.darwino</groupId>
+				<artifactId>dwo-maven-i18n</artifactId>
+				<version>${DARWINO_VERSION}</version>
+	            <executions>
+	                <execution>
+	                    <id>extract-javascript-strings</id>
+	                    <goals>
+	                        <goal>generate-sources</goal>
+	                    </goals>
+			            <configuration>
+	                		<sourceDirectory>src/main/app/js</sourceDirectory>
+	                		<outputDirectory>src/main/app/js/i18n</outputDirectory>
+	                		<outputFile>messages_en.js</outputFile>
+	                		<outputFormat>js</outputFormat>
+			            </configuration>
+	                </execution>
+	            </executions>
+	        </plugin>		
 		</plugins>
 	</build>
 </project>

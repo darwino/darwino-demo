@@ -2,6 +2,7 @@
  * (c) Copyright Darwino Inc. 2014-2017.
  */
 import React from "react";
+import {  _t } from '@darwino/darwino';
 import { FormattedDate, FormattedTime } from "react-intl";
 import Constants from "./Constants";
 
@@ -24,12 +25,12 @@ export const SexFormatter = function(props) {
     const sex = props.value;
     if(sex=='M') {
         return (
-            <div><img alt="male" src={MaleImage} style={{height: 20, marginRight: 10}}/>Male</div>
+            <div><img alt={_t("formatters.male","male")} src={MaleImage} style={{height: 20, marginRight: 10}}/>Male</div>
         )
     } else
     if(sex=='F') {
         return (
-            <div><img alt="female" src={FemaleImage}  style={{height: 20, marginRight: 10}}/>Female</div>
+            <div><img alt={_t("formatters.female","female")} src={FemaleImage}  style={{height: 20, marginRight: 10}}/>Female</div>
         )
     } else {
         return (

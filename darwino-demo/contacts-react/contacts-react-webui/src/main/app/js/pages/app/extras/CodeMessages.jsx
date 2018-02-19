@@ -3,6 +3,7 @@
  */
 import React, {Component} from "react";
 import { Button, ButtonToolbar, ControlLabel } from 'react-bootstrap';
+import {  _t } from '@darwino/darwino';
 import { Messages } from '@darwino/darwino-react-bootstrap';
 
 class CodeMessages extends Component {
@@ -15,34 +16,34 @@ class CodeMessages extends Component {
                     <Button bsStyle="primary" onClick={()=>
                         mainForm.getMessages().add({
                             key: 1,
-                            title: "Gasp, an error",
-                            message: "Next time, choose a different button my friend",
+                            title: _t("codemsg.error","Gasp, an error"),
+                            message: _t("codemsg.errormsg","Next time, choose a different button my friend"),
                             type: Messages.ERROR
-                        })}>Display Error</Button>
+                        })}>{_t("codemsg.errordisp","Display Error")}</Button>
                     <Button bsStyle="primary" onClick={()=>
                         mainForm.getMessages().add({
                             key: 2,
-                            title: "Now a warning",
-                            message: "Getting better, but now you have to do more",
+                            title: _t("codemsg.warn","Now a warning"),
+                            message: _t("codemsg.warnmsg","Getting better, but now you have to do more"),
                             type: Messages.WARNING
-                        })}>Display Warning</Button>
+                        })}>{_t("codemsg.errorwarn","Display Warning")}</Button>
                     <Button bsStyle="primary" onClick={()=>
                         mainForm.getMessages().add({
                             key: 3, // Same as information
-                            title: "Success!",
-                            message: "Finally, you got some success",
+                            title: _t("codemsg.success","Success!"),
+                            message: _t("codemsg.successmsg","Finally, you got some success"),
                             type: Messages.SUCCESS
-                        })}>Display Success</Button>
+                        })}>{_t("codemsg.successdisp","Display Success")}</Button>
                     <Button bsStyle="primary" onClick={()=>
                         mainForm.getMessages().add({
                             key: 3, // Same as success
-                            title: "Information",
-                            message: "You're right, stay at the info level",
+                            title: _t("codemsg.info","Information"),
+                            message: _t("codemsg.infomsg","You're right, stay at the info level"),
                             type: Messages.INFO
-                        })}>Display Info</Button>
+                        })}>{_t("codemsg.infodisp","Display Info")}</Button>
                     <Button bsStyle="danger" onClick={()=>
                         mainForm.getMessages().clear()
-                        }>Clear All</Button>
+                        }>{_t("codemsg.clearall","Clear All")}</Button>
                 </ButtonToolbar>
             </div>
         );

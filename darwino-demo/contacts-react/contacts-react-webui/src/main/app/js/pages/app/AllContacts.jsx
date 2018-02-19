@@ -3,6 +3,7 @@
  */
 import React from "react";
 import { Button } from "react-bootstrap";
+import {  _t } from '@darwino/darwino';
 import { CursorPage, CursorGrid} from '@darwino/darwino-react-bootstrap'
 
 import Constants from "./Constants";
@@ -24,10 +25,10 @@ export class AllContactsGrid extends CursorGrid {
             name: "AllContacts"
         },
         columns:[
-            {name: "Name", key: "CommonName", resizable:true, sortable: true, sortField: 'firstname,lastname'},
-            {name: "EMail", key: "EMail", resizable:true, sortable: true, sortField: 'email'},
-            {name: "Sex", key: "Sex", resizable:true, formatter: SexFormatter, width:100},
-            {name: "State", key: "State", resizable:true, sortable: true, sortField: 'state', width:70}
+            {name: _t("allcontacts.name","Name"), key: "CommonName", resizable:true, sortable: true, sortField: 'firstname,lastname'},
+            {name: _t("allcontacts.email","EMail"), key: "EMail", resizable:true, sortable: true, sortField: 'email'},
+            {name: _t("allcontacts.sex","Sex"), key: "Sex", resizable:true, formatter: SexFormatter, width:100},
+            {name: _t("allcontacts.state","State"), key: "State", resizable:true, sortable: true, sortField: 'state', width:70}
         ],
         responsive: true,
         baseRoute: "/app/contact",
@@ -44,8 +45,8 @@ export class AllContactsGrid extends CursorGrid {
     contributeActionBar() {
         return (
             <div key="main">
-                <Link to={`${this.props.baseRoute}`} className="btn btn-primary">Create New Contact</Link>
-                <Button onClick={() => {this.export('csv')}}>Export</Button>
+                <Link to={`${this.props.baseRoute}`} className="btn btn-primary">{_t("allcontacts.new","Create New Contact")}</Link>
+                <Button onClick={() => {this.export('csv')}}>{_t("allcontacts.export","Export")}</Button>
             </div>
         );
     }
@@ -64,7 +65,7 @@ export default class AllContacts extends CursorPage {
     render() {
         return (
             <div>
-                <h4>All Contacts</h4>
+                <h4>{_t("allcontacts.title","All Contacts")}</h4>
                 {this.createActionBar()}
                 {this.createFTSearchBar()}
                 <div>

@@ -8,6 +8,7 @@ import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Tabs, Tab } from 'react-bootstrap';
 
 import { JstoreCursor, Jsql } from '@darwino/darwino';
+import {  _t } from '@darwino/darwino';
 import {JsonDebug} from "@darwino/darwino-react";
 import { DocumentForm, renderText, renderTextArea, renderStatic,renderSelect } from '@darwino/darwino-react-bootstrap';
 
@@ -80,11 +81,11 @@ class DynamicSelect extends DocumentForm {
                     </p>
                     <fieldset>
                         <div className="col-md-12 col-sm-12">
-                            <Field name="company" component={renderSelect} label="Company"
+                            <Field name="company" component={renderSelect} label={_t("dynsel.company","Company")}
                                 options={this.state.companies} emptyOption={true}/>
                         </div>
                         <div className="col-md-12 col-sm-12">
-                            <Field name="employee" component={renderSelect} label="Employee"
+                            <Field name="employee" component={renderSelect} label={_t("dynsel.employee","Employee")}
                                 options={this.state.users} emptyOption={true}/>
                         </div>
                     </fieldset>

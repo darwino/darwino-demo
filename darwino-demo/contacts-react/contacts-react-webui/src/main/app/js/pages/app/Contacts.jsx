@@ -3,6 +3,7 @@
  */
 
 import React from "react";
+import {  _t } from '@darwino/darwino';
 import {TableCursorList} from '@darwino/darwino-react-bootstrap'
 
 import Constants from "./Constants.jsx";
@@ -17,16 +18,16 @@ const Contacts = () => {
             }}
             columns={
                 [
-                    {title: "FirstName", key: "firstname"},
-                    {title: "LastName", key: "lastname"},
-                    {title: "State", key: "state"}
+                    {title: _t("contacts.fname","First Name"), key: "firstname"},
+                    {title: _t("contacts.lname","Last Name"), key: "lastname"},
+                    {title: _t("contacts.title","State"), key: "state"}
                 ]
             }
             dataFetcher={{
                 pageSize: 50
             }}
             baseRoute="/app/contact"
-            addRowsButtonText="Show more rows"
+            addRowsButtonText={_t("contacts.morerows","Show more rows")}
         />
     )
 }

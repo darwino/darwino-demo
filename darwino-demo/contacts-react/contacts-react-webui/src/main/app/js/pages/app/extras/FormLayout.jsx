@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form';
 import { Tabs, Tab, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
 
+import {  _t } from '@darwino/darwino';
 import { DocumentForm } from '@darwino/darwino-react-bootstrap';
 
 import Constants from "../Constants";
@@ -37,20 +38,20 @@ class FormLayout extends DocumentForm {
 
                 <div className="col-md-12 col-sm-12">
                     <ToggleButtonGroup type="radio" name="mode" value={this.getMode()} onChange={(value)=>(this.setMode(value))}>
-                        <ToggleButton value={EDITABLE}>Editable</ToggleButton>                            
-                        <ToggleButton value={DISABLED}>Disabled</ToggleButton>                            
-                        <ToggleButton value={READONLY}>Readonly</ToggleButton>                            
+                        <ToggleButton value={EDITABLE}>{_t("frmlay.editable","Editable")}</ToggleButton>                            
+                        <ToggleButton value={DISABLED}>{_t("frmlay.disable","Disabled")}</ToggleButton>                            
+                        <ToggleButton value={READONLY}>{_t("frmlay.readonly","Readonly")}</ToggleButton>                            
                     </ToggleButtonGroup>
                 </div>
 
                 <Tabs defaultActiveKey={1} id="doctab">
-                    <Tab eventKey={1} title="Stacked Labels">
+                    <Tab eventKey={1} title={_t("frmlay.staklbl","Stacked Labels")}>
                         <FormLayoutStacked mainForm={this}/>
                     </Tab>
-                    <Tab eventKey={2} title="Horizontal Labels">
+                    <Tab eventKey={2} title={_t("frmlay.horzlbl","Horizontal Labels")}>
                         <FormLayoutHorizontal mainForm={this}/>
                     </Tab>
-                    <Tab eventKey={3} title="Components (no labels)">
+                    <Tab eventKey={3} title={_t("frmlay.nolbl","Components (no labels)")}>
                         <FormLayoutComponents mainForm={this}/>
                     </Tab>
                 </Tabs>

@@ -4,6 +4,7 @@
 import React, {Component} from "react";
 
 import { Field } from 'redux-form';
+import {  _t } from '@darwino/darwino';
 import { renderRadioGroup } from '@darwino/darwino-react-bootstrap';
 
 const SIZES = [
@@ -29,13 +30,13 @@ class AllFieldsRadioButtons extends Component {
         return (
             <fieldset>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="Size" component={renderRadioGroup} inline={true} label="Size" options={SIZES} disabled={disabled} readOnly={readOnly}/>
+                    <Field name="Size" component={renderRadioGroup} inline={true} label={_t("afradio.size","Size")} options={SIZES} disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="Size" component={renderRadioGroup} inline={true} label="Size with label" options={SIZESLABEL} disabled={disabled} readOnly={readOnly}/>
+                    <Field name="Size" component={renderRadioGroup} inline={true} label={_t("afradio.sizelbl","Size with label")} options={SIZESLABEL} disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="Size" component={renderRadioGroup} label="Size with label - not inline" options={SIZESLABEL} disabled={disabled} readOnly={readOnly}/>
+                    <Field name="Size" component={renderRadioGroup} label={_t("afradio.sizelblnoin","Size with label - not inline")} options={SIZESLABEL} disabled={disabled} readOnly={readOnly}/>
                 </div>
             </fieldset>
         );
