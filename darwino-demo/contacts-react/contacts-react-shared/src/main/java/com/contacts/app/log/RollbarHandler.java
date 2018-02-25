@@ -20,8 +20,8 @@ import java.util.Iterator;
 
 import com.darwino.commons.Platform;
 import com.darwino.commons.json.JsonObject;
-import com.darwino.commons.log.LogHandler;
 import com.darwino.commons.log.LogContext;
+import com.darwino.commons.log.LogHandler;
 import com.darwino.commons.log.LogRecord;
 import com.darwino.commons.security.acl.User;
 import com.darwino.commons.security.acl.UserException;
@@ -168,7 +168,11 @@ public class RollbarHandler implements LogHandler {
 			if(t!=null) {
 				b.append("\n------------------------------\n");
 				b.append("Exception:\n");
-				b.append(AbstractException.exceptionAsJson(t,true,true));
+				try {
+					b.append(AbstractException.exceptionAsJson(t,true,true).toJson(false));
+				} catch(Exception ex) {
+					Platform.log(ex);
+				}
 				b.append('\n');
 			}
 			String msg = b.toString();
