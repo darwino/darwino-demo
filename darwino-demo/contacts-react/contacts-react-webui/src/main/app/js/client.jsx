@@ -11,11 +11,13 @@ import { HashRouter as Router, Route } from "react-router-dom";
 import { Provider } from 'react-redux'
 import { IntlProvider, addLocaleData } from 'react-intl'
 import { reducer as reduxFormReducer } from 'redux-form';
-import { I18N } from '@darwino/darwino'
+import { MicroServices, I18N } from '@darwino/darwino';
 import { StoreReducers } from '@darwino/darwino-react'
 const { DarwinoQueryStoreReducer, DarwinoDocumentStoreReducer } = StoreReducers
 
 import promiseMiddleware from 'redux-promise';
+
+import Rollbar from "rollbar";
 
 // Polyfills
 import Promise from 'promise-polyfill'; 
@@ -122,6 +124,18 @@ class MainApp extends Component {
                 this.forceUpdate()
             }
         });
+
+        // Install the Rollback config
+        new MicroServices()
+            .name("RollbarConfig")
+            .fetch()
+            .then((config) => {
+                if(config.enabled) {
+                    window.rollbar = new Rollbar(config);
+                    rollbar.configure({payload:config.payload});
+                }
+            })
+        
     }
     render() {
         if(!this.state.intlLoaded) {

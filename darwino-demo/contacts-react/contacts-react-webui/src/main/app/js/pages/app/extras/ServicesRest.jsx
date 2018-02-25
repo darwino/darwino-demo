@@ -35,6 +35,11 @@ class ServicesRest extends Component {
                 error: true,
                 result: e.message+"\n"+e.content
             })
+            if(window.rollbar) {
+                // Don't need to localize, as this goes to the rollbar server
+                const errorContext = (e.jsonContent && e.jsonContent.errorContext)||"";
+                window.rollbar.error("Client "+errorContext+", Calling REST service '"+url+"', "+e.message+"\n"+e.content,e);
+            }
         })
     }
 

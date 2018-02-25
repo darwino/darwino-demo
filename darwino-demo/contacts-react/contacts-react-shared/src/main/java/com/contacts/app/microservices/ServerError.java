@@ -20,31 +20,21 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.contacts.app;
+package com.contacts.app.microservices;
 
-import com.darwino.commons.microservices.StaticJsonMicroServicesFactory;
-
-import com.contacts.app.microservices.HelloWorld;
-import com.contacts.app.microservices.RollbarConfig;
-import com.contacts.app.microservices.ServerError;
-import com.contacts.app.microservices.SetCompanySize;
-import com.contacts.app.microservices.SetSessionLocale;
-
+import com.darwino.commons.json.JsonException;
+import com.darwino.commons.microservices.JsonMicroService;
+import com.darwino.commons.microservices.JsonMicroServiceContext;
 
 /**
- * Application Micro Services Factory.
- * 
- * This is the place where to define custom application micro services.
- * 
- * @author Philippe Riand
+ * Service that generates an error.
  */
-public class AppMicroServicesFactory extends StaticJsonMicroServicesFactory {
+public class ServerError implements JsonMicroService {
 	
-	public AppMicroServicesFactory() {
-		add(HelloWorld.NAME, new HelloWorld());
-		add(SetCompanySize.NAME, new SetCompanySize());
-		add(SetSessionLocale.NAME, new SetSessionLocale());
-		add(ServerError.NAME, new ServerError());
-		add(RollbarConfig.NAME, new RollbarConfig());
+	public static final String NAME = "ServerError";
+	
+	@Override
+	public void execute(JsonMicroServiceContext context) throws JsonException {
+		throw new JsonException(null,"Server side generated error");
 	}
 }

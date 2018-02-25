@@ -20,31 +20,35 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.contacts.app;
+package com.contacts.app.microservices;
 
-import com.darwino.commons.microservices.StaticJsonMicroServicesFactory;
-
-import com.contacts.app.microservices.HelloWorld;
-import com.contacts.app.microservices.RollbarConfig;
-import com.contacts.app.microservices.ServerError;
-import com.contacts.app.microservices.SetCompanySize;
-import com.contacts.app.microservices.SetSessionLocale;
-
+import com.contacts.app.log.RollbarHandler;
+import com.darwino.commons.Platform;
+import com.darwino.commons.json.JsonException;
+import com.darwino.commons.json.JsonObject;
+import com.darwino.commons.log.LogHandler;
+import com.darwino.commons.log.LogService;
+import com.darwino.commons.microservices.JsonMicroService;
+import com.darwino.commons.microservices.JsonMicroServiceContext;
 
 /**
- * Application Micro Services Factory.
- * 
- * This is the place where to define custom application micro services.
- * 
- * @author Philippe Riand
+ * Rollbar configuration information.
  */
-public class AppMicroServicesFactory extends StaticJsonMicroServicesFactory {
+public class RollbarConfig implements JsonMicroService {
 	
-	public AppMicroServicesFactory() {
-		add(HelloWorld.NAME, new HelloWorld());
-		add(SetCompanySize.NAME, new SetCompanySize());
-		add(SetSessionLocale.NAME, new SetSessionLocale());
-		add(ServerError.NAME, new ServerError());
-		add(RollbarConfig.NAME, new RollbarConfig());
+	public static final String NAME = "RollbarConfig";
+	
+	@Override
+	public void execute(JsonMicroServiceContext context) throws JsonException {
+		JsonObject result = null;
+		LogHandler lh = Platform.getService(LogService.class).getLogHandler();
+		if(lh instanceof RollbarHandler) {
+			result = ((RollbarHandler)lh).getJSClientConfig();
+		}
+		
+		if(result==null) {
+			result = new JsonObject();
+		}
+		context.setResponse(result);
 	}
 }

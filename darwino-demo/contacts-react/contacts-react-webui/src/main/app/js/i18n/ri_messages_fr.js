@@ -14,8 +14,10 @@ export default {
         "Je suis le client React",
     "microsvc.callmicrosvc":
         "Appel Micro-service",
+    "microsvc.callmicrosvcfake":
+        "Appel Micro-service - Inexistant",
     "microsvc.callmicrosvcerr":
-        "Appel Micro-service - ERREUR",
+        "Appel Micro-service - Genere une erreur serveur",
 
     // ServicesRest.jsx
     "restsvc.desc": 
