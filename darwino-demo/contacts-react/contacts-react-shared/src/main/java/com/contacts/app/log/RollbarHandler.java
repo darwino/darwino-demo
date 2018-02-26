@@ -139,9 +139,9 @@ public class RollbarHandler implements LogHandler {
 	 * @param cause if the messages are emitted because of an exception.
 	 */
 	@Override
-	public void emitLogs(LogContext context, Throwable t, boolean wasError) {
+	public boolean emitLogs(LogContext context, Throwable t, boolean error) {
 		Rollbar rb = getRollbar();
-		if(rb!=null && wasError) {
+		if(rb!=null) {
 			StringBuilder b = new StringBuilder();
 
 			// The first line will be displayed as a title in Rollbar
@@ -176,9 +176,15 @@ public class RollbarHandler implements LogHandler {
 				b.append('\n');
 			}
 			String msg = b.toString();
-			rollbar.error(msg);
-			//rollbar.error(t, msg);
+			if(error) {
+				rollbar.error(msg);
+				//rollbar.error(t, msg);
+			} else {
+				rollbar.info(msg);
+			}
 		}
+		
+		return true;
 	}
 
 	
