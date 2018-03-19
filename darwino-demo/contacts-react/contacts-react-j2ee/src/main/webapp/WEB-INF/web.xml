@@ -71,7 +71,7 @@
 			com.contacts.app.AppContextListener        
 	    </listener-class>
 	</listener>
-*
+
 	<!--  Log filter  -->
 	<!-- This must be the absolute first filter, as it creates the logging context used to debug any error -->
 	<filter>
