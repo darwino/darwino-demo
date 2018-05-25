@@ -1,3 +1,25 @@
+/*!COPYRIGHT HEADER! 
+ *
+ * (c) Copyright Darwino Inc. 2014-2018.
+ *
+ * Licensed under The MIT License (https://opensource.org/licenses/MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /* 
  * (c) Copyright Darwino Inc. 2014-2017.
  */
@@ -8,6 +30,7 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Link, Prompt } from "react-router-dom";
 import { Form, Panel, Button, FormControl, FormGroup, ControlLabel, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 
+import {  _t } from '@darwino/darwino';
 import {JsonDebug} from "@darwino/darwino-react";
 import { CursorGrid, DocumentForm, AttachmentTable,
          renderText, renderRadioGroup, renderCheckbox, renderSelect, renderRichText, renderDatePicker, renderAttachments } from '@darwino/darwino-react-bootstrap'
@@ -32,11 +55,13 @@ const SIZES = [
 export class Company extends DocumentForm {
 
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: DATABASE,
-        storeId: STORE,
-        savingMessage: true,
-        nextPageSuccess: "/app/allcompanies" // Force this view!
+    static get defaultProps() { 
+        return {
+            databaseId: DATABASE,
+            storeId: STORE,
+            savingMessage: true,
+            nextPageSuccess: "/app/allcompanies" // Force this view!
+        }
     };
 
     constructor(props,context) {
@@ -81,40 +106,40 @@ export class Company extends DocumentForm {
                     </div>
                     
                     <fieldset>
-                        <legend>Company</legend>
+                        <legend>{_t("company.title","Company")}</legend>
 
                         <div className="col-md-12 col-sm-12">
-                            <Field name="name" type="text" label="Name" component={renderText} disabled={disabled} readOnly={readOnly}/>
+                            <Field name="name" type="text" label={_t("company.name","Name")} component={renderText} disabled={disabled} readOnly={readOnly}/>
                         </div>
 
                         <div className="col-md-12 col-sm-12">
-                            <Field name="industry" type="text" component={renderText} label="Industry" disabled={disabled} readOnly={readOnly}/>
+                            <Field name="industry" type="text" component={renderText} label={_t("company.industry","Industry")} disabled={disabled} readOnly={readOnly}/>
                         </div>
 
                         <div className="col-md-12 col-sm-12">
                             <Field name="public" component={renderCheckbox} 
                                 format={(value) => value==='true'}
                                 normalize={(value) => value?'true':''}
-                                label="Is Public" disabled={disabled} readOnly={readOnly}/>
+                                label={_t("company.ispublic","Is Public")} disabled={disabled} readOnly={readOnly}/>
                         </div>
 
                         <div className="col-md-12 col-sm-12">
-                            <Field name="size" component={renderRadioGroup} inline={true} label="Size" disabled={disabled} options={SIZES} readOnly={readOnly}/>
+                            <Field name="size" component={renderRadioGroup} inline={true} label={_t("company.size","Size")} disabled={disabled} options={SIZES} readOnly={readOnly}/>
                         </div>
 
                         <div className="col-md-12 col-sm-12">
-                            <Panel collapsible defaultExpanded header="Address">
+                            <Panel collapsible defaultExpanded header={_t("company.address","Address")}>
                                 <CCAddress {...this.props} name=""/>
                             </Panel>
                         </div>
 
                         <div className="col-md-12 col-sm-12">
-                            <Field name="__attachments" type="text" richTextfield='documents' component={renderAttachments} label="Documents" disabled={disabled} readOnly={readOnly}/>
+                            <Field name="__attachments" type="text" richTextfield='documents' component={renderAttachments} label={_t("company.documents","Documents")} disabled={disabled} readOnly={readOnly}/>
                         </div>
 
                         <div className="col-md-12 col-sm-12">
                             <FormGroup>
-                                <h4>Company Documents</h4>
+                                <h4>{_t("company.compdoc","Company Documents")}</h4>
                                 <CursorGrid
                                     databaseId={Constants.DATABASE}
                                     params={{
@@ -123,7 +148,7 @@ export class Company extends DocumentForm {
                                     }}
                                     showResponses={true}
                                     columns={[
-                                        {name: "Title", key: "Title", sortable: true, sortField: 'title'},
+                                        {name: _t("company.coltitle","Title"), key: "Title", sortable: true, sortField: 'title'},
                                     ]}
                                 />
                             </FormGroup>

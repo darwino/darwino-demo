@@ -34,10 +34,34 @@
 			<artifactId>dwo-formula</artifactId>
 			<version>${DARWINO_VERSION}</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.rollbar/rollbar -->
+		<dependency>
+		    <groupId>com.rollbar</groupId>
+		    <artifactId>rollbar-java</artifactId>
+		    <version>1.0.0</version>
+		    <!-- <optional>true</optional> -->
+		</dependency>		
+		
 	</dependencies>
 	
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.darwino</groupId>
+				<artifactId>dwo-maven-i18n</artifactId>
+				<version>${DARWINO_VERSION}</version>
+	            <executions>
+	                <execution>
+	                    <id>extract-java-strings</id>
+	                    <goals>
+	                        <goal>generate-sources</goal>
+	                    </goals>
+			            <configuration>
+			            </configuration>
+	                </execution>
+	            </executions>
+	        </plugin>		
 		</plugins>
 	</build>
 </project>

@@ -72,6 +72,20 @@
 	    </listener-class>
 	</listener>
 
+	<!--  Log filter  -->
+	<!-- This must be the absolute first filter, as it creates the logging context used to debug any error -->
+	<filter>
+    	<filter-name>LogServletFilter</filter-name>
+    	<filter-class>com.darwino.j2ee.servlet.logging.LogServletFilter</filter-class>
+        <init-param>
+      		<param-name>forcelog-param</param-name>
+      		<param-value>forcelog</param-value>
+    	</init-param>    
+	</filter>
+	<filter-mapping>
+    	<filter-name>LogServletFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+    </filter-mapping>
 		
 	<!--  Filter for Gzip -->
 	<!--  Note that a GZIP filter should not be applied twice in case of FORWARD -->

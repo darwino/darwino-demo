@@ -53,7 +53,8 @@
     "redux-form": "^7.0.4",
     "redux-promise": "^0.5.3",
     "reselect": "^3.0.1",
-    "whatwg-fetch": "^2.0.3"
+    "whatwg-fetch": "^2.0.3",
+    "rollbar": "^2.3.9"
   },
   "scripts": {
     "dev": "webpack-dev-server --content-base src/main/app --inline --hot --port=8008",

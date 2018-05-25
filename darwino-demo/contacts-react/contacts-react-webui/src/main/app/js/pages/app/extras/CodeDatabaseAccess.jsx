@@ -1,9 +1,32 @@
+/*!COPYRIGHT HEADER! 
+ *
+ * (c) Copyright Darwino Inc. 2014-2018.
+ *
+ * Licensed under The MIT License (https://opensource.org/licenses/MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /* 
  * (c) Copyright Darwino Inc. 2014-2017.
  */
 import React, {Component} from "react";
 import { Button, ButtonToolbar, ControlLabel } from 'react-bootstrap';
 import { Jsql, JstoreCursor } from '@darwino/darwino';
+import {  _t } from '@darwino/darwino';
 
 import Constants from "../Constants.jsx";
 
@@ -116,40 +139,38 @@ class CodeDatabaseAccess extends Component {
                 <fieldset>
                     <div className="col-md-12 col-sm-12">
                         <br/>
-                        <ControlLabel>Database columns (@DbColumn)</ControlLabel>
+                        <ControlLabel>{_t("codedba.descdbcol","Database columns (@DbColumn)")}</ControlLabel>
                         <p>
-                            This example shows how to extract a list of values from the database. It either
-                            uses the Darwino queries or JSQL.
+                            {_t("codedba.descextr","This example shows how to extract a list of values from the database. It either uses the Darwino queries or JSQL.")}
                         </p>
                         <ButtonToolbar>
-                            <Button bsStyle="primary" onClick={()=>this.dbcolumn()}>Use Darwino Query</Button>
-                            <Button bsStyle="primary" onClick={()=>this.dbcolumnsql()}>Use JSQL</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbcolumn()}>{_t("codedba.dwoquery","Use Darwino Query")}</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbcolumnsql()}>{_t("codedba.jsql","Use JSQL")}</Button>
                         </ButtonToolbar>
                     </div>
                     <div className="col-md-12 col-sm-12">
                         <br/>
-                        <ControlLabel>Value lookup (@DbLookup)</ControlLabel>
+                        <ControlLabel>{_t("codedba.dblookup","Value lookup (@DbLookup)")}</ControlLabel>
                         <p>
-                            This example shows how to lookup a value using a key from the database. It either
-                            uses the Darwino queries or JSQL.
+                            {_t("codedba.desclk","This example shows how to lookup a value using a key from the database. It either uses the Darwino queries or JSQL.")}
                         </p>
                         <ButtonToolbar>
-                            <Button bsStyle="primary" onClick={()=>this.dblookup(this.companyName)}>Use Darwino Query</Button>
-                            <Button bsStyle="primary" onClick={()=>this.dblookupsql(this.companyName)}>Use JSQL</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dblookup(this.companyName)}>{_t("codedba.dwoquery","Use Darwino Query")}</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dblookupsql(this.companyName)}>{_t("codedba.jsql","Use JSQL")}</Button>
                         </ButtonToolbar>
                     </div>
 
                     <div className="col-md-12 col-sm-12">
                         <br/>
-                        <ControlLabel>Performance Tests</ControlLabel>
+                        <ControlLabel>{_t("codedba.perftest","Performance Tests")}</ControlLabel>
                         <p>
-                            This is used internally to measure performance
+                            {_t("codedba.decperf","This is used internally to measure performance")}
                         </p>
                         <ButtonToolbar>
-                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(1000)}>1000 view entries</Button>
-                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(10000)}>10,000 view entries</Button>
-                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(50000)}>50,000 view entries</Button>
-                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(50000,true)}>50,000 view entries, categorized</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(1000)}>{_t("codedba.1000","1000 view entries")}</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(10000)}>{_t("codedba.10000","10,000 view entries")}</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(50000)}>{_t("codedba.50000","50,000 view entries")}</Button>
+                            <Button bsStyle="primary" onClick={()=>this.dbPerformance(50000,true)}>{_t("codedba.50000cat","50,000 view entries, categorized")}</Button>
                         </ButtonToolbar>
                     </div>
                 </fieldset>

@@ -1,20 +1,30 @@
-/*!COPYRIGHT HEADER! - CONFIDENTIAL 
+/*!COPYRIGHT HEADER! 
  *
- * Darwino Inc Confidential.
+ * (c) Copyright Darwino Inc. 2014-2018.
  *
- * (c) Copyright Darwino Inc. 2014-2017.
+ * Licensed under The MIT License (https://opensource.org/licenses/MIT)
  *
- * Notice: The information contained in the source code for these files is the property 
- * of Darwino Inc. which, with its licensors, if any, owns all the intellectual property 
- * rights, including all copyright rights thereto.  Such information may only be used 
- * for debugging, troubleshooting and informational purposes.  All other uses of this information, 
- * including any production or commercial uses, are prohibited. 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 const webpack      = require('webpack');
 const path         = require('path');
 const autoprefixer = require('autoprefixer');
 const precss       = require('precss');
+const fs 		   = require('fs');
 
 const contextDir      = path.resolve(__dirname, "src/main/app");
 const assetsDir       = path.resolve(__dirname, "src/main/resources/DARWINO-INF/resources/assets");
@@ -38,13 +48,7 @@ const config = {
 		filename: "bundle.js"
 	},
   	resolve: {
-  		// For internal development of the darwino library
-  		// alias: {
-  		//  	"@darwino/darwino$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino'),
-  		//  	"@darwino/darwino-react$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react'),
-  		//  	"@darwino/darwino-react-bootstrap$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-bootstrap'),
-  		//  	"@darwino/darwino-react-bootstrap-notes$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-bootstrap-notes')
-  		// },
+		symlinks: false,
     	extensions: ['.js', '.jsx']
 	},
   	module: {
@@ -102,6 +106,17 @@ const config = {
 		})
 	],
 };
+
+// Darwino development version 
+if(fs.existsSync(path.resolve(__dirname,'src/main/app/darwinosrc/darwino'))) {
+	// For internal development of the Darwino library
+ 	config.resolve.alias = {
+  	  	"@darwino/darwino$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino'),
+  	  	"@darwino/darwino-react$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react'),
+  	  	"@darwino/darwino-react-bootstrap$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-bootstrap'),
+  	  	"@darwino/darwino-react-bootstrap-notes$": path.resolve(__dirname,'src/main/app/darwinosrc/darwino-react-bootstrap-notes')
+	}
+}
 
 if (production) {
 	new webpack.DefinePlugin({ // <-- key to reducing React's size

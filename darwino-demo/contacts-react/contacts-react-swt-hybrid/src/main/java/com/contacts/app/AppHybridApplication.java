@@ -1,6 +1,6 @@
 /*!COPYRIGHT HEADER! 
  *
- * (c) Copyright Darwino Inc. 2014-2016.
+ * (c) Copyright Darwino Inc. 2014-2018.
  *
  * Licensed under The MIT License (https://opensource.org/licenses/MIT)
  *
@@ -45,7 +45,12 @@ public class AppHybridApplication extends DarwinoSwtHybridApplication {
 						public boolean isDataEncryptedByDefault() {
 							return false;
 						}
-					}), 
+					} ) {
+						@Override
+						public String getMainPageUrl() {
+							return "assets/index.html"; //$NON-NLS-1$
+						}
+					}, 
 					application);
 			app.init();
 		}
@@ -65,4 +70,5 @@ public class AppHybridApplication extends DarwinoSwtHybridApplication {
 	protected DarwinoMobileHttpServer createHttpServer(HttpServerContext context) {
     	return new AppServiceDispatcher(context);
 	}
+	
 }

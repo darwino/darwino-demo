@@ -1,6 +1,6 @@
 /*!COPYRIGHT HEADER! 
  *
- * (c) Copyright Darwino Inc. 2014-2016.
+ * (c) Copyright Darwino Inc. 2014-2018.
  *
  * Licensed under The MIT License (https://opensource.org/licenses/MIT)
  *

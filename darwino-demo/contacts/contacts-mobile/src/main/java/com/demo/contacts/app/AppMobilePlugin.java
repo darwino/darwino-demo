@@ -1,6 +1,6 @@
 /*!COPYRIGHT HEADER! 
  *
- * (c) Copyright Darwino Inc. 2014-2016.
+ * (c) Copyright Darwino Inc. 2014-2018.
  *
  * Licensed under The MIT License (https://opensource.org/licenses/MIT)
  *
@@ -24,12 +24,14 @@ package com.demo.contacts.app;
 
 import java.util.List;
 
+import com.darwino.commons.platform.impl.PluginImpl;
+
 
 
 /**
  * Application Plugin.
  */
-public abstract class AppMobilePlugin extends AppBasePlugin {
+public abstract class AppMobilePlugin extends PluginImpl {
 	
 	public AppMobilePlugin(String name) {
 		super(name);
@@ -37,6 +39,8 @@ public abstract class AppMobilePlugin extends AppBasePlugin {
 
 	@Override
 	public void findExtensions(Class<?> serviceClass, List<Object> extensions) {
+		AppBasePlugin.findExtensions(serviceClass, extensions);
+		
 		// Example showing how to bypass SSL certificates for development purposes
 		// This might be useful when using self signed certificates with local development servers
 /*		

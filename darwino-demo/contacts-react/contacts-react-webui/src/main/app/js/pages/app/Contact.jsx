@@ -1,3 +1,25 @@
+/*!COPYRIGHT HEADER! 
+ *
+ * (c) Copyright Darwino Inc. 2014-2018.
+ *
+ * Licensed under The MIT License (https://opensource.org/licenses/MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /* 
  * (c) Copyright Darwino Inc. 2014-2017.
  */
@@ -10,6 +32,7 @@ import { Link, Prompt } from "react-router-dom";
 import { FormattedDate, FormattedTime } from "react-intl";
 import { Panel, Tabs, Tab, Button, ButtonToolbar } from 'react-bootstrap';
 
+import {  _t } from '@darwino/darwino';
 import { UserService, Richtext, Jsql } from '@darwino/darwino';
 const { richTextToDisplayFormat, richTextToStorageFormat } = Richtext;
 import {JsonDebug} from "@darwino/darwino-react";
@@ -29,9 +52,11 @@ const FORM_NAME = "contact";
 export class Contact extends DocumentForm {
 
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: DATABASE,
-        storeId: STORE
+    static get defaultProps() { 
+        return {
+            databaseId: DATABASE,
+            storeId: STORE
+        }
     };
 
     constructor(props,context) {
@@ -70,17 +95,17 @@ export class Contact extends DocumentForm {
         const errors = {};
         // Add the validation rules here!
         if(!values.firstname) {
-            errors.firstname = "Missing First Name"
+            errors.firstname = _t("contact.errfname","Missing First Name")
         }
         if(!values.lastname) {
-            errors.lastname = "Missing Last Name"
+            errors.lastname = _t("contact.errlname","Missing Last Name")
         }
         return errors;
     }
 
     // Values computed once when the document is loaded
     calculateOnLoad(values) {
-        values.title = "Contact Document"
+        values.title = _t("contact.title","Contact Document")
         values.cdate = this.getDocument().cdate && new Date(this.getDocument().cdate)
         values.mdate = this.getDocument().mdate && new Date(this.getDocument().mdate)
 
@@ -118,12 +143,12 @@ export class Contact extends DocumentForm {
         return (
             <span key="main">
                 <span style={(disabled||readOnly) ? {display: 'none'} : {}}>
-                    <Button bsStyle="primary" onClick={this.submit} disabled={invalid||submitting}>Submit</Button>
+                    <Button bsStyle="primary" onClick={this.submit} disabled={invalid||submitting}>{_t("contact.submit","Submit")}</Button>
                     <div className="pull-right">
-                        <Button onClick={this.delete} bsStyle="danger" style={newDoc ? {display: 'none'} : {}}>Delete</Button>
+                        <Button onClick={this.delete} bsStyle="danger" style={newDoc ? {display: 'none'} : {}}>{_t("contact.delete","Delete")}</Button>
                     </div>
                 </span>
-                <Button bsStyle="link" onClick={this.cancel}>Cancel</Button>
+                <Button bsStyle="link" onClick={this.cancel}>{_t("contact.cancel","Cancel")}</Button>
             </span>
         );
     }
@@ -151,79 +176,79 @@ export class Contact extends DocumentForm {
                     <Prompt
                         when={dirty}
                         message={location => (
-                            `The contact is modified and not saved yet.\nDo you want to leave the current page without saving it?`
+                            _t("contact.saveprompt","The contact is modified and not saved yet.\nDo you want to leave the current page without saving it?")
                         )}
                     />                    
                     <Tabs defaultActiveKey={1} id="doctab">
-                        <Tab eventKey={1} title="Contact Information">
+                        <Tab eventKey={1} title={_t("contact.tabinfo","Contact Information")}>
                             <fieldset>
                                 <h2>{this.getFieldValue("title")}</h2>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="firstname" type="text" component={renderText} label="First Name" disabled={disabled} readOnly={readOnly}/>
+                                    <Field name="firstname" type="text" component={renderText} label={_t("contact.fname","First Name")} disabled={disabled} readOnly={readOnly}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="lastname" type="text" component={renderText} label="Last Name" disabled={disabled} readOnly={readOnly}/>
+                                    <Field name="lastname" type="text" component={renderText} label={_t("contact.lname","Last Name")} disabled={disabled} readOnly={readOnly}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <ComputedField label="Full Name" name="fullnameUpper"/>
+                                    <ComputedField label={_t("contact.fullname","Full Name")} name="fullnameUpper"/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="email" type="text" component={renderText} label="E-Mail" disabled={disabled} readOnly={readOnly}/>
+                                    <Field name="email" type="text" component={renderText} label={_t("contact.email","E-Mail")} disabled={disabled} readOnly={readOnly}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="sex" component={renderSelect} label="Sex" disabled={disabled} readOnly={readOnly}
+                                    <Field name="sex" component={renderSelect} label={_t("contact.sex","Sex")} disabled={disabled} readOnly={readOnly}
                                         options={[
-                                            { value: "", label: "- Select One -"},
-                                            { value: "M", label: "Male"},
-                                            { value: "F", label: "Female"}
+                                            { value: "", label: _t("contact.selone","- Select One -") },
+                                            { value: "M", label: _t("contact.male","Male") },
+                                            { value: "F", label: _t("contact.female","Female") }
                                         ]}
                                     />
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="firstcontact" component={renderDatePicker} label="Contact Since" disabled={disabled} readOnly={readOnly}/>
+                                    <Field name="firstcontact" component={renderDatePicker} label={_t("contact.firstcomt","Contact Since")} disabled={disabled} readOnly={readOnly}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Panel collapsible defaultExpanded header="Address">
+                                    <Panel collapsible defaultExpanded header={_t("contact.address","Address")}>
                                         <CCAddress {...this.props} name=""/>
                                     </Panel>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Panel collapsible defaultExpanded header="Phone Numbers">
+                                    <Panel collapsible defaultExpanded header={_t("contact.phonenum","Phone Numbers")}>
                                         <div className="col-md-12 col-sm-12">
-                                            <Field name="homephone" type="text" component={renderText} label="Home" disabled={disabled} readOnly={readOnly}/>
+                                            <Field name="homephone" type="text" component={renderText} label={_t("contact.home","Home")} disabled={disabled} readOnly={readOnly}/>
                                         </div>
                                         <div className="col-md-12 col-sm-12">
-                                            <Field name="mobilephone" type="text" component={renderText} label="Mobile" disabled={disabled} readOnly={readOnly}/>
+                                            <Field name="mobilephone" type="text" component={renderText} label={_t("contact.mobile","Mobile")} disabled={disabled} readOnly={readOnly}/>
                                         </div>
                                         <div className="col-md-12 col-sm-12">
-                                            <Field name="workphone" type="text" component={renderText} label="Work" disabled={disabled} readOnly={readOnly}/>
+                                            <Field name="workphone" type="text" component={renderText} label={_t("contact.work","Work")} disabled={disabled} readOnly={readOnly}/>
                                         </div>
                                     </Panel>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Field name="comments" component={renderRichText} label="Comments" disabled={disabled} readOnly={readOnly}/>
+                                    <Field name="comments" component={renderRichText} label={_t("contact.comments","Comments")} disabled={disabled} readOnly={readOnly}/>
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">
-                                    <Panel collapsible defaultExpanded header="Company">
+                                    <Panel collapsible defaultExpanded header={_t("contact.company","Company")}>
                                         <div className="col-md-12 col-sm-12">
-                                            <Field name="company" type="text" component={renderSelect} label="Company" disabled={disabled} readOnly={readOnly}
+                                            <Field name="company" type="text" component={renderSelect} label={_t("contact.company","Company")} disabled={disabled} readOnly={readOnly}
                                                 options={this.state.allCompanies} emptyOption={true}/>
                                         </div>
                                     </Panel>
                                 </div>
                             </fieldset>
                         </Tab>
-                        <Tab eventKey={2} title="Business Card">
+                        <Tab eventKey={2} title={_t("contact.buscard","Business Card")}>
                             <fieldset>
                                 <div>
                                     <div className="col-md-12 col-sm-12">
@@ -232,28 +257,28 @@ export class Contact extends DocumentForm {
                                 </div>
                             </fieldset>
                         </Tab>
-                        <Tab eventKey={3} title="Document Information">
+                        <Tab eventKey={3} title={_t("contact.docinfo","Document Information")}>
                             {(cuser && muser && cdate && mdate) && <fieldset>
                                 <div>
                                     <div className="col-md-12 col-sm-12">
-                                        <ComputedField label="Created On">
+                                        <ComputedField label={_t("contact.creaton","Created On")}>
                                             <FormattedDate value={cdate}/>,<FormattedTime value={cdate}/>
                                         </ComputedField>
                                     </div>
                                     <div className="col-md-12 col-sm-12">
-                                        <ComputedField label="Created By">
+                                        <ComputedField label={_t("contact.createdby","Created By")}>
                                             <img src={cuser.getPhotoUrl()} className="img-circle" style={{width: 25, height: 25}}/>
                                             &nbsp;
                                             {cuser.getCn()}
                                         </ComputedField>
                                     </div>
                                     <div className="col-md-12 col-sm-12">
-                                        <ComputedField label="Last Modified On">
+                                        <ComputedField label={_t("contact.lastmoddat","Last Modified On")}>
                                             <FormattedDate value={mdate}/>,<FormattedTime value={mdate}/>
                                     </ComputedField>
                                     </div>
                                     <div className="col-md-12 col-sm-12">
-                                        <ComputedField label="Last Modified By">
+                                        <ComputedField label={_t("contact.lastmodby","Last Modified By")}>
                                             <img src={muser.getPhotoUrl()} className="img-circle" style={{width: 25, height: 25}}/>
                                             &nbsp;
                                             {muser.getCn()}
@@ -267,11 +292,11 @@ export class Contact extends DocumentForm {
                     <div>
                         <span style={(disabled||readOnly) ? {display: 'none'} : {}}>
                             <div className="pull-right">
-                                <Button onClick={this.handleDeleteDocument} bsStyle="danger" style={newDoc ? {display: 'none'} : {}}>Delete</Button>
+                                <Button onClick={this.handleDeleteDocument} bsStyle="danger" style={newDoc ? {display: 'none'} : {}}>{_t("contact.delete","Delete")}</Button>
                             </div>
-                            <Button bsStyle="primary" type="submit" disabled={invalid||submitting}>Submit</Button>
+                            <Button bsStyle="primary" type="submit" disabled={invalid||submitting}>{_t("contact.tabnfo","Submit")}</Button>
                         </span>
-                        <Button bsStyle="link" onClick={this.handleCancel}>Cancel</Button>
+                        <Button bsStyle="link" onClick={this.handleCancel}>{_t("contact.cancel","Cancel")}</Button>
                     </div>
                     {/*Uncomment to display the current JSON content*/}
                     {/* <JsonDebug form={this.props.form}/>   */}

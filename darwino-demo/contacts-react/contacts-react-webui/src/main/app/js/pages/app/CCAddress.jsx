@@ -1,3 +1,25 @@
+/*!COPYRIGHT HEADER! 
+ *
+ * (c) Copyright Darwino Inc. 2014-2018.
+ *
+ * Licensed under The MIT License (https://opensource.org/licenses/MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /* 
  * (c) Copyright Darwino Inc. 2014-2017.
  */
@@ -10,6 +32,7 @@ import React, { Component } from "react";
 import { Field } from 'redux-form';
 import { Button, DropdownButton, MenuItem } from 'react-bootstrap';
 
+import {  _t } from '@darwino/darwino';
 import { DocumentSubform, renderText, renderSelect } from '@darwino/darwino-react-bootstrap';
 import Constants from "./Constants";
 
@@ -33,23 +56,23 @@ export default class CCAddress extends DocumentSubform {
         const errors = {};
         // Add the validation rules here!
         if(!values.street) {
-            errors.street = "Missing Street"
+            errors.street = _t("ccaddress.errstreet","Missing Street")
         }
         if(!values.city) {
-            errors.city = "Missing City"
+            errors.city = _t("ccaddress.errcity","Missing City")
         }
         if(!values.zipcode) {
-            errors.zipcode = "Missing Zipcode"
+            errors.zipcode = _t("ccaddress.errzipcode","Missing Zipcode")
         }
         if(!values.state) {
-            errors.state = "Missing State"
+            errors.state = _t("ccaddress.errstate","Missing State")
         }
         return errors;
     }
 
     contributeActionBar() {
         return (
-            <DropdownButton key="address" title="Set Address" id="dropdown-size-medium">
+            <DropdownButton key="address" title={_t("ccaddress.setaddress","Set Address")} id="dropdown-size-medium">
                 <MenuItem eventKey="1" onClick={()=>(this.setAddress(1))}>Boston</MenuItem>
                 <MenuItem eventKey="2" onClick={()=>(this.setAddress(2))}>New York</MenuItem>
                 <MenuItem eventKey="3" onClick={()=>(this.setAddress(3))}>San Francisco</MenuItem>
@@ -84,16 +107,16 @@ export default class CCAddress extends DocumentSubform {
         return (
             <div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="street" type="text" component={renderText} label="Street" disabled={disabled} readOnly={readOnly}/>
+                    <Field name="street" type="text" component={renderText} label={_t("ccaddress.street","Street")} disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-12 col-sm-12">
-                    <Field name="city" type="text" component={renderText} label="City" disabled={disabled} readOnly={readOnly}/>
+                    <Field name="city" type="text" component={renderText} label={_t("ccaddress.city","City")} disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-2 col-sm-2">
-                    <Field name="zipcode" type="text" component={renderText} label="Zip Code" disabled={disabled} readOnly={readOnly}/>
+                    <Field name="zipcode" type="text" component={renderText} label={_t("ccaddress.zipcode","Zip Code")} disabled={disabled} readOnly={readOnly}/>
                 </div>
                 <div className="col-md-2 col-sm-2">
-                    <Field name="state" type="text" component={renderSelect} label="State" disabled={disabled} readOnly={readOnly}
+                    <Field name="state" type="text" component={renderSelect} label={_t("ccaddress.state","State")} disabled={disabled} readOnly={readOnly}
                             options={US_STATES} emptyOption={true}/>
                 </div>
                 {!readOnly && !disabled && (

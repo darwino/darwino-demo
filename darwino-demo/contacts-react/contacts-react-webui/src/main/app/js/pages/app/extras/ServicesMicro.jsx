@@ -1,10 +1,32 @@
+/*!COPYRIGHT HEADER! 
+ *
+ * (c) Copyright Darwino Inc. 2014-2018.
+ *
+ * Licensed under The MIT License (https://opensource.org/licenses/MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /* 
  * (c) Copyright Darwino Inc. 2014-2017.
  */
 import React, {Component} from "react";
 import { Button, ButtonToolbar, ControlLabel } from 'react-bootstrap';
-
-import { MicroServices } from '@darwino/darwino';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { MicroServices, I18N } from '@darwino/darwino';
 import { Messages } from '@darwino/darwino-react-bootstrap';
 
 class ServicesMicro extends Component {
@@ -17,11 +39,11 @@ class ServicesMicro extends Component {
         }
     }
 
-    callMicroService(valid) {
+    callMicroService(name) {
         const {mainForm} = this.props;
         new MicroServices()
-            .name(valid?"HelloWorld":"fake")
-            .params({greetings: "I am the React client calling you"})
+            .name(name)
+            .params({greetings: this.props.intl.formatMessage({id:"microsvc.clientstr"})})
             .fetch()
             .then((r) => {
                 this.setState({
@@ -34,6 +56,11 @@ class ServicesMicro extends Component {
                     error: true,
                     result: e.message+"\n"+e.content
                 })
+                if(window.rollbar) {
+                    // Don't need to localize, as this goes to the rollbar server
+                    const errorContext = (e.jsonContent && e.jsonContent.errorContext)||"";
+                    window.rollbar.error("Client "+errorContext+", Calling micro service '"+name+"', "+e.message+"\n"+e.content,e);
+                }
             })
     }
 
@@ -41,16 +68,19 @@ class ServicesMicro extends Component {
         return (
             <div>
                 <div className="col-md-12 col-sm-12">
-                    <p>
-                        Micro services are simple JSON based services implemented on the server side that can 
-                        be called by the client through a REST request. They optionally take a JSON payload 
-                        as parameters and return a JSON result.
-                    </p>
+                    <FormattedMessage id='microsvc.desc' tagName='p'/>
                 </div>
                 <div className="col-md-12 col-sm-12">
                     <ButtonToolbar>
-                        <Button bsStyle="primary" onClick={()=>this.callMicroService(true)}>Call Micro service</Button>
-                        <Button bsStyle="primary" onClick={()=>this.callMicroService(false)}>Call Micro service - Error</Button>
+                        <Button bsStyle="primary" onClick={()=>this.callMicroService("HelloWorld")}>
+                            <FormattedMessage id='microsvc.callmicrosvc'/>
+                        </Button>
+                        <Button bsStyle="primary" onClick={()=>this.callMicroService("fake")}>
+                            <FormattedMessage id='microsvc.callmicrosvcfake'/>
+                        </Button>
+                        <Button bsStyle="primary" onClick={()=>this.callMicroService("ServerError")}>
+                            <FormattedMessage id='microsvc.callmicrosvcerr'/>
+                        </Button>
                     </ButtonToolbar>
                     <br/>
                     {this.state.result &&
@@ -64,4 +94,4 @@ class ServicesMicro extends Component {
     }
 }
 
-export default ServicesMicro
+export default injectIntl(ServicesMicro)

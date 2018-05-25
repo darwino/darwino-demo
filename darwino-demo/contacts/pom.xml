@@ -18,7 +18,7 @@
   </modules>
 
 	<properties>
-		<DARWINO_VERSION>2.0.0</DARWINO_VERSION>
+		<DARWINO_VERSION>2.1.0</DARWINO_VERSION>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

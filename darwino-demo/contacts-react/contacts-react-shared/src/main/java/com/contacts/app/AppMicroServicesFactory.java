@@ -1,6 +1,6 @@
 /*!COPYRIGHT HEADER! 
  *
- * (c) Copyright Darwino Inc. 2014-2016.
+ * (c) Copyright Darwino Inc. 2014-2018.
  *
  * Licensed under The MIT License (https://opensource.org/licenses/MIT)
  *
@@ -25,7 +25,10 @@ package com.contacts.app;
 import com.darwino.commons.microservices.StaticJsonMicroServicesFactory;
 
 import com.contacts.app.microservices.HelloWorld;
+import com.contacts.app.microservices.RollbarConfig;
+import com.contacts.app.microservices.ServerError;
 import com.contacts.app.microservices.SetCompanySize;
+import com.contacts.app.microservices.SetSessionLocale;
 
 
 /**
@@ -40,5 +43,8 @@ public class AppMicroServicesFactory extends StaticJsonMicroServicesFactory {
 	public AppMicroServicesFactory() {
 		add(HelloWorld.NAME, new HelloWorld());
 		add(SetCompanySize.NAME, new SetCompanySize());
+		add(SetSessionLocale.NAME, new SetSessionLocale());
+		add(ServerError.NAME, new ServerError());
+		add(RollbarConfig.NAME, new RollbarConfig());
 	}
 }

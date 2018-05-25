@@ -34,7 +34,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.contacts</groupId>
-			<artifactId>contacts-react-webui</artifactId>
+			<artifactId>contacts-react-webui-mobile</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

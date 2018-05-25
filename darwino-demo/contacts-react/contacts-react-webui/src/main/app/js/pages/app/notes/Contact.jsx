@@ -1,3 +1,25 @@
+/*!COPYRIGHT HEADER! 
+ *
+ * (c) Copyright Darwino Inc. 2014-2018.
+ *
+ * Licensed under The MIT License (https://opensource.org/licenses/MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /* 
  * (c) Copyright Darwino Inc. 2014-2017.
  */
@@ -11,6 +33,7 @@ import { FormattedDate, FormattedTime } from "react-intl";
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
+import {  _t } from '@darwino/darwino';
 import {JsonDebug} from "@darwino/darwino-react";
 import { renderText, renderRadioGroup, renderCheckbox, renderSelect, renderRichText, renderDatePicker } from '@darwino/darwino-react-bootstrap';
 import { FormPage } from '@darwino/darwino-react-bootstrap-notes';
@@ -28,9 +51,11 @@ const FORM_NAME = "contact";
 export class Contact extends FormPage {
 
     // Default values of the properties
-    static defaultProps  = {
-        databaseId: DATABASE,
-        storeId: STORE
+    static get defaultProps() { 
+        return {
+            databaseId: DATABASE,
+            storeId: STORE
+        }
     };
 
     constructor(props,context) {
@@ -56,17 +81,17 @@ export class Contact extends FormPage {
         const errors = {};
         // Add the validation rules here!
         if(!values.firstname) {
-            errors.firstname = "Missing First Name"
+            errors.firstname = _t("notescontact.missfname","Missing First Name");
         }
         if(!values.lastname) {
-            errors.lastname = "Missing Last Name"
+            errors.lastname = _t("notescontact.misslname","Missing Last Name");
         }
         return errors;
     }
 
     // Values computed once when the document is loaded
     calculateOnLoad(values) {
-        values.title = "Contact Document"
+        values.title = _t("notescontact.title","Contact Document");
     }
 
     // Values computed every time the document is changed
@@ -80,14 +105,14 @@ export class Contact extends FormPage {
         const { invalid, submitting } = this.props;
         return (
             <Nav key="main">
-                <NavItem eventKey={1} href="#" onClick={this.submit}>Save</NavItem>
-                <NavItem eventKey={2} href="#" onClick={this.cancel}>Cancel</NavItem>
-                <NavDropdown eventKey={3} title="Form Actions" id="form-nav-dropdown">
-                    <MenuItem eventKey={3.1}>Action 1</MenuItem>
-                    <MenuItem eventKey={3.2}>Action 2</MenuItem>
-                    <MenuItem eventKey={3.3}>Action 3</MenuItem>
+                <NavItem eventKey={1} href="#" onClick={this.submit}>{_t("notescontact.save","Save")}</NavItem>
+                <NavItem eventKey={2} href="#" onClick={this.cancel}>{_t("notescontact.cancel","Cancel")}</NavItem>
+                <NavDropdown eventKey={3} title={_t("notescontact.formact","Form Actions")} id="form-nav-dropdown">
+                    <MenuItem eventKey={3.1}>{_t("notescontact.action1","Action 1")}</MenuItem>
+                    <MenuItem eventKey={3.2}>{_t("notescontact.action2","Action 3")}</MenuItem>
+                    <MenuItem eventKey={3.3}>{_t("notescontact.action3","Action 3")}</MenuItem>
                     <MenuItem divider />
-                    <MenuItem eventKey={3.4}>Action 4</MenuItem>
+                    <MenuItem eventKey={3.4}>{_t("notescontact.action4","Action 4")}</MenuItem>
                 </NavDropdown>
             </Nav>
         );
@@ -106,22 +131,22 @@ export class Contact extends FormPage {
                     <Prompt
                         when={dirty}
                         message={location => (
-                            `The contact is modified and not saved yet.\nDo you want to leave the current page without saving it?`
+                            _t("notescontact.saveconf","The contact is modified and not saved yet.\nDo you want to leave the current page without saving it?")
                         )}
                     />                    
                     <fieldset>
                         <h2>{this.getFieldValue("title")}</h2>
 
                         <div className="col-md-12 col-sm-12">
-                            <Field name="firstname" type="text" component={renderText} label="First Name" disabled={disabled} readOnly={readOnly}/>
+                            <Field name="firstname" type="text" component={renderText} label={_t("notescontact.fname","First Name")} disabled={disabled} readOnly={readOnly}/>
                         </div>
 
                         <div className="col-md-12 col-sm-12">
-                            <Field name="lastname" type="text" component={renderText} label="Last Name" disabled={disabled} readOnly={readOnly}/>
+                            <Field name="lastname" type="text" component={renderText} label={_t("notescontact.lname","Last Name")} disabled={disabled} readOnly={readOnly}/>
                         </div>
 
                         <div className="col-md-12 col-sm-12">
-                            <Panel collapsible defaultExpanded header="Address">
+                            <Panel collapsible defaultExpanded header={_t("notescontact.address","Address")}>
                                 <CCAddress {...this.props} name=""/>
                             </Panel>
                         </div>

@@ -1,6 +1,6 @@
 /*!COPYRIGHT HEADER! 
  *
- * (c) Copyright Darwino Inc. 2014-2016.
+ * (c) Copyright Darwino Inc. 2014-2018.
  *
  * Licensed under The MIT License (https://opensource.org/licenses/MIT)
  *
@@ -60,12 +60,10 @@ public class AppInformationRest extends HttpService {
 				o.put("session", jSession);
 				
 				// Add custom application information
-				// ....
-				
-		} catch(Exception ex) {
+			} catch(Exception ex) {
 				o.put("exception", HttpServiceError.exceptionAsJson(ex, false));
 			}
-			context.emitJson(o);
+		context.emitJson(o);
 		} else {
 			throw HttpServiceError.errorUnsupportedMethod(context.getMethod());
 		}

@@ -1,7 +1,30 @@
+/*!COPYRIGHT HEADER! 
+ *
+ * (c) Copyright Darwino Inc. 2014-2018.
+ *
+ * Licensed under The MIT License (https://opensource.org/licenses/MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /* 
  * (c) Copyright Darwino Inc. 2014-2017.
  */
 import React from "react";
+import {  _t } from '@darwino/darwino';
 import { FormattedDate, FormattedTime } from "react-intl";
 import Constants from "./Constants";
 
@@ -24,12 +47,12 @@ export const SexFormatter = function(props) {
     const sex = props.value;
     if(sex=='M') {
         return (
-            <div><img alt="male" src={MaleImage} style={{height: 20, marginRight: 10}}/>Male</div>
+            <div><img alt={_t("formatters.male","Male")} src={MaleImage} style={{height: 20, marginRight: 10}}/>{_t("formatters.male","Male")}</div>
         )
     } else
     if(sex=='F') {
         return (
-            <div><img alt="female" src={FemaleImage}  style={{height: 20, marginRight: 10}}/>Female</div>
+            <div><img alt={_t("formatters.female","Female")} src={FemaleImage}  style={{height: 20, marginRight: 10}}/>{_t("formatters.female","Female")}</div>
         )
     } else {
         return (

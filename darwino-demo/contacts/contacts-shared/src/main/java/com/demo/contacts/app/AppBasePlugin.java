@@ -1,6 +1,6 @@
 /*!COPYRIGHT HEADER! 
  *
- * (c) Copyright Darwino Inc. 2014-2016.
+ * (c) Copyright Darwino Inc. 2014-2018.
  *
  * Licensed under The MIT License (https://opensource.org/licenses/MIT)
  *
@@ -22,19 +22,16 @@
 
 package com.demo.contacts.app;
 
-import com.darwino.commons.platform.impl.PluginImpl;
+import java.util.List;
 
 
 
 /**
  * Main plugin class.
  * 
- * This class is used to register the common plugin services and is meant to be overloaded
- * by an actual implementation (J2EE, Mobile...).
  */
-public abstract class AppBasePlugin extends PluginImpl {
+public class AppBasePlugin {
 	
-	public AppBasePlugin(String name) {
-		super(name);
+	public static void findExtensions(Class<?> serviceClass, List<Object> extensions) {
 	}
 }

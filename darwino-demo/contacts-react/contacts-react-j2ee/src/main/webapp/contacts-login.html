@@ -1,5 +1,8 @@
 <html>
 	<head>
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <meta charset="UTF-8">
 		<title>Login Page</title>
 		<style>
 			body {
@@ -38,6 +41,16 @@
 				margin-top: 7px;
 				padding: 7px 0 8px;
 			}
+			.submit-demo {
+				width: 100%;
+				background: #5cb85c none repeat scroll 0 0;
+				border: 1px none #4cae4c;
+				border-radius: 3px;
+				color: #ffffff;
+				margin-bottom: 8px;
+				margin-top: 7px;
+				padding: 7px 0 8px;
+			}
 			/* Make the page responsive */
             @media (max-width: 768px) {
             	.mainBox {
@@ -47,15 +60,29 @@
                 }
             }  			
 		</style>
+		<script>
+			function logDemo() {
+				var form = document.forms[0];
+				var u = form.dwo_username.value;
+				var p = form.dwo_password.value;
+				form.dwo_username.value = "demo";
+				form.dwo_password.value = "demo";
+				form.submit();
+				form.dwo_username.value = u;
+				form.dwo_password.value = p;
+			}
+		</script>
 	</head>
 	<body>
 		<div class="mainBox">
 			<h2>
 				Welcome to the Contacts demo application.
 			</h2>
-			If you don't have a user/password, please use demo/demo. You will be able to edit the data, but not save the changes.
-			</br>
 			<form action="${ACTION_URL}" method="post">
+				<p/>
+				<h2>
+					Login
+				</h2>
 				<p>
 					<p class="error" style="color: red">
 						${ERROR_MESSAGE}
@@ -68,6 +95,11 @@
 					<input type="hidden" name="dwo_redirect" value="${REDIRECT_URL}">
 				<p>
 					<input type="submit" class="submit" value="Log In">
+				</p>
+				If you don't have a user/password, please use demo/demo or the button bellow. You will be able to edit the data, but not save the changes.
+				</br>
+				<p>
+					<input type="button" class="submit-demo" value="Log As Demo User" onclick="logDemo()">
 				</p>
 			</form>
 		</div>

@@ -1,6 +1,6 @@
 /*!COPYRIGHT HEADER! 
  *
- * (c) Copyright Darwino Inc. 2014-2016.
+ * (c) Copyright Darwino Inc. 2014-2018.
  *
  * Licensed under The MIT License (https://opensource.org/licenses/MIT)
  *
@@ -27,25 +27,16 @@ import java.util.List;
 import com.contacts.app.query.AppQueryExtension;
 import com.darwino.commons.json.query.QueryExtension;
 import com.darwino.commons.microservices.JsonMicroServiceFactory;
-import com.darwino.commons.platform.impl.PluginImpl;
 import com.darwino.commons.services.HttpServiceFactory;
 
 
 
 /**
  * Main plugin class.
- * 
- * This class is used to register the common plugin services and is meant to be overloaded
- * by an actual implementation (J2EE, Mobile...).
  */
-public abstract class AppBasePlugin extends PluginImpl {
+public class AppBasePlugin {
 	
-	public AppBasePlugin(String name) {
-		super(name);
-	}
-	
-	@Override
-	public void findExtensions(Class<?> serviceClass, List<Object> extensions) {
+	public static void findExtensions(Class<?> serviceClass, List<Object> extensions) {
 		if(serviceClass==HttpServiceFactory.class) {
 			extensions.add(new AppRestServiceFactory());
 		} else if(serviceClass==JsonMicroServiceFactory.class) {
@@ -53,7 +44,5 @@ public abstract class AppBasePlugin extends PluginImpl {
 		} else if(serviceClass==QueryExtension.class) {
 			extensions.add(new AppQueryExtension());
 		}
-
-		super.findExtensions(serviceClass, extensions);
 	}
 }

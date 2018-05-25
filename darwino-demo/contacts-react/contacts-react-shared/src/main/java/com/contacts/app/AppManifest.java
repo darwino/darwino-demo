@@ -1,6 +1,6 @@
 /*!COPYRIGHT HEADER! 
  *
- * (c) Copyright Darwino Inc. 2014-2016.
+ * (c) Copyright Darwino Inc. 2014-2018.
  *
  * Licensed under The MIT License (https://opensource.org/licenses/MIT)
  *
@@ -22,11 +22,14 @@
 
 package com.contacts.app;
 
+import java.util.Locale;
+
 import com.darwino.commons.json.JsonException;
 import com.darwino.jsonstore.Database;
 import com.darwino.jsonstore.Session;
 import com.darwino.jsonstore.extensions.ExtensionRegistry;
 import com.darwino.jsonstore.meta.DatabaseFactory;
+import com.darwino.platform.DarwinoApplication;
 import com.darwino.platform.DarwinoContext;
 import com.darwino.platform.DarwinoManifest;
 
@@ -37,10 +40,10 @@ import com.darwino.platform.DarwinoManifest;
  */
 public class AppManifest extends DarwinoManifest {
 	
-	public static String CONFIG_ID = "contacts";
+	public static String CONFIG_ID = "contacts-react";
 	
 	// This is used by the mobile application to call the remote service
-	public static final String MOBILE_PATHINFO	= "contacts";
+	public static final String MOBILE_PATHINFO	= "contacts-react";
 	
 	public static Session getSession() throws JsonException {
 		return DarwinoContext.get().getSession();
@@ -72,6 +75,9 @@ public class AppManifest extends DarwinoManifest {
 	
 	@Override
 	public String getMainPageUrl() {
+		if(DarwinoApplication.get().isMobile()) {
+			return "assets-mobile/index.html";
+		}
 		return "index.html";
 	}
 	
@@ -89,4 +95,10 @@ public class AppManifest extends DarwinoManifest {
 	public ExtensionRegistry getExtensionRegistry() {
 		return new AppDBBusinessLogic();
 	}
+
+	@Override
+	public Locale[] getSupportedLocales() {
+		return _locales;
+	}
+	private Locale[] _locales = new Locale[] {Locale.ENGLISH, Locale.FRENCH};	
 }

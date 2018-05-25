@@ -1,3 +1,25 @@
+/*!COPYRIGHT HEADER! 
+ *
+ * (c) Copyright Darwino Inc. 2014-2018.
+ *
+ * Licensed under The MIT License (https://opensource.org/licenses/MIT)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+ * and associated documentation files (the "Software"), to deal in the Software without restriction, 
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial 
+ * portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 /* 
  * (c) Copyright Darwino Inc. 2014-2017.
  */
@@ -8,6 +30,7 @@ import { Field, FieldArray, reduxForm } from 'redux-form';
 import { Tabs, Tab } from 'react-bootstrap';
 
 import { JstoreCursor, Jsql } from '@darwino/darwino';
+import {  _t } from '@darwino/darwino';
 import {JsonDebug} from "@darwino/darwino-react";
 import { DocumentForm, renderText, renderTextArea, renderStatic,renderSelect } from '@darwino/darwino-react-bootstrap';
 
@@ -58,6 +81,10 @@ class DynamicSelect extends DocumentForm {
                                 return e.fname + " " + e.lname;
                             });
                             this.setState({currentCompany:company, users: json})
+                            // Make the first user the selected one
+                            if(json && json.length) {
+                                this.setFieldValue("employee",json[0]);
+                            }
                         }
                     });
             } else {
@@ -76,11 +103,11 @@ class DynamicSelect extends DocumentForm {
                     </p>
                     <fieldset>
                         <div className="col-md-12 col-sm-12">
-                            <Field name="company" component={renderSelect} label="Company"
+                            <Field name="company" component={renderSelect} label={_t("dynsel.company","Company")}
                                 options={this.state.companies} emptyOption={true}/>
                         </div>
                         <div className="col-md-12 col-sm-12">
-                            <Field name="employee" component={renderSelect} label="Employee"
+                            <Field name="employee" component={renderSelect} label={_t("dynsel.employee","Employee")}
                                 options={this.state.users} emptyOption={true}/>
                         </div>
                     </fieldset>
