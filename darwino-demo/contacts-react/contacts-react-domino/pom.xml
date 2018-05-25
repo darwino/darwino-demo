@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.contacts</groupId>
+		<artifactId>contacts-react</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>contacts-react-domino</artifactId>
+	
+	<packaging>bundle</packaging>
+	<name>Contacts (Domino)</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-platform</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.darwino.domino</groupId>
+			<artifactId>com.darwino.domino.platform</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-j2ee-platform</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-web-darwino</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.contacts</groupId>
+			<artifactId>contacts-react-shared</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.contacts</groupId>
+			<artifactId>contacts-react-webui</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>org.eclipse.core.runtime</artifactId>
+			<version>3.6.0.v20100505</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.xsp</groupId>
+			<artifactId>com.ibm.domino.xsp.adapter</artifactId>
+			<classifier>lwpd.domino.adapter</classifier>
+			<version>9.0.1.20140404-1000</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+ 		<resources>
+ 			<resource>
+ 				<directory>${project.basedir}</directory>
+ 				<includes>
+ 					<include>plugin.xml</include>
+ 				</includes>
+ 			</resource>
+ 			<resource>
+ 				<directory>${project.basedir}/src/main/resources</directory>
+ 				<includes>
+ 					<include>**/*</include>
+ 				</includes>
+ 			</resource>
+ 		</resources>
+ 		
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>com.contacts.react.domino;singleton:=true</Bundle-SymbolicName>
+						<Require-Bundle>
+							org.eclipse.core.runtime;bundle-version="3.4.0",
+							com.ibm.notes.java.api;resolution:=optional,
+							com.ibm.pvc.servlet,
+							com.ibm.domino.xsp.adapter,
+							com.darwino.web.darwino,
+							com.darwino.domino.platform,
+							contacts-react-shared,
+							contacts-react-webui
+						</Require-Bundle>
+						<Automatic-Module-Name>com.contacts.react.domino</Automatic-Module-Name>
+						<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
+						<Bundle-Activator>com.contacts.app.AppActivator</Bundle-Activator>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

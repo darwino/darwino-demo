@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+	<extension point="org.eclipse.equinox.http.registry.servlets">
+		<servlet
+            alias="/DWOTPL_DOMINO_PATHINFO"
+            class="DWOTPL_PACKAGENAME.app.AppServletFiltered">
+		</servlet>
+	</extension>
+
+
+	<!-- Auto start of the OSGi plugin - This is optional, but let the services start when the server is started  -->
+	<extension point="com.ibm.commons.Extension">
+		<service type="com.ibm.xsp.adapter.serviceFactory" class="DWOTPL_PACKAGENAME.app.xsp.AutoStartServiceFactory" />
+	</extension>
+
+	<!-- Application specific Plugin -->
+	<extension point="darwino.eclipse.darwinoPlugin">
+		<service class="DWOTPL_PACKAGENAME.app.AppPlugin" />
+	</extension>
+
+	<!-- Web resources Plugins -->
+	<extension point="darwino.eclipse.darwinoPlugin">
+		<service class="com.darwino.platform.web.PluginDarwinoWeb" />
+	</extension>
+
+</plugin>

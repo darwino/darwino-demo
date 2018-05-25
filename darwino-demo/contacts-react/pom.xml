@@ -16,6 +16,8 @@
 		<module>contacts-react-android-hybrid</module>
 		<module>contacts-react-moe-hybrid</module>
 		<module>contacts-react-swt-hybrid</module>
+		<module>contacts-react-domino</module>
+		<module>contacts-react-domino-update</module>
   </modules>
 
 	<properties>
@@ -95,6 +97,27 @@
 					<version>2.17</version>
 				</plugin>
 				
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-bundle-plugin</artifactId>
+					<version>2.5.4</version>
+					<extensions>true</extensions>
+
+					<configuration>
+						<manifestLocation>${manifest-location}</manifestLocation>
+						<supportedProjectTypes>
+							<supportedProjectType>jar</supportedProjectType>
+							<supportedProjectType>bundle</supportedProjectType>
+							<supportedProjectType>eclipse-plugin</supportedProjectType>
+						</supportedProjectTypes>
+						<instructions>
+							<Import-Package/>
+							<Private-Package/>
+							<_snapshot>${osgi.qualifier}</_snapshot>
+							<_removeheaders>Bnd-LastModified,Built-By,Build-Jdk,Created-By,Tool</_removeheaders>
+						</instructions>
+					</configuration>
+				</plugin>
 				
 				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
