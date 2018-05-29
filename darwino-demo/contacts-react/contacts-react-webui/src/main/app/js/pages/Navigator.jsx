@@ -66,13 +66,19 @@ export default class Navigator extends React.Component {
                         </NavGroup>
 
                         <NavGroup title={_t("navigator.mobui","Mobile UI")} defaultExpanded={true}>
-                            <li><a  href="../mobile-demo/index.html">{_t("navigator.onsenmob","OnsenUI Mobile")}</a></li>
+                            <NavItem href="../mobile-demo/index.html">
+                                {_t("navigator.onsenmob","OnsenUI Mobile")}
+                            </NavItem>
                         </NavGroup>
 
                         <NavGroup title={_t("navigator.developers","Developers")}>
                             <NavLink to="/admin/console">Console</NavLink>
-                            <li><a target="_blank" href="https://github.com/darwino/darwino-demo/tree/develop/darwino-demo/contacts-react">Github</a></li>
-                            <li><a target="_blank" href="https://www.darwino.com">Darwino</a></li>
+                            <NavItem target="_blank" href="https://github.com/darwino/darwino-demo/tree/develop/darwino-demo/contacts-react">
+                                Github
+                            </NavItem>
+                            <NavItem target="_blank" href="https://www.darwino.com">
+                                Darwino
+                            </NavItem>
                         </NavGroup>
                     </Nav>
                 </Navbar.Collapse>

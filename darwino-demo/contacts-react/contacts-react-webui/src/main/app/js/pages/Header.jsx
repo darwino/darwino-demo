@@ -106,6 +106,7 @@ export default class Header extends React.Component {
         <Navbar.Collapse>
           <Nav pullRight>      
             <NavDropdown 
+                id="languageselect"
                 eventKey="3"
                 title={_t("header.language","Language")}
                 >
@@ -122,14 +123,14 @@ export default class Header extends React.Component {
                     {_t("header.french","French")}
                 </MenuItem>
             </NavDropdown >                
-            <Navbar.Text>
+            <NavItem>
                 <img src={this.currentLocaleImage()} alt={_t("header.currentlang","Current Language")} style={{height: 18, marginRight: 3}}/>
-            </Navbar.Text>
-            <Navbar.Text>
+            </NavItem>
+            <NavItem>
                 <img src={currentUser.getPhotoUrl()} className="img-circle" style={{width: 25, height: 25, marginLeft: 15}}/>
                 &nbsp;
                 {currentUser.getCn()}
-            </Navbar.Text>
+            </NavItem>
           </Nav>      
         </Navbar.Collapse>
       </Navbar>
