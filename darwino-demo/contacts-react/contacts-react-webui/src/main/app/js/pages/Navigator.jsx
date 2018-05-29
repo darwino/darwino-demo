@@ -37,7 +37,7 @@ export default class Navigator extends React.Component {
     render() {
         const {expanded, inverse, onSelect} = this.props;
         return (
-            <Navbar ref="navbar" expanded={expanded} inverse={inverse} className="navbar-fixed-side" onSelect={onSelect}>
+            <Navbar ref="navbar" expanded={expanded} inverse={inverse} className="navbar-fixed-side" onToggle={onSelect}>
                 <Navbar.Collapse>
                     <Nav>
                         <NavLink to="/" exact={true}>{_t("navigator.home","Home")}</NavLink>

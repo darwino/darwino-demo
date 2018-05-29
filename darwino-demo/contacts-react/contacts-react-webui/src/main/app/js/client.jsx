@@ -39,7 +39,8 @@ const { DarwinoQueryStoreReducer, DarwinoDocumentStoreReducer } = StoreReducers
 
 import promiseMiddleware from 'redux-promise';
 
-import Rollbar from "rollbar";
+const USE_ROLLBAR = false;
+//import Rollbar from "rollbar";
 
 // Polyfills
 import Promise from 'promise-polyfill'; 
@@ -148,16 +149,17 @@ class MainApp extends Component {
         });
 
         // Install the Rollback config
-        new MicroServices()
-            .name("RollbarConfig")
-            .fetch()
-            .then((config) => {
-                if(config.enabled) {
-                    window.rollbar = new Rollbar(config);
-                    rollbar.configure({payload:config.payload});
-                }
-            })
-        
+        if(USE_ROLLBAR) {
+            new MicroServices()
+                .name("RollbarConfig")
+                .fetch()
+                .then((config) => {
+                    if(config.enabled) {
+                        window.rollbar = new Rollbar(config);
+                        rollbar.configure({payload:config.payload});
+                    }
+                });
+        }
     }
     render() {
         if(!this.state.intlLoaded) {
