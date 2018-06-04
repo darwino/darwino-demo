@@ -40,6 +40,8 @@
 		<android.plugin.version>4.3.0</android.plugin.version>
 		<android.platform.maven.version>4.4.2_r4</android.platform.maven.version>
 		<android.platform.sdk.version>19</android.platform.sdk.version>
+		
+		<tycho-version>1.1.0</tycho-version>
 	</properties>
 
 
