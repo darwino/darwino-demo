@@ -20,11 +20,11 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package DWOTPL_PACKAGENAME.app.xsp;
+package com.contacts.app.xsp;
 
 import com.darwino.domino.application.AbstractDarwinoServiceFactory;
 
-import DWOTPL_PACKAGENAME.app.AppActivator;
+import com.contacts.app.AppActivator;
 
 /**
  * Class to auto-start the plugin.

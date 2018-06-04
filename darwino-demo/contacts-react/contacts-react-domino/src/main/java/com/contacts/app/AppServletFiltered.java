@@ -20,7 +20,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package DWOTPL_PACKAGENAME.app;
+package com.contacts.app;
 
 import com.darwino.domino.j2ee.DominoFilteredServlet;
 import com.darwino.domino.j2ee.filters.DefaultAppFilters;
