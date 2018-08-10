@@ -120,6 +120,7 @@
 						<resourceDirectory>${basedir}/res</resourceDirectory>
 						<nativeLibrariesDirectory>${basedir}/libs</nativeLibrariesDirectory>
 						<assetsDirectory>${basedir}/assets</assetsDirectory>
+						<extractDuplicates>true</extractDuplicates>
 					</configuration>
 				</plugin>
 				
