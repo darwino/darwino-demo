@@ -16,8 +16,12 @@
 		<module>contacts-react-android-hybrid</module>
 		<module>contacts-react-moe-hybrid</module>
 		<module>contacts-react-swt-hybrid</module>
-		<module>contacts-react-domino</module>
+        <!-- Uncomment the below if you want to deploy to IBM Domino -->
+        <!-- To compile them, use the "Darwino\IBM Domino\XSP Artifacts" preferences pane in Eclipse -->
+		<!--
+        <module>contacts-react-domino</module>
 		<module>contacts-react-domino-update</module>
+        -->
   </modules>
 
 	<properties>
