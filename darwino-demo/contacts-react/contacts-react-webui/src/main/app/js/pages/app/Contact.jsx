@@ -37,7 +37,7 @@ import { UserService, Richtext, Jsql } from '@darwino/darwino';
 const { richTextToDisplayFormat, richTextToStorageFormat } = Richtext;
 import {JsonDebug} from "@darwino/darwino-react";
 import { DocumentForm, ComputedField,
-         renderText, renderRadioGroup, renderCheckbox, renderSelect, renderRichText, renderDatePicker } from '@darwino/darwino-react-bootstrap';
+         renderText, renderRadioGroup, renderCheckbox, renderSelect, renderRichText, renderDatePicker, renderAttachments } from '@darwino/darwino-react-bootstrap';
 
 import Constants from "./Constants";
 import CCAddress from "./CCAddress";
@@ -236,6 +236,17 @@ export class Contact extends DocumentForm {
 
                                 <div className="col-md-12 col-sm-12">
                                     <Field name="comments" component={renderRichText} label={_t("contact.comments","Comments")} disabled={disabled} readOnly={readOnly}/>
+                                    <Field name="__attachments" colLength={false} component={renderAttachments} label={_t("africhtext.att","Attachments")} buttonLabel={_t("africhtext.addfile","Add a New File...")} disabled={disabled} readOnly={readOnly}
+                                        onUpload={(att) => {
+                                            console.log("Attachment Upload: "+att.name+", "+att.length);
+                                            let ok = att.length<1024*1024;
+                                            if(!ok) {
+                                                alert(_t("africhtext.attsize","Attachment is greater than 1M and cannot be uploaded"));
+                                            }
+                                            return ok;
+                                        }}
+                                        onDelete={(att) => {console.log("Attachment Delete: "+att.name);return true;}}
+                                    />
                                 </div>
 
                                 <div className="col-md-12 col-sm-12">

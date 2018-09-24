@@ -20,7 +20,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package DWOTPL_PACKAGENAME.app;
+package com.contacts.app;
 
 import java.util.concurrent.Executors;
 
