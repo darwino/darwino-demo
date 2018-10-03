@@ -28,7 +28,7 @@
 		<moe.plugin.version>1.4.1</moe.plugin.version>
         <moe.gradle.version>2.5</moe.gradle.version>
 
-		<android.plugin.version>4.3.0</android.plugin.version>
+		<android.plugin.version>4.5.0</android.plugin.version>
 		<android.platform.maven.version>4.4.2_r4</android.platform.maven.version>
 		<android.platform.sdk.version>19</android.platform.sdk.version>
 
