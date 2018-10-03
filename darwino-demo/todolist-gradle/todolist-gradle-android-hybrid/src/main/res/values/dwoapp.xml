@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="dwoapp_name">todolist</string>
+    <string name="dwoapp_label">Todo List</string>
+
+</resources>

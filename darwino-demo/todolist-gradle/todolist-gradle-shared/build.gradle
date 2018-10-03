@@ -1,0 +1,7 @@
+apply plugin: 'java'
+
+dependencies {
+    compile group: 'com.darwino', name: 'dwo-platform', version:"${DARWINO_VERSION}"
+    compile group: 'com.darwino', name: 'dwo-jsonstore-services', version:"${DARWINO_VERSION}"
+    compile group: 'com.darwino', name: 'dwo-services-social', version:"${DARWINO_VERSION}"
+}

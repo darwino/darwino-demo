@@ -1,0 +1,25 @@
+allprojects  {
+    group = 'com.demo.todolist'
+    version = '0.0.1-SNAPSHOT'
+}
+
+
+subprojects {
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+  	    options.encoding = 'UTF-8'
+    }
+
+    repositories {
+        jcenter()
+        mavenLocal()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext.DARWINO_VERSION="2.5.0-SNAPSHOT"
+ext.PROJECT_VERSION="0.0.1-SNAPSHOT"

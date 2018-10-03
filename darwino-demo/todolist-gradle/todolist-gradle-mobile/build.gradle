@@ -1,0 +1,7 @@
+apply plugin: 'java'
+
+dependencies {
+    compile group: 'com.darwino', name: 'dwo-platform', version:"${DARWINO_VERSION}"
+    compile group: 'com.darwino', name: 'dwo-mobile-platform', version:"${DARWINO_VERSION}"
+    compile project(':todolist-gradle-shared')
+}

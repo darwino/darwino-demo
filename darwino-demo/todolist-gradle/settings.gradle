@@ -1,0 +1,7 @@
+rootProject.name = 'todolist-gradle'
+include ':todolist-gradle-shared'
+include ':todolist-gradle-webui'
+include ':todolist-gradle-mobile'
+include ':todolist-gradle-j2ee'
+include ':todolist-gradle-android-hybrid'
+include ':todolist-gradle-swt-hybrid'

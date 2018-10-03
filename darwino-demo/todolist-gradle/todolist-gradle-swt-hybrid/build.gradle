@@ -1,0 +1,19 @@
+plugins {
+    id "com.diffplug.gradle.eclipse.mavencentral" version "3.16.0"
+}
+apply plugin: 'java'
+
+dependencies {
+    compile group: 'com.darwino', name: 'dwo-swt-platform-hybrid', version:"${DARWINO_VERSION}"
+    compile project(':todolist-gradle-shared')
+    compile project(':todolist-gradle-mobile')
+    compile project(':todolist-gradle-webui')
+}
+
+apply plugin: 'com.diffplug.gradle.eclipse.mavencentral'
+eclipseMavenCentral {
+    release '4.7.0', {
+        compile 'org.eclipse.swt'
+        useNativesForRunningPlatform()
+    }
+}

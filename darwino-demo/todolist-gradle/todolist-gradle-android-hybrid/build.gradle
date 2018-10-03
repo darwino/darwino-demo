@@ -1,0 +1,123 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.demo.todolist.app"
+        minSdkVersion 26
+        targetSdkVersion 26
+        versionCode 1
+        versionName "0.0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        // Core Darwino packages reference javax.naming, java.lang.instrument, and java.lang.management, but these
+        // are not called in Android apps
+        disable 'InvalidPackage'
+    }
+
+    // Exclude some files
+    // http://stackoverflow.com/questions/37586800/android-gradle-duplicate-files-copied-in-apk-meta-inf-license-txt
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/ASL2.0'
+        exclude 'openapi/*'
+        exclude 'plugin.xml'
+    }
+    productFlavors {
+    }
+}
+
+configurations {
+    nativeDeps
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testImplementation 'junit:junit:4.12'
+
+    implementation 'com.android.support:customtabs:26.0.0'
+    implementation "com.darwino:dwo-android-platform-hybrid:${DARWINO_VERSION}"
+    implementation "com.darwino:dwo-web-darwino:${DARWINO_VERSION}"
+    implementation "com.darwino:dwo-commons-runtime-debug:${DARWINO_VERSION}"
+    implementation "com.darwino:dwo-commons-runtime-debug-script:${DARWINO_VERSION}"
+    
+    implementation project(':todolist-gradle-shared')
+    implementation project(':todolist-gradle-mobile')
+    implementation project(':todolist-gradle-webui')
+    
+    nativeDeps(
+        [group: 'com.darwino', name: 'dwo-native-sqlite', version: "${DARWINO_VERSION}", ext: 'so', classifier: 'android-arm64-v8a'],
+        [group: 'com.darwino', name: 'dwo-native-sqlite', version: "${DARWINO_VERSION}", ext: 'so', classifier: 'android-armeabi'],
+        [group: 'com.darwino', name: 'dwo-native-sqlite', version: "${DARWINO_VERSION}", ext: 'so', classifier: 'android-armeabi-v7a'],
+        [group: 'com.darwino', name: 'dwo-native-sqlite', version: "${DARWINO_VERSION}", ext: 'so', classifier: 'android-x86'],
+        [group: 'com.darwino', name: 'dwo-native-sqlite', version: "${DARWINO_VERSION}", ext: 'so', classifier: 'android-x86_64']
+    )
+}
+
+task copyNativeLibraries {
+    description 'Copy the native SQLite Android libraries'
+    copy {
+        from configurations.nativeDeps[0]
+        into 'src/main/jniLibs/arm64-v8a'
+        rename {'libjsonstore-sqlite.so'}
+    }
+    copy {
+        from configurations.nativeDeps[1]
+        into 'src/main/jniLibs/armeabi'
+        rename {'libjsonstore-sqlite.so'}
+    }
+    copy {
+        from configurations.nativeDeps[2]
+        into 'src/main/jniLibs/armeabi-v7a'
+        rename {'libjsonstore-sqlite.so'}
+    }
+    copy {
+        from configurations.nativeDeps[3]
+        into 'src/main/jniLibs/x86'
+        rename {'libjsonstore-sqlite.so'}
+    }
+    copy {
+        from configurations.nativeDeps[4]
+        into 'src/main/jniLibs/x86_64'
+        rename {'libjsonstore-sqlite.so'}
+    }
+}
+
+repositories {
+    google()
+}
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.google.gms:google-services:3.0.0'
+    }
+}
