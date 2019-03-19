@@ -15,6 +15,8 @@
 		<module>dwo-demo-dominodisc-android-hybrid</module>
 		<module>dwo-demo-dominodisc-moe-hybrid</module>
 		<module>dwo-demo-dominodisc-swt</module>
+		<module>dwo-demo-dominodisc-dominoadapter</module>
+		<module>dwo-demo-dominodisc-dominoadapter-update</module>
 	</modules>
 
 	<properties>
@@ -36,6 +38,8 @@
 		<android.plugin.version>4.5.0</android.plugin.version>
 		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
 		<android.platform.sdk.version>19</android.platform.sdk.version>
+		
+		<tycho-version>1.2.0</tycho-version>
 	</properties>
 
 	<dependencyManagement>

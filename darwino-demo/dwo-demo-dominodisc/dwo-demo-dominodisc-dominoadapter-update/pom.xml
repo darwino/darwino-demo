@@ -1,0 +1,129 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.darwino.demo.dominodisc</groupId>
+		<artifactId>dwo-demo-dominodisc</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>dwo-demo-dominodisc-dominoadapter-update</artifactId>
+	<packaging>pom</packaging>
+	
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>dwo-demo-dominodisc-dominoadapter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+	
+	<pluginRepositories>
+		   <pluginRepository>
+				<id>reficio</id>
+				<url>http://repo.reficio.org/maven/</url>
+		   </pluginRepository>
+	</pluginRepositories>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho.extras</groupId>
+				<artifactId>tycho-p2-extras-plugin</artifactId>
+				<version>${tycho-version}</version>
+			</plugin>
+		
+			<plugin>
+			    <groupId>org.reficio</groupId>
+				<artifactId>p2-maven-plugin</artifactId>
+				<version>1.3.0</version>
+				
+				<executions>
+					<execution>
+						<id>generate-p2-site</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<configuration>
+							<featureDefinitions>
+								<feature>
+									<id>com.darwino.demo.dominodisc.dominoadapter.feature</id>
+									<version>${project.version}</version>
+									<label>Darwino Demo: Domino Discussion Database Adapter</label>
+									<providerName>Darwino, Inc.</providerName>
+									<description>Domino DSL adapter for the discussion DB template</description>
+									<generateSourceFeature>false</generateSourceFeature>
+									<copyright>Copyright 2015-2019 Darwino, Inc.</copyright>
+									<license>License</license>
+
+									<artifacts>
+										<artifact>
+											<id>${project.groupId}:dwo-demo-dominodisc-dominoadapter:${project.version}</id>
+											<transitive>false</transitive>
+											<source>false</source>
+										</artifact>
+									</artifacts>
+							    </feature>
+							</featureDefinitions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.darwino</groupId>
+				<artifactId>p2sitexml-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate-site-xml</goal>
+						</goals>
+						<configuration>
+							<category>Darwino Demo</category>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		
+			<!-- h/t http://www.vogella.com/tutorials/EclipseTycho/article.html#d308313e928 -->
+			
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-repository-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>archive-repository</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Attach zipped P2 repository to be installed and deployed in the Maven 
+				repository during the deploy phase. -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>target/${project.artifactId}-${project.version}.zip</file>
+									<type>jar</type>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
