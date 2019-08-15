@@ -31,7 +31,7 @@ targetCompatibility = "1.8"
 // Exclude all files from Gradle's test runner
 test { exclude '**' }
 
-ext.DARWINO_VERSION = "2.5.0"
+ext.DARWINO_VERSION = "2.5.1-SNAPSHOT"
 
 // Setup MOE
 moe {
