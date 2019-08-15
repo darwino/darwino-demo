@@ -34,3 +34,6 @@ hs_err_pid*
 
 # In-place backup files used by the version-change script
 *.versionChangeBackup
+
+# Visual Studio Code
+.vscode/

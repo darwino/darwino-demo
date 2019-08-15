@@ -35,12 +35,12 @@ test { exclude '**' }
 moe {
     xcode {
         project 'xcode/Discussion Database.xcodeproj'
-        mainTarget 'dwo-demo-dominodisc-moe-hybrid'
-        testTarget 'dwo-demo-dominodisc-moe-hybrid-Test'
+        mainTarget 'Discussion Database'
+        testTarget 'Discussion Database-Test'
 
         workspace 'xcode/Discussion Database.xcworkspace'
-        mainScheme 'dwo-demo-dominodisc-moe-hybrid'
-        testScheme 'dwo-demo-dominodisc-moe-hybrid-Test'
+        mainScheme 'Discussion Database'
+        testScheme 'Discussion Database-Test'
     }
 }
 

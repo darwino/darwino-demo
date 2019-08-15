@@ -17,7 +17,7 @@
   </modules>
 
 	<properties>
-		<DARWINO_VERSION>2.2.0</DARWINO_VERSION>
+		<DARWINO_VERSION>2.5.0</DARWINO_VERSION>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -29,7 +29,7 @@
 		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 		<osgi.qualifier>${maven.build.timestamp}</osgi.qualifier>
 		
-		<android.plugin.version>4.3.0</android.plugin.version>
+		<android.plugin.version>4.5.0</android.plugin.version>
 		<android.platform.maven.version>4.4.2_r4</android.platform.maven.version>
 		<android.platform.sdk.version>19</android.platform.sdk.version>
 	</properties>

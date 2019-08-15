@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+<title>TODO List</title>
+
+<script type="text/javascript">
+	// Install this first, before the other libraries
+	var dwoInstanceId = null;
+	window.onload = function() {
+		try {
+			// If we need the info...
+			window.addEventListener('message', function(evt) {
+				var context = evt.data;
+			}, false);
+		} catch (e) {
+			console.log(e);
+		}
+		parent.postMessage("appReady", "*");
+	}	
+</script>
+
+<link rel="stylesheet" type="text/css" href="$darwino-libs/bootstrap3/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+ 
+<script src="$darwino-libs/jquery/jquery.js"></script>
+<script src="$darwino-libs/bootstrap3/js/bootstrap.js"></script>
+<script src="$darwino-libs/moment/moment.js"></script>
+
+<script src="$darwino-libs/darwino/darwino.js"></script>
+
+<script src="$darwino-libs/angular/angular.js"></script>
+<script src="$darwino-libs/angular/angular-route.js"></script>
+<script src="$darwino-libs/angular/angular-animate.js"></script>
+<script src="$darwino-libs/angular/angular-touch.min.js"></script>
+<script src="$darwino-libs/angular/angular-sanitize.min.js"></script>
+
+<script src="js/app.js"></script>
+
+<script src="$darwino-libs/darwino/darwino.js"></script>
+<script src="$darwino-root/mobile/js/darwino.angular.jstore.js"></script>
+
+</head>
+
+<body class="ng-cloak" ng-controller="AppCtrl">
+
+<div id="topNav">
+	<a id="appInfo" href="#/info" ng-show="isOwner" role="button" class="btn btn-info">New</a>
+	<div id="aboutInfo" class="pull-right">
+		<a id="appInfo" href="#/info" role="button" class="btn btn-info">Info</a>
+	</div>
+	<a href="#/" class="btn btn-primary pull-right btnPadR" ng-show="ifPathNot('/')"><i class="foundicon-left-arrow"></i> List</a>
+</div>
+
+
+<div ng-view style="margin-top: 40px;"></div>
+
+</body>
+
+</html>

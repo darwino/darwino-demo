@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.darwino.demo.dominodisc</groupId>
+		<artifactId>dwo-demo-dominodisc</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>dwo-demo-dominodisc-dominoadapter</artifactId>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.darwino.domino</groupId>
+			<artifactId>com.darwino.domino.replicator</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>${project.basedir}</directory>
+				<includes>
+					<include>plugin.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+		</resources>
+	
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>com.darwino.demo.dominodisc.dominoadapter;singleton:=true</Bundle-SymbolicName>
+						<Require-Bundle>
+							com.darwino.domino.replicator
+						</Require-Bundle>
+					</instructions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestFile>${manifest-location}/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -15,10 +15,12 @@
 		<module>dwo-demo-dominodisc-android-hybrid</module>
 		<module>dwo-demo-dominodisc-moe-hybrid</module>
 		<module>dwo-demo-dominodisc-swt</module>
+		<module>dwo-demo-dominodisc-dominoadapter</module>
+		<module>dwo-demo-dominodisc-dominoadapter-update</module>
 	</modules>
 
 	<properties>
-		<DARWINO_VERSION>2.2.0</DARWINO_VERSION>
+		<DARWINO_VERSION>2.5.0</DARWINO_VERSION>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -33,9 +35,11 @@
 		<moe.plugin.version>1.4.1</moe.plugin.version>
         <moe.gradle.version>2.5</moe.gradle.version>
 		
-		<android.plugin.version>4.3.0</android.plugin.version>
+		<android.plugin.version>4.5.0</android.plugin.version>
 		<android.platform.maven.version>4.2.2_r3</android.platform.maven.version>
 		<android.platform.sdk.version>19</android.platform.sdk.version>
+		
+		<tycho-version>1.2.0</tycho-version>
 	</properties>
 
 	<dependencyManagement>

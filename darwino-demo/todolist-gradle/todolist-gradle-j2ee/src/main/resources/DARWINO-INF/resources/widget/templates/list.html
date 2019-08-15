@@ -1,0 +1,25 @@
+<div ng-controller="ListCtrl">
+	<table class="table table-hover thread-list">
+	<tbody>
+		<tr ng-repeat="entry in entries.getEntries()"
+			ng-cloak>
+			<td>
+				<a href="" ng-click="viewDetail(entry)"
+				class="pull-left rssThumb" title="view detail" data-toggle="tooltip">
+					<img ng-src="{{entries.getPhoto(entry)}}" alt="Photo"
+					class="img-circle"
+					onerror="if(this.src!='$darwino-social/users/images/anonymous-photo.png') this.src = '$darwino-social/users/images/anonymous-photo.png';">
+				</a>
+				<p class="text-muted pull-right"
+					ng-bind-template="{{entries.getUser(entry).getCn()}}, {{entry.cdate|formattedDate}}"></p>
+				<h5 class="text-muted">
+					<a href="" ng-click="viewDetail(entry)" title="view detail">{{entry.value.subject}}</a>
+				</h5>
+				<p ng-bind="entry.value.abstract|abstractText"></p>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+	<button type="button" ng-if="entries.hasMore()"
+		ng-click="entries.loadMore()" class="btn btn-primary">Load More</button>
+</div>
