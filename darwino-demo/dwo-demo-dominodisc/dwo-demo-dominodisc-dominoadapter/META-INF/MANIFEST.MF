@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: dwo-demo-dominodisc-dominoadapter
 Bundle-SymbolicName: com.darwino.demo.dominodisc.dominoadapter;singleton
  :=true
-Bundle-Version: 0.0.1.qualifier
-DARWINO_VERSION: 2.5.0
+Bundle-Version: 0.0.1.201909282031
+DARWINO_VERSION: 2.5.1-SNAPSHOT
 Export-Package: com.darwino.demo.dominodisc;version="0.0.1"
 Include-Resource: plugin.xml=plugin.xml,domdisc.groovy=src/main/resource
  s/domdisc.groovy
