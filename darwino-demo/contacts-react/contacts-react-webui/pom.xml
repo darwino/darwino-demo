@@ -1,14 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>com.contacts</groupId>
 		<artifactId>contacts-react</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>contacts-react-webui</artifactId>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.darwino</groupId>
@@ -21,56 +22,86 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-	
+
 	<profiles>
 		<profile>
 			<id>build-webui</id>
 			<activation>
-            	<property>
-                	<name>!m2e.version</name>
-            	</property>
-            </activation>
-    		
+				<property>
+					<name>!m2e.version</name>
+				</property>
+			</activation>
+
 			<build>
 				<plugins>
 					<plugin>
 						<groupId>com.github.eirslett</groupId>
 						<artifactId>frontend-maven-plugin</artifactId>
-						<version>1.6</version>
-						
+						<version>1.9.1</version>
+
 						<configuration>
-							<nodeVersion>v8.2.1</nodeVersion>
-							<npmVersion>5.6.0</npmVersion>
+							<nodeVersion>v12.16.2</nodeVersion>
+							<yarnVersion>v1.22.4</yarnVersion>
+							<workingDirectory>src/main/app</workingDirectory>
 							<installDirectory>target</installDirectory>
 						</configuration>
-						
+
 						<executions>
 							<execution>
-								<id>install node and npm</id>
+								<id>install node and yarn</id>
 								<goals>
-									<goal>install-node-and-npm</goal>
+									<goal>install-node-and-yarn</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>yarn install</id>
+								<goals>
+									<goal>yarn</goal>
 								</goals>
 								<phase>generate-resources</phase>
 							</execution>
 							<execution>
-								<id>npm install</id>
+								<id>yarn build</id>
 								<goals>
-									<goal>npm</goal>
+									<goal>yarn</goal>
 								</goals>
 								<phase>generate-resources</phase>
+								<configuration>
+									<arguments>build</arguments>
+								</configuration>
 							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>3.1.0</version>
+						<configuration>
+							<filesets>
+								<fileset>
+									<directory>${basedir}/src/main/resources/DARWINO-INF/resources</directory>
+								</fileset>
+							</filesets>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>3.1.0</version>
+						<executions>
 							<execution>
-								<id>webpack</id>
-								<goals>
-									<goal>webpack</goal>
-								</goals>
+								<id>copy-resources</id>
 								<phase>generate-resources</phase>
-    							<configuration>
-        							<arguments>-p</arguments>
-    								<environmentVariables>
-        								<NODE_ENV>production</NODE_ENV>
-    								</environmentVariables>    
-    							</configuration>								
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${basedir}/src/main/resources/DARWINO-INF/resources</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/app/build</directory>
+											<filtering>false</filtering>
+										</resource>
+									</resources>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -78,28 +109,28 @@
 			</build>
 		</profile>
 	</profiles>
-	
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>com.darwino</groupId>
 				<artifactId>dwo-maven-i18n</artifactId>
 				<version>${DARWINO_VERSION}</version>
-	            <executions>
-	                <execution>
-	                    <id>extract-javascript-strings</id>
-	                    <goals>
-	                        <goal>generate-sources</goal>
-	                    </goals>
-			            <configuration>
-	                		<sourceDirectory>src/main/app/js</sourceDirectory>
-	                		<outputDirectory>src/main/app/js/i18n</outputDirectory>
-	                		<outputFile>messages_extracted.js</outputFile>
-	                		<outputFormat>js</outputFormat>
-			            </configuration>
-	                </execution>
-	            </executions>
-	        </plugin>		
+				<executions>
+					<execution>
+						<id>extract-javascript-strings</id>
+						<goals>
+							<goal>generate-sources</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>src/main/app/src/js</sourceDirectory>
+							<outputDirectory>src/main/app/src/js/i18n</outputDirectory>
+							<outputFile>messages_extracted.js</outputFile>
+							<outputFormat>js</outputFormat>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
