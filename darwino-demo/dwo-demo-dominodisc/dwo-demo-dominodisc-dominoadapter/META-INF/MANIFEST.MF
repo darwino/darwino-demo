@@ -3,11 +3,12 @@ Bundle-ManifestVersion: 2
 Bundle-Name: dwo-demo-dominodisc-dominoadapter
 Bundle-SymbolicName: com.darwino.demo.dominodisc.dominoadapter;singleton
  :=true
-Bundle-Version: 0.0.1.202001231651
-DARWINO_VERSION: 2.5.1
+Bundle-Version: 0.0.1.202004171403
+DARWINO_VERSION: 2.6.0-SNAPSHOT
 Export-Package: com.darwino.demo.dominodisc;version="0.0.1"
 Include-Resource: plugin.xml=plugin.xml,domdisc.groovy=src/main/resource
  s/domdisc.groovy
+J2OBJC_DISTRIBUTION: /Users/priand/j2objc/j2objc
 Private-Package: domdisc.groovy,plugin.xml
 Require-Bundle: com.darwino.domino.replicator
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"

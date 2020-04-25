@@ -23,8 +23,8 @@
     "react-addons-test-utils": "^15.6.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^3.10.1"
+    "webpack": "3.6.0",
+    "webpack-dev-server": "2.9.1"
   },
   "dependencies": {
     "@darwino/darwino": "~2.6.0-SNAPSHOT",
@@ -41,8 +41,8 @@
     "promise-polyfill": "^6.0.2",
     "query-string": "^4.3.4",
     "react": "^16.4.0",
-    "react-bootstrap": "^0.31.5",
     "react-16-bootstrap-date-picker": "^5.1.2",
+    "react-bootstrap": "^0.31.5",
     "react-dom": "^16.4.0",
     "react-intl": "^2.4.0",
     "react-quill": "^1.1.0",
@@ -53,12 +53,14 @@
     "redux-form": "^7.3.0",
     "redux-promise": "^0.5.3",
     "reselect": "^3.0.1",
-    "whatwg-fetch": "^2.0.3",
-    "rollbar": "^2.3.9"
+    "rollbar": "^2.3.9",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "dev": "webpack-dev-server --content-base src/main/app --inline --hot --port=8008",
-    "build": "NODE_ENV=production webpack -p --config ./webpack.production.config.js",
+    "build": "NODE_ENV=production webpack -p",
+    "link-darwino": "yarn link @darwino/darwino && yarn link @darwino/darwino-react && yarn link @darwino/darwino-react-bootstrap",
+    "unlink-darwino": "yarn unlink @darwino/darwino && yarn unlink @darwino/darwino-react && yarn unlink @darwino/darwino-react-bootstrap",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
