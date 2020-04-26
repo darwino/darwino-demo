@@ -108,9 +108,6 @@ let composeEnhancers;
 if(process.env.NODE_ENV!=="production") {
     composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
     initDevOptions("http://localhost:8080/contacts-react/")
-    DEV_OPTIONS.WEBPACK = true;
-    DEV_OPTIONS.serverPrefix = "http://localhost:8080/contacts-react/";
-    DEV_OPTIONS.credentials = "include";
     console.log("initDevOptions");
 } else {
     composeEnhancers = compose;
