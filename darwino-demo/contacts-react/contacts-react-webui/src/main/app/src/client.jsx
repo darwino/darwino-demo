@@ -58,7 +58,7 @@ import './style/style.css';
 import Layout from "./js/pages/Layout";
 
 // App rendering
-import {DEV_OPTIONS,initDevOptions} from '@darwino/darwino';
+import {initDevOptions} from '@darwino/darwino';
 
 // Localization
 import ri_messages_en from "./js/i18n/ri_messages_en"
