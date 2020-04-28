@@ -107,7 +107,7 @@ let composeEnhancers;
 // }
 if(process.env.NODE_ENV!=="production") {
     composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-    initDevOptions("http://localhost:8080/")
+    initDevOptions("http://localhost:8080/contacts-react/")
     console.log("initDevOptions");
 } else {
     composeEnhancers = compose;
