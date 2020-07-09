@@ -1,6 +1,6 @@
 /*!COPYRIGHT HEADER! 
  *
- * (c) Copyright Darwino Inc. 2014-2018.
+ * (c) Copyright Darwino Inc. 2014-2020.
  *
  * Licensed under The MIT License (https://opensource.org/licenses/MIT)
  *
@@ -20,9 +20,6 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-/* 
- * (c) Copyright Darwino Inc. 2014-2017.
- */
 import React from "react";
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
