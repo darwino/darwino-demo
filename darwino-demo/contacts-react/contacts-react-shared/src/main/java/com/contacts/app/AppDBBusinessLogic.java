@@ -72,12 +72,12 @@ public  class AppDBBusinessLogic extends DefaultExtensionRegistry {
 				Platform.log("PostSaveDocument, Database={0}, Store={1}, Unid={2}",doc.getDatabase().getId(),doc.getStore().getId(),doc.getUnid());
 			}
 			@Override
-			public void queryDeleteDocument(Document doc) throws JsonException {
-				Platform.log("QueryDeleteDocument, Database={0}, Store={1}, Unid={2}",doc.getDatabase().getId(),doc.getStore().getId(),doc.getUnid());
+			public void queryDeleteDocument(Database database, Store store, String unid, int id) throws JsonException {
+				Platform.log("QueryDeleteDocument, Database={0}, Store={1}, Unid={2}, Id={3}",database.getId(),store.getId(),unid, id);
 			}
 			@Override
-			public void postDeleteDocument(Document doc) throws JsonException {
-				Platform.log("PostDeleteDocument, Database={0}, Store={1}, Unid={2}",doc.getDatabase().getId(),doc.getStore().getId(),doc.getUnid());
+			public void postDeleteDocument(Database database, Store store, String unid, int id) throws JsonException {
+				Platform.log("PostDeleteDocument, Database={0}, Store={1}, Unid={2}, Id={3}",database.getId(),store.getId(),unid, id);
 			}
 		});
 		
