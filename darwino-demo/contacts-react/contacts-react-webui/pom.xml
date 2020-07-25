@@ -21,6 +21,14 @@
 			<artifactId>contacts-react-shared</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-maven-i18n</artifactId>
+			<version>${DARWINO_VERSION}</version>
+			<scope>compile</scope>
+		</dependency>
+		
 	</dependencies>
 
 	<profiles>
