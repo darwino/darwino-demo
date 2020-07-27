@@ -1,0 +1,132 @@
+{
+  "stores": {
+    "_default": {
+      "readMarkEnabled": false,
+      "fulltextEnabled": true,
+      "touchSyncMaster": 0,
+      "touchParent": 0,
+      "taggingEnabled": false,
+      "preventRestAccess": false,
+      "localStore": false,
+      "id": "_default",
+      "label": "Defaut documents store",
+      "anonymousSocial": false,
+      "ftSearch": {
+        "fields": [
+          "$"
+        ],
+        "lazyUpdate": false
+      }
+    },
+    "companydocs": {
+      "readMarkEnabled": false,
+      "fulltextEnabled": false,
+      "touchSyncMaster": 0,
+      "touchParent": 0,
+      "taggingEnabled": false,
+      "preventRestAccess": false,
+      "localStore": false,
+      "id": "companydocs",
+      "label": "Company documents",
+      "anonymousSocial": false
+    },
+    "companies": {
+      "readMarkEnabled": false,
+      "fulltextEnabled": true,
+      "touchSyncMaster": 0,
+      "touchParent": 0,
+      "taggingEnabled": false,
+      "preventRestAccess": false,
+      "localStore": false,
+      "id": "companies",
+      "label": "Companies",
+      "anonymousSocial": false,
+      "ftSearch": {
+        "fields": [
+          "$"
+        ],
+        "lazyUpdate": false
+      }
+    },
+    "_design": {
+      "readMarkEnabled": false,
+      "fulltextEnabled": false,
+      "touchSyncMaster": 0,
+      "touchParent": 0,
+      "taggingEnabled": false,
+      "preventRestAccess": false,
+      "localStore": false,
+      "id": "_design",
+      "label": "Design documents",
+      "anonymousSocial": false
+    },
+    "_profile": {
+      "readMarkEnabled": false,
+      "fulltextEnabled": false,
+      "touchSyncMaster": 0,
+      "touchParent": 0,
+      "taggingEnabled": false,
+      "preventRestAccess": false,
+      "localStore": false,
+      "id": "_profile",
+      "label": "Profile documents",
+      "anonymousSocial": false
+    },
+    "_local": {
+      "readMarkEnabled": false,
+      "fulltextEnabled": false,
+      "touchSyncMaster": 0,
+      "touchParent": 0,
+      "taggingEnabled": false,
+      "preventRestAccess": false,
+      "localStore": true,
+      "id": "_local",
+      "label": "Local documents",
+      "anonymousSocial": false
+    },
+    "_comments": {
+      "readMarkEnabled": false,
+      "fulltextEnabled": false,
+      "touchSyncMaster": 0,
+      "touchParent": 0,
+      "taggingEnabled": false,
+      "preventRestAccess": false,
+      "localStore": false,
+      "id": "_comments",
+      "label": "Comments",
+      "anonymousSocial": false
+    }
+  },
+  "tableCustomizationVersion": 0,
+  "documentLockEnabled": false,
+  "timeZone": null,
+  "canUpdateDocument": true,
+  "label": "Contacts",
+  "acl": {
+    "entries": [
+      {
+        "rights": 1,
+        "id": "demo",
+        "type": 4
+      },
+      {
+        "rights": 15,
+        "id": null,
+        "type": 1
+      }
+    ]
+  },
+  "version": 6,
+  "tableVersion": 1,
+  "replicationEnabled": true,
+  "canManage": false,
+  "canDeleteDocument": true,
+  "preventRestAccess": false,
+  "replicaId": "FA490F41C86C4A24A8CF4B31A026B621",
+  "canReadDocument": true,
+  "canCreateDocument": true,
+  "id": "contacts",
+  "documentSecurity": 0,
+  "instanceEnabled": false,
+  "softDeleteEnabled": false
+}

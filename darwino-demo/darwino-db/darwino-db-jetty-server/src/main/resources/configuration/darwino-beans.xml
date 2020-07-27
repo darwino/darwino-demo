@@ -1,0 +1,45 @@
+<beans>
+    <!-- ================================================================================================== -->
+    <!-- Database access -->
+    <!-- ================================================================================================== -->
+    <bean type="darwino/jsondb" name="sqlite" class="com.darwino.config.jsonstore.JsonDbSqlite" alias="demo,default">
+        <property name="file">${DARWINODB-ROOTDIR}/sqlite/sqlite.db</property>    
+    </bean>
+    
+    <bean type="darwino/jsondb" name="postgresql" class="com.darwino.config.jsonstore.JsonDbJdbc">
+    	<property name="db">postgresql</property>    
+    	<property name="user">postgres</property>    
+    	<property name="password">postgres</property>    
+    	<property name="url">jdbc:postgresql://localhost:5432/dwodb</property>    
+    </bean>
+    
+    
+    <!-- ================================================================================================== -->
+    <!-- Static directory of users users -->
+    <!-- ================================================================================================== -->
+    <property name="uc">com.darwino.config.user.UserDirStatic$User</property>
+    <bean type="darwino/userdir" name="static" class="com.darwino.config.user.UserDirStatic" alias="demo,default">
+
+        <list name="users">
+            <bean class='${uc}'>
+                <property name='dn'>cn=admin,o=darwino</property>
+                <property name='cn'>Administrator</property>
+                <property name='uid'>admin</property>
+                <property name='email'>admin@darwino.com</property>
+                <property name='hashedPassword'>70j+mMKOCu8ekvE9U4OWAA==</property>
+                <list name='roles'>
+                    <value>admin</value>
+                </list>
+            </bean>    
+ 
+            <bean class='${uc}'>
+                <property name='dn'>cn=user,o=darwino</property>
+                <property name='cn'>John User</property>
+                <property name='uid'>juser</property>
+                <property name='email'>juser@darwino.com</property>
+                <property name='hashedPassword'>70j+mMKOCu8ekvE9U4OWAA==</property>
+            </bean>    
+        </list>    
+    </bean>
+
+</beans>

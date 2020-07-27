@@ -1,0 +1,13 @@
+.treeview {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.treeview ul {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.treeview.list-group-item {
+  border: none;
+  padding: 0;
+}

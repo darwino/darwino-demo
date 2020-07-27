@@ -1,0 +1,7 @@
+installFiles({name: 'contacts'})
+deleteDatabase({database: 'contacts'})
+createDatabase({database: 'contacts', file: 'contacts.database.json'})
+deleteAllDocuments({database: 'contacts', erase:true})
+importDocuments({database: 'contacts'})
+
+println("Contacts demo is properly installed");

@@ -1,0 +1,10 @@
+{
+  "store": "connections",
+  "extract": {
+    "name": "name",
+    "url": "url",
+    "user": "user",
+    "password": "password"
+  },
+  "orderBy": "name"
+}

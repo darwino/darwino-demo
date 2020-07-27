@@ -1,0 +1,11 @@
+{
+  "store": "_default",
+  "extract": {
+    "unid": "_unid",
+    "cdate": "_cdate",
+    xxx: {$merge: "$"}
+  },
+  //"query": "{form: 'myform'}",
+  "options": "DATA_MODDATES",
+  "orderBy": "_unid"
+}

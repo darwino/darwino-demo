@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.darwinodb</groupId>
+		<artifactId>darwino-db</artifactId>
+		<version>2.6.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>darwino-db-shared</artifactId>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-platform</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jsonstore-services</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jsonstore-sql-jsql</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-services-social</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-commons-runtime</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-commons-script</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		
+
+<!-- Remove or comment to not use the Notes/Domino like formula with $atFormula in the query language -->		
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-formula</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>info.picocli</groupId>
+			<artifactId>picocli</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+		
+	</dependencies>
+	
+	<build>
+		<plugins>
+		</plugins>
+	</build>
+</project>

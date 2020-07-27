@@ -1,0 +1,8 @@
+execCommand(
+	'install-files --package contacts',
+	'delete-database --database contacts',
+	'create-database --database contacts --file contacts.database.json',
+	'import-documents --database contacts'
+)
+
+println("Contacts demo is properly installed");

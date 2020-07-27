@@ -13,6 +13,11 @@
 		<module>dwo-demo-dominodisc</module>
 		<module>todolist</module>
 		<module>parent-dwo-demo-news</module>
+		<!-- 
+		<module>darwino-db</module>
+		<module>contacts</module>
+		<module>contacts-react</module>
+		 -->
 	</modules>
 
 

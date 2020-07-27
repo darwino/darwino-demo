@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.darwinodb</groupId>
+		<artifactId>darwino-db</artifactId>
+		<version>2.6.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>darwino-db-jetty-server</artifactId>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.darwinodb</groupId>
+			<artifactId>darwino-db-jetty</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+
+<!-- Postgresql -->
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-jdbc-drivers-postgresql</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+<!--  SQL Server -->
+		<dependency>
+			<groupId>com.darwino</groupId>
+			<artifactId>dwo-jre-jdbc-drivers-sqlserver</artifactId>
+			<version>${DARWINO_VERSION}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<finalName>DarwinoDB</finalName>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+							<!-- <minimizeJar>true</minimizeJar> -->
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/DEPENDENCIES</exclude>
+										<exclude>META-INF/LICENSE</exclude>
+										<exclude>META-INF/LICENSE.txt</exclude>
+										<exclude>META-INF/MANIFEST.MF</exclude>
+										<exclude>META-INF/NOTICE</exclude>
+										<exclude>META-INF/NOTICE.txt</exclude>
+										<exclude>META-INF/VERSION.txt</exclude>
+										<exclude>META-INF/maven/**</exclude>
+									</excludes>
+								</filter>
+							</filters>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/services/com.darwino.commons.platform.Plugin</resource>
+								</transformer>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer">
+								</transformer>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.darwinodb.app.jetty.JettyMain</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
