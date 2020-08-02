@@ -64,29 +64,35 @@ public class TreeView implements JsonMicroService {
 		JsonArray nodes = new JsonArray();
 		for(int i=0; i<dbs.size(); i++) {
 			_Database db = dbs.get(i);
-			// System database is aonly for the admin
-			// Note that we can use the ACL as well!
-			if(ctx.isAdmin || !db.getId().equals(AppDatabaseDef.DATABASE_NAME)) {
-				nodes.add(database(db));
+			if(acceptDatabase(ctx,db)) {
+				nodes.add(database(ctx,db));
 			}
 		}
 		o.putArray("children", nodes);
 		
 		return o;
 	}
+	private boolean acceptDatabase(SvcContext ctx, _Database db) {
+		// System database is only for the administrators
+		// Note that we can use the ACL as well!
+		if(db.getId().equals(AppDatabaseDef.DATABASE_NAME) && !ctx.isAdmin) {
+			return false;
+		}
+		return true;
+	}
 
-	private JsonObject database(_Database db) throws JsonException {
+	private JsonObject database(SvcContext ctx, _Database db) throws JsonException {
 		JsonObject o = new JsonObject();
 		o.putString("_type", "database");
 		o.putString("id", db.getId());
 		o.putString("label", db.getLabel());
 		
-		o.putArray("children", stores(db));
+		o.putArray("children", stores(ctx,db));
 
 		return o;
 	}
 	
-	private JsonArray stores(_Database db) throws JsonException {
+	private JsonArray stores(SvcContext ctx, _Database db) throws JsonException {
 		_Store[] stores = db.getStores().toArray(new _Store[db.getStores().size()]);
 		new QuickSort.ObjectArray(stores) {
 			@Override
@@ -98,10 +104,29 @@ public class TreeView implements JsonMicroService {
 
 		JsonArray nodes = new JsonArray();
 		for(int i=0; i<stores.length; i++) {
-			nodes.add(store(db,stores[i]));
+			if(acceptStore(ctx,db,stores[i])) {
+				nodes.add(store(db,stores[i]));
+			}
 		}
 		
 		return nodes;
+	}
+	private boolean acceptStore(SvcContext ctx, _Database db, _Store store) {
+		if(db.getId().equals(AppDatabaseDef.DATABASE_NAME)) {
+			String n = store.getId();
+			// These stores are experimental for now...
+			if(    AppDatabaseDef.STORE_SQL_NAME.equals(n) 
+				|| AppDatabaseDef.STORE_JSQL_NAME.equals(n)
+				|| AppDatabaseDef.STORE_REPLICATIONS_NAME.equals(n)
+				|| AppDatabaseDef.STORE_TASKS_NAME.equals(n)
+				|| AppDatabaseDef.STORE_USERS_NAME.equals(n)
+				|| AppDatabaseDef.STORE_COMMANDS_NAME.equals(n)
+				|| AppDatabaseDef.STORE_SCRIPTS_NAME.equals(n)) {
+				return false;
+				
+			}
+		}
+		return true;
 	}
 
 	private JsonObject store(_Database db, _Store store) throws JsonException {

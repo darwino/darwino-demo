@@ -15,9 +15,12 @@ public class JettyMain extends AbstractJettyMain {
 	
 	@Override
 	public void welcomeMessage() {
+		Platform.log("");
 		Platform.log("-------------------------------------------------");
 		Platform.log("DarwinoDB, Server Edition");
+		Platform.log("{0}", getJettyServer().getMainURI());
 		Platform.log("-------------------------------------------------");
+		Platform.log("");
 	}
 	
 	@Override

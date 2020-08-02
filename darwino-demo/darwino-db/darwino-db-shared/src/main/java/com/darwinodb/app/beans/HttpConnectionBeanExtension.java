@@ -20,10 +20,12 @@ import com.darwino.commons.json.JsonObject;
 import com.darwino.commons.platform.beans.ManagedBeansExtension;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.commons.util.io.StreamUtil;
+import com.darwino.commons.util.security.StringObfuscator;
 import com.darwino.jsonstore.Document;
 import com.darwino.jsonstore.LocalJsonDBServer;
 import com.darwino.jsonstore.Session;
 import com.darwinodb.app.AppDatabaseDef;
+import com.darwinodb.app.Main;
 
 /**
  * Database Managed Bean Factory.
@@ -77,6 +79,14 @@ public class HttpConnectionBeanExtension extends AbstractDatabaseBeanExtension {
 			String url = doc.getString("url");
 			String user = doc.getString("user");
 			String password = doc.getString("password");
+			StringObfuscator ob = Main.get().getStringObfuscator();
+			if(ob.isObfuscated(password)) {
+				try {
+					password = ob.deobfuscate(password);
+				} catch(Exception e) {
+					throw new IllegalStateException(e);
+				}
+			}
 			return new ConnectionBeanFactory(name,url,user,password);
 		}
 		return null;

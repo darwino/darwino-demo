@@ -15,6 +15,8 @@ import com.darwino.commons.util.NativeUtil;
 import com.darwino.commons.util.PathUtil;
 import com.darwino.commons.util.StringUtil;
 import com.darwino.commons.util.io.StreamUtil;
+import com.darwino.commons.util.security.StringObfuscator;
+import com.darwino.commons.util.security.StringObfuscatorAES;
 import com.darwinodb.app.Main;
 
 import picocli.CommandLine.Option;
@@ -26,6 +28,8 @@ public abstract class AbstractJettyMain extends Main {
 	
 	private File configDir;
 	private File filesDir;
+	private StringObfuscator stringObfuscator;
+	private JettyServer jettyServer;
 
 	protected AbstractJettyMain() {		
 	}
@@ -39,9 +43,20 @@ public abstract class AbstractJettyMain extends Main {
 	public File getFilesDir() {
 		return this.filesDir;
 	}
-	
+
+	@Override
+	public StringObfuscator getStringObfuscator() {
+		return stringObfuscator;
+	}
+
+	public JettyServer getJettyServer() {
+		return jettyServer;
+	}
+
 	public abstract void welcomeMessage();
 	public abstract String defaultDarwinoDir();
+	
+	public void postServerStart() {}
 	
 
 	@Option(names = {"-p", "--port"}, description = "Server Port")
@@ -85,6 +100,8 @@ public abstract class AbstractJettyMain extends Main {
 			
 			filesDir = new File(configDir,"files");
 			
+			stringObfuscator = StringObfuscatorAES.create(new File(configDir,"obfuscator.json"));
+			
 			// Install the native path for the jni libraries
 			NativeUtil.setInstallPath(new File(configDir,".native"));
 			
@@ -95,7 +112,8 @@ public abstract class AbstractJettyMain extends Main {
 			copyConfig("darwino-beans.xml");
 			copyConfig("darwino.properties");
 			
-			new JettyServer(this).run();
+			jettyServer = new JettyServer(this);
+			jettyServer.run();
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}

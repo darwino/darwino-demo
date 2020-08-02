@@ -15,13 +15,18 @@ import com.darwino.commons.Platform;
 public class JettyServer {
 
 	private AbstractJettyMain options;
+	private Server server;
 	
 	public JettyServer(AbstractJettyMain options) {
 		this.options = options;
 	}
+	
+	public String getMainURI() {
+		return server.getURI().toString();
+	}
 
 	public void run() throws Exception {
-        System.out.println(">> Running");
+		Platform.log(">> Running");
         WebAppContext webAppContext = new WebAppContext();
         
         // Devenv - local files
@@ -34,13 +39,12 @@ public class JettyServer {
 
         webAppContext.setContextPath("/");
 
-        Server server = new Server(options.port);
+        server = new Server(options.port);
         server.setHandler(webAppContext);
         server.start();
-        
-        Platform.log("DarwinoDB ready for business!\n{0}",server.getURI().toString());
 
         options.welcomeMessage();
+        options.postServerStart();
         
         server.join();
 	}

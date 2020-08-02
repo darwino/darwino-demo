@@ -6,6 +6,8 @@ package com.darwinodb.app;
 
 import java.io.File;
 
+import com.darwino.commons.util.security.StringObfuscator;
+
 /**
  * Main Entry Point.
  */
@@ -25,4 +27,5 @@ public abstract class Main implements Runnable {
 	
 	public abstract File getConfigDir();
 	public abstract File getFilesDir();
+	public abstract StringObfuscator getStringObfuscator();
 }
