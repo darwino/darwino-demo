@@ -29,10 +29,12 @@ import { Form, Tab, Button } from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form';
 
+import { makeUrl } from '@darwino/darwino'
 import {DocumentForm,Messages,renderText,renderAttachments} from '@darwino/darwino-react-bootstrap';
 import {stringifySorted} from '../utils/jsonutils'
 import MaterialDesignTabs from '../components/MaterialDesignTabs';
 import renderCodeEditor from '../components/renderCodeEditor';
+import ReactMarkdown from 'react-markdown';
 
 const FORM_NAME = "jsoneditor";
 
@@ -141,11 +143,37 @@ class TabDocument extends DocumentForm {
             <Tab eventKey={2} title="Attachments">
               <Field name="__attachments" type="text" component={renderAttachments} label="Attachments" disabled={disabled} readOnly={readOnly}/>
             </Tab>
+            <Tab eventKey={3} title="REST">
+              <ReactMarkdown source={this.restDoc()} escapeHtml={false} linkTarget='_blank'/>
+            </Tab>
           </MaterialDesignTabs>
         </Form>
         )}
       </div>
     );
+  }
+  restDoc() {
+    const databaseId = this.state.databaseId;
+    const storeId = this.state.storeId;
+    const unid = this.state.unid;
+    const url = makeUrl();
+    console.log(`URL=${url}`)
+    return `
+## REST Services
+Darwino offers a series of APIs to execute CRUD (Create Read Update Delete) operations on documents.
+
+The documentation is available from the [Darwino Playground](http://playground.darwino.com/playground.nsf/OpenApiExplorer.xsp#openApi=Json_Store/):
+- [CRUD Services Documentation](http://playground.darwino.com/playground.nsf/OpenApiExplorer.xsp#openApi=Json_Store_Document_CRUD)
+
+
+## Examples  
+
+|                              |   |
+| ---                          | --- |
+| Initialize new Document      | [/$darwino-jstore/databases/${databaseId}/stores/${storeId}/newdocument](${url}/$darwino-jstore/databases/${databaseId}/stores/${storeId}/newdocument) |
+| Read Document whole by UNID  | [/$darwino-jstore/databases/${databaseId}/stores/${storeId}/documents/${unid}](${url}/$darwino-jstore/databases/${databaseId}/stores/${storeId}/documents/${unid}) |
+| Read Document JSON by UNID   | [/$darwino-jstore/databases/${databaseId}/stores/${storeId}/documents/${unid}/json](${url}/$darwino-jstore/databases/${databaseId}/stores/${storeId}/documents/${unid}/json) |
+`;
   }
 }
 

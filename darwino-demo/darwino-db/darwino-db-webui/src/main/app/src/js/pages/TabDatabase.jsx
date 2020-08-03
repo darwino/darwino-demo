@@ -34,8 +34,10 @@ import MaterialDesignTabs from '../components/MaterialDesignTabs';
 import CodeEditor from '../components/CodeEditor';
 import CursorCount from '../components/CursorCount';
 import SearchQuery from '../components/SearchQuery';
-import {stringifySorted} from '../utils/jsonutils'
+import {stringifySorted} from '../utils/jsonutils';
+import ReactMarkdown from 'react-markdown';
 
+import { makeUrl } from '@darwino/darwino'
 import { CursorPage, CursorGrid } from '@darwino/darwino-react-bootstrap'
 
 import { StoreIdFormatter, UnidFormatter, JsonFormatter } from '../utils/Formatters'
@@ -201,8 +203,47 @@ export default class TabDatabase extends CursorPage {
                 height={''+this.state.metaHeight+'px'}
               />
           </Tab>
+          <Tab eventKey={3} title="REST">
+            <ReactMarkdown source={this.restDoc()} escapeHtml={false} linkTarget='_blank'/>
+          </Tab>
         </MaterialDesignTabs>
       </div>
     );
+  }
+
+  restDoc() {
+    const databaseId = this.props.databaseId;
+    const storeId = this.props.storeId || "_default";
+    const url = makeUrl();
+    console.log(`URL=${url}`)
+    return `
+## REST Services
+Bellow are the REST services related to databases and stores. They can be used to access both the data (the documents) and the
+meta-data (database definition). There is avery complete Query API to select docuemnts and extract their data.
+
+The documentation is available from the [Darwino Playground](http://playground.darwino.com/playground.nsf/OpenApiExplorer.xsp#openApi=Json_Store/):
+- [Database Services Documentation](http://playground.darwino.com/playground.nsf/OpenApiExplorer.xsp#openApi=Json_Store_Databases)
+- [Database Query Documentation](http://playground.darwino.com/playground.nsf/OpenApiExplorer.xsp#openApi=Json_Store_Query_Database)
+- [Store Services Documentation](http://playground.darwino.com/playground.nsf/OpenApiExplorer.xsp#openApi=Json_Store_Store)
+- [Store Query Documentation](http://playground.darwino.com/playground.nsf/OpenApiExplorer.xsp#openApi=Json_Store_Query_Store)
+
+
+## Examples  
+
+### Database
+
+|                    |   |
+| ---                | --- |
+| Get Document Count | [/$darwino-jstore/databases/${databaseId}/documentscount](${url}$darwino-jstore/databases/${databaseId}/documentscount) |
+| Read Documents     | [/$darwino-jstore/databases/${databaseId}/entries?limit=5](${url}/$darwino-jstore/databases/${databaseId}/entries?limit=5]) |
+| Get List of Stores | [/$darwino-jstore/databases/${databaseId}/stores](${url}$darwino-jstore/databases/${databaseId}/stores) |
+
+### Store
+
+|                    |   |
+| ---                | --- |
+| Get Document Count | [/$darwino-jstore/databases/${databaseId}/stores/${storeId}/documentscount](${url}/$darwino-jstore/databases/${databaseId}/stores/${storeId}/documentscount) |
+| Read Documents     | [/$darwino-jstore/databases/${databaseId}/stores/${storeId}/entries?limit=5](${url}/$darwino-jstore/databases/${databaseId}/stores/${storeId}/entries?limit=5]) |
+`;
   }
 }

@@ -34,21 +34,28 @@ export default class Home extends Component {
     //
     render() {
         return (
-            <Jumbotron>
-            <h1>Darwino Database</h1>
-            <p>
-                Welcome to Darwino Database, the RDBMS powered database.
-                Darwino DB. Your data. Secure. Everywhere. All the time.
-            </p>
-            <p>
-                This application allows you to maintain your Darwino Database from a web application,
-                whenever your database is running on the cloud or on promises.
-            </p>
-            <p>
-                If you are a Domino user, then it allows you to replicate existing Domino databases
-                within a Darwino database.
-            </p>
-            </Jumbotron>
+            <div>
+                <Jumbotron>
+                <h1>Darwino Database</h1>
+                <p>
+                    Welcome to Darwino Database, the RDBMS powered database.
+                    Darwino DB. Your data. Secure. Everywhere. All the time.
+                </p>
+                <p>
+                    This application allows you to maintain your Darwino Databases from a web application,
+                    whenever your databases are running on the cloud or on premises.
+                </p>
+                <p>
+                    If you are a Domino user, then it allows you to replicate existing Domino databases
+                    within a Darwino database.
+                </p>
+                </Jumbotron>
+                <br/>
+                <br/>
+                This application spawns a web application server and exposes a series of REST services. All the APIs are documented here: 
+                <a href="http://playground.darwino.com/playground.nsf/OpenApiExplorer.xsp#openApi=Json_Store/">Darwino REST APIs documentation</a>. <br/>
+                Also, both the database and document screens provide a REST tab with some service call examples.
+            </div>
         );
     }
 }

@@ -46,10 +46,10 @@
 					<plugin>
 						<groupId>com.github.eirslett</groupId>
 						<artifactId>frontend-maven-plugin</artifactId>
-						<version>1.9.1</version>
+						<version>1.10.0</version>
 
 						<configuration>
-							<nodeVersion>v12.16.2</nodeVersion>
+							<nodeVersion>v12.18.3</nodeVersion>
 							<yarnVersion>v1.22.4</yarnVersion>
 							<workingDirectory>src/main/app</workingDirectory>
 							<installDirectory>target</installDirectory>
