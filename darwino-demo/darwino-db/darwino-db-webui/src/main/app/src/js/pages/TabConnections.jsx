@@ -208,7 +208,7 @@ class TabConnections extends CursorPage {
         const props = this.props;
         return (
             <div>
-                <h4>"Server Connections"</h4>
+                <h4>Server Connections</h4>
                 {this.createActionBar()}
                 {this.createMessages()}
                 <CursorGrid ref="grid" 

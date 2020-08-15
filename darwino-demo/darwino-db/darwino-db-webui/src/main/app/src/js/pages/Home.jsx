@@ -52,8 +52,11 @@ export default class Home extends Component {
                 </Jumbotron>
                 <br/>
                 <br/>
-                This application spawns a web application server and exposes a series of REST services. All the APIs are documented here: 
-                <a href="http://playground.darwino.com/playground.nsf/OpenApiExplorer.xsp#openApi=Json_Store/">Darwino REST APIs documentation</a>. <br/>
+                This application spawns a web application server and exposes a series of REST services.
+                <br/>
+                All the APIs are documented here: 
+                <a href="http://playground.darwino.com/playground.nsf/OpenApiExplorer.xsp#openApi=Json_Store/">Darwino REST APIs documentation</a>.
+                <br/>
                 Also, both the database and document screens provide a REST tab with some service call examples.
             </div>
         );

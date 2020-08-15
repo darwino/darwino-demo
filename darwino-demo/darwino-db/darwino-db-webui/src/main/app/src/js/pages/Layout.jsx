@@ -46,6 +46,7 @@ import TreeView, {MicroserviceTree} from '../components/TreeView'
 import globalState from './GlobalState'
 import TabDarwinoBeans from "./TabDarwinoBeans.jsx";
 import TabDarwinoProperties from "./TabDarwinoProperties.jsx";
+import TabHelp from "./TabHelp.jsx";
 
 import { notificationCenter } from './NotificationCenter';
 
@@ -202,6 +203,15 @@ export default class Layout extends React.Component {
         id: tabId,
         label: "Darwino Properties",
         component: React.createElement(TabDarwinoProperties),
+        closeable: true
+      }        
+    }
+    if(type==="help") {
+      newTab = {
+        _type: "help",
+        id: tabId,
+        label: "Getting Started",
+        component: React.createElement(TabHelp),
         closeable: true
       }        
     }

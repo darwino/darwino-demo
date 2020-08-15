@@ -40,8 +40,8 @@ public class ReplicateDatabaseCommand extends BaseDatabaseCommand {
 	@Option(names = {"--push"}, description = "Only push the local data to the target server")
 	public boolean push;
 
-//	@Option(names = {"-t", "--target"}, description = "Name of the target database")
-//	public String target;
+	@Option(names = {"-r", "--remote-database"}, description = "Name of the remote database")
+	public String remote;
 	
 	@Option(names = {"--background"}, description = "Execute the replication as a background task")
 	public boolean background;
@@ -121,6 +121,7 @@ public class ReplicateDatabaseCommand extends BaseDatabaseCommand {
 		};
 		
 		task.setDatabase(database);
+		task.setRemoteDatabase(remote);
 		//task.setInstances(getSyncInstances());
 		task.setPush(push);
 		task.setPull(pull);

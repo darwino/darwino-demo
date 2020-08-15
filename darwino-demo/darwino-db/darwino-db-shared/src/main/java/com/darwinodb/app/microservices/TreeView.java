@@ -43,6 +43,7 @@ public class TreeView implements JsonMicroService {
 		root.addObject(databases(ctx));
 		root.addObject(administration(ctx));
 //		root.addObject(domino());
+		root.addObject(help());
 		
 		context.setResponse(root);
 	}
@@ -243,6 +244,12 @@ public class TreeView implements JsonMicroService {
 		return o;
 	}
 
+	private JsonObject help() throws JsonException {
+		JsonObject o = new JsonObject();
+		o.putString("_type", "help");
+		o.putString("label", "Getting Started");
+		return o;
+	}
 	
 	//
 	// Utilities

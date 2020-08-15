@@ -1,0 +1,14 @@
+// Make sure that the Domino replica is deleted
+execCommand('delete-database -d domcontacts')
+
+// Create the database
+execCommand('create-database -d domcontacts')
+
+// Replicate all the documents from Domino
+// The name of the remote DB (contacts) id different from the local name 
+execCommand('replicate-database -c domino -d domcontacts -r contacts')
+
+// Finally import the views from the NSF Forms
+execCommand('domino-import-forms -c domino -d contacts --nsf DarwinoContacts.nsf')
+
+println("Contacts demo has been created and imported from Domino");
