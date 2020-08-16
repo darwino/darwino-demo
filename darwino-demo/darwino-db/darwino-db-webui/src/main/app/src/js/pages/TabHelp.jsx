@@ -29,7 +29,7 @@ import ReactMarkdown from 'react-markdown';
 
 import { MainPage } from '@darwino/darwino-react-bootstrap';
 
-export default class TabDatabase extends MainPage {
+export default class TabHelp extends MainPage {
   
   render() {
     return (
@@ -42,7 +42,15 @@ export default class TabDatabase extends MainPage {
   doc() {
     return `
 ## Getting Started
-Hello Darwino-DB!
+
+### Create a demo database  
+The database 'contacts' can be created and imported with a set of demo documents.  
+The easiest way is to go to 'Administration/Scripts' and then load the script 'Install Contacts Demo'. This execute all the necessary steps.
+
+### Replicate a Domino database  
+A domino database can easily be replicated as well. For this, Darwino must be installed on the Domino server, as well as the demo contacts.nsf if one wants to replicate this database.   
+First, a connection to the Domino server should be created. Name it 'domino'. Then run the script 'Import Domino Contacts'. It contains comments that explain the steps.  
+Some SQL views are created out of the Domino form definitions. They appear in the SQL tabs.
 `;
   }
 }
