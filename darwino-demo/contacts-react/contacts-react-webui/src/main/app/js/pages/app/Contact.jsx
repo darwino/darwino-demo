@@ -128,11 +128,13 @@ export class Contact extends DocumentForm {
     // Transform the generic attachment links to physical ones
     prepareForDisplay(values) {
         if(values.card) values.card = richTextToDisplayFormat(this.state,values.card)
+		if(values.comments) values.comments = richTextToDisplayFormat(this.state, values.comments);
     }
 
     // Transform the physical attachment links back to generic ones
     prepareForSave(values) {
         if(values.card) values.card = richTextToStorageFormat(this.state,values.card)
+		if(values.comments) values.comments = richTextToStorageFormat(this.state, values.comments);
     }
 
     contributeActionBar() {
