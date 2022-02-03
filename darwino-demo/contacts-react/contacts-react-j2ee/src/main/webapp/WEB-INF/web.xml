@@ -13,8 +13,6 @@
     </context-param>
 
 
-<!--
-	Define these properties to enable the replication triggered by this application.  
 	<context-param>
     	<param-name>dwo-sync-enabled</param-name>
     	<param-value>${contacts.sync-enabled=false}</param-value>
@@ -63,7 +61,6 @@
     	<param-name>dwo-sync-trace</param-name>
     	<param-value>${contacts.sync-trace=false}</param-value>
   	</context-param>
--->	
 	
 	<!-- Application initialization -->
 	<listener>
