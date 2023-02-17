@@ -56,7 +56,7 @@ public class IOSMainClass extends NSObject implements UIApplicationDelegate {
     private UIWindow window = null;
     
     @Override
-    public boolean applicationDidFinishLaunchingWithOptions(UIApplication application, NSDictionary<?, ?> launchOptions) {
+    public boolean applicationDidFinishLaunchingWithOptions(UIApplication application, NSDictionary<String, ?> launchOptions) {
     	Platform.setDevelopment(true);
     	try {
         	IOSInstall.init();
